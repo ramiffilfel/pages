@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ملخص نظم إدارة قواعد البيانات وعمارتها</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@400;500;600;700&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#152238; --ink-soft:#41506b; --paper:#F5F3EC; --card:#ffffff; --wire:#CDC6B6;
+  --teal:#0E9C8C; --teal-dark:#0a6e63; --teal-soft:#E1F3F0;
+  --amber:#E7973A; --amber-soft:#FBEDDB; --amber-dark:#a8620f;
+  --coral:#E4644E; --coral-soft:#FBE7E2; --coral-dark:#b8412c;
+  --indigo:#4C5FD5; --indigo-soft:#E7E9FB;
+  --plum:#8A4FC0; --plum-soft:#F1E8FA;
+  --green:#2E9E63; --green-soft:#E1F2E8; --red:#D8463F; --red-soft:#FAE3E2;
+  --bar:#152238; --bar-ink:#ffffff; --bar-sub:#b9c2d6;
+  --shadow:0 10px 30px rgba(21,34,56,.10);
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ink:#E9EDF4; --ink-soft:#A9B4C6; --paper:#11161E; --card:#1A212C; --wire:#34404F;
+    --teal:#2BB8A7; --teal-dark:#5FD6C6; --teal-soft:#123331;
+    --amber:#E9A24F; --amber-soft:#35291A; --amber-dark:#F0BC72;
+    --coral:#EE7D69; --coral-soft:#3A221F; --coral-dark:#F39B8B;
+    --indigo:#8D9BF0; --indigo-soft:#1F2442;
+    --plum:#B88BE6; --plum-soft:#2C2240;
+    --green:#5CC98E; --green-soft:#16301F; --red:#F0766F; --red-soft:#3A1E1D;
+    --bar:#243044; --bar-ink:#ffffff; --bar-sub:#b9c2d6;
+    --shadow:0 10px 30px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+    --ink:#E9EDF4; --ink-soft:#A9B4C6; --paper:#11161E; --card:#1A212C; --wire:#34404F;
+    --teal:#2BB8A7; --teal-dark:#5FD6C6; --teal-soft:#123331;
+    --amber:#E9A24F; --amber-soft:#35291A; --amber-dark:#F0BC72;
+    --coral:#EE7D69; --coral-soft:#3A221F; --coral-dark:#F39B8B;
+    --indigo:#8D9BF0; --indigo-soft:#1F2442;
+    --plum:#B88BE6; --plum-soft:#2C2240;
+    --green:#5CC98E; --green-soft:#16301F; --red:#F0766F; --red-soft:#3A1E1D;
+    --bar:#243044; --bar-ink:#ffffff; --bar-sub:#b9c2d6;
+    --shadow:0 10px 30px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background-color:var(--paper);color:var(--ink);
+  font-family:"Tajawal",Tahoma,"Segoe UI",sans-serif;line-height:1.75;
+  background-image:radial-gradient(var(--wire) .8px,transparent .8px);background-size:26px 26px}
+.wrap{max-width:920px;margin:0 auto;padding:20px 18px 60px}
+h1,h2,h3{font-family:"Reem Kufi",Tahoma,sans-serif;font-weight:600;line-height:1.35;margin:0}
+.k{font-family:"Reem Kufi",Tahoma,sans-serif}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;
+  background:var(--bar);color:var(--bar-ink);border-radius:16px;padding:14px 20px;box-shadow:var(--shadow);margin-bottom:18px}
+.topbar h1{font-size:21px}
+.topbar .sub{font-size:13px;color:var(--bar-sub)}
+.badge{background:var(--teal);color:#fff;font-size:12px;padding:5px 12px;border-radius:999px;font-family:"Reem Kufi",Tahoma,sans-serif;white-space:nowrap}
+.card{background:var(--card);border-radius:18px;padding:26px;box-shadow:var(--shadow);border:1px solid var(--wire)}
+.eyebrow{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:13px;color:var(--teal-dark);background:var(--teal-soft);
+  display:inline-block;padding:4px 12px;border-radius:999px;margin-bottom:12px}
+h2.title{font-size:26px;margin-bottom:8px}
+.lead{color:var(--ink-soft);font-size:16px;margin:0 0 8px}
+.hint{font-size:14px;color:var(--amber-dark);background:var(--amber-soft);border-radius:10px;
+  padding:9px 14px;display:inline-flex;gap:8px;align-items:center;margin-top:6px}
+.dfn{background:var(--teal-soft);border:1.5px solid var(--teal);border-radius:14px;padding:16px 18px;margin:14px 0}
+.dfn .dfn-t{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14px;color:var(--teal-dark);margin-bottom:4px}
+.dfn .dfn-b{font-size:17px;line-height:1.7}
+.dfn .dfn-b b{color:var(--teal-dark)}
+.example{display:flex;gap:14px;align-items:flex-start;background:var(--coral-soft);
+  border:1.5px dashed var(--coral);border-radius:14px;padding:14px 16px;margin:14px 0}
+.example .ex-ic{font-size:30px;flex-shrink:0}
+.example .ex-h{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14px;color:var(--coral-dark);margin-bottom:3px}
+.example .ex-b{font-size:14.5px;line-height:1.65}
+.example .ex-b b{color:var(--coral-dark)}
+.teacher{background:var(--bar);color:var(--bar-ink);border-radius:16px;padding:18px 22px;margin-top:22px;
+  display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;box-shadow:var(--shadow)}
+.teacher .tt{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:12px;color:var(--bar-sub)}
+.teacher .tn{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:19px;margin-top:2px}
+.teacher .tg{font-size:14px;color:var(--bar-sub)}
+@media (max-width:560px){
+  .wrap{padding:14px 12px 50px}
+  .topbar h1{font-size:17px} h2.title{font-size:22px}
+  .card{padding:18px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.sec{margin-top:16px}
+.sec h2{font-size:21px;display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.sec h2 .n{width:30px;height:30px;border-radius:50%;background:var(--teal);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.sec p,.sec li{font-size:16px}
+.sec ol,.sec ul{margin:0 0 8px;padding-inline-start:22px}
+.tag{font-family:"Reem Kufi",Tahoma,sans-serif;font-weight:600}
+.u{color:var(--indigo)}.d{color:var(--amber-dark)}.f{color:var(--teal-dark)}.b{color:var(--coral-dark)}.m{color:var(--plum)}
+.tbl{overflow-x:auto;margin:8px 0}
+table{width:100%;border-collapse:collapse;font-size:15px;background:var(--card)}
+th,td{border:1px solid var(--wire);padding:8px 10px;text-align:right;vertical-align:top}
+th{background:var(--paper);font-family:"Reem Kufi",Tahoma,sans-serif;font-weight:600}
+.flow{background:var(--teal-soft);border:1.5px dashed var(--teal);border-radius:12px;padding:10px 14px;font-family:"Reem Kufi",Tahoma,sans-serif;font-size:15px;line-height:2.1;color:var(--teal-dark)}
+.hw{margin-top:22px}
+.hw .qh{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:18px;color:var(--indigo);background:var(--indigo-soft);border-radius:10px;padding:6px 12px;margin:20px 0 8px;display:inline-block}
+.q{margin:10px 0;font-size:16px}
+.line{display:block;border-bottom:1.5px dotted var(--wire);height:2em}
+.opts4{display:grid;grid-template-columns:1fr 1fr;gap:4px 14px;padding-inline-start:16px;font-size:15px;color:var(--ink-soft)}
+.sq{display:inline-block;width:34px;height:28px;border:1.5px solid var(--wire);border-radius:8px;vertical-align:middle;margin-inline-end:8px;background:var(--paper)}
+.teacher .tp{direction:ltr;font-size:14px;color:var(--bar-sub);margin-top:4px;text-align:right}
+.teacher a.wa{display:inline-flex;align-items:center;gap:8px;background:#25D366;color:#04331a;
+  font-family:"Reem Kufi",Tahoma,sans-serif;font-size:15px;text-decoration:none;padding:10px 18px;border-radius:12px}
+.teacher a.wa:hover{filter:brightness(1.06)}
+.teacher a.wa:focus-visible{outline:3px solid #fff;outline-offset:2px}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar">
+    <div>
+      <h1 class="k">ملخص: نظم إدارة قواعد البيانات وعمارتها</h1>
+      <div class="sub">الصف الحادي عشر العلمي · وحدة قواعد البيانات</div>
+    </div>
+    <span class="badge">للدفتر والحفظ</span>
+  </div>
+
+  <div class="card">
+    <div class="sec">
+      <h2 class="k"><span class="n">١</span>نظم إدارة قواعد البيانات DBMS</h2>
+      <p><span class="tag">سبب ظهورها:</span> الحاجة لتخزين البيانات في نظام أرشفة الملفات اليدوية وتصنيفها لاسترجاعها في أي وقت. تقوم بمهمة الأرشفة والتصنيف بشكل محوسب، بسرعة كبيرة ودقة عالية.</p>
+      <p><span class="tag d">إدارة قواعد البيانات:</span> مجموعة من البرامج والأنظمة الفرعية المسؤولة عن تنظيم البيانات للوصول لها بسرعة وسهولة، وتنفيذ جميع الإجراءات والوظائف المختلفة على قاعدة البيانات.</p>
+      <p><span class="tag">وظائفها:</span> الإضافة، التعديل، التخزين، الحذف، الاسترجاع، البحث، العرض.</p>
+      <p><span class="tag d">نظم قواعد البيانات:</span> الجامعة بين قواعد البيانات وإدارة قواعد البيانات. لذلك تغلّبت على مشاكل نظام الملفات القديم، لاحتوائها خصائص الاثنين معاً، اللازمة لتحقيق استقلالية البيانات وإنشاء الروابط بينها.</p>
+      <p><span class="tag">ميزاتها مقارنة بنظام أرشفة الملفات التقليدي:</span></p>
+      <ol>
+        <li>زيادة إنتاجية المستخدمين.</li>
+        <li>سرعة استرجاع المعلومات.</li>
+        <li>زيادة أمن المعلومات.</li>
+        <li>إمكانية مراقبة قاعدة البيانات طوال الوقت.</li>
+      </ol>
+      <div class="tbl"><table>
+        <tr><th>النوع</th><th>يعمل على</th><th>أمثلة</th></tr>
+        <tr><td>للأنظمة الصغيرة</td><td>الأجهزة الشخصية والصغيرة</td><td>Access, FoxPro</td></tr>
+        <tr><td>للأنظمة الكبيرة</td><td>الخوادم العملاقة والأجهزة الكبيرة، لعدد كبير من المستخدمين</td><td>Microsoft SQL, Oracle</td></tr>
+      </table></div>
+    </div>
+
+    <div class="sec">
+      <h2 class="k"><span class="n">٢</span>عمارة نظم إدارة قواعد البيانات</h2>
+      <p>تشكّل نظم إدارة قواعد البيانات <span class="tag">حلقة الوصل بين المستخدم والبيانات</span> في قاعدة البيانات، مروراً بمدير الملفات.</p>
+      <p><span class="tag f">مدير الملفات (File Manager):</span> أحد برامج نظام التشغيل، مسؤول عن توصيل قاعدة البيانات بنظام إدارة قواعد البيانات. يستقبل الطلبات من المستخدمين، وينفّذ مجموعة عمليات استجابة لها، ويزوّدهم بالنتائج المطلوبة، من خلال ثلاثة مستويات:</p>
+      <ol>
+        <li><span class="tag b">المستوى الداخلي/الفيزيائي (Internal/Physical):</span> يصف طريقة تخزين البيانات والعلاقات في وسائط التخزين، ويحدد تراكيب البيانات وأماكن تخزينها وأحجامها، ويحوّلها للغة الآلة.</li>
+        <li><span class="tag d">المستوى المنطقي (Logical):</span> الوسيط بين المستوى الداخلي والخارجي. يصف محتويات قاعدة البيانات وبنيتها وأنواعها وحقولها وعلاقاتها (Relations) وقيودها.</li>
+        <li><span class="tag u">المستوى الخارجي (External):</span> يصف مختلف المشاهد المعروضة للمستخدم لقاعدة البيانات.</li>
+      </ol>
+    </div>
+
+    <div class="sec">
+      <h2 class="k"><span class="n">٣</span>خطوات استرجاع سجل من ملف</h2>
+      <ol>
+        <li>يطلب <span class="tag u">المستخدم</span> البحث عن سجل معين باستخدام المفتاح الأساسي.</li>
+        <li>يمرر <span class="tag d">DBMS</span> طلب المستخدم لمدير الملفات من خلال مستوياته الثلاثة.</li>
+        <li>يقرأ <span class="tag f">مدير الملفات</span> الكتلة (حزمة السجلات) التي تحتوي هذا السجل.</li>
+        <li>إرجاع بيانات الكتلة المطلوبة وحفظها في منطقة التخزين المؤقت في الذاكرة <span class="tag m">Buffer</span>.</li>
+        <li>إرجاع بيانات السجل المطلوب باستخدام قيمة المفتاح الأساسي إلى البرنامج التطبيقي الخاص بالمستخدم.</li>
+        <li>عرض بيانات السجل المطلوب على الشاشة حسب طلب المستخدم.</li>
+      </ol>
+      <div class="flow">المستخدم ← DBMS ← مدير الملفات ← قاعدة البيانات ← Buffer ← البرنامج التطبيقي ← الشاشة</div>
+    </div>
+  </div>
+
+  <div class="card hw">
+    <span class="eyebrow">📝 الواجب المنزلي</span>
+    <h2 class="title k">أجب في دفترك</h2>
+
+    <div class="qh">السؤال الأول: عرّف كلاً مما يأتي</div>
+    <div class="q">١. إدارة قواعد البيانات.<span class="line"></span></div>
+    <div class="q">٢. نظم قواعد البيانات.<span class="line"></span></div>
+    <div class="q">٣. مدير الملفات.<span class="line"></span></div>
+    <div class="q">٤. المستوى المنطقي.<span class="line"></span></div>
+
+    <div class="qh">السؤال الثاني: علّل ما يأتي</div>
+    <div class="q">١. تغلّبت نظم قواعد البيانات على مشاكل نظام الملفات القديم.<span class="line"></span></div>
+    <div class="q">٢. يُعدّ المستوى المنطقي وسيطاً.<span class="line"></span></div>
+
+    <div class="qh">السؤال الثالث: عدّد</div>
+    <div class="q">١. ميزات نظم إدارة قواعد البيانات مقارنة بنظام أرشفة الملفات التقليدي.<span class="line"></span><span class="line"></span></div>
+    <div class="q">٢. خمساً من وظائف إدارة قواعد البيانات.<span class="line"></span></div>
+
+    <div class="qh">السؤال الرابع: أكمل الجدول</div>
+    <div class="tbl"><table>
+      <tr><th>وجه المقارنة</th><th>أنظمة صغيرة</th><th>أنظمة كبيرة</th></tr>
+      <tr><td>الأجهزة التي تعمل عليها</td><td></td><td></td></tr>
+      <tr><td>مثالان</td><td></td><td></td></tr>
+    </table></div>
+
+    <div class="qh">السؤال الخامس: اختر الإجابة الصحيحة</div>
+    <div class="q">١. مدير الملفات هو أحد برامج:<div class="opts4"><span>أ. Access</span><span>ب. نظام التشغيل</span><span>ج. المستوى الخارجي</span><span>د. البرنامج التطبيقي</span></div></div>
+    <div class="q">٢. المستوى الذي يحوّل البيانات للغة الآلة:<div class="opts4"><span>أ. الخارجي</span><span>ب. المنطقي</span><span>ج. الداخلي/الفيزيائي</span><span>د. لا شيء مما سبق</span></div></div>
+    <div class="q">٣. تُحفظ بيانات الكتلة المطلوبة مؤقتاً في:<div class="opts4"><span>أ. القرص الصلب</span><span>ب. Buffer</span><span>ج. الشاشة</span><span>د. المفتاح الأساسي</span></div></div>
+    <div class="q">٤. المستوى الذي يصف المشاهد المعروضة للمستخدم:<div class="opts4"><span>أ. الخارجي</span><span>ب. المنطقي</span><span>ج. الداخلي</span><span>د. الفيزيائي</span></div></div>
+    <div class="q">٥. من أمثلة نظم إدارة قواعد البيانات للأنظمة الكبيرة:<div class="opts4"><span>أ. Access</span><span>ب. FoxPro</span><span>ج. Oracle</span><span>د. Excel</span></div></div>
+
+    <div class="qh">السؤال السادس: رتّب خطوات استرجاع سجل (١ إلى ٦)</div>
+    <div class="q"><span class="sq"></span>يقرأ مدير الملفات الكتلة التي تحتوي السجل.</div>
+    <div class="q"><span class="sq"></span>عرض بيانات السجل على الشاشة.</div>
+    <div class="q"><span class="sq"></span>يطلب المستخدم البحث عن سجل باستخدام المفتاح الأساسي.</div>
+    <div class="q"><span class="sq"></span>إرجاع بيانات الكتلة وحفظها في Buffer.</div>
+    <div class="q"><span class="sq"></span>يمرر DBMS الطلب لمدير الملفات عبر مستوياته الثلاثة.</div>
+    <div class="q"><span class="sq"></span>إرجاع بيانات السجل إلى البرنامج التطبيقي باستخدام المفتاح الأساسي.</div>
+
+    <div class="qh">السؤال السابع: من مثال المطعم</div>
+    <div class="q">١. ماذا يمثّل كل مما يأتي في قاعدة البيانات: المنيو، أمين المخزن، الصندوق، طاولة التحضير؟<span class="line"></span><span class="line"></span></div>
+    <div class="q">٢. غيّر المطعم مكان الثلاجة داخل المخزن. أي المستويات الثلاثة تغيّر؟ وهل يتأثر الزبون؟ لماذا؟<span class="line"></span><span class="line"></span></div>
+
+    <div class="qh">السؤال الثامن: ناقش</div>
+    <div class="q">«ساهمت الشبكات الحاسوبية في دعم وترسيخ قواعد البيانات».<span class="line"></span><span class="line"></span></div>
+  </div>
+
+  <div class="teacher">
+    <div>
+      <div class="tt">إعداد الأستاذ</div>
+      <div class="tn">رامي فتحي فلفل</div>
+      <div class="tp">هاتف / واتساب: +972&nbsp;59&nbsp;788&nbsp;0216</div>
+    </div>
+    <a class="wa" href="https://wa.me/972597880216" target="_blank" rel="noopener">💬 تواصل عبر واتساب</a>
+  </div>
+</div>
+</body></html>

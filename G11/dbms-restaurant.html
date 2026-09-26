@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>نظم إدارة قواعد البيانات وعمارتها · درس تفاعلي</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@400;500;600;700&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#152238; --ink-soft:#41506b; --paper:#F5F3EC; --card:#ffffff; --wire:#CDC6B6;
+  --teal:#0E9C8C; --teal-dark:#0a6e63; --teal-soft:#E1F3F0;
+  --amber:#E7973A; --amber-soft:#FBEDDB; --amber-dark:#a8620f;
+  --coral:#E4644E; --coral-soft:#FBE7E2; --coral-dark:#b8412c;
+  --indigo:#4C5FD5; --indigo-soft:#E7E9FB;
+  --plum:#8A4FC0; --plum-soft:#F1E8FA;
+  --green:#2E9E63; --green-soft:#E1F2E8; --red:#D8463F; --red-soft:#FAE3E2;
+  --bar:#152238; --bar-ink:#ffffff; --bar-sub:#b9c2d6;
+  --shadow:0 10px 30px rgba(21,34,56,.10);
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ink:#E9EDF4; --ink-soft:#A9B4C6; --paper:#11161E; --card:#1A212C; --wire:#34404F;
+    --teal:#2BB8A7; --teal-dark:#5FD6C6; --teal-soft:#123331;
+    --amber:#E9A24F; --amber-soft:#35291A; --amber-dark:#F0BC72;
+    --coral:#EE7D69; --coral-soft:#3A221F; --coral-dark:#F39B8B;
+    --indigo:#8D9BF0; --indigo-soft:#1F2442;
+    --plum:#B88BE6; --plum-soft:#2C2240;
+    --green:#5CC98E; --green-soft:#16301F; --red:#F0766F; --red-soft:#3A1E1D;
+    --bar:#243044; --bar-ink:#ffffff; --bar-sub:#b9c2d6;
+    --shadow:0 10px 30px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+    --ink:#E9EDF4; --ink-soft:#A9B4C6; --paper:#11161E; --card:#1A212C; --wire:#34404F;
+    --teal:#2BB8A7; --teal-dark:#5FD6C6; --teal-soft:#123331;
+    --amber:#E9A24F; --amber-soft:#35291A; --amber-dark:#F0BC72;
+    --coral:#EE7D69; --coral-soft:#3A221F; --coral-dark:#F39B8B;
+    --indigo:#8D9BF0; --indigo-soft:#1F2442;
+    --plum:#B88BE6; --plum-soft:#2C2240;
+    --green:#5CC98E; --green-soft:#16301F; --red:#F0766F; --red-soft:#3A1E1D;
+    --bar:#243044; --bar-ink:#ffffff; --bar-sub:#b9c2d6;
+    --shadow:0 10px 30px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background-color:var(--paper);color:var(--ink);
+  font-family:"Tajawal",Tahoma,"Segoe UI",sans-serif;line-height:1.75;
+  background-image:radial-gradient(var(--wire) .8px,transparent .8px);background-size:26px 26px}
+.wrap{max-width:920px;margin:0 auto;padding:20px 18px 60px}
+h1,h2,h3{font-family:"Reem Kufi",Tahoma,sans-serif;font-weight:600;line-height:1.35;margin:0}
+.k{font-family:"Reem Kufi",Tahoma,sans-serif}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;
+  background:var(--bar);color:var(--bar-ink);border-radius:16px;padding:14px 20px;box-shadow:var(--shadow);margin-bottom:18px}
+.topbar h1{font-size:21px}
+.topbar .sub{font-size:13px;color:var(--bar-sub)}
+.badge{background:var(--teal);color:#fff;font-size:12px;padding:5px 12px;border-radius:999px;font-family:"Reem Kufi",Tahoma,sans-serif;white-space:nowrap}
+.card{background:var(--card);border-radius:18px;padding:26px;box-shadow:var(--shadow);border:1px solid var(--wire)}
+.eyebrow{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:13px;color:var(--teal-dark);background:var(--teal-soft);
+  display:inline-block;padding:4px 12px;border-radius:999px;margin-bottom:12px}
+h2.title{font-size:26px;margin-bottom:8px}
+.lead{color:var(--ink-soft);font-size:16px;margin:0 0 8px}
+.hint{font-size:14px;color:var(--amber-dark);background:var(--amber-soft);border-radius:10px;
+  padding:9px 14px;display:inline-flex;gap:8px;align-items:center;margin-top:6px}
+.dfn{background:var(--teal-soft);border:1.5px solid var(--teal);border-radius:14px;padding:16px 18px;margin:14px 0}
+.dfn .dfn-t{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14px;color:var(--teal-dark);margin-bottom:4px}
+.dfn .dfn-b{font-size:17px;line-height:1.7}
+.dfn .dfn-b b{color:var(--teal-dark)}
+.example{display:flex;gap:14px;align-items:flex-start;background:var(--coral-soft);
+  border:1.5px dashed var(--coral);border-radius:14px;padding:14px 16px;margin:14px 0}
+.example .ex-ic{font-size:30px;flex-shrink:0}
+.example .ex-h{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14px;color:var(--coral-dark);margin-bottom:3px}
+.example .ex-b{font-size:14.5px;line-height:1.65}
+.example .ex-b b{color:var(--coral-dark)}
+.teacher{background:var(--bar);color:var(--bar-ink);border-radius:16px;padding:18px 22px;margin-top:22px;
+  display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;box-shadow:var(--shadow)}
+.teacher .tt{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:12px;color:var(--bar-sub)}
+.teacher .tn{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:19px;margin-top:2px}
+.teacher .tg{font-size:14px;color:var(--bar-sub)}
+@media (max-width:560px){
+  .wrap{padding:14px 12px 50px}
+  .topbar h1{font-size:17px} h2.title{font-size:22px}
+  .card{padding:18px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.rail{display:flex;gap:6px;margin:0 0 20px;flex-wrap:wrap}
+.rail button{flex:1 1 0;min-width:84px;background:var(--card);border:1.5px solid var(--wire);
+  border-radius:12px;padding:9px 6px;cursor:pointer;font-family:"Reem Kufi",Tahoma,sans-serif;font-size:12px;
+  color:var(--ink-soft);transition:.2s;display:flex;align-items:center;justify-content:center;gap:6px}
+.rail button .n{width:20px;height:20px;border-radius:50%;background:var(--paper);border:1.5px solid var(--wire);
+  display:inline-flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0}
+.rail button.active{border-color:var(--teal);color:var(--teal-dark);background:var(--teal-soft)}
+.rail button.active .n{background:var(--teal);color:#fff;border-color:var(--teal)}
+.rail button.done .n{background:var(--green);color:#fff;border-color:var(--green)}
+.station{display:none;animation:fade .45s ease both}
+.station.on{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.navbtns{display:flex;justify-content:space-between;margin-top:20px;gap:10px}
+.btn{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:15px;border:none;border-radius:12px;padding:12px 24px;cursor:pointer;transition:.15s}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn-main{background:var(--teal);color:#fff}
+.btn-main:hover:not(:disabled){background:var(--teal-dark)}
+.btn-ghost{background:var(--paper);color:var(--ink-soft);border:1.5px solid var(--wire)}
+.btn:focus-visible,.rail button:focus-visible,.fn:focus-visible,.lvl:focus-visible,.flip:focus-visible,.opt:focus-visible{outline:3px solid var(--indigo);outline-offset:2px}
+.hero{text-align:center;padding:34px 22px}
+.hero h2{font-size:32px;margin-bottom:6px}
+.chain{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:6px;margin:22px 0 6px}
+.chip{display:flex;flex-direction:column;align-items:center;min-width:78px;padding:10px 8px;border-radius:14px;
+  font-family:"Reem Kufi",Tahoma,sans-serif;font-size:13px;border:1.5px solid transparent;transition:.3s}
+.chip .e{font-size:30px;line-height:1.2}
+.chip.lit{transform:translateY(-4px);box-shadow:var(--shadow)}
+.arr{font-size:20px;color:var(--ink-soft)}
+.c-user{background:var(--indigo-soft);color:var(--indigo);border-color:var(--indigo)}
+.c-dbms{background:var(--amber-soft);color:var(--amber-dark);border-color:var(--amber)}
+.c-fm{background:var(--teal-soft);color:var(--teal-dark);border-color:var(--teal)}
+.c-db{background:var(--coral-soft);color:var(--coral-dark);border-color:var(--coral)}
+.c-buf{background:var(--plum-soft);color:var(--plum);border-color:var(--plum)}
+.pill3{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:18px 0 6px}
+.pill3 span{background:var(--indigo-soft);color:var(--indigo);font-family:"Reem Kufi",Tahoma,sans-serif;font-size:13px;padding:7px 14px;border-radius:999px}
+.segbtns{display:inline-flex;background:var(--card);border:1.5px solid var(--wire);border-radius:12px;overflow:hidden}
+.segbtns button{border:none;background:transparent;padding:9px 16px;font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14px;cursor:pointer;color:var(--ink-soft)}
+.segbtns button.on{background:var(--indigo);color:#fff}
+.box{background:var(--paper);border:1px solid var(--wire);border-radius:14px;padding:16px;margin-top:12px}
+.scene{display:flex;gap:14px;align-items:center;margin-top:12px}
+.scene .big{font-size:48px;flex-shrink:0}
+.scene .st{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:16px}
+.scene .sd{font-size:14.5px;color:var(--ink-soft)}
+.funcs{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:8px;margin-top:10px}
+.fn{background:var(--card);border:1.5px solid var(--wire);border-radius:12px;padding:10px 6px;text-align:center;cursor:pointer;
+  font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14px;color:var(--ink);transition:.15s}
+.fn .e{display:block;font-size:24px}
+.fn.on{border-color:var(--amber);background:var(--amber-soft);color:var(--amber-dark)}
+.fnout{margin-top:12px;background:var(--amber-soft);border-radius:12px;padding:12px 14px;font-size:15px;min-height:52px}
+.fnout b{color:var(--amber-dark);font-family:"Reem Kufi",Tahoma,sans-serif}
+.eq{display:flex;flex-wrap:wrap;align-items:stretch;justify-content:center;gap:8px;margin:14px 0}
+.eq .bx{flex:1 1 150px;border-radius:14px;padding:12px;text-align:center;border:1.5px solid}
+.eq .bx .e{font-size:30px;display:block}
+.eq .bx b{display:block;font-family:"Reem Kufi",Tahoma,sans-serif}
+.eq .bx span{font-size:13px}
+.eq .op{align-self:center;font-size:28px;font-weight:700;color:var(--ink-soft)}
+.eq .res{background:var(--bar);color:var(--bar-ink);border-color:var(--bar);opacity:.18;filter:grayscale(1);transition:.5s}
+.eq .res.show{opacity:1;filter:none;transform:scale(1.03)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px}
+@media (max-width:560px){.two{grid-template-columns:1fr}}
+.cmpc{border-radius:14px;padding:16px;border:1.5px solid}
+.cmpc h3{font-size:17px;margin-bottom:6px}
+.cmpc p{margin:0;font-size:14.5px}
+.feat{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.feat div{background:var(--green-soft);border-radius:12px;padding:10px 12px;font-size:14px}
+.feat b{display:block;color:var(--green);font-family:"Reem Kufi",Tahoma,sans-serif;font-size:15px}
+.levels{display:flex;flex-direction:column;gap:6px;margin-top:12px}
+.lvl{border:1.5px solid;border-radius:14px;padding:14px 16px;cursor:pointer;text-align:right;font-family:inherit;color:var(--ink);width:100%}
+.lvl .lh{display:flex;justify-content:space-between;align-items:center;gap:8px;font-family:"Reem Kufi",Tahoma,sans-serif;font-size:17px}
+.lvl .lb{max-height:0;overflow:hidden;opacity:0;transition:.3s;font-size:14.5px}
+.lvl.open .lb{max-height:320px;opacity:1;margin-top:8px}
+.lvl .rest{display:block;margin-top:6px;padding-top:6px;border-top:1px dashed var(--wire);color:var(--ink-soft)}
+.lvl.l1{background:var(--indigo-soft);border-color:var(--indigo)} .lvl.l1 .lh{color:var(--indigo)}
+.lvl.l2{background:var(--amber-soft);border-color:var(--amber);width:95%;margin:0 auto} .lvl.l2 .lh{color:var(--amber-dark)}
+.lvl.l3{background:var(--coral-soft);border-color:var(--coral);width:90%;margin:0 auto} .lvl.l3 .lh{color:var(--coral-dark)}
+.updown{text-align:center;color:var(--ink-soft);line-height:1}
+.map{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.col{display:flex;flex-direction:column;gap:6px;align-items:stretch}
+.col .ct{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:12.5px;color:var(--ink-soft);text-align:center}
+.node{display:flex;align-items:center;gap:8px;border:1.5px solid var(--wire);background:var(--card);border-radius:12px;padding:8px 10px;
+  font-family:"Reem Kufi",Tahoma,sans-serif;font-size:13.5px;opacity:.45;transition:.3s}
+.node .e{font-size:22px}
+.node.lit{opacity:1;transform:scale(1.03);box-shadow:var(--shadow)}
+.node.past{opacity:.85}
+.vdown,.vup{text-align:center;color:var(--ink-soft);font-size:14px;line-height:1}
+.stepcard{margin-top:14px;border-radius:14px;padding:14px 16px;border:1.5px solid var(--wire);background:var(--paper)}
+.stepcard .sn{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14px}
+.stepcard .sr{font-size:16px;font-weight:700;margin:4px 0}
+.stepcard .sb{font-size:14.5px;color:var(--ink-soft)}
+.stepcard .sb::before{content:"📘 في الكتاب: ";font-weight:700}
+.dots{display:flex;gap:6px;justify-content:center;margin-top:10px}
+.dots i{width:9px;height:9px;border-radius:50%;background:var(--wire)}
+.dots i.on{background:var(--teal)}
+.flips{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px;margin-top:10px}
+.flip{background:var(--card);border:1.5px solid var(--wire);border-radius:12px;padding:10px 8px;text-align:center;cursor:pointer;font-family:inherit;color:var(--ink);min-height:84px}
+.flip .e{font-size:24px;display:block}
+.flip .fa{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14px}
+.flip .fb{display:none;font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14px;color:var(--teal-dark)}
+.flip.on{background:var(--teal-soft);border-color:var(--teal)}
+.flip.on .fa{display:none}.flip.on .fb{display:block}
+.qwrap{min-height:60px}
+.qmeta{display:flex;justify-content:space-between;align-items:center;font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14px;color:var(--ink-soft);margin-bottom:8px}
+.qtext{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:19px;margin:6px 0 16px;line-height:1.5}
+.opts{display:flex;flex-direction:column;gap:10px}
+.opt{text-align:right;background:var(--card);border:1.5px solid var(--wire);border-radius:12px;padding:13px 16px;
+  cursor:pointer;font-family:"Tajawal",Tahoma,sans-serif;font-size:15.5px;color:var(--ink);transition:.15s;display:flex;align-items:center;gap:10px}
+.opt:hover:not(.locked){border-color:var(--teal)}
+.opt .mk{width:24px;height:24px;border-radius:50%;border:1.5px solid var(--wire);flex-shrink:0;
+  display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-family:"Reem Kufi",Tahoma,sans-serif;color:var(--ink-soft)}
+.opt.correct{background:var(--green-soft);border-color:var(--green);color:var(--green)}
+.opt.correct .mk{background:var(--green);border-color:var(--green);color:#fff}
+.opt.wrong{background:var(--red-soft);border-color:var(--red);color:var(--red)}
+.opt.wrong .mk{background:var(--red);border-color:var(--red);color:#fff}
+.opt.locked{cursor:default}
+.explain{margin-top:14px;background:var(--indigo-soft);color:var(--indigo);border-radius:12px;padding:12px 16px;font-size:14px;display:none}
+.explain.show{display:block;animation:fade .3s ease both}
+.result{text-align:center;padding:20px 10px}
+.scorebig{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:52px;color:var(--teal);line-height:1}
+.progress-quiz{height:8px;background:var(--paper);border-radius:99px;overflow:hidden;margin:4px 0 14px;border:1px solid var(--wire)}
+.progress-quiz i{display:block;height:100%;background:var(--teal);width:0;transition:.3s}
+.teacher .tp{direction:ltr;font-size:14px;color:var(--bar-sub);margin-top:4px;text-align:right}
+.teacher a.wa{display:inline-flex;align-items:center;gap:8px;background:#25D366;color:#04331a;
+  font-family:"Reem Kufi",Tahoma,sans-serif;font-size:15px;text-decoration:none;padding:10px 18px;border-radius:12px}
+.teacher a.wa:hover{filter:brightness(1.06)}
+.teacher a.wa:focus-visible{outline:3px solid #fff;outline-offset:2px}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar">
+    <div>
+      <h1 class="k">نظم إدارة قواعد البيانات وعمارتها</h1>
+      <div class="sub">الصف الحادي عشر العلمي · وحدة قواعد البيانات</div>
+    </div>
+    <span class="badge">درس تفاعلي</span>
+  </div>
+
+  <nav class="rail" id="rail" aria-label="محطات الدرس"></nav>
+
+  <!-- 0 HERO -->
+  <section class="station on" id="s0">
+    <div class="card hero">
+      <span class="eyebrow">مثال المطعم 🍽️</span>
+      <h2 class="k">كيف يصل طلبك<br>من المخزن إلى طاولتك؟</h2>
+      <p class="lead">أنت <b>زبون</b> في مطعم كبير. لا يُسمح لك بدخول المطبخ أو المخزن، تطلب فقط ويصلك الطبق جاهزاً. هذا بالضبط ما يحدث عندما تتعامل مع <b>قاعدة بيانات</b>.</p>
+      <div class="chain" aria-label="رحلة الطلب">
+        <div class="chip c-user" id="h0"><span class="e">🧑</span>الزبون</div><span class="arr">←</span>
+        <div class="chip c-dbms" id="h1"><span class="e">🤵</span>النادل</div><span class="arr">←</span>
+        <div class="chip c-fm" id="h2"><span class="e">👷</span>أمين المخزن</div><span class="arr">←</span>
+        <div class="chip c-db" id="h3"><span class="e">🗄️</span>المخزن</div>
+      </div>
+      <div class="pill3"><span>لماذا DBMS؟</span><span>الإدارة والنظم</span><span>مدير الملفات</span><span>المستويات الثلاثة</span><span>رحلة الطلب</span></div>
+      <div class="hint">🎨 كل لون في الدرس يدل على جزء واحد من النظام. تابع الألوان.</div>
+      <div class="navbtns" style="justify-content:center"><button class="btn btn-main" onclick="go(1)">لنبدأ ‹</button></div>
+    </div>
+  </section>
+
+  <!-- 1 WHY -->
+  <section class="station" id="s1">
+    <div class="card">
+      <span class="eyebrow">المحطة ١ · الحاجة</span>
+      <h2 class="title k">لماذا نحتاج نظم إدارة قواعد البيانات؟</h2>
+      <p class="lead">الحاجة لتخزين البيانات في نظام <b>أرشفة الملفات اليدوية</b> وتصنيفها سبب مهم، لنتمكن من <b>استرجاع المعلومات في أي وقت</b>.</p>
+      <div class="hint">✦ بدّل بين المطعمين ولاحظ الفرق.</div>
+      <div class="box">
+        <div class="segbtns" role="group" aria-label="اختيار المطعم">
+          <button id="bOld" class="on" onclick="rest('old')">📚 المطعم الورقي</button>
+          <button id="bNew" onclick="rest('new')">💻 المطعم المحوسب</button>
+        </div>
+        <div class="scene">
+          <div class="big" id="rIc">📚</div>
+          <div><div class="st" id="rT">نظام أرشفة الملفات اليدوية</div>
+          <div class="sd" id="rD">كل الطلبات والمخزون مكتوبة على أوراق في دفاتر. لتعرف «كم كيلو أرز بقي؟» تقلّب الأوراق واحدة واحدة.</div></div>
+        </div>
+      </div>
+      <div class="dfn">
+        <div class="dfn-t">الفكرة</div>
+        <div class="dfn-b">نظم إدارة قواعد البيانات تقوم بمهمة <b>الأرشفة والتصنيف</b> نفسها، لكن <b>بشكل محوسب</b>، بسرعة كبيرة ودقة عالية.</div>
+      </div>
+      <div class="navbtns">
+        <button class="btn btn-ghost" onclick="go(0)">›</button>
+        <button class="btn btn-main" onclick="go(2)">التالي: طاقم التشغيل ‹</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 MANAGEMENT -->
+  <section class="station" id="s2">
+    <div class="card">
+      <span class="eyebrow">المحطة ٢ · إدارة قواعد البيانات</span>
+      <h2 class="title k">طاقم التشغيل في المطعم</h2>
+      <p class="lead">المطعم لا يعمل بالمخزن وحده. يحتاج <b>طاقماً وأنظمة عمل</b>، لكلٍّ منهم مهمة.</p>
+      <div class="dfn">
+        <div class="dfn-t">📌 تعريف إدارة قواعد البيانات</div>
+        <div class="dfn-b">مجموعة من <b>البرامج والأنظمة الفرعية</b> المسؤولة عن تنظيم البيانات للوصول لها <b>بسرعة وسهولة</b>، وتنفيذ جميع الإجراءات والوظائف المختلفة على قاعدة البيانات.</div>
+      </div>
+      <div class="hint">✦ اضغط كل وظيفة لترى ما يقابلها في المطعم.</div>
+      <div class="funcs" id="funcs"></div>
+      <div class="fnout" id="fnout">اختر وظيفة من الوظائف السبع…</div>
+      <div class="navbtns">
+        <button class="btn btn-ghost" onclick="go(1)">›</button>
+        <button class="btn btn-main" onclick="go(3)">التالي: المطعم كاملاً ‹</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 SYSTEMS -->
+  <section class="station" id="s3">
+    <div class="card">
+      <span class="eyebrow">المحطة ٣ · نظم قواعد البيانات</span>
+      <h2 class="title k">المخزن + الطاقم = المطعم كاملاً</h2>
+      <div class="eq">
+        <div class="bx c-db"><span class="e">🗄️</span><b>قواعد البيانات</b><span>المخزن وما فيه</span></div>
+        <div class="op">+</div>
+        <div class="bx c-dbms"><span class="e">🤵👷</span><b>إدارة قواعد البيانات</b><span>طاقم التشغيل</span></div>
+        <div class="op">=</div>
+        <div class="bx res" id="eqRes"><span class="e">🏪</span><b>نظم قواعد البيانات</b><span>المطعم كاملاً</span></div>
+      </div>
+      <div style="text-align:center"><button class="btn btn-main" id="eqBtn" onclick="joinEq()">➕ اجمعهما</button></div>
+      <div class="dfn" id="eqDfn" style="display:none">
+        <div class="dfn-t">📌 تعريف نظم قواعد البيانات</div>
+        <div class="dfn-b">هي <b>الجامعة بين قواعد البيانات وإدارة قواعد البيانات</b>. لذلك تغلّبت على مشاكل نظام الملفات القديم، لأنها تحتوي خصائص الاثنين معاً، اللازمة لتحقيق <b>استقلالية البيانات</b> و<b>إنشاء الروابط</b> بينها.</div>
+      </div>
+      <div class="example">
+        <div class="ex-ic">🍽️</div>
+        <div><div class="ex-h">في المطعم</div>
+        <div class="ex-b"><b>استقلالية البيانات:</b> الزبون يطلب من المنيو ولا يهمه أين يُخزَّن الأرز. لو تغيّر مكان الثلاجة، لا يتغيّر شيء عنده.<br><b>الروابط:</b> دفتر المطعم يربط كل طبق بمكوّناته، وكل طلب بزبونه.</div></div>
+      </div>
+      <h3 class="k" style="margin-top:18px;font-size:18px">ميزاتها مقارنةً بنظام أرشفة الملفات التقليدي</h3>
+      <div class="feat">
+        <div><b>⚡ زيادة إنتاجية المستخدمين</b>يُخدم زبائن أكثر في وقت أقل.</div>
+        <div><b>⏱️ سرعة استرجاع المعلومات</b>الطلب يصل في دقائق بدل البحث في الدفاتر.</div>
+        <div><b>🔒 زيادة أمن المعلومات</b>لا يدخل المخزن إلا المسؤول عنه.</div>
+        <div><b>👁️ المراقبة طوال الوقت</b>الإدارة تعرف ما يدخل وما يخرج.</div>
+      </div>
+      <h3 class="k" style="margin-top:18px;font-size:18px">أنواعها</h3>
+      <div class="two">
+        <div class="cmpc" style="background:var(--teal-soft);border-color:var(--teal)"><h3 style="color:var(--teal-dark)">🏠 مطعم صغير في الحي</h3><p>للأنظمة الصغيرة، تعمل على <b>الأجهزة الشخصية والصغيرة</b>.<br>مثل: <b>Access, FoxPro</b></p></div>
+        <div class="cmpc" style="background:var(--indigo-soft);border-color:var(--indigo)"><h3 style="color:var(--indigo)">🏙️ سلسلة مطاعم ضخمة</h3><p>للأنظمة الكبيرة، تعمل على <b>الخوادم العملاقة والأجهزة الكبيرة</b>، وتخدم عدداً كبيراً من المستخدمين.<br>مثل: <b>Microsoft SQL, Oracle</b></p></div>
+      </div>
+      <div class="hint" style="margin-top:14px">💭 ناقش في الحصة: «ساهمت الشبكات الحاسوبية في دعم وترسيخ قواعد البيانات».</div>
+      <div class="navbtns">
+        <button class="btn btn-ghost" onclick="go(2)">›</button>
+        <button class="btn btn-main" onclick="go(4)">التالي: مدير الملفات ‹</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 FILE MANAGER -->
+  <section class="station" id="s4">
+    <div class="card">
+      <span class="eyebrow">المحطة ٤ · عمارة النظم</span>
+      <h2 class="title k">حلقة الوصل: أمين المخزن</h2>
+      <p class="lead">تشكّل نظم إدارة قواعد البيانات <b>حلقة الوصل بين المستخدم والبيانات</b> في قاعدة البيانات، مروراً بـ<b>مدير الملفات</b>. كما يربط النادل بين الزبون والمخزن، مروراً بأمين المخزن.</p>
+      <div class="chain">
+        <div class="chip c-user"><span class="e">🧑</span>المستخدم</div><span class="arr">⇄</span>
+        <div class="chip c-dbms"><span class="e">🤵</span>DBMS</div><span class="arr">⇄</span>
+        <div class="chip c-fm lit"><span class="e">👷</span>مدير الملفات</div><span class="arr">⇄</span>
+        <div class="chip c-db"><span class="e">🗄️</span>البيانات</div>
+      </div>
+      <div class="dfn">
+        <div class="dfn-t">📌 مدير الملفات (File Manager)</div>
+        <div class="dfn-b">أحد برامج <b>نظام التشغيل</b>، مسؤول عن توصيل قاعدة البيانات بنظام إدارة قواعد البيانات. <b>يستقبل</b> الطلبات من المستخدمين، و<b>ينفّذ</b> مجموعة عمليات استجابةً لها، و<b>يزوّدهم</b> بالنتائج المطلوبة، من خلال <b>ثلاثة مستويات</b>.</div>
+      </div>
+      <div class="example">
+        <div class="ex-ic">🏢</div>
+        <div><div class="ex-h">لاحظ</div>
+        <div class="ex-b">أمين المخزن موظف تابع لإدارة <b>المبنى</b> كله، وليس للمطعم وحده، لكنه يخدم المطعم. وكذلك مدير الملفات، فهو من برامج <b>نظام التشغيل</b> ويخدم نظام إدارة قواعد البيانات.</div></div>
+      </div>
+      <div class="navbtns">
+        <button class="btn btn-ghost" onclick="go(3)">›</button>
+        <button class="btn btn-main" onclick="go(5)">التالي: المستويات الثلاثة ‹</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 LEVELS -->
+  <section class="station" id="s5">
+    <div class="card">
+      <span class="eyebrow">المحطة ٥ · المستويات الثلاثة</span>
+      <h2 class="title k">من المنيو إلى رفوف المخزن</h2>
+      <p class="lead">يعمل مدير الملفات من خلال ثلاثة مستويات، من الأقرب للزبون إلى الأعمق في المخزن.</p>
+      <div class="hint">✦ اضغط كل مستوى لتفتحه.</div>
+      <div class="levels">
+        <button class="lvl l1" onclick="this.classList.toggle('open')"><div class="lh"><span>📜 المستوى الخارجي · External</span><span>＋</span></div>
+          <div class="lb">يصف مختلف <b>المشاهد (Views)</b> المعروضة للمستخدم لقاعدة البيانات.<span class="rest">🍽️ في المطعم: <b>المنيو</b>. قائمة الأطفال تختلف عن قائمة الكبار، وكلاهما من المطبخ نفسه.</span></div></button>
+        <div class="updown">⇅</div>
+        <button class="lvl l2" onclick="this.classList.toggle('open')"><div class="lh"><span>📖 المستوى المنطقي · Logical</span><span>＋</span></div>
+          <div class="lb">يمثّل <b>الوسيط</b> بين المستوى الداخلي والخارجي. يصف محتويات قاعدة البيانات وبنيتها، وأنواعها وحقولها وعلاقاتها (Relations) وقيودها.<span class="rest">🍽️ في المطعم: <b>دفتر الوصفات</b>. مكونات كل طبق وأنواعها والعلاقة بينها.</span></div></button>
+        <div class="updown">⇅</div>
+        <button class="lvl l3" onclick="this.classList.toggle('open')"><div class="lh"><span>🗺️ المستوى الداخلي/الفيزيائي · Internal/Physical</span><span>＋</span></div>
+          <div class="lb">يصف طريقة تخزين البيانات والعلاقات في <b>وسائط التخزين</b>، ويحدد تراكيب البيانات وأماكن تخزينها وأحجامها، ويحوّلها <b>للغة الآلة</b>.<span class="rest">🍽️ في المطعم: <b>مخطط المخزن</b>. أي رف، أي ثلاجة، أي حجم. الزبون لا يعرف عنه شيئاً.</span></div></button>
+      </div>
+      <div class="navbtns">
+        <button class="btn btn-ghost" onclick="go(4)">›</button>
+        <button class="btn btn-main" onclick="go(6)">التالي: رحلة الطلب ‹</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 JOURNEY -->
+  <section class="station" id="s6">
+    <div class="card">
+      <span class="eyebrow">المحطة ٦ · استرجاع سجل</span>
+      <h2 class="title k">رحلة الطلب في ٦ خطوات</h2>
+      <p class="lead">الطلب ينزل إلى المخزن، ثم تصعد النتيجة إلى الطاولة. اضغط «الخطوة التالية» وتابع الإضاءة.</p>
+      <div class="map">
+        <div class="col">
+          <div class="ct">⬇ نزول الطلب</div>
+          <div class="node c-user" id="n0"><span class="e">🧑</span>المستخدم · الزبون</div>
+          <div class="vdown">▼</div>
+          <div class="node c-dbms" id="n1"><span class="e">🤵</span>DBMS · النادل</div>
+          <div class="vdown">▼</div>
+          <div class="node c-fm" id="n2"><span class="e">👷</span>مدير الملفات · أمين المخزن</div>
+          <div class="vdown">▼</div>
+          <div class="node c-db" id="n3"><span class="e">📦</span>قاعدة البيانات · الصندوق</div>
+        </div>
+        <div class="col">
+          <div class="ct">⬆ صعود النتيجة</div>
+          <div class="node c-user" id="n6"><span class="e">🍽️</span>الشاشة · طاولة الزبون</div>
+          <div class="vup">▲</div>
+          <div class="node c-dbms" id="n5"><span class="e">🛎️</span>البرنامج التطبيقي · الصينية</div>
+          <div class="vup">▲</div>
+          <div class="node c-buf" id="n4"><span class="e">🧑‍🍳</span>Buffer · طاولة التحضير</div>
+        </div>
+      </div>
+      <div class="stepcard" id="stepcard" aria-live="polite"></div>
+      <div class="dots" id="dots"></div>
+      <div class="navbtns" style="justify-content:center;gap:10px">
+        <button class="btn btn-ghost" id="stPrev" onclick="step(-1)">› السابقة</button>
+        <button class="btn btn-main" id="stNext" onclick="step(1)">الخطوة التالية ‹</button>
+      </div>
+      <h3 class="k" style="margin-top:22px;font-size:18px">من يمثّل ماذا؟</h3>
+      <p class="lead">خمّن أولاً، ثم اضغط البطاقة لتتحقق.</p>
+      <div class="flips" id="flips"></div>
+      <div class="navbtns">
+        <button class="btn btn-ghost" onclick="go(5)">›</button>
+        <button class="btn btn-main" onclick="go(7)">التقويم النهائي ‹</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 QUIZ -->
+  <section class="station" id="s7">
+    <div class="card">
+      <span class="eyebrow">المحطة ٧ · التقويم</span>
+      <h2 class="title k">اختبر فهمك</h2>
+      <div class="progress-quiz"><i id="qbar"></i></div>
+      <div class="qwrap" id="qwrap"></div>
+    </div>
+  </section>
+
+  <div class="teacher">
+    <div>
+      <div class="tt">إعداد الأستاذ</div>
+      <div class="tn">رامي فتحي فلفل</div>
+      <div class="tp">هاتف / واتساب: +972&nbsp;59&nbsp;788&nbsp;0216</div>
+    </div>
+    <a class="wa" href="https://wa.me/972597880216" target="_blank" rel="noopener">💬 تواصل عبر واتساب</a>
+  </div>
+</div>
+
+<script>
+var STATIONS=["البداية","الحاجة","الإدارة","النظم","مدير الملفات","المستويات","رحلة الطلب","التقويم"];
+var cur=0, visited={0:true}, rail=document.getElementById('rail');
+function toAr(n){return String(n).replace(/[0-9]/g,function(d){return "٠١٢٣٤٥٦٧٨٩"[d]})}
+STATIONS.forEach(function(t,i){
+  var b=document.createElement('button');
+  b.innerHTML='<span class="n">'+toAr(i+1)+'</span>'+t;
+  b.onclick=function(){go(i)}; rail.appendChild(b);
+});
+function go(i){
+  document.getElementById('s'+cur).classList.remove('on');
+  cur=i; visited[i]=true;
+  document.getElementById('s'+i).classList.add('on');
+  updRail(); window.scrollTo({top:0,behavior:'smooth'});
+  if(i===7 && !quizStarted) startQuiz();
+}
+function updRail(){[].forEach.call(rail.children,function(b,i){
+  b.classList.toggle('active',i===cur); b.classList.toggle('done',!!visited[i] && i!==cur);});}
+updRail();
+
+/* hero chain pulse */
+(function(){
+  if(matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+  var k=0; setInterval(function(){
+    for(var j=0;j<4;j++) document.getElementById('h'+j).classList.toggle('lit',j===k);
+    k=(k+1)%4;
+  },900);
+})();
+
+/* old vs new restaurant */
+function rest(w){
+  var n=w==='new';
+  document.getElementById('bOld').classList.toggle('on',!n);
+  document.getElementById('bNew').classList.toggle('on',n);
+  document.getElementById('rIc').textContent=n?'💻':'📚';
+  document.getElementById('rT').textContent=n?'نظم إدارة قواعد البيانات':'نظام أرشفة الملفات اليدوية';
+  document.getElementById('rD').textContent=n
+    ?'الأرشفة والتصنيف نفسها، لكن بشكل محوسب. سؤال «كم كيلو أرز بقي؟» يُجاب بسرعة كبيرة ودقة عالية.'
+    :'كل الطلبات والمخزون مكتوبة على أوراق في دفاتر. لتعرف «كم كيلو أرز بقي؟» تقلّب الأوراق واحدة واحدة.';
+}
+
+/* functions */
+var FN=[["➕","الإضافة","إدخال صنف جديد إلى المخزن."],["✏️","التعديل","تغيير سعر طبق في القائمة."],
+  ["📥","التخزين","حفظ البضاعة في أماكنها."],["🗑️","الحذف","إزالة صنف منتهي الصلاحية."],
+  ["📤","الاسترجاع","إحضار طلب من المخزن."],["🔍","البحث","السؤال: هل عندنا سمك؟"],["🍽️","العرض","تقديم الطبق للزبون."]];
+var fw=document.getElementById('funcs');
+FN.forEach(function(f,i){
+  var b=document.createElement('button'); b.className='fn';
+  b.innerHTML='<span class="e">'+f[0]+'</span>'+f[1];
+  b.onclick=function(){
+    [].forEach.call(fw.children,function(c){c.classList.remove('on')}); b.classList.add('on');
+    document.getElementById('fnout').innerHTML='<b>'+f[1]+'</b> في المطعم: '+f[2];
+  }; fw.appendChild(b);
+});
+
+/* equation */
+function joinEq(){
+  document.getElementById('eqRes').classList.add('show');
+  document.getElementById('eqDfn').style.display='block';
+  var b=document.getElementById('eqBtn'); b.textContent='✓ المطعم كامل'; b.disabled=true;
+}
+
+/* journey */
+var STEPS=[
+ {lit:[0],who:"١ · الزبون",c:"var(--indigo)",r:"«أريد الطبق رقم 7».",b:"يطلب المستخدم البحث عن سجل معين باستخدام المفتاح الأساسي."},
+ {lit:[1],who:"٢ · النادل",c:"var(--amber-dark)",r:"ينقل الطلب إلى المطبخ: من المنيو، إلى دفتر الوصفات، إلى مخطط المخزن.",b:"يمرر DBMS طلب المستخدم لمدير الملفات من خلال مستوياته الثلاثة."},
+ {lit:[2,3],who:"٣ · أمين المخزن",c:"var(--teal-dark)",r:"يُحضر الصندوق كاملاً الذي فيه المطلوب، لا صنفاً واحداً.",b:"يقرأ مدير الملفات الكتلة (حزمة السجلات) التي تحتوي هذا السجل."},
+ {lit:[4],who:"٤ · طاولة التحضير",c:"var(--plum)",r:"يوضع الصندوق على طاولة التحضير في المطبخ.",b:"إرجاع بيانات الكتلة المطلوبة وحفظها في منطقة التخزين المؤقت في الذاكرة Buffer."},
+ {lit:[5],who:"٥ · الصينية",c:"var(--amber-dark)",r:"يُؤخذ الطبق رقم 7 وحده ويوضع على صينية النادل.",b:"إرجاع بيانات السجل المطلوب باستخدام قيمة المفتاح الأساسي إلى البرنامج التطبيقي الخاص بالمستخدم."},
+ {lit:[6],who:"٦ · طاولة الزبون",c:"var(--indigo)",r:"الطبق يصل إلى الزبون. 🎉",b:"عرض بيانات السجل المطلوب على الشاشة حسب طلب المستخدم."}
+];
+var si=0, dots=document.getElementById('dots');
+STEPS.forEach(function(){dots.appendChild(document.createElement('i'))});
+function drawStep(){
+  var S=STEPS[si], seen={};
+  for(var p=0;p<si;p++) STEPS[p].lit.forEach(function(x){seen[x]=1});
+  for(var j=0;j<7;j++){
+    var n=document.getElementById('n'+j);
+    n.classList.toggle('lit',S.lit.indexOf(j)>-1);
+    n.classList.toggle('past',!!seen[j] && S.lit.indexOf(j)<0);
+  }
+  document.getElementById('stepcard').innerHTML='<div class="sn" style="color:'+S.c+'">'+S.who+'</div><div class="sr">'+S.r+'</div><div class="sb">'+S.b+'</div>';
+  [].forEach.call(dots.children,function(d,k){d.classList.toggle('on',k<=si)});
+  document.getElementById('stPrev').disabled=si===0;
+  document.getElementById('stNext').disabled=si===STEPS.length-1;
+}
+function step(d){si=Math.max(0,Math.min(STEPS.length-1,si+d));drawStep()}
+drawStep();
+
+/* flip cards */
+var FL=[["🧑","الزبون","المستخدم"],["📜","المنيو","المستوى الخارجي"],["📖","دفتر الوصفات","المستوى المنطقي"],
+ ["🗺️","مخطط المخزن","المستوى الداخلي/الفيزيائي"],["🤵","النادل والإدارة","DBMS"],["👷","أمين المخزن","مدير الملفات"],
+ ["🗄️","المخزن","قاعدة البيانات"],["📦","الصندوق","الكتلة (حزمة السجلات)"],["🧑‍🍳","طاولة التحضير","Buffer"],
+ ["🔢","رقم الطبق","المفتاح الأساسي"],["🛎️","صينية النادل","البرنامج التطبيقي"],["🍽️","طاولة الزبون","الشاشة"]];
+var fl=document.getElementById('flips');
+FL.forEach(function(f){
+  var b=document.createElement('button'); b.className='flip';
+  b.innerHTML='<span class="e">'+f[0]+'</span><span class="fa">'+f[1]+'</span><span class="fb">'+f[2]+'</span>';
+  b.onclick=function(){b.classList.toggle('on')}; fl.appendChild(b);
+});
+
+/* quiz */
+var QUIZ=[
+ {q:"ما سبب ظهور نظم إدارة قواعد البيانات؟",o:["الحاجة لتخزين البيانات وتصنيفها لاسترجاعها في أي وقت","الحاجة لتصميم صفحات الإنترنت","الحاجة لتسريع الطابعات","الحاجة لتشغيل الألعاب"],a:0,e:"الحاجة لتخزين البيانات في نظام أرشفة الملفات وتصنيفها لاسترجاعها في أي وقت."},
+ {q:"مجموعة من البرامج والأنظمة الفرعية المسؤولة عن تنظيم البيانات للوصول لها بسرعة وسهولة:",o:["قاعدة البيانات","إدارة قواعد البيانات","مدير الملفات","المستوى الخارجي"],a:1,e:"هذا تعريف إدارة قواعد البيانات. في المطعم: طاقم التشغيل."},
+ {q:"نظم قواعد البيانات هي الجامعة بين:",o:["المستخدم والشاشة","قواعد البيانات وإدارة قواعد البيانات","مدير الملفات والـ Buffer","المستوى المنطقي والخارجي"],a:1,e:"المخزن + الطاقم = المطعم كاملاً."},
+ {q:"أيّ مما يأتي ليس من ميزات نظم إدارة قواعد البيانات مقارنة بالنظام التقليدي؟",o:["زيادة إنتاجية المستخدمين","سرعة استرجاع المعلومات","زيادة أمن المعلومات","زيادة حجم الأوراق المؤرشفة"],a:3,e:"الميزات: زيادة الإنتاجية، سرعة الاسترجاع، زيادة الأمن، المراقبة طوال الوقت."},
+ {q:"من أمثلة نظم إدارة قواعد البيانات للأنظمة الصغيرة:",o:["Oracle","Microsoft SQL","Access","الخوادم العملاقة"],a:2,e:"الأنظمة الصغيرة: Access وFoxPro. الكبيرة: Microsoft SQL وOracle."},
+ {q:"مدير الملفات (File Manager) هو أحد برامج:",o:["نظام التشغيل","Access","المستوى المنطقي","البرنامج التطبيقي"],a:0,e:"مثل أمين المخزن التابع لإدارة المبنى، وهو يخدم المطعم."},
+ {q:"المستوى الذي يصف طريقة تخزين البيانات في وسائط التخزين ويحوّلها للغة الآلة:",o:["الخارجي","المنطقي","الداخلي/الفيزيائي","لا شيء مما سبق"],a:2,e:"المستوى الداخلي/الفيزيائي. في المطعم: مخطط المخزن."},
+ {q:"المستوى الوسيط بين المستوى الداخلي والخارجي:",o:["المنطقي","الفيزيائي","الخارجي","مستوى الشاشة"],a:0,e:"المستوى المنطقي. في المطعم: دفتر الوصفات."},
+ {q:"المنيو في مثال المطعم يقابل:",o:["المستوى الداخلي","المستوى الخارجي","مدير الملفات","قاعدة البيانات"],a:1,e:"المستوى الخارجي يصف المشاهد المعروضة للمستخدم، كما يعرض المنيو الأطباق للزبون."},
+ {q:"يقرأ مدير الملفات من قاعدة البيانات:",o:["سجلاً واحداً فقط","الكتلة (حزمة السجلات) التي تحتوي السجل","الشاشة","المفتاح الأساسي فقط"],a:1,e:"كما يُحضر أمين المخزن الصندوق كاملاً، لا صنفاً واحداً."},
+ {q:"تُحفظ بيانات الكتلة المطلوبة مؤقتاً في:",o:["القرص الصلب","منطقة التخزين المؤقت Buffer","المنيو","البرنامج التطبيقي"],a:1,e:"الـ Buffer في الذاكرة. في المطعم: طاولة التحضير."},
+ {q:"يُستخدم في طلب المستخدم وفي إرجاع السجل المطلوب:",o:["المفتاح الأساسي","اسم الملف","نظام التشغيل","FoxPro"],a:0,e:"المفتاح الأساسي، مثل رقم الطبق في المنيو."}
+];
+var quizStarted=false, qi=0, score=0, answered=false;
+function startQuiz(){quizStarted=true;qi=0;score=0;renderQ()}
+function renderQ(){
+  answered=false;
+  document.getElementById('qbar').style.width=(qi/QUIZ.length*100)+'%';
+  if(qi>=QUIZ.length) return renderResult();
+  var Q=QUIZ[qi], marks=["أ","ب","ج","د"];
+  var h='<div class="qmeta"><span>السؤال '+toAr(qi+1)+' من '+toAr(QUIZ.length)+'</span><span id="qsc">النقاط: '+toAr(score)+'</span></div>';
+  h+='<div class="qtext">'+Q.q+'</div><div class="opts">';
+  Q.o.forEach(function(op,k){h+='<button class="opt" onclick="answer('+k+')"><span class="mk">'+marks[k]+'</span><span>'+op+'</span></button>'});
+  h+='</div><div class="explain" id="explain"></div><div class="navbtns"><span></span><button class="btn btn-main" id="nextQ" onclick="nextQ()" disabled>التالي ‹</button></div>';
+  document.getElementById('qwrap').innerHTML=h;
+}
+function answer(k){
+  if(answered) return; answered=true;
+  var Q=QUIZ[qi], opts=document.querySelectorAll('#qwrap .opt');
+  opts.forEach(function(o){o.classList.add('locked')});
+  opts[Q.a].classList.add('correct');
+  if(k===Q.a) score++; else opts[k].classList.add('wrong');
+  var ex=document.getElementById('explain');
+  ex.innerHTML=(k===Q.a?'✅ إجابة صحيحة! ':'❌ ليست صحيحة. ')+Q.e; ex.classList.add('show');
+  document.getElementById('nextQ').disabled=false;
+  document.getElementById('qsc').textContent='النقاط: '+toAr(score);
+}
+function nextQ(){qi++;renderQ()}
+function renderResult(){
+  document.getElementById('qbar').style.width='100%';
+  var pct=Math.round(score/QUIZ.length*100);
+  var msg=pct>=80?"ممتاز! أتقنت الدرس.":pct>=50?"جيد، راجع النقاط التي أخطأت فيها.":"لا بأس، أعد قراءة المحطات ثم حاول مجدداً.";
+  document.getElementById('qwrap').innerHTML='<div class="result"><div class="scorebig">'+toAr(score)+'/'+toAr(QUIZ.length)+'</div><p class="lead" style="margin:10px 0">'+msg+'</p><div class="navbtns" style="justify-content:center;gap:10px"><button class="btn btn-ghost" onclick="go(0)">↺ من البداية</button><button class="btn btn-main" onclick="startQuiz()">أعد التقويم</button></div></div>';
+}
+</script>
+</body></html>
