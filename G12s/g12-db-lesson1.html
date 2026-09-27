@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>قاعدة البيانات: الحقل والسجل والمفاتيح · الصف الثاني عشر العلمي</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@400;500;600;700&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#152238; --ink-soft:#41506b; --paper:#F5F3EC; --card:#ffffff; --wire:#CDC6B6;
+  --teal:#0E9C8C; --teal-dark:#0a6e63; --teal-soft:#E1F3F0;
+  --amber:#E7973A; --amber-soft:#FBEDDB; --amber-dark:#a8620f;
+  --coral:#E4644E; --coral-soft:#FBE7E2; --coral-dark:#b8412c;
+  --indigo:#4C5FD5; --indigo-soft:#E7E9FB;
+  --plum:#8A4FC0; --plum-soft:#F1E8FA;
+  --green:#2E9E63; --green-soft:#E1F2E8; --red:#D8463F; --red-soft:#FAE3E2;
+  --bar:#152238; --bar-ink:#ffffff; --bar-sub:#b9c2d6;
+  --shadow:0 10px 30px rgba(21,34,56,.10);
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ink:#E9EDF4; --ink-soft:#A9B4C6; --paper:#11161E; --card:#1A212C; --wire:#34404F;
+    --teal:#2BB8A7; --teal-dark:#5FD6C6; --teal-soft:#123331;
+    --amber:#E9A24F; --amber-soft:#35291A; --amber-dark:#F0BC72;
+    --coral:#EE7D69; --coral-soft:#3A221F; --coral-dark:#F39B8B;
+    --indigo:#8D9BF0; --indigo-soft:#1F2442;
+    --plum:#B88BE6; --plum-soft:#2C2240;
+    --green:#5CC98E; --green-soft:#16301F; --red:#F0766F; --red-soft:#3A1E1D;
+    --bar:#243044; --bar-ink:#ffffff; --bar-sub:#b9c2d6;
+    --shadow:0 10px 30px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+    --ink:#E9EDF4; --ink-soft:#A9B4C6; --paper:#11161E; --card:#1A212C; --wire:#34404F;
+    --teal:#2BB8A7; --teal-dark:#5FD6C6; --teal-soft:#123331;
+    --amber:#E9A24F; --amber-soft:#35291A; --amber-dark:#F0BC72;
+    --coral:#EE7D69; --coral-soft:#3A221F; --coral-dark:#F39B8B;
+    --indigo:#8D9BF0; --indigo-soft:#1F2442;
+    --plum:#B88BE6; --plum-soft:#2C2240;
+    --green:#5CC98E; --green-soft:#16301F; --red:#F0766F; --red-soft:#3A1E1D;
+    --bar:#243044; --bar-ink:#ffffff; --bar-sub:#b9c2d6;
+    --shadow:0 10px 30px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background-color:var(--paper);color:var(--ink);
+  font-family:"Tajawal",Tahoma,"Segoe UI",sans-serif;line-height:1.75;
+  background-image:radial-gradient(var(--wire) .8px,transparent .8px);background-size:26px 26px}
+.wrap{max-width:920px;margin:0 auto;padding:20px 18px 60px}
+h1,h2,h3{font-family:"Reem Kufi",Tahoma,sans-serif;font-weight:600;line-height:1.35;margin:0}
+.k{font-family:"Reem Kufi",Tahoma,sans-serif}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;
+  background:var(--bar);color:var(--bar-ink);border-radius:16px;padding:14px 20px;box-shadow:var(--shadow);margin-bottom:18px}
+.topbar h1{font-size:21px}
+.topbar .sub{font-size:13px;color:var(--bar-sub)}
+.badge{background:var(--teal);color:#fff;font-size:12px;padding:5px 12px;border-radius:999px;font-family:"Reem Kufi",Tahoma,sans-serif;white-space:nowrap}
+.card{background:var(--card);border-radius:18px;padding:26px;box-shadow:var(--shadow);border:1px solid var(--wire)}
+.eyebrow{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:13px;color:var(--teal-dark);background:var(--teal-soft);
+  display:inline-block;padding:4px 12px;border-radius:999px;margin-bottom:12px}
+h2.title{font-size:26px;margin-bottom:8px}
+.lead{color:var(--ink-soft);font-size:16px;margin:0 0 8px}
+.hint{font-size:14px;color:var(--amber-dark);background:var(--amber-soft);border-radius:10px;
+  padding:9px 14px;display:block;margin-top:6px}
+.dfn{background:var(--teal-soft);border:1.5px solid var(--teal);border-radius:14px;padding:16px 18px;margin:14px 0}
+.dfn .dfn-t{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14px;color:var(--teal-dark);margin-bottom:4px}
+.dfn .dfn-b{font-size:17px;line-height:1.7}
+.dfn .dfn-b b{color:var(--teal-dark)}
+.example{display:flex;gap:14px;align-items:flex-start;background:var(--coral-soft);
+  border:1.5px dashed var(--coral);border-radius:14px;padding:14px 16px;margin:14px 0}
+.example .ex-ic{font-size:30px;flex-shrink:0}
+.example .ex-h{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14px;color:var(--coral-dark);margin-bottom:3px}
+.example .ex-b{font-size:14.5px;line-height:1.65}
+.example .ex-b b{color:var(--coral-dark)}
+.teacher{background:var(--bar);color:var(--bar-ink);border-radius:16px;padding:18px 22px;margin-top:22px;
+  display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;box-shadow:var(--shadow)}
+.teacher .tt{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:12px;color:var(--bar-sub)}
+.teacher .tn{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:19px;margin-top:2px}
+.teacher .tp{direction:ltr;font-size:14px;color:var(--bar-sub);margin-top:4px;text-align:right}
+.teacher a.wa{display:inline-flex;align-items:center;gap:8px;background:#25D366;color:#04331a;
+  font-family:"Reem Kufi",Tahoma,sans-serif;font-size:15px;text-decoration:none;padding:10px 18px;border-radius:12px}
+.teacher a.wa:hover{filter:brightness(1.06)}
+.teacher a.wa:focus-visible{outline:3px solid #fff;outline-offset:2px}
+@media (max-width:560px){
+  .wrap{padding:14px 12px 50px}
+  .topbar h1{font-size:17px} h2.title{font-size:22px}
+  .card{padding:18px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.rail{display:flex;gap:6px;margin:0 0 20px;flex-wrap:wrap}
+.rail button{flex:1 1 0;min-width:84px;background:var(--card);border:1.5px solid var(--wire);
+  border-radius:12px;padding:9px 6px;cursor:pointer;font-family:"Reem Kufi",Tahoma,sans-serif;font-size:12px;
+  color:var(--ink-soft);transition:.2s;display:flex;align-items:center;justify-content:center;gap:6px}
+.rail button .n{width:20px;height:20px;border-radius:50%;background:var(--paper);border:1.5px solid var(--wire);
+  display:inline-flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0}
+.rail button.active{border-color:var(--teal);color:var(--teal-dark);background:var(--teal-soft)}
+.rail button.active .n{background:var(--teal);color:#fff;border-color:var(--teal)}
+.rail button.done .n{background:var(--green);color:#fff;border-color:var(--green)}
+.station{display:none;animation:fade .45s ease both}
+.station.on{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.navbtns{display:flex;justify-content:space-between;margin-top:20px;gap:10px}
+.btn{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:15px;border:none;border-radius:12px;padding:12px 24px;cursor:pointer;transition:.15s}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn-main{background:var(--teal);color:#fff}
+.btn-main:hover:not(:disabled){background:var(--teal-dark)}
+.btn-ghost{background:var(--paper);color:var(--ink-soft);border:1.5px solid var(--wire)}
+.btn-sm{padding:8px 16px;font-size:14px}
+.btn:focus-visible,.rail button:focus-visible,.opt:focus-visible,.hbtn:focus-visible,.pickst:focus-visible,.seg button:focus-visible{outline:3px solid var(--indigo);outline-offset:2px}
+.hero{text-align:center;padding:34px 22px}
+.hero h2{font-size:32px;margin-bottom:6px}
+.pill3{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:18px 0 6px}
+.pill3 span{background:var(--indigo-soft);color:var(--indigo);font-family:"Reem Kufi",Tahoma,sans-serif;font-size:13px;padding:7px 14px;border-radius:999px}
+.herot{display:inline-grid;grid-template-columns:repeat(3,auto);gap:4px;margin:20px auto 6px;direction:rtl}
+.herot span{padding:8px 14px;border-radius:8px;background:var(--paper);border:1.5px solid var(--wire);font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14px;transition:.3s}
+.herot span.h{background:var(--bar);color:var(--bar-ink);border-color:var(--bar)}
+.herot span.lit{background:var(--amber-soft);border-color:var(--amber);color:var(--amber-dark)}
+.herot span.lc{background:var(--teal-soft);border-color:var(--teal);color:var(--teal-dark)}
+
+/* database tables */
+.tgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-top:12px;align-items:start}
+.tw{overflow-x:auto;border-radius:12px;border:1.5px solid var(--wire);background:var(--card)}
+.dbt{width:100%;border-collapse:collapse;font-size:14.5px}
+.dbt caption{caption-side:top;background:var(--bar);color:var(--bar-ink);font-family:"Reem Kufi",Tahoma,sans-serif;font-size:15px;padding:7px 10px;text-align:center}
+.dbt th,.dbt td{border:1px solid var(--wire);padding:6px 8px;text-align:center;transition:background .2s,color .2s}
+.dbt th{background:var(--paper);font-family:"Reem Kufi",Tahoma,sans-serif;font-weight:600;font-size:13.5px;white-space:nowrap}
+.dbt tr:first-child th{border-top:none}
+.hbtn{all:unset;cursor:pointer;display:block;padding:2px 4px;border-radius:6px;border-bottom:2px dashed var(--teal)}
+.dbt.rowpick tbody tr{cursor:pointer}
+.dbt.rowpick tbody tr:hover td{background:var(--paper)}
+.dbt .hl-col{background:var(--teal-soft)!important;color:var(--teal-dark)}
+.dbt th.hl-col{box-shadow:inset 0 -3px 0 var(--teal)}
+.dbt .hl-row td{background:var(--amber-soft)!important;color:var(--amber-dark);font-weight:700}
+.dbt .dup{background:var(--red-soft)!important;color:var(--red);font-weight:700}
+.dbt .ok{background:var(--green-soft)!important;color:var(--green);font-weight:700}
+.dbt .pk{color:var(--indigo)}
+.dbt .fkc{color:var(--plum)}
+.dbt .match td{background:var(--green-soft)!important;color:var(--green);font-weight:700}
+.dbt .pickc{background:var(--indigo-soft)!important;color:var(--indigo)}
+.dbt tr.bad td{background:var(--red-soft)!important;color:var(--red)}
+.legend{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:13.5px;color:var(--ink-soft);margin-top:10px}
+.legend b{font-family:"Reem Kufi",Tahoma,sans-serif}
+
+.out{margin-top:12px;background:var(--paper);border:1.5px solid var(--wire);border-radius:12px;padding:12px 14px;font-size:15px;min-height:52px}
+.out.good{background:var(--green-soft);border-color:var(--green)}
+.out.bad{background:var(--red-soft);border-color:var(--red)}
+.out.warn{background:var(--amber-soft);border-color:var(--amber)}
+.out b{font-family:"Reem Kufi",Tahoma,sans-serif}
+.tasks{list-style:none;padding:0;margin:12px 0 0;display:flex;flex-direction:column;gap:8px}
+.tasks li{display:flex;gap:10px;align-items:center;background:var(--paper);border:1.5px solid var(--wire);border-radius:12px;padding:9px 12px;font-size:15px;flex-wrap:wrap}
+.tasks li .st{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--wire);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px;background:var(--card)}
+.tasks li.done{border-color:var(--green);background:var(--green-soft)}
+.tasks li.done .st{background:var(--green);border-color:var(--green);color:#fff}
+.seg{display:inline-flex;gap:6px;margin-inline-start:auto}
+.seg button{border:1.5px solid var(--wire);background:var(--card);border-radius:10px;padding:4px 14px;font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14px;cursor:pointer;color:var(--ink)}
+.seg button.right{background:var(--green);border-color:var(--green);color:#fff}
+.seg button.wrong{background:var(--red-soft);border-color:var(--red);color:var(--red)}
+.cmp{width:100%;border-collapse:collapse;font-size:15px;margin-top:10px}
+.cmp th,.cmp td{border:1px solid var(--wire);padding:8px 10px;text-align:right;vertical-align:top}
+.cmp th{background:var(--paper);font-family:"Reem Kufi",Tahoma,sans-serif;font-weight:600}
+.cmp td.f{color:var(--teal-dark)} .cmp td.r{color:var(--amber-dark)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px;align-items:start}
+@media (max-width:620px){.two{grid-template-columns:1fr}}
+.why{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:8px;margin-top:10px}
+.why div{background:var(--indigo-soft);border-radius:12px;padding:10px 12px;font-size:14.5px}
+.why b{display:block;color:var(--indigo);font-family:"Reem Kufi",Tahoma,sans-serif;font-size:15px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:10px;font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14px}
+.chips .c{background:var(--indigo-soft);color:var(--indigo);border:1.5px solid var(--indigo);padding:4px 12px;border-radius:999px}
+.chips .ph{color:var(--ink-soft)}
+.pickers{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.pickst{border:1.5px solid var(--wire);background:var(--card);border-radius:999px;padding:6px 14px;font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14px;cursor:pointer;color:var(--ink)}
+.pickst.on{background:var(--amber);border-color:var(--amber);color:#fff}
+.links{background:var(--plum-soft);border:1.5px dashed var(--plum);border-radius:12px;padding:10px 14px;font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14.5px;line-height:2.1;color:var(--plum);margin-top:12px}
+.hide{display:none}
+.reveal{animation:fade .35s ease both}
+h3.sub3{font-size:18px;margin-top:22px}
+
+/* quiz */
+.qwrap{min-height:60px}
+.qmeta{display:flex;justify-content:space-between;align-items:center;font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14px;color:var(--ink-soft);margin-bottom:8px}
+.qtext{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:19px;margin:6px 0 16px;line-height:1.5}
+.opts{display:flex;flex-direction:column;gap:10px}
+.opt{text-align:right;background:var(--card);border:1.5px solid var(--wire);border-radius:12px;padding:13px 16px;
+  cursor:pointer;font-family:"Tajawal",Tahoma,sans-serif;font-size:15.5px;color:var(--ink);transition:.15s;display:flex;align-items:center;gap:10px}
+.opt:hover:not(.locked){border-color:var(--teal)}
+.opt .mk{width:24px;height:24px;border-radius:50%;border:1.5px solid var(--wire);flex-shrink:0;
+  display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-family:"Reem Kufi",Tahoma,sans-serif;color:var(--ink-soft)}
+.opt.correct{background:var(--green-soft);border-color:var(--green);color:var(--green)}
+.opt.correct .mk{background:var(--green);border-color:var(--green);color:#fff}
+.opt.wrong{background:var(--red-soft);border-color:var(--red);color:var(--red)}
+.opt.wrong .mk{background:var(--red);border-color:var(--red);color:#fff}
+.opt.locked{cursor:default}
+.explain{margin-top:14px;background:var(--indigo-soft);color:var(--indigo);border-radius:12px;padding:12px 16px;font-size:14px;display:none}
+.explain.show{display:block;animation:fade .3s ease both}
+.result{text-align:center;padding:20px 10px}
+.scorebig{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:52px;color:var(--teal);line-height:1}
+.progress-quiz{height:8px;background:var(--paper);border-radius:99px;overflow:hidden;margin:4px 0 14px;border:1px solid var(--wire)}
+.progress-quiz i{display:block;height:100%;background:var(--teal);width:0;transition:.3s}
+
+/* homework */
+.hw .qh{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:18px;color:var(--indigo);background:var(--indigo-soft);border-radius:10px;padding:6px 12px;margin:20px 0 8px;display:inline-block}
+.q{margin:10px 0;font-size:16px}
+.line{display:block;border-bottom:1.5px dotted var(--wire);height:2em}
+.hwt{width:100%;border-collapse:collapse;font-size:15px;margin:6px 0}
+.hwt th,.hwt td{border:1px solid var(--wire);padding:8px 10px;text-align:right;height:2.4em}
+.hwt th{background:var(--paper);font-family:"Reem Kufi",Tahoma,sans-serif;font-weight:600}
+@media print{.rail,.navbtns,.teacher a.wa{display:none}.station{display:block!important}body{background:#fff}}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar">
+    <div>
+      <h1 class="k">قاعدة البيانات: الحقل والسجل والمفاتيح</h1>
+      <div class="sub">الصف الثاني عشر العلمي · الوحدة الأولى: قواعد البيانات · الحصة الأولى</div>
+    </div>
+    <span class="badge">درس تفاعلي</span>
+  </div>
+
+  <nav class="rail" id="rail" aria-label="محطات الدرس"></nav>
+
+  <!-- 0 HERO -->
+  <section class="station on" id="s0">
+    <div class="card hero">
+      <span class="eyebrow">مراجعة الوحدة الأولى 🗂️</span>
+      <h2 class="k">كيف تعرف قاعدة البيانات<br>أيّ طالب تقصد؟</h2>
+      <p class="lead">في مدرستك مئات الطلاب، وبعضهم يحمل الاسم نفسه. في هذا الدرس ستضغط بنفسك على الجداول، وتكتشف الحقل والسجل، وتختار المفاتيح التي تربط كل شيء ببعضه.</p>
+      <div class="herot" aria-hidden="true">
+        <span class="h">رقم الطالب</span><span class="h">اسم الطالب</span><span class="h">رقم الصف</span>
+        <span id="x0">601</span><span id="x1">أحمد</span><span id="x2">6</span>
+        <span id="x3">220</span><span id="x4">حسن</span><span id="x5">2</span>
+      </div>
+      <div class="pill3"><span>قاعدة البيانات</span><span>الحقل والسجل</span><span>المفتاح الأساسي</span><span>المفتاح الأجنبي</span><span>المفتاح المركب</span><span>العلاقة</span></div>
+      <div class="hint">👆 في كل محطة مهمة تنفذها بالضغط على الجداول.</div>
+      <div class="navbtns" style="justify-content:center"><button class="btn btn-main" onclick="go(1)">لنبدأ ‹</button></div>
+    </div>
+  </section>
+
+  <!-- 1 DATABASE -->
+  <section class="station" id="s1">
+    <div class="card">
+      <span class="eyebrow">المحطة ١ · قاعدة البيانات</span>
+      <h2 class="title k">ما هي قاعدة البيانات؟</h2>
+      <div class="dfn">
+        <div class="dfn-t">📌 تعريف قاعدة البيانات</div>
+        <div class="dfn-b">طريقة لتخزين <b>البيانات المتجانسة دون تكرار</b> في <b>جداول</b> مرتبطة مع بعضها البعض <b>بعلاقات</b>، ليسهل استرجاع البيانات واستخدامها.</div>
+      </div>
+      <p class="lead">هذه قاعدة بيانات مدرسة صغيرة من كتابك، فيها أربعة جداول:</p>
+      <div class="tgrid" id="t1"></div>
+      <div class="example">
+        <div class="ex-ic">🔍</div>
+        <div><div class="ex-h">لاحظ معنى «دون تكرار»</div>
+        <div class="ex-b">اسم الطالب <b>محمد</b> مكتوب مرة واحدة فقط في جدول الطالب. وفي جدول العلامة نكتفي برقمه <b>310</b>، مع أن له ثلاث علامات. كذلك اسم الموضوع <b>علوم</b> مكتوب مرة واحدة، ونستخدم رمزه <b>E</b> في جدول العلامة.</div></div>
+      </div>
+      <div class="navbtns">
+        <button class="btn btn-ghost" onclick="go(0)">›</button>
+        <button class="btn btn-main" onclick="go(2)">التالي: الحقل والسجل ‹</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 FIELD & RECORD -->
+  <section class="station" id="s2">
+    <div class="card">
+      <span class="eyebrow">المحطة ٢ · الحقل والسجل</span>
+      <h2 class="title k">العمود حقل، والصف سجل</h2>
+      <div class="two">
+        <div class="dfn" style="margin:0">
+          <div class="dfn-t">🧱 الحقل</div>
+          <div class="dfn-b">يمثل <b>جزءاً محدداً</b> من البيانات، ويكون من <b>نفس النوع</b>، ويمثل <b>العمود</b> في الجدول.</div>
+        </div>
+        <div class="dfn" style="margin:0;background:var(--amber-soft);border-color:var(--amber)">
+          <div class="dfn-t" style="color:var(--amber-dark)">📄 السجل</div>
+          <div class="dfn-b">يمثل <b style="color:var(--amber-dark)">مجموعة من العناصر ذات العلاقة</b>، وتكون من <b style="color:var(--amber-dark)">عدة أنواع</b> من البيانات، ويمثل <b style="color:var(--amber-dark)">الصف</b> في الجدول.</div>
+        </div>
+      </div>
+      <div class="hint" style="margin-top:14px">👆 اضغط <b>عنوان عمود</b> لترى الحقل، أو اضغط <b>أي صف</b> لترى السجل.</div>
+      <div id="t2" style="margin-top:10px"></div>
+      <div class="out" id="o2" aria-live="polite">اضغط عنوان عمود أو صفاً في الجدول…</div>
+      <h3 class="k sub3">مهامك</h3>
+      <ul class="tasks">
+        <li id="k1"><span class="st">١</span><span>اضغط <b>حقل</b> «رقم الصف».</span></li>
+        <li id="k2"><span class="st">٢</span><span>اضغط <b>سجل</b> الطالب «حسين».</span></li>
+        <li id="k3"><span class="st">٣</span><span>كم <b>حقلاً</b> في جدول الطالب؟</span>
+          <span class="seg" data-ans="3" data-task="k3"><button>2</button><button>3</button><button>7</button></span></li>
+        <li id="k4"><span class="st">٤</span><span>كم <b>سجلاً</b> في جدول الطالب؟</span>
+          <span class="seg" data-ans="7" data-task="k4"><button>3</button><button>6</button><button>7</button></span></li>
+      </ul>
+      <h3 class="k sub3">الفرق بين الحقل والسجل</h3>
+      <div class="tw" style="border:none"><table class="cmp">
+        <tr><th>وجه المقارنة</th><th>الحقل</th><th>السجل</th></tr>
+        <tr><td>يمثل في الجدول</td><td class="f">العمود</td><td class="r">الصف</td></tr>
+        <tr><td>نوع البيانات</td><td class="f">نفس النوع</td><td class="r">عدة أنواع</td></tr>
+        <tr><td>ماذا يحتوي</td><td class="f">جزء محدد من البيانات</td><td class="r">مجموعة عناصر ذات علاقة</td></tr>
+        <tr><td>مثال من جدول الطالب</td><td class="f">اسم الطالب: أحمد، محمود، محمد…</td><td class="r">220، حسن، 2</td></tr>
+      </table></div>
+      <div class="navbtns">
+        <button class="btn btn-ghost" onclick="go(1)">›</button>
+        <button class="btn btn-main" onclick="go(3)">التالي: المفتاح الأساسي ‹</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 PRIMARY KEY -->
+  <section class="station" id="s3">
+    <div class="card">
+      <span class="eyebrow">المحطة ٣ · المفتاح الأساسي 🔑</span>
+      <h2 class="title k">بماذا نعرف كل طالب؟</h2>
+      <div class="dfn">
+        <div class="dfn-t">📌 المفتاح الأساسي</div>
+        <div class="dfn-b">هو <b>حقل يُعرَف السجل من خلاله</b>، ويكون <b>فريداً</b> و<b>لا يُترك فارغاً</b>.</div>
+      </div>
+      <div class="hint">👆 اضغط عنوان الحقل الذي تراه مناسباً ليكون المفتاح الأساسي لجدول الطالب.</div>
+      <div id="t3" style="margin-top:10px"></div>
+      <div class="out" id="o3" aria-live="polite">اختر حقلاً من عناوين الجدول…</div>
+      <div id="pkMore" class="hide">
+        <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+          <button class="btn btn-ghost btn-sm" id="emptyBtn" onclick="toggleEmpty()">➕ جرّب: أضف طالباً بلا رقم</button>
+        </div>
+        <h3 class="k sub3">لماذا لا نستغني عن المفتاح الأساسي؟</h3>
+        <div class="why">
+          <div><b>🪪 يميّز كل سجل</b>لا يتكرر، فلا يختلط طالب بآخر حتى لو تشابهت الأسماء.</div>
+          <div><b>🎯 نصل به للسجل</b>من خلاله يُعرَف السجل ونسترجعه.</div>
+          <div><b>🔗 أساس الربط</b>العلاقة بين جدولين أحد طرفيها مفتاح أساسي.</div>
+        </div>
+        <p class="lead" style="margin-top:14px">وبالطريقة نفسها: المفتاح الأساسي لجدول <b>الموضوع</b> هو «رقم الموضوع»، ولجدول <b>الصف</b> هو «رقم الصف».</p>
+      </div>
+      <div class="navbtns">
+        <button class="btn btn-ghost" onclick="go(2)">›</button>
+        <button class="btn btn-main" onclick="go(4)">التالي: المفتاح الأجنبي ‹</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 FOREIGN KEY -->
+  <section class="station" id="s4">
+    <div class="card">
+      <span class="eyebrow">المحطة ٤ · المفتاح الأجنبي 🔗</span>
+      <h2 class="title k">الحقل الذي يربط جدولين</h2>
+      <div class="dfn">
+        <div class="dfn-t">📌 المفتاح الأجنبي</div>
+        <div class="dfn-b">هو حقل يكون <b>مفتاحاً أساسياً في جدول آخر</b>، ويُستخدم <b>للربط بين الجداول</b>.</div>
+      </div>
+      <h3 class="k sub3">المهمة الأولى</h3>
+      <div class="hint">👆 في جدول <b>الطالب</b>، اضغط عنوان الحقل الذي يربطه بجدول <b>الصف</b>.</div>
+      <div class="two" style="margin-top:10px">
+        <div id="t4a"></div>
+        <div id="t4b"></div>
+      </div>
+      <div class="out" id="o4a" aria-live="polite">اختر حقلاً من جدول الطالب…</div>
+
+      <div id="fk2" class="hide">
+        <h3 class="k sub3">المهمة الثانية</h3>
+        <div class="hint">👆 جدول <b>العلامة</b> فيه مفتاحان أجنبيان. اضغط عنوانيهما، ثم «تحقّق».</div>
+        <div id="t4c" style="margin-top:10px;max-width:420px"></div>
+        <div style="margin-top:10px"><button class="btn btn-main btn-sm" onclick="checkFk2()">تحقّق</button></div>
+        <div class="out" id="o4b" aria-live="polite">اختر حقلين…</div>
+      </div>
+      <div class="navbtns">
+        <button class="btn btn-ghost" onclick="go(3)">›</button>
+        <button class="btn btn-main" onclick="go(5)">التالي: المفتاح المركب ‹</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 COMPOSITE KEY -->
+  <section class="station" id="s5">
+    <div class="card">
+      <span class="eyebrow">المحطة ٥ · المفتاح المركب 🔑+🔑</span>
+      <h2 class="title k">عندما لا يكفي حقل واحد</h2>
+      <p class="lead">جدول <b>العلامة</b> يحتاج مفتاحاً أساسياً أيضاً. جرّب: اضغط عناوين الحقول لتضيفها إلى المفتاح أو تحذفها منه، وراقب الصفوف. أي صف يتلوّن بالأحمر مكرّر.</p>
+      <div id="t5" style="margin-top:10px;max-width:420px"></div>
+      <div class="chips" id="ch5"></div>
+      <div class="out" id="o5" aria-live="polite">اختر حقلاً أو أكثر…</div>
+      <div class="dfn hide" id="cmpDfn">
+        <div class="dfn-t">📌 المفتاح المركب</div>
+        <div class="dfn-b">هو <b>مفتاحان أساسيان أو أكثر</b> يشكّلان <b>مفتاحاً أساسياً</b> للجدول.</div>
+      </div>
+      <div class="example hide" id="cmpEx">
+        <div class="ex-ic">💡</div>
+        <div><div class="ex-h">لماذا لا يكفي أحدهما وحده؟</div>
+        <div class="ex-b">الطالب الواحد له علامات في <b>عدة مواضيع</b>، فيتكرر رقمه (310 ثلاث مرات). والموضوع الواحد يأخذ علاماته <b>عدة طلاب</b>، فيتكرر رمزه (E مرتين). لكن <b>الطالب مع الموضوع</b> لا يتكرران معاً أبداً.</div></div>
+      </div>
+      <div class="navbtns">
+        <button class="btn btn-ghost" onclick="go(4)">›</button>
+        <button class="btn btn-main" onclick="go(6)">التالي: العلاقة ‹</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 RELATION -->
+  <section class="station" id="s6">
+    <div class="card">
+      <span class="eyebrow">المحطة ٦ · العلاقة</span>
+      <h2 class="title k">الجداول الأربعة تعمل معاً</h2>
+      <div class="dfn">
+        <div class="dfn-t">📌 العلاقة</div>
+        <div class="dfn-b">روابط <b>وهمية</b> بين الجداول في قاعدة البيانات، يكون <b>أحد طرفيها مفتاحاً أساسياً</b> و<b>الآخر مفتاحاً أجنبياً</b>.</div>
+      </div>
+      <div class="links">
+        🔗 رقم الصف في «الطالب» ⟵ 🔑 رقم الصف في «الصف»<br>
+        🔗 رقم الطالب في «العلامة» ⟵ 🔑 رقم الطالب في «الطالب»<br>
+        🔗 رقم الموضوع في «العلامة» ⟵ 🔑 رقم الموضوع في «الموضوع»
+      </div>
+      <div class="hint" style="margin-top:14px">👆 اختر طالباً، وتابع كيف تجمع العلاقات بياناته من الجداول الأربعة.</div>
+      <div class="pickers" id="pk6"></div>
+      <div class="out" id="o6" aria-live="polite">اختر طالباً…</div>
+      <div class="tgrid" id="t6"></div>
+      <div class="legend"><span><b class="pk">🔑</b> مفتاح أساسي</span><span><b style="color:var(--plum)">🔗</b> مفتاح أجنبي</span><span><b>🔑🔗</b> مفتاح أساسي (مركب) وأجنبي معاً</span></div>
+      <div class="navbtns">
+        <button class="btn btn-ghost" onclick="go(5)">›</button>
+        <button class="btn btn-main" onclick="go(7)">التقويم ‹</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 QUIZ -->
+  <section class="station" id="s7">
+    <div class="card">
+      <span class="eyebrow">المحطة ٧ · التقويم</span>
+      <h2 class="title k">اختبر فهمك</h2>
+      <div class="progress-quiz"><i id="qbar"></i></div>
+      <div class="qwrap" id="qwrap"></div>
+    </div>
+  </section>
+
+  <!-- 8 HOMEWORK -->
+  <section class="station" id="s8">
+    <div class="card hw">
+      <span class="eyebrow">📝 الواجب المنزلي</span>
+      <h2 class="title k">أجب في دفترك</h2>
+      <p class="lead">اعتمد على الجداول الأربعة في المحطة الأولى.</p>
+
+      <div class="qh">السؤال الأول: عرّف كلاً مما يأتي</div>
+      <div class="q">١. قاعدة البيانات.<span class="line"></span></div>
+      <div class="q">٢. الحقل.<span class="line"></span></div>
+      <div class="q">٣. السجل.<span class="line"></span></div>
+      <div class="q">٤. المفتاح الأساسي.<span class="line"></span></div>
+      <div class="q">٥. المفتاح الأجنبي.<span class="line"></span></div>
+      <div class="q">٦. المفتاح المركب.<span class="line"></span></div>
+      <div class="q">٧. العلاقة.<span class="line"></span></div>
+
+      <div class="qh">السؤال الثاني: قارن بين الحقل والسجل</div>
+      <div class="tw" style="border:none"><table class="hwt">
+        <tr><th>وجه المقارنة</th><th>الحقل</th><th>السجل</th></tr>
+        <tr><td>يمثل في الجدول</td><td></td><td></td></tr>
+        <tr><td>نوع البيانات</td><td></td><td></td></tr>
+        <tr><td>مثال من جدول الموضوع</td><td></td><td></td></tr>
+      </table></div>
+
+      <div class="qh">السؤال الثالث: علّل ما يأتي</div>
+      <div class="q">١. لا يصلح حقل «رقم الصف» مفتاحاً أساسياً لجدول الطالب.<span class="line"></span></div>
+      <div class="q">٢. يُعدّ حقل «رقم الموضوع» في جدول العلامة مفتاحاً أجنبياً.<span class="line"></span></div>
+      <div class="q">٣. المفتاح الأساسي لجدول العلامة مفتاح مركب.<span class="line"></span><span class="line"></span></div>
+
+      <div class="qh">السؤال الرابع: أكمل الجدول</div>
+      <div class="tw" style="border:none"><table class="hwt">
+        <tr><th>الجدول</th><th>المفتاح الأساسي</th><th>المفتاح الأجنبي (إن وُجد)</th></tr>
+        <tr><td>الطالب</td><td></td><td></td></tr>
+        <tr><td>الموضوع</td><td></td><td></td></tr>
+        <tr><td>العلامة</td><td></td><td></td></tr>
+        <tr><td>الصف</td><td></td><td></td></tr>
+      </table></div>
+
+      <div class="qh">السؤال الخامس: من الجداول</div>
+      <div class="q">١. اكتب سجل الطالب «خليل» كاملاً.<span class="line"></span></div>
+      <div class="q">٢. اكتب قيم حقل «اسم الصف».<span class="line"></span></div>
+      <div class="q">٣. ما علامات الطالب «أحمد»؟ وفي أي المواضيع؟ وضّح كيف وصلت لها باستخدام المفاتيح.<span class="line"></span><span class="line"></span></div>
+
+      <div class="qh">السؤال السادس: فكّر وناقش</div>
+      <div class="q">أرادت المدرسة إضافة طالب جديد اسمه «أحمد» دون أن تكتب له رقماً. ما المشكلتان اللتان ستظهران؟<span class="line"></span><span class="line"></span></div>
+      <div class="navbtns">
+        <button class="btn btn-ghost" onclick="go(7)">›</button>
+        <button class="btn btn-main" onclick="go(0)">↺ من البداية</button>
+      </div>
+    </div>
+  </section>
+
+  <div class="teacher">
+    <div>
+      <div class="tt">إعداد الأستاذ</div>
+      <div class="tn">رامي فتحي فلفل</div>
+      <div class="tp">هاتف / واتساب: +972&nbsp;59&nbsp;788&nbsp;0216</div>
+    </div>
+    <a class="wa" href="https://wa.me/972597880216" target="_blank" rel="noopener">💬 تواصل عبر واتساب</a>
+  </div>
+</div>
+<script>
+var STATIONS=["البداية","قاعدة البيانات","الحقل والسجل","المفتاح الأساسي","المفتاح الأجنبي","المفتاح المركب","العلاقة","التقويم","الواجب"];
+var cur=0, visited={0:true}, rail=document.getElementById('rail');
+function toAr(n){return String(n).replace(/[0-9]/g,function(d){return "٠١٢٣٤٥٦٧٨٩"[d]})}
+function $(id){return document.getElementById(id)}
+STATIONS.forEach(function(t,i){
+  var b=document.createElement('button');
+  b.innerHTML='<span class="n">'+toAr(i+1)+'</span>'+t;
+  b.onclick=function(){go(i)}; rail.appendChild(b);
+});
+function go(i){
+  $('s'+cur).classList.remove('on');
+  cur=i; visited[i]=true;
+  $('s'+i).classList.add('on');
+  updRail(); window.scrollTo({top:0,behavior:'smooth'});
+  if(i===7 && !quizStarted) startQuiz();
+}
+function updRail(){[].forEach.call(rail.children,function(b,i){
+  b.classList.toggle('active',i===cur); b.classList.toggle('done',!!visited[i] && i!==cur);});}
+updRail();
+
+/* hero: highlight a field, then a record */
+(function(){
+  if(matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+  var k=0, pats=[[1,4,'lc'],[3,4,5,'lit'],[0,3,'lc'],[0,1,2,'lit']];
+  setInterval(function(){
+    for(var j=0;j<6;j++) $('x'+j).classList.remove('lit','lc');
+    var p=pats[k], cls=p[p.length-1];
+    for(var m=0;m<p.length-1;m++) $('x'+p[m]).classList.add(cls);
+    k=(k+1)%pats.length;
+  },1300);
+})();
+
+/* data from the textbook */
+var T={
+ st:{name:"الطالب",cols:["رقم الطالب","اسم الطالب","رقم الصف"],types:["رقم","نص","رقم"],
+     rows:[[601,"أحمد",6],[503,"محمود",5],[310,"محمد",3],[220,"حسن",2],[130,"حسين",2],[115,"رائد",1],[309,"خليل",3]]},
+ sb:{name:"الموضوع",cols:["رقم الموضوع","اسم الموضوع"],
+     rows:[["A","دين"],["B","عربي"],["C","انجليزي"],["D","رياضيات"],["E","علوم"],["F","اجتماعيات"],["G","تكنولوجيا"],["H","رياضة"]]},
+ mk:{name:"العلامة",cols:["رقم الطالب","رقم الموضوع","العلامة"],
+     rows:[[601,"A",70],[310,"B",55],[220,"E",60],[130,"E",90],[601,"C",80],[310,"F",50],[310,"D",75]]},
+ cl:{name:"الصف",cols:["رقم الصف","اسم الصف"],
+     rows:[[1,"الأول"],[2,"الثاني"],[3,"الثالث"],[4,"الرابع"],[5,"الخامس"],[6,"السادس"]]}
+};
+var CLS=['hl-col','hl-row','dup','ok','match','pickc','pk','fkc'];
+function mkTable(host,D,o){
+  o=o||{};
+  var w=document.createElement('div'); w.className='tw';
+  var t=document.createElement('table'); t.className='dbt'+(o.onRow?' rowpick':'');
+  var h='<caption>'+D.name+'</caption><thead><tr>';
+  D.cols.forEach(function(c,i){
+    var ic=(o.pk&&o.pk.indexOf(i)>-1?'🔑':'')+(o.fk&&o.fk.indexOf(i)>-1?'🔗':'');
+    var lab=(ic?ic+' ':'')+c;
+    h+='<th data-c="'+i+'">'+(o.onHead?'<button class="hbtn" type="button">'+lab+'</button>':lab)+'</th>';
+  });
+  h+='</tr></thead><tbody>';
+  D.rows.forEach(function(r,ri){
+    h+='<tr data-r="'+ri+'">'; r.forEach(function(v,ci){h+='<td data-c="'+ci+'">'+v+'</td>'}); h+='</tr>';
+  });
+  t.innerHTML=h+'</tbody>'; w.appendChild(t); host.appendChild(w);
+  if(o.pk) o.pk.forEach(function(c){t.querySelector('th[data-c="'+c+'"]').classList.add('pk')});
+  if(o.fk) o.fk.forEach(function(c){t.querySelector('th[data-c="'+c+'"]').classList.add('fkc')});
+  var api={t:t,
+    th:function(c){return t.querySelector('th[data-c="'+c+'"]')},
+    cells:function(c){return t.querySelectorAll('tbody td[data-c="'+c+'"]')},
+    row:function(r){return t.tBodies[0].rows[r]},
+    clear:function(){t.querySelectorAll('th,td,tr').forEach(function(e){
+      ['hl-col','hl-row','dup','ok','match','pickc'].forEach(function(k){e.classList.remove(k)})})}
+  };
+  if(o.onHead) t.querySelectorAll('th').forEach(function(th){
+    th.querySelector('.hbtn').onclick=function(e){e.stopPropagation();o.onHead(+th.dataset.c)}});
+  if(o.onRow) [].forEach.call(t.tBodies[0].rows,function(tr){
+    tr.onclick=function(){if(tr.dataset.r!==undefined) o.onRow(+tr.dataset.r)}});
+  return api;
+}
+function dupVals(D,c){var n={};D.rows.forEach(function(r){n[r[c]]=(n[r[c]]||0)+1});return n}
+
+/* 1: overview */
+['st','sb','mk','cl'].forEach(function(k){mkTable($('t1'),T[k])});
+
+/* 2: field & record */
+var done2={};
+function tick(id){ if(done2[id]) return; done2[id]=1; $(id).classList.add('done'); $(id).querySelector('.st').textContent='✓'; }
+var tb2=mkTable($('t2'),T.st,{
+  onHead:function(c){
+    tb2.clear(); tb2.th(c).classList.add('hl-col');
+    tb2.cells(c).forEach(function(td){td.classList.add('hl-col')});
+    var vals=T.st.rows.map(function(r){return r[c]}).join('، ');
+    $('o2').className='out';
+    $('o2').innerHTML='🧱 <b>حقل «'+T.st.cols[c]+'»</b>: عمود واحد، وكل قيمه من نفس النوع ('+T.st.types[c]+'): '+vals+'.';
+    if(c===2) tick('k1');
+  },
+  onRow:function(r){
+    tb2.clear(); tb2.row(r).classList.add('hl-row');
+    var R=T.st.rows[r];
+    $('o2').className='out';
+    $('o2').innerHTML='📄 <b>سجل الطالب «'+R[1]+'»</b>: صف واحد يجمع عناصر ذات علاقة ('+R[0]+'، '+R[1]+'، '+R[2]+')، وفيه أكثر من نوع: أرقام ونص.';
+    if(r===4) tick('k2');
+  }
+});
+document.querySelectorAll('.seg').forEach(function(s){
+  s.querySelectorAll('button').forEach(function(b){
+    b.onclick=function(){
+      s.querySelectorAll('button').forEach(function(x){x.classList.remove('right','wrong')});
+      if(b.textContent===s.dataset.ans){b.classList.add('right');tick(s.dataset.task)}
+      else b.classList.add('wrong');
+    };
+  });
+});
+
+/* 3: primary key */
+var emptyOn=false;
+var tb3=mkTable($('t3'),T.st,{onHead:function(c){
+  tb3.clear(); tb3.th(c).classList.add('pickc');
+  var n=dupVals(T.st,c), any=false;
+  tb3.cells(c).forEach(function(td){
+    var v=T.st.rows[+td.parentNode.dataset.r][c];
+    if(n[v]>1){td.classList.add('dup');any=true} else td.classList.add('ok');
+  });
+  var o=$('o3');
+  if(c===0){
+    o.className='out good';
+    o.innerHTML='✅ <b>صحيح!</b> «رقم الطالب» لا يتكرر، ولا يُترك فارغاً، فيُعرَف كل سجل من خلاله. هو المفتاح الأساسي لجدول الطالب.';
+    $('pkMore').classList.remove('hide'); $('pkMore').classList.add('reveal');
+  }else if(c===2){
+    o.className='out bad';
+    o.innerHTML='❌ <b>لا يصلح.</b> «رقم الصف» يتكرر: الرقم 2 لحسن وحسين، والرقم 3 لمحمد وخليل. لو بحثنا بالرقم 2 لن نعرف أي طالب نقصد.';
+  }else{
+    o.className='out warn';
+    o.innerHTML='⚠️ <b>انتبه.</b> لا يوجد اسم مكرر الآن، لكن الأسماء <b>قد تتكرر</b>. لو انضم طالب آخر اسمه «أحمد» لن نعرف أي أحمد نقصد، فالاسم ليس فريداً مضموناً.';
+  }
+}});
+function toggleEmpty(){
+  var tb=tb3.t.tBodies[0];
+  if(!emptyOn){
+    var tr=document.createElement('tr'); tr.className='bad'; tr.id='emptyRow';
+    tr.innerHTML='<td>؟</td><td>أحمد</td><td>4</td>'; tb.appendChild(tr);
+    $('emptyBtn').textContent='✖ احذف الطالب المضاف';
+    $('o3').className='out bad';
+    $('o3').innerHTML='❌ <b>مرفوض!</b> طالب جديد اسمه «أحمد» بلا رقم: المفتاح الأساسي <b>لا يُترك فارغاً</b>. وبدون رقم لن نميّزه عن أحمد صاحب الرقم 601.';
+  }else{
+    $('emptyRow').remove(); $('emptyBtn').textContent='➕ جرّب: أضف طالباً بلا رقم';
+    $('o3').className='out good'; $('o3').innerHTML='✅ عاد الجدول سليماً: كل طالب له رقم فريد غير فارغ.';
+  }
+  emptyOn=!emptyOn;
+}
+
+/* 4: foreign key */
+var fkSolved=false;
+var tb4b=mkTable($('t4b'),T.cl,{pk:[0]});
+var tb4a=mkTable($('t4a'),T.st,{
+  onHead:function(c){
+    tb4a.clear(); tb4b.clear(); tb4a.th(c).classList.add('pickc');
+    var o=$('o4a');
+    if(c===2){
+      fkSolved=true;
+      tb4a.cells(2).forEach(function(td){td.classList.add('pickc')});
+      tb4b.cells(0).forEach(function(td){td.classList.add('pickc')});
+      tb4a.th(2).querySelector('.hbtn').textContent='🔗 رقم الصف';
+      o.className='out good';
+      o.innerHTML='✅ <b>صحيح!</b> «رقم الصف» مفتاح أساسي في جدول الصف، ويظهر في جدول الطالب ليربط بينهما، فهو <b>مفتاح أجنبي</b> في جدول الطالب.<br>👆 الآن اضغط أي طالب لترى صفّه.';
+      $('fk2').classList.remove('hide'); $('fk2').classList.add('reveal');
+    }else if(c===0){
+      o.className='out bad';
+      o.innerHTML='❌ «رقم الطالب» هو المفتاح الأساسي لجدول الطالب نفسه، ولا يوجد في جدول الصف.';
+    }else{
+      o.className='out bad';
+      o.innerHTML='❌ «اسم الطالب» لا يوجد في جدول الصف، فلا يربط بينهما.';
+    }
+  },
+  onRow:function(r){
+    if(!fkSolved){$('o4a').className='out warn';$('o4a').innerHTML='👆 اختر الحقل الرابط من عناوين جدول الطالب أولاً.';return}
+    tb4a.clear(); tb4b.clear();
+    var R=T.st.rows[r]; tb4a.row(r).classList.add('hl-row');
+    var ci=-1; T.cl.rows.forEach(function(x,i){if(x[0]===R[2])ci=i});
+    tb4b.row(ci).classList.add('match');
+    $('o4a').className='out good';
+    $('o4a').innerHTML='🔗 '+R[1]+' ← رقم الصف <b>'+R[2]+'</b> ← الصف «'+T.cl.rows[ci][1]+'».';
+  }
+});
+var fkSel={};
+var tb4c=mkTable($('t4c'),T.mk,{onHead:function(c){
+  fkSel[c]=!fkSel[c];
+  tb4c.th(c).classList.toggle('pickc',fkSel[c]);
+  tb4c.cells(c).forEach(function(td){td.classList.toggle('pickc',fkSel[c])});
+  $('o4b').className='out'; $('o4b').textContent='اضغط «تحقّق» عندما تنتهي.';
+}});
+function checkFk2(){
+  var o=$('o4b'), s=[0,1,2].filter(function(c){return fkSel[c]});
+  if(s.length===2 && fkSel[0] && fkSel[1]){
+    o.className='out good';
+    o.innerHTML='✅ <b>ممتاز!</b> «رقم الطالب» مفتاح أساسي في جدول الطالب، و«رقم الموضوع» مفتاح أساسي في جدول الموضوع. كلاهما <b>مفتاح أجنبي</b> في جدول العلامة.';
+  }else if(fkSel[2]){
+    o.className='out bad';
+    o.innerHTML='❌ «العلامة» ليست مفتاحاً أساسياً في أي جدول آخر، فلا تكون مفتاحاً أجنبياً.';
+  }else{
+    o.className='out warn';
+    o.innerHTML='⚠️ اخترت '+(s.length?'حقلاً واحداً':'لا شيء')+'. ابحث عن حقلين، كل منهما مفتاح أساسي في جدول آخر.';
+  }
+}
+
+/* 5: composite key */
+var cSel={};
+var tb5=mkTable($('t5'),T.mk,{onHead:function(c){cSel[c]=!cSel[c];draw5()}});
+function draw5(){
+  tb5.clear();
+  var s=[0,1,2].filter(function(c){return cSel[c]});
+  s.forEach(function(c){tb5.th(c).classList.add('pickc')});
+  $('ch5').innerHTML=s.length
+    ?'<span class="ph">المفتاح المقترح:</span>'+s.map(function(c){return '<span class="c">🔑 '+T.mk.cols[c]+'</span>'}).join('<span class="ph">+</span>')
+    :'';
+  var o=$('o5');
+  $('cmpDfn').classList.add('hide'); $('cmpEx').classList.add('hide');
+  if(!s.length){o.className='out';o.textContent='اختر حقلاً أو أكثر…';return}
+  var cnt={};
+  T.mk.rows.forEach(function(r){var k=s.map(function(c){return r[c]}).join('|');cnt[k]=(cnt[k]||0)+1});
+  var dups=[];
+  T.mk.rows.forEach(function(r,ri){
+    var k=s.map(function(c){return r[c]}).join('|'), bad=cnt[k]>1;
+    s.forEach(function(c){tb5.row(ri).cells[c].classList.add(bad?'dup':'ok')});
+    if(bad && dups.indexOf(k)<0) dups.push(k);
+  });
+  if(cSel[2]){
+    o.className='out warn';
+    o.innerHTML='⚠️ «العلامة» قيمة قد تتكرر بين الطلاب، وليست مفتاحاً أساسياً في أي جدول، فلا تدخل في المفتاح. أزلها وجرّب غيرها.';
+  }else if(dups.length){
+    o.className='out bad';
+    o.innerHTML='❌ <b>يوجد تكرار</b> في الخلايا الحمراء: '+dups.map(function(d){return '<bdi dir="ltr">'+d.replace('|',' + ')+'</bdi>'}).join('، ')+'. هذا لا يصلح مفتاحاً أساسياً.';
+  }else{
+    o.className='out good';
+    o.innerHTML='✅ <b>لا يتكرر أي زوج!</b> <bdi dir="ltr">310 + B</bdi> و<bdi dir="ltr">310 + F</bdi> و<bdi dir="ltr">310 + D</bdi> مختلفة. «رقم الطالب» + «رقم الموضوع» معاً هما <b>المفتاح المركب</b> لجدول العلامة.';
+    $('cmpDfn').classList.remove('hide'); $('cmpEx').classList.remove('hide');
+  }
+}
+
+/* 6: relation */
+var R6={
+  st:mkTable($('t6'),T.st,{pk:[0],fk:[2]}),
+  cl:mkTable($('t6'),T.cl,{pk:[0]}),
+  mk:mkTable($('t6'),T.mk,{pk:[0,1],fk:[0,1]}),
+  sb:mkTable($('t6'),T.sb,{pk:[0]})
+};
+T.st.rows.forEach(function(r,ri){
+  var b=document.createElement('button'); b.className='pickst'; b.textContent=r[1];
+  b.onclick=function(){
+    $('pk6').querySelectorAll('.pickst').forEach(function(x){x.classList.remove('on')}); b.classList.add('on');
+    show6(ri);
+  };
+  $('pk6').appendChild(b);
+});
+function show6(ri){
+  for(var k in R6) R6[k].clear();
+  var S=T.st.rows[ri]; R6.st.row(ri).classList.add('hl-row');
+  var cname='';
+  T.cl.rows.forEach(function(x,i){if(x[0]===S[2]){R6.cl.row(i).classList.add('match');cname=x[1]}});
+  var marks=[];
+  T.mk.rows.forEach(function(m,i){
+    if(m[0]===S[0]){
+      R6.mk.row(i).classList.add('match');
+      T.sb.rows.forEach(function(sv,j){if(sv[0]===m[1]){R6.sb.row(j).classList.add('match');marks.push(sv[1]+' '+m[2])}});
+    }
+  });
+  var txt='📄 <b>'+S[1]+'</b> (رقم '+S[0]+') في الصف <b>'+cname+'</b>. ';
+  txt+=marks.length?'علاماته: '+marks.join('، ')+'.':'لا توجد له علامات في جدول العلامة.';
+  $('o6').className='out good'; $('o6').innerHTML=txt;
+}
+
+/* 7: quiz */
+var QUIZ=[
+ {q:"طريقة لتخزين البيانات المتجانسة دون تكرار في جداول مرتبطة مع بعضها بعلاقات:",o:["قاعدة البيانات","الحقل","السجل","المفتاح الأجنبي"],a:0,e:"هذا تعريف قاعدة البيانات."},
+ {q:"يمثل العمود في الجدول:",o:["السجل","الحقل","العلاقة","المفتاح المركب"],a:1,e:"الحقل يمثل العمود، والسجل يمثل الصف."},
+ {q:"يمثل الصف في الجدول:",o:["الحقل","المفتاح الأساسي","السجل","العلاقة"],a:2,e:"السجل مجموعة عناصر ذات علاقة، ويمثل الصف."},
+ {q:"أيّهما تكون بياناته من نفس النوع؟",o:["السجل","الحقل","كلاهما","لا شيء منهما"],a:1,e:"بيانات الحقل من نفس النوع، أما السجل فيضم عدة أنواع."},
+ {q:"(220، حسن، 2) في جدول الطالب تمثل:",o:["حقلاً","سجلاً","مفتاحاً أجنبياً","جدولاً"],a:1,e:"هي صف كامل يجمع بيانات الطالب حسن، أي سجل."},
+ {q:"من شروط المفتاح الأساسي أن يكون:",o:["فريداً ولا يُترك فارغاً","مكرراً ويمكن تركه فارغاً","فريداً ويمكن تركه فارغاً","نصاً دائماً"],a:0,e:"المفتاح الأساسي فريد ولا يُترك فارغاً."},
+ {q:"المفتاح الأساسي لجدول الطالب هو:",o:["اسم الطالب","رقم الصف","رقم الطالب","العلامة"],a:2,e:"رقم الطالب فريد ولا يُترك فارغاً، ويُعرف السجل من خلاله."},
+ {q:"لا يصلح «رقم الصف» مفتاحاً أساسياً لجدول الطالب لأنه:",o:["يتكرر","رقم","آخر حقل في الجدول","فارغ"],a:0,e:"الرقم 2 لحسن وحسين، والرقم 3 لمحمد وخليل."},
+ {q:"«رقم الصف» في جدول الطالب يُعدّ:",o:["مفتاحاً أساسياً","مفتاحاً أجنبياً","مفتاحاً مركباً","ليس مفتاحاً"],a:1,e:"هو مفتاح أساسي في جدول الصف، ويربط جدول الطالب به."},
+ {q:"حقل يكون مفتاحاً أساسياً في جدول آخر ويُستخدم للربط بين الجداول:",o:["المفتاح الأساسي","المفتاح المركب","المفتاح الأجنبي","السجل"],a:2,e:"هذا تعريف المفتاح الأجنبي."},
+ {q:"المفتاح الأساسي لجدول العلامة هو:",o:["رقم الطالب","رقم الموضوع","العلامة","رقم الطالب + رقم الموضوع"],a:3,e:"كل منهما وحده يتكرر، أما معاً فلا يتكرران، فهما مفتاح مركب."},
+ {q:"طرفا العلاقة بين جدولين هما:",o:["حقلان عاديان","مفتاح أساسي ومفتاح أجنبي","سجلان","مفتاحان مركبان"],a:1,e:"العلاقة يكون أحد طرفيها مفتاحاً أساسياً والآخر مفتاحاً أجنبياً."}
+];
+var quizStarted=false, qi=0, score=0, answered=false;
+function startQuiz(){quizStarted=true;qi=0;score=0;renderQ()}
+function renderQ(){
+  answered=false;
+  $('qbar').style.width=(qi/QUIZ.length*100)+'%';
+  if(qi>=QUIZ.length) return renderResult();
+  var Q=QUIZ[qi], marks=["أ","ب","ج","د"];
+  var h='<div class="qmeta"><span>السؤال '+toAr(qi+1)+' من '+toAr(QUIZ.length)+'</span><span id="qsc">النقاط: '+toAr(score)+'</span></div>';
+  h+='<div class="qtext">'+Q.q+'</div><div class="opts">';
+  Q.o.forEach(function(op,k){h+='<button class="opt" onclick="answer('+k+')"><span class="mk">'+marks[k]+'</span><span>'+op+'</span></button>'});
+  h+='</div><div class="explain" id="explain"></div><div class="navbtns"><span></span><button class="btn btn-main" id="nextQ" onclick="nextQ()" disabled>التالي ‹</button></div>';
+  $('qwrap').innerHTML=h;
+}
+function answer(k){
+  if(answered) return; answered=true;
+  var Q=QUIZ[qi], opts=document.querySelectorAll('#qwrap .opt');
+  opts.forEach(function(o){o.classList.add('locked')});
+  opts[Q.a].classList.add('correct');
+  if(k===Q.a) score++; else opts[k].classList.add('wrong');
+  var ex=$('explain');
+  ex.innerHTML=(k===Q.a?'✅ إجابة صحيحة! ':'❌ ليست صحيحة. ')+Q.e; ex.classList.add('show');
+  $('nextQ').disabled=false;
+  $('qsc').textContent='النقاط: '+toAr(score);
+}
+function nextQ(){qi++;renderQ()}
+function renderResult(){
+  $('qbar').style.width='100%';
+  var pct=Math.round(score/QUIZ.length*100);
+  var msg=pct>=80?"ممتاز! أتقنت الدرس.":pct>=50?"جيد، راجع المحطات التي أخطأت فيها.":"لا بأس، أعد المحطات ثم حاول مجدداً.";
+  $('qwrap').innerHTML='<div class="result"><div class="scorebig">'+toAr(score)+'/'+toAr(QUIZ.length)+'</div><p class="lead" style="margin:10px 0">'+msg+'</p><div class="navbtns" style="justify-content:center;gap:10px"><button class="btn btn-ghost" onclick="startQuiz()">أعد التقويم</button><button class="btn btn-main" onclick="go(8)">الواجب المنزلي ‹</button></div></div>';
+}
+</script></body></html>
