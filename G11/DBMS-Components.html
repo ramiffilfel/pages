@@ -1,0 +1,414 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>DBMS Components - Interactive Lesson</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@400;500;600;700&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#152238; --ink-soft:#41506b; --paper:#F5F3EC; --card:#ffffff; --wire:#CDC6B6;
+  --teal:#0E9C8C; --teal-dark:#0a6e63; --teal-soft:#E1F3F0;
+  --amber:#E7973A; --amber-soft:#FBEDDB; --amber-dark:#a8620f;
+  --coral:#E4644E; --coral-soft:#FBE7E2; --coral-dark:#b8412c;
+  --indigo:#4C5FD5; --indigo-soft:#E7E9FB;
+  --plum:#8A4FC0; --plum-soft:#F1E8FA;
+  --green:#2E9E63; --green-soft:#E1F2E8; --red:#D8463F; --red-soft:#FAE3E2;
+  --bar:#152238; --bar-ink:#ffffff; --bar-sub:#b9c2d6;
+  --shadow:0 10px 30px rgba(21,34,56,.10);
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ink:#E9EDF4; --ink-soft:#A9B4C6; --paper:#11161E; --card:#1A212C; --wire:#34404F;
+    --teal:#2BB8A7; --teal-dark:#5FD6C6; --teal-soft:#123331;
+    --amber:#E9A24F; --amber-soft:#35291A; --amber-dark:#F0BC72;
+    --coral:#EE7D69; --coral-soft:#3A221F; --coral-dark:#F39B8B;
+    --indigo:#8D9BF0; --indigo-soft:#1F2442;
+    --plum:#B88BE6; --plum-soft:#2C2240;
+    --green:#5CC98E; --green-soft:#16301F; --red:#F0766F; --red-soft:#3A1E1D;
+    --bar:#243044; --bar-ink:#ffffff; --bar-sub:#b9c2d6;
+    --shadow:0 10px 30px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+    --ink:#E9EDF4; --ink-soft:#A9B4C6; --paper:#11161E; --card:#1A212C; --wire:#34404F;
+    --teal:#2BB8A7; --teal-dark:#5FD6C6; --teal-soft:#123331;
+    --amber:#E9A24F; --amber-soft:#35291A; --amber-dark:#F0BC72;
+    --coral:#EE7D69; --coral-soft:#3A221F; --coral-dark:#F39B8B;
+    --indigo:#8D9BF0; --indigo-soft:#1F2442;
+    --plum:#B88BE6; --plum-soft:#2C2240;
+    --green:#5CC98E; --green-soft:#16301F; --red:#F0766F; --red-soft:#3A1E1D;
+    --bar:#243044; --bar-ink:#ffffff; --bar-sub:#b9c2d6;
+    --shadow:0 10px 30px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background-color:var(--paper);color:var(--ink);
+  font-family:"Tajawal",Tahoma,"Segoe UI",sans-serif;line-height:1.75;
+  background-image:radial-gradient(var(--wire) .8px,transparent .8px);background-size:26px 26px}
+.wrap{max-width:920px;margin:0 auto;padding:20px 18px 60px}
+h1,h2,h3{font-family:"Reem Kufi",Tahoma,sans-serif;font-weight:600;line-height:1.35;margin:0}
+.k{font-family:"Reem Kufi",Tahoma,sans-serif}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;
+  background:var(--bar);color:var(--bar-ink);border-radius:16px;padding:14px 20px;box-shadow:var(--shadow);margin-bottom:18px}
+.topbar h1{font-size:21px}
+.topbar .sub{font-size:13px;color:var(--bar-sub)}
+.badge{background:var(--teal);color:#fff;font-size:12px;padding:5px 12px;border-radius:999px;font-family:"Reem Kufi",Tahoma,sans-serif;white-space:nowrap}
+.card{background:var(--card);border-radius:18px;padding:26px;box-shadow:var(--shadow);border:1px solid var(--wire)}
+.eyebrow{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:13px;color:var(--teal-dark);background:var(--teal-soft);
+  display:inline-block;padding:4px 12px;border-radius:999px;margin-bottom:12px}
+h2.title{font-size:26px;margin-bottom:8px}
+.lead{color:var(--ink-soft);font-size:16px;margin:0 0 8px}
+.hint{font-size:14px;color:var(--amber-dark);background:var(--amber-soft);border-radius:10px;
+  padding:9px 14px;display:inline-flex;gap:8px;align-items:center;margin-top:6px}
+.dfn{background:var(--teal-soft);border:1.5px solid var(--teal);border-radius:14px;padding:16px 18px;margin:14px 0}
+.dfn .dfn-t{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14px;color:var(--teal-dark);margin-bottom:4px}
+.dfn .dfn-b{font-size:17px;line-height:1.7}
+.dfn .dfn-b b{color:var(--teal-dark)}
+.example{display:flex;gap:14px;align-items:flex-start;background:var(--coral-soft);
+  border:1.5px dashed var(--coral);border-radius:14px;padding:14px 16px;margin:14px 0}
+.example .ex-ic{font-size:30px;flex-shrink:0}
+.example .ex-h{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14px;color:var(--coral-dark);margin-bottom:3px}
+.example .ex-b{font-size:14.5px;line-height:1.65}
+.example .ex-b b{color:var(--coral-dark)}
+.teacher{background:var(--bar);color:var(--bar-ink);border-radius:16px;padding:18px 22px;margin-top:22px;
+  display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;box-shadow:var(--shadow)}
+.teacher .tt{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:12px;color:var(--bar-sub)}
+.teacher .tn{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:19px;margin-top:2px}
+.teacher .tp{direction:ltr;font-size:14px;color:var(--bar-sub);margin-top:4px;text-align:right}
+.teacher a.wa{display:inline-flex;align-items:center;gap:8px;background:#25D366;color:#04331a;
+  font-family:"Reem Kufi",Tahoma,sans-serif;font-size:15px;text-decoration:none;padding:10px 18px;border-radius:12px}
+.teacher a.wa:hover{filter:brightness(1.06)}
+.teacher a.wa:focus-visible{outline:3px solid #fff;outline-offset:2px}
+@media (max-width:560px){
+  .wrap{padding:14px 12px 50px}
+  .topbar h1{font-size:17px} h2.title{font-size:22px}
+  .card{padding:18px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.rail{display:flex;gap:6px;margin:0 0 20px;flex-wrap:wrap}
+.rail button{flex:1 1 0;min-width:84px;background:var(--card);border:1.5px solid var(--wire);
+  border-radius:12px;padding:9px 6px;cursor:pointer;font-family:"Reem Kufi",Tahoma,sans-serif;font-size:12px;
+  color:var(--ink-soft);transition:.2s;display:flex;align-items:center;justify-content:center;gap:6px}
+.rail button .n{width:20px;height:20px;border-radius:50%;background:var(--paper);border:1.5px solid var(--wire);
+  display:inline-flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0}
+.rail button.active{border-color:var(--teal);color:var(--teal-dark);background:var(--teal-soft)}
+.rail button.active .n{background:var(--teal);color:#fff;border-color:var(--teal)}
+.rail button.done .n{background:var(--green);color:#fff;border-color:var(--green)}
+.station{display:none;animation:fade .45s ease both}
+.station.on{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.navbtns{display:flex;justify-content:space-between;margin-top:20px;gap:10px}
+.btn{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:15px;border:none;border-radius:12px;padding:12px 24px;cursor:pointer;transition:.15s}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn-main{background:var(--teal);color:#fff}
+.btn-main:hover:not(:disabled){background:var(--teal-dark)}
+.btn-ghost{background:var(--paper);color:var(--ink-soft);border:1.5px solid var(--wire)}
+.btn:focus-visible,.rail button:focus-visible,.item:focus-visible,.opt:focus-visible{outline:3px solid var(--indigo);outline-offset:2px}
+.hero{text-align:center;padding:34px 22px}
+.hero h2{font-size:30px;margin-bottom:6px}
+.chain{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:8px;margin:22px 0 6px}
+.chip{display:flex;flex-direction:column;align-items:center;min-width:92px;padding:12px 10px;border-radius:14px;
+  font-family:"Reem Kufi",Tahoma,sans-serif;font-size:13.5px;border:1.5px solid transparent;transition:.3s}
+.chip .e{font-size:30px;line-height:1.2}
+.chip .s{font-size:11px;opacity:.8}
+.chip.lit{transform:translateY(-4px);box-shadow:var(--shadow)}
+.c-hw{background:var(--amber-soft);color:var(--amber-dark);border-color:var(--amber)}
+.c-sw{background:var(--teal-soft);color:var(--teal-dark);border-color:var(--teal)}
+.c-us{background:var(--coral-soft);color:var(--coral-dark);border-color:var(--coral)}
+.plus{font-size:22px;color:var(--ink-soft);font-weight:700}
+/* clickable component list */
+.items{display:flex;flex-direction:column;gap:10px;margin-top:14px}
+.item{border:1.5px solid;border-radius:14px;padding:14px 16px;cursor:pointer;text-align:right;font-family:inherit;color:var(--ink);width:100%;background:var(--card)}
+.item .ih{display:flex;justify-content:space-between;align-items:center;gap:10px;font-family:"Reem Kufi",Tahoma,sans-serif;font-size:17px}
+.item .ih .lbl{display:flex;align-items:center;gap:10px}
+.item .ih .e{font-size:24px}
+.item .ib{max-height:0;overflow:hidden;opacity:0;transition:.3s;font-size:14.5px}
+.item.open .ib{max-height:420px;opacity:1;margin-top:10px}
+.item.hw{border-color:var(--amber);background:var(--amber-soft)} .item.hw .ih{color:var(--amber-dark)}
+.item.sw{border-color:var(--teal);background:var(--teal-soft)} .item.sw .ih{color:var(--teal-dark)}
+.item.us{border-color:var(--coral);background:var(--coral-soft)} .item.us .ih{color:var(--coral-dark)}
+.taglist{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.taglist span{background:var(--card);border:1px solid var(--wire);border-radius:999px;padding:4px 12px;font-size:13px;font-family:"Reem Kufi",Tahoma,sans-serif}
+.sub{background:var(--card);border:1px solid var(--wire);border-radius:12px;padding:12px 14px;margin-top:8px}
+.sub .sh{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:15px;color:var(--teal-dark);margin-bottom:3px}
+.sub .sb{font-size:14px;color:var(--ink-soft)}
+.roles{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:8px}
+@media (max-width:560px){.roles{grid-template-columns:1fr}}
+.role{background:var(--card);border:1px solid var(--wire);border-radius:10px;padding:10px 12px}
+.role h4{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14px;margin:0 0 3px;color:var(--coral-dark)}
+.role p{margin:0;font-size:13px;color:var(--ink-soft);line-height:1.5}
+.types{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.types span{background:var(--card);border:1px solid var(--wire);border-radius:999px;padding:4px 12px;font-size:13px;font-family:"Reem Kufi",Tahoma,sans-serif;color:var(--coral-dark)}
+/* questions */
+.qblock{margin-top:16px}
+.qh{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:17px;color:var(--amber-dark);background:var(--amber-soft);border-radius:10px;padding:8px 14px;display:inline-block;margin-bottom:6px}
+.qtxt{font-size:16px;margin:4px 0}
+.line{display:block;border-bottom:1.5px dotted var(--wire);height:2em}
+/* quiz */
+.qmeta{display:flex;justify-content:space-between;align-items:center;font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14px;color:var(--ink-soft);margin-bottom:8px}
+.qtext{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:19px;margin:6px 0 16px;line-height:1.5}
+.opts{display:flex;flex-direction:column;gap:10px}
+.opt{text-align:right;background:var(--card);border:1.5px solid var(--wire);border-radius:12px;padding:13px 16px;
+  cursor:pointer;font-family:"Tajawal",Tahoma,sans-serif;font-size:15.5px;color:var(--ink);transition:.15s;display:flex;align-items:center;gap:10px;width:100%}
+.opt:hover:not(.locked){border-color:var(--teal)}
+.opt .mk{width:24px;height:24px;border-radius:50%;border:1.5px solid var(--wire);flex-shrink:0;
+  display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-family:"Reem Kufi",Tahoma,sans-serif;color:var(--ink-soft)}
+.opt.correct{background:var(--green-soft);border-color:var(--green);color:var(--green)}
+.opt.correct .mk{background:var(--green);border-color:var(--green);color:#fff}
+.opt.wrong{background:var(--red-soft);border-color:var(--red);color:var(--red)}
+.opt.wrong .mk{background:var(--red);border-color:var(--red);color:#fff}
+.opt.locked{cursor:default}
+.explain{margin-top:14px;background:var(--indigo-soft);color:var(--indigo);border-radius:12px;padding:12px 16px;font-size:14px;display:none}
+.explain.show{display:block;animation:fade .3s ease both}
+.result{text-align:center;padding:20px 10px}
+.scorebig{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:52px;color:var(--teal);line-height:1}
+.progress-quiz{height:8px;background:var(--paper);border-radius:99px;overflow:hidden;margin:4px 0 14px;border:1px solid var(--wire)}
+.progress-quiz i{display:block;height:100%;background:var(--teal);width:0;transition:.3s}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar">
+    <div>
+      <h1 class="k">مكوّنات أنظمة إدارة قواعد البيانات</h1>
+      <div class="sub">الصف الحادي عشر العلمي · وحدة قواعد البيانات</div>
+    </div>
+    <span class="badge">درس تفاعلي</span>
+  </div>
+
+  <nav class="rail" id="rail" aria-label="محطات الدرس"></nav>
+
+  <!-- 0 HERO -->
+  <section class="station on" id="s0">
+    <div class="card hero">
+      <span class="eyebrow">فكرة اليوم 🧩</span>
+      <h2 class="k">ثلاثة أركان<br>يقوم عليها أيّ نظام</h2>
+      <p class="lead">مثلما لا يعمل المطعم بمبناه وحده، بل يحتاج <b>مبنى وتجهيزات</b>، و<b>نظام عمل</b>، و<b>أشخاصاً</b>، كذلك نظام إدارة قواعد البيانات يقوم على ثلاثة مكوّنات تعمل معاً.</p>
+      <div class="chain" aria-label="المكوّنات الثلاثة">
+        <div class="chip c-hw" id="h0"><span class="e">🖥️</span>المكوّنات المادية<span class="s">Hardware</span></div><span class="plus">+</span>
+        <div class="chip c-sw" id="h1"><span class="e">💿</span>المكوّنات البرمجية<span class="s">Software</span></div><span class="plus">+</span>
+        <div class="chip c-us" id="h2"><span class="e">👥</span>المستخدمون<span class="s">Users</span></div>
+      </div>
+      <div class="hint">🎨 لكل مكوّن لون ثابت في الدرس — تابع الألوان.</div>
+      <div class="navbtns" style="justify-content:center"><button class="btn btn-main" onclick="go(1)">لنبدأ ‹</button></div>
+    </div>
+  </section>
+
+  <!-- 1 HARDWARE -->
+  <section class="station" id="s1">
+    <div class="card">
+      <span class="eyebrow">المكوّن ١ · المادية</span>
+      <h2 class="title k">المكوّنات المادية · Hardware</h2>
+      <div class="dfn">
+        <div class="dfn-t">📌 التعريف</div>
+        <div class="dfn-b">جميع <b>المعدّات الملموسة</b> وأجهزة الاتصال في قواعد البيانات.</div>
+      </div>
+      <div class="example">
+        <div class="ex-ic">🏗️</div>
+        <div><div class="ex-h">في المطعم</div>
+        <div class="ex-b"><b>المبنى والتجهيزات:</b> الأفران، الثلاجات، الطاولات. كل ما يمكنك لمسه بيدك.</div></div>
+      </div>
+      <p class="lead">من أمثلتها:</p>
+      <div class="taglist">
+        <span>🖥️ الخوادم (Servers)</span>
+        <span>💻 الحواسيب (Computers)</span>
+        <span>🖨️ الطابعات (Printers)</span>
+        <span>💽 وسائط التخزين المختلفة (Storage Media)</span>
+      </div>
+      <div class="navbtns">
+        <button class="btn btn-ghost" onclick="go(0)">›</button>
+        <button class="btn btn-main" onclick="go(2)">التالي: البرمجية ‹</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 SOFTWARE -->
+  <section class="station" id="s2">
+    <div class="card">
+      <span class="eyebrow">المكوّن ٢ · البرمجية</span>
+      <h2 class="title k">المكوّنات البرمجية · Software</h2>
+      <p class="lead">وهي ثلاثة أنواع. اضغط كلاً منها لتفتحه.</p>
+      <div class="hint">✦ لاحظ: نظام التشغيل هو الحاضنة التي تعمل بداخلها بقية البرمجيات.</div>
+      <div class="items">
+        <button class="item sw" onclick="this.classList.toggle('open')">
+          <div class="ih"><span class="lbl"><span class="e">⚙️</span>أ. أنظمة التشغيل · O.S</span><span>＋</span></div>
+          <div class="ib">مجموعة برمجيات تقوم بإدارة وتشغيل أجهزة الحاسوب، وتُعتبر <b>كحاضنة للبرمجيات الأخرى</b> ضمن نظام التشغيل.</div>
+        </button>
+        <button class="item sw" onclick="this.classList.toggle('open')">
+          <div class="ih"><span class="lbl"><span class="e">🗄️</span>ب. برمجيات قواعد البيانات</span><span>＋</span></div>
+          <div class="ib">مجموعة البرامج المسؤولة عن <b>تصميم ومعالجة</b> قواعد البيانات، مثل:
+            <div class="taglist">
+              <span>لغة الاستعلام البنيوية (SQL)</span>
+              <span>برامج تصميم نماذج الإدخال والإخراج (Screen Formatter)</span>
+              <span>برامج النسخ الاحتياطي (Backup)</span>
+              <span>برامج توزيع قواعد البيانات (Distribution)</span>
+            </div>
+          </div>
+        </button>
+        <button class="item sw" onclick="this.classList.toggle('open')">
+          <div class="ih"><span class="lbl"><span class="e">🖥️</span>ج. البرمجيات التطبيقية</span><span>＋</span></div>
+          <div class="ib">مجموعة البرامج والواجهات التي يبنيها <b>المبرمجون</b> للشركات والمؤسسات والوزارات، مثل:
+            <div class="taglist">
+              <span>برامج التسجيل الجامعي</span>
+              <span>برامج المحاسبة التجارية</span>
+              <span>برامج الصيدليات</span>
+              <span>محطات الوقود</span>
+            </div>
+          </div>
+        </button>
+      </div>
+      <div class="navbtns">
+        <button class="btn btn-ghost" onclick="go(1)">›</button>
+        <button class="btn btn-main" onclick="go(3)">التالي: المستخدمون ‹</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 USERS -->
+  <section class="station" id="s3">
+    <div class="card">
+      <span class="eyebrow">المكوّن ٣ · المستخدمون</span>
+      <h2 class="title k">مستخدمو قواعد البيانات · Users</h2>
+      <p class="lead">الأشخاص الذين يستخدمون أو يديرون قاعدة البيانات ومحتوياتها، والذين يصمّمون ويطوّرون ويحافظون على تطبيقاتها. وهناك <b>قسمان رئيسان</b>.</p>
+      <div class="items">
+        <button class="item us" onclick="this.classList.toggle('open')">
+          <div class="ih"><span class="lbl"><span class="e">🕵️</span>١. المستخدم غير المباشر</span><span>＋</span></div>
+          <div class="ib"><i>Workers Behind the Scene</i> — ومن أمثلتهم:
+            <div class="roles">
+              <div class="role"><h4>مدير قواعد البيانات (DBA)</h4><p>مسؤول عن استمرار عمل القاعدة: التصميم والتنفيذ والتشغيل، النسخ الاحتياطي، استعادة النظام، مراقبة الأداء وتحديثه، ومنح الصلاحيات.</p></div>
+              <div class="role"><h4>مصمّم ومحلّل القاعدة (Designer)</h4><p>مسؤول عن التعريف بمحتوى القاعدة وشروطها ووظائفها، وتحليلها بالتواصل مع المستخدم النهائي وفهم احتياجاته.</p></div>
+              <div class="role"><h4>المبرمجون (Programmers)</h4><p>مُوكَل لهم ترجمة القاعدة إلى لغة يفهمها الحاسوب، وكتابة البرامج التطبيقية والتأكد من دقّة نتائجها.</p></div>
+            </div>
+          </div>
+        </button>
+        <button class="item us" onclick="this.classList.toggle('open')">
+          <div class="ih"><span class="lbl"><span class="e">🙋</span>٢. المستخدم المباشر</span><span>＋</span></div>
+          <div class="ib"><i>Actors on the Scene</i> — المستخدم النهائي (End User) الذي يتعامل مع واجهات النظام وعملياته المختلفة. ويُصنَّف إلى:
+            <div class="types"><span>الدائم</span><span>النادر</span><span>المركّب</span><span>الوحيد</span></div>
+          </div>
+        </button>
+      </div>
+      <div class="navbtns">
+        <button class="btn btn-ghost" onclick="go(2)">›</button>
+        <button class="btn btn-main" onclick="go(4)">التالي: أسئلة الدرس ‹</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 TWO QUESTIONS -->
+  <section class="station" id="s4">
+    <div class="card">
+      <span class="eyebrow">📝 أسئلة الدرس</span>
+      <h2 class="title k">أجب في دفترك</h2>
+      <div class="qblock">
+        <div class="qh">السؤال الأول</div>
+        <div class="qtxt">عدّد المكوّنات المادية لأنظمة إدارة قواعد البيانات (ثلاثة على الأقل).<span class="line"></span></div>
+      </div>
+      <div class="qblock">
+        <div class="qh">السؤال الثاني</div>
+        <div class="qtxt">اذكر أربعة أنظمة تشغيل درستها سابقاً، مبيّناً ميزة لكلٍّ منها.<span class="line"></span><span class="line"></span></div>
+      </div>
+      <div class="navbtns">
+        <button class="btn btn-ghost" onclick="go(3)">›</button>
+        <button class="btn btn-main" onclick="go(5)">التقويم ‹</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 QUIZ -->
+  <section class="station" id="s5">
+    <div class="card">
+      <span class="eyebrow">التقويم · اختيار من متعدد</span>
+      <h2 class="title k">اختبر فهمك</h2>
+      <div class="progress-quiz"><i id="qbar"></i></div>
+      <div id="qwrap"></div>
+    </div>
+  </section>
+
+  <div class="teacher">
+    <div>
+      <div class="tt">إعداد الأستاذ</div>
+      <div class="tn">رامي فتحي فلفل</div>
+      <div class="tp">هاتف / واتساب: +972&nbsp;59&nbsp;788&nbsp;0216</div>
+    </div>
+    <a class="wa" href="https://wa.me/972597880216" target="_blank" rel="noopener">💬 تواصل عبر واتساب</a>
+  </div>
+</div>
+
+<script>
+var STATIONS=["البداية","المادية","البرمجية","المستخدمون","الأسئلة","التقويم"];
+var cur=0, visited={0:true}, rail=document.getElementById('rail');
+function toAr(n){return String(n).replace(/[0-9]/g,function(d){return "٠١٢٣٤٥٦٧٨٩"[d]})}
+STATIONS.forEach(function(t,i){
+  var b=document.createElement('button');
+  b.innerHTML='<span class="n">'+toAr(i+1)+'</span>'+t;
+  b.onclick=function(){go(i)}; rail.appendChild(b);
+});
+function go(i){
+  document.getElementById('s'+cur).classList.remove('on');
+  cur=i; visited[i]=true;
+  document.getElementById('s'+i).classList.add('on');
+  updRail(); window.scrollTo({top:0,behavior:'smooth'});
+  if(i===5 && !quizStarted) startQuiz();
+}
+function updRail(){[].forEach.call(rail.children,function(b,i){
+  b.classList.toggle('active',i===cur); b.classList.toggle('done',!!visited[i] && i!==cur);});}
+updRail();
+
+/* hero chain pulse */
+(function(){
+  if(matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+  var k=0; setInterval(function(){
+    for(var j=0;j<3;j++) document.getElementById('h'+j).classList.toggle('lit',j===k);
+    k=(k+1)%3;
+  },950);
+})();
+
+/* quiz */
+var QUIZ=[
+ {q:"مكوّنات أنظمة إدارة قواعد البيانات هي:",o:["المادية والبرمجية والمستخدمون","الداخلي والمنطقي والخارجي","الهرمي والشبكي والعلائقي","الإضافة والحذف والعرض"],a:0,e:"ثلاثة مكوّنات: المادية (Hardware)، والبرمجية (Software)، والمستخدمون (Users)."},
+ {q:"أيّ مما يأتي يُعدّ من المكوّنات المادية؟",o:["لغة الاستعلام SQL","الخوادم ووسائط التخزين","مدير قواعد البيانات","برامج النسخ الاحتياطي"],a:1,e:"المكوّنات المادية هي المعدّات الملموسة: الخوادم، الحواسيب، الطابعات، وسائط التخزين."},
+ {q:"البرمجيات التي تُعتبر حاضنة لبقية البرمجيات هي:",o:["البرمجيات التطبيقية","برمجيات قواعد البيانات","أنظمة التشغيل","لغة SQL"],a:2,e:"أنظمة التشغيل (O.S) تدير وتشغّل الأجهزة، وتُعتبر حاضنة للبرمجيات الأخرى."},
+ {q:"برامج التسجيل الجامعي والمحاسبة التجارية والصيدليات مثال على:",o:["البرمجيات التطبيقية","أنظمة التشغيل","المكوّنات المادية","وسائط التخزين"],a:0,e:"البرمجيات التطبيقية يبنيها المبرمجون للشركات والمؤسسات والوزارات."},
+ {q:"مدير قواعد البيانات (DBA) يُصنّف ضمن:",o:["المستخدم المباشر","المستخدم غير المباشر","المكوّنات المادية","أنظمة التشغيل"],a:1,e:"DBA من المستخدم غير المباشر (Workers Behind the Scene)، ومهامه: التشغيل والنسخ الاحتياطي ومنح الصلاحيات وغيرها."}
+];
+var quizStarted=false, qi=0, score=0, answered=false;
+function startQuiz(){quizStarted=true;qi=0;score=0;renderQ()}
+function renderQ(){
+  answered=false;
+  document.getElementById('qbar').style.width=(qi/QUIZ.length*100)+'%';
+  if(qi>=QUIZ.length) return renderResult();
+  var Q=QUIZ[qi], marks=["أ","ب","ج","د"];
+  var h='<div class="qmeta"><span>السؤال '+toAr(qi+1)+' من '+toAr(QUIZ.length)+'</span><span id="qsc">النقاط: '+toAr(score)+'</span></div>';
+  h+='<div class="qtext">'+Q.q+'</div><div class="opts">';
+  Q.o.forEach(function(op,k){h+='<button class="opt" onclick="answer('+k+')"><span class="mk">'+marks[k]+'</span><span>'+op+'</span></button>'});
+  h+='</div><div class="explain" id="explain"></div><div class="navbtns"><span></span><button class="btn btn-main" id="nextQ" onclick="nextQ()" disabled>التالي ‹</button></div>';
+  document.getElementById('qwrap').innerHTML=h;
+}
+function answer(k){
+  if(answered) return; answered=true;
+  var Q=QUIZ[qi], opts=document.querySelectorAll('#qwrap .opt');
+  opts.forEach(function(o){o.classList.add('locked')});
+  opts[Q.a].classList.add('correct');
+  if(k===Q.a) score++; else opts[k].classList.add('wrong');
+  var ex=document.getElementById('explain');
+  ex.innerHTML=(k===Q.a?'✅ إجابة صحيحة! ':'❌ ليست صحيحة. ')+Q.e; ex.classList.add('show');
+  document.getElementById('nextQ').disabled=false;
+  document.getElementById('qsc').textContent='النقاط: '+toAr(score);
+}
+function nextQ(){qi++;renderQ()}
+function renderResult(){
+  document.getElementById('qbar').style.width='100%';
+  var pct=Math.round(score/QUIZ.length*100);
+  var msg=pct>=80?"ممتاز! أتقنت الدرس.":pct>=50?"جيد، راجع النقاط التي أخطأت فيها.":"لا بأس، أعد قراءة المحطات ثم حاول مجدداً.";
+  document.getElementById('qwrap').innerHTML='<div class="result"><div class="scorebig">'+toAr(score)+'/'+toAr(QUIZ.length)+'</div><p class="lead" style="margin:10px 0">'+msg+'</p><div class="navbtns" style="justify-content:center;gap:10px"><button class="btn btn-ghost" onclick="go(0)">↺ من البداية</button><button class="btn btn-main" onclick="startQuiz()">أعد التقويم</button></div></div>';
+}
+</script>
+</body></html>
+
+</body></html>
