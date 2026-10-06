@@ -1,0 +1,487 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Relational Database Model</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@400;500;600;700&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#152238; --ink-soft:#41506b; --paper:#F5F3EC; --card:#ffffff; --wire:#CDC6B6;
+  --teal:#0E9C8C; --teal-dark:#0a6e63; --teal-soft:#E1F3F0;
+  --amber:#E7973A; --amber-soft:#FBEDDB; --amber-dark:#a8620f;
+  --coral:#E4644E; --coral-soft:#FBE7E2; --coral-dark:#b8412c;
+  --indigo:#4C5FD5; --indigo-soft:#E7E9FB;
+  --plum:#8A4FC0; --plum-soft:#F1E8FA;
+  --green:#2E9E63; --green-soft:#E1F2E8; --red:#D8463F; --red-soft:#FAE3E2;
+  --bar:#152238; --bar-ink:#ffffff; --bar-sub:#b9c2d6;
+  --shadow:0 10px 30px rgba(21,34,56,.10);
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ink:#E9EDF4; --ink-soft:#A9B4C6; --paper:#11161E; --card:#1A212C; --wire:#34404F;
+    --teal:#2BB8A7; --teal-dark:#5FD6C6; --teal-soft:#123331;
+    --amber:#E9A24F; --amber-soft:#35291A; --amber-dark:#F0BC72;
+    --coral:#EE7D69; --coral-soft:#3A221F; --coral-dark:#F39B8B;
+    --indigo:#8D9BF0; --indigo-soft:#1F2442;
+    --plum:#B88BE6; --plum-soft:#2C2240;
+    --green:#5CC98E; --green-soft:#16301F; --red:#F0766F; --red-soft:#3A1E1D;
+    --bar:#243044; --bar-ink:#ffffff; --bar-sub:#b9c2d6;
+    --shadow:0 10px 30px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+    --ink:#E9EDF4; --ink-soft:#A9B4C6; --paper:#11161E; --card:#1A212C; --wire:#34404F;
+    --teal:#2BB8A7; --teal-dark:#5FD6C6; --teal-soft:#123331;
+    --amber:#E9A24F; --amber-soft:#35291A; --amber-dark:#F0BC72;
+    --coral:#EE7D69; --coral-soft:#3A221F; --coral-dark:#F39B8B;
+    --indigo:#8D9BF0; --indigo-soft:#1F2442;
+    --plum:#B88BE6; --plum-soft:#2C2240;
+    --green:#5CC98E; --green-soft:#16301F; --red:#F0766F; --red-soft:#3A1E1D;
+    --bar:#243044; --bar-ink:#ffffff; --bar-sub:#b9c2d6;
+    --shadow:0 10px 30px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background-color:var(--paper);color:var(--ink);
+  font-family:"Tajawal",Tahoma,"Segoe UI",sans-serif;line-height:1.75;
+  background-image:radial-gradient(var(--wire) .8px,transparent .8px);background-size:26px 26px}
+.wrap{max-width:920px;margin:0 auto;padding:20px 18px 60px}
+h1,h2,h3{font-family:"Reem Kufi",Tahoma,sans-serif;font-weight:600;line-height:1.35;margin:0}
+.k{font-family:"Reem Kufi",Tahoma,sans-serif}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;
+  background:var(--bar);color:var(--bar-ink);border-radius:16px;padding:14px 20px;box-shadow:var(--shadow);margin-bottom:18px}
+.topbar h1{font-size:21px}
+.topbar .sub{font-size:13px;color:var(--bar-sub)}
+.badge{background:var(--teal);color:#fff;font-size:12px;padding:5px 12px;border-radius:999px;font-family:"Reem Kufi",Tahoma,sans-serif;white-space:nowrap}
+.card{background:var(--card);border-radius:18px;padding:26px;box-shadow:var(--shadow);border:1px solid var(--wire)}
+.eyebrow{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:13px;color:var(--teal-dark);background:var(--teal-soft);
+  display:inline-block;padding:4px 12px;border-radius:999px;margin-bottom:12px}
+h2.title{font-size:26px;margin-bottom:8px}
+.lead{color:var(--ink-soft);font-size:16px;margin:0 0 8px}
+.hint{font-size:14px;color:var(--amber-dark);background:var(--amber-soft);border-radius:10px;
+  padding:9px 14px;display:inline-flex;gap:8px;align-items:center;margin-top:6px}
+.dfn{background:var(--teal-soft);border:1.5px solid var(--teal);border-radius:14px;padding:16px 18px;margin:14px 0}
+.dfn .dfn-t{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14px;color:var(--teal-dark);margin-bottom:4px}
+.dfn .dfn-b{font-size:17px;line-height:1.7}
+.dfn .dfn-b b{color:var(--teal-dark)}
+.example{display:flex;gap:14px;align-items:flex-start;background:var(--coral-soft);
+  border:1.5px dashed var(--coral);border-radius:14px;padding:14px 16px;margin:14px 0}
+.example .ex-ic{font-size:30px;flex-shrink:0}
+.example .ex-h{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14px;color:var(--coral-dark);margin-bottom:3px}
+.example .ex-b{font-size:14.5px;line-height:1.65}
+.example .ex-b b{color:var(--coral-dark)}
+.teacher{background:var(--bar);color:var(--bar-ink);border-radius:16px;padding:18px 22px;margin-top:22px;
+  display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;box-shadow:var(--shadow)}
+.teacher .tt{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:12px;color:var(--bar-sub)}
+.teacher .tn{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:19px;margin-top:2px}
+.teacher .tp{direction:ltr;font-size:14px;color:var(--bar-sub);margin-top:4px;text-align:right}
+.teacher a.wa{display:inline-flex;align-items:center;gap:8px;background:#25D366;color:#04331a;
+  font-family:"Reem Kufi",Tahoma,sans-serif;font-size:15px;text-decoration:none;padding:10px 18px;border-radius:12px}
+.teacher a.wa:hover{filter:brightness(1.06)}
+.teacher a.wa:focus-visible{outline:3px solid #fff;outline-offset:2px}
+@media (max-width:560px){
+  .wrap{padding:14px 12px 50px}
+  .topbar h1{font-size:17px} h2.title{font-size:22px}
+  .card{padding:18px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.rail{display:flex;gap:6px;margin:0 0 20px;flex-wrap:wrap}
+.rail button{flex:1 1 0;min-width:84px;background:var(--card);border:1.5px solid var(--wire);
+  border-radius:12px;padding:9px 6px;cursor:pointer;font-family:"Reem Kufi",Tahoma,sans-serif;font-size:12px;
+  color:var(--ink-soft);transition:.2s;display:flex;align-items:center;justify-content:center;gap:6px}
+.rail button .n{width:20px;height:20px;border-radius:50%;background:var(--paper);border:1.5px solid var(--wire);
+  display:inline-flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0}
+.rail button.active{border-color:var(--teal);color:var(--teal-dark);background:var(--teal-soft)}
+.rail button.active .n{background:var(--teal);color:#fff;border-color:var(--teal)}
+.rail button.done .n{background:var(--green);color:#fff;border-color:var(--green)}
+.station{display:none;animation:fade .45s ease both}
+.station.on{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.navbtns{display:flex;justify-content:space-between;margin-top:20px;gap:10px}
+.btn{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:15px;border:none;border-radius:12px;padding:12px 24px;cursor:pointer;transition:.15s}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn-main{background:var(--teal);color:#fff}
+.btn-main:hover:not(:disabled){background:var(--teal-dark)}
+.btn-ghost{background:var(--paper);color:var(--ink-soft);border:1.5px solid var(--wire)}
+.btn:focus-visible,.rail button:focus-visible,.flip:focus-visible,.opt:focus-visible,.segbtns button:focus-visible{outline:3px solid var(--indigo);outline-offset:2px}
+.hero{text-align:center;padding:34px 22px}
+.hero h2{font-size:30px;margin-bottom:6px}
+/* three pillars */
+.pill3{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:22px 0 6px}
+.pill3 .p{flex:1 1 150px;max-width:220px;border-radius:14px;padding:16px 12px;border:1.5px solid;font-family:"Reem Kufi",Tahoma,sans-serif}
+.pill3 .p .e{font-size:32px;display:block}
+.pill3 .p .t{font-size:16px;margin-top:4px}
+.pill3 .p .s{font-size:11.5px;opacity:.85;display:block}
+.p1{background:var(--indigo-soft);color:var(--indigo);border-color:var(--indigo)}
+.p2{background:var(--amber-soft);color:var(--amber-dark);border-color:var(--amber)}
+.p3{background:var(--coral-soft);color:var(--coral-dark);border-color:var(--coral)}
+.p.lit{transform:translateY(-4px);box-shadow:var(--shadow)}
+/* flip chips */
+.flips{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px;margin-top:10px}
+.flip{background:var(--card);border:1.5px solid var(--wire);border-radius:12px;padding:12px 8px;text-align:center;cursor:pointer;font-family:inherit;color:var(--ink);min-height:84px}
+.flip .e{font-size:24px;display:block}
+.flip .fa{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:15px}
+.flip .fb{display:none;font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14px}
+.flip.on{background:var(--indigo-soft);border-color:var(--indigo)}
+.flip.on .fa{display:none}.flip.on .fb{display:block;color:var(--indigo)}
+.flip.on.log{background:var(--plum-soft);border-color:var(--plum)}
+.flip.on.log .fb{color:var(--plum)}
+/* attribute wheel */
+.wheel{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px;margin-top:12px}
+.core{background:var(--bar);color:var(--bar-ink);font-family:"Reem Kufi",Tahoma,sans-serif;font-size:17px;
+  border-radius:50%;width:92px;height:92px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.attr{background:var(--amber-soft);border:1.5px solid var(--amber);color:var(--amber-dark);
+  font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14px;border-radius:999px;padding:8px 16px}
+/* relation diagram */
+.rel{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:6px;margin-top:12px}
+.rel .ent{background:var(--indigo-soft);border:1.5px solid var(--indigo);color:var(--indigo);
+  font-family:"Reem Kufi",Tahoma,sans-serif;font-size:15px;border-radius:14px;padding:12px 18px;text-align:center}
+.rel .ent .e{font-size:26px;display:block}
+.rel .lnk{text-align:center;color:var(--coral-dark);font-family:"Reem Kufi",Tahoma,sans-serif;font-size:13px;min-width:70px}
+.rel .lnk .a{display:block;font-size:18px;color:var(--ink-soft);line-height:1}
+/* mapping table */
+.segbtns{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.segbtns button{border:1.5px solid var(--wire);background:var(--card);border-radius:10px;padding:9px 14px;
+  font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14px;cursor:pointer;color:var(--ink-soft)}
+.segbtns button.on{background:var(--teal);color:#fff;border-color:var(--teal)}
+.tbl{overflow-x:auto;margin-top:12px}
+table{width:100%;border-collapse:collapse;font-size:15px;background:var(--card);min-width:430px}
+th,td{border:1px solid var(--wire);padding:9px 10px;text-align:center;transition:.2s}
+th{background:var(--paper);font-family:"Reem Kufi",Tahoma,sans-serif;font-weight:600}
+table.tablehl{outline:3px solid var(--indigo);outline-offset:3px}
+.cellhl{background:var(--amber-soft)!important;color:var(--amber-dark);font-weight:700}
+.cellhl2{background:var(--coral-soft)!important;color:var(--coral-dark);font-weight:700}
+.mapout{margin-top:12px;background:var(--teal-soft);border-radius:12px;padding:12px 14px;font-size:15px;min-height:50px}
+.mapout b{color:var(--teal-dark);font-family:"Reem Kufi",Tahoma,sans-serif}
+/* questions */
+.qblock{margin-top:16px}
+.qh{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:17px;color:var(--amber-dark);background:var(--amber-soft);border-radius:10px;padding:8px 14px;display:inline-block;margin-bottom:6px}
+.qtxt{font-size:16px;margin:4px 0}
+.line{display:block;border-bottom:1.5px dotted var(--wire);height:2em}
+/* quiz */
+.qmeta{display:flex;justify-content:space-between;align-items:center;font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14px;color:var(--ink-soft);margin-bottom:8px}
+.qtext{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:19px;margin:6px 0 16px;line-height:1.5}
+.opts{display:flex;flex-direction:column;gap:10px}
+.opt{text-align:right;background:var(--card);border:1.5px solid var(--wire);border-radius:12px;padding:13px 16px;
+  cursor:pointer;font-family:"Tajawal",Tahoma,sans-serif;font-size:15.5px;color:var(--ink);transition:.15s;display:flex;align-items:center;gap:10px;width:100%}
+.opt:hover:not(.locked){border-color:var(--teal)}
+.opt .mk{width:24px;height:24px;border-radius:50%;border:1.5px solid var(--wire);flex-shrink:0;
+  display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-family:"Reem Kufi",Tahoma,sans-serif;color:var(--ink-soft)}
+.opt.correct{background:var(--green-soft);border-color:var(--green);color:var(--green)}
+.opt.correct .mk{background:var(--green);border-color:var(--green);color:#fff}
+.opt.wrong{background:var(--red-soft);border-color:var(--red);color:var(--red)}
+.opt.wrong .mk{background:var(--red);border-color:var(--red);color:#fff}
+.opt.locked{cursor:default}
+.explain{margin-top:14px;background:var(--indigo-soft);color:var(--indigo);border-radius:12px;padding:12px 16px;font-size:14px;display:none}
+.explain.show{display:block;animation:fade .3s ease both}
+.result{text-align:center;padding:20px 10px}
+.scorebig{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:52px;color:var(--teal);line-height:1}
+.progress-quiz{height:8px;background:var(--paper);border-radius:99px;overflow:hidden;margin:4px 0 14px;border:1px solid var(--wire)}
+.progress-quiz i{display:block;height:100%;background:var(--teal);width:0;transition:.3s}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar">
+    <div>
+      <h1 class="k">النموذج العلائقي · Relational</h1>
+      <div class="sub">الصف الحادي عشر العلمي · وحدة قواعد البيانات</div>
+    </div>
+    <span class="badge">درس تفاعلي</span>
+  </div>
+
+  <nav class="rail" id="rail" aria-label="محطات الدرس"></nav>
+
+  <!-- 0 HERO -->
+  <section class="station on" id="s0">
+    <div class="card hero">
+      <span class="eyebrow">النموذج الثالث 🗂️</span>
+      <h2 class="k">من العالم الحقيقي<br>إلى نموذج مصغّر</h2>
+      <p class="lead">يُعدّ <b>الأكثر انتشاراً</b> بعد ظهور نظم إدارة قواعد البيانات، <b>لسهولة الفهم والاستخدام</b>. وفكرته الأساسية تعتمد على تحويل المفاهيم الطبيعية الموجودة في العالم الحقيقي إلى <b>نموذج مصغّر</b> تُمثَّل به قواعد البيانات المخزّنة في الحاسوب.</p>
+      <p class="lead" style="margin-top:14px">ويعتمد بناؤه على <b>ثلاثة مكوّنات أساسية</b>:</p>
+      <div class="pill3">
+        <div class="p p1" id="h0"><span class="e">🏷️</span><span class="t">١. الكيان</span><span class="s">Entity</span></div>
+        <div class="p p2" id="h1"><span class="e">📋</span><span class="t">٢. الصفة</span><span class="s">Attribute</span></div>
+        <div class="p p3" id="h2"><span class="e">🔗</span><span class="t">٣. العلاقة</span><span class="s">Relation</span></div>
+      </div>
+      <div class="hint">⭐ هذا النموذج هو أساس الدرس الثاني (تحليل قواعد البيانات)، فأتقنه جيداً.</div>
+      <div class="navbtns" style="justify-content:center"><button class="btn btn-main" onclick="go(1)">لنبدأ ‹</button></div>
+    </div>
+  </section>
+
+  <!-- 1 ENTITY -->
+  <section class="station" id="s1">
+    <div class="card">
+      <span class="eyebrow">المكوّن ١ · الكيان</span>
+      <h2 class="title k">الكيان · Entity</h2>
+      <div class="dfn">
+        <div class="dfn-t">📌 التعريف</div>
+        <div class="dfn-b">وحدة أساسية <b>مستقلّة</b> محطّ اهتمام النظام، يشير إلى شيء له <b>وجود حقيقي</b> مثل: (شخص، منزل، سيارة…)، أو <b>وجود منطقي</b> مثل: (شركة، مقرر، دورة…). ويُمثَّل في قواعد البيانات على شكل <b>جدول (ملف)</b>.</div>
+      </div>
+      <div class="hint">✦ خمّن أولاً: أيّ هذه كيانات ذات وجود حقيقي وأيّها منطقي؟ ثم اضغط للتحقق.</div>
+      <div class="flips" id="ents"></div>
+      <div class="example">
+        <div class="ex-ic">🏥</div>
+        <div><div class="ex-h">مثال الكتاب · نظام المستشفى</div>
+        <div class="ex-b">تشكّل مجموعة الكيانات <b>نظاماً</b> يُمثَّل بقاعدة البيانات. ففي نظام قاعدة بيانات <b>(المستشفى)</b> نجد الكيانات: <b>مريض، طبيب، دواء</b>، …<br><b>حدّد كيانات أخرى في نظام المستشفى؟</b></div></div>
+      </div>
+      <div class="navbtns">
+        <button class="btn btn-ghost" onclick="go(0)">›</button>
+        <button class="btn btn-main" onclick="go(2)">التالي: الصفة ‹</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 ATTRIBUTE -->
+  <section class="station" id="s2">
+    <div class="card">
+      <span class="eyebrow">المكوّن ٢ · الصفة</span>
+      <h2 class="title k">الصفة · Attribute</h2>
+      <div class="dfn">
+        <div class="dfn-t">📌 التعريف</div>
+        <div class="dfn-b">سمات أو خصائص لوصف الكائن. ولكلّ صفة من صفات الكيان <b>مجال (Domain)</b> من القيم التي من الممكن أن يحتويها.</div>
+      </div>
+      <p class="lead">فمثلاً يمكن وصف كيان <b>(طالب)</b> حسب:</p>
+      <div class="wheel">
+        <span class="attr">رقم أكاديمي</span>
+        <span class="attr">الاسم</span>
+        <span class="attr">عنوان</span>
+        <div class="core">طالب</div>
+        <span class="attr">رقم هاتف</span>
+        <span class="attr">تاريخ ميلاد</span>
+        <span class="attr">تخصص</span>
+      </div>
+      <div class="hint" style="margin-top:12px">🤔 حدّد صفات أخرى لكيان (طالب).</div>
+      <div class="dfn">
+        <div class="dfn-t">📌 مصطلحات لا بدّ من ضبطها</div>
+        <div class="dfn-b">
+          في قواعد البيانات يُطلق على الصفات <b>حقولاً (Fields)</b> وتُمثّل <b>أعمدة</b> في الجدول.<br>
+          وقيم مجموعة الحقول <b>لصفٍ واحد</b> في الجدول تسمّى <b>سجلّاً (Record)</b>، وهي تشكّل أيضاً مجموعة من الكيانات الشبيهة التي تسمّى <b>مثيل (Instance)</b>.
+        </div>
+      </div>
+      <div class="navbtns">
+        <button class="btn btn-ghost" onclick="go(1)">›</button>
+        <button class="btn btn-main" onclick="go(3)">التالي: العلاقة ‹</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 RELATION -->
+  <section class="station" id="s3">
+    <div class="card">
+      <span class="eyebrow">المكوّن ٣ · العلاقة</span>
+      <h2 class="title k">العلاقة · Relation</h2>
+      <div class="dfn">
+        <div class="dfn-t">📌 التعريف</div>
+        <div class="dfn-b">هي <b>الروابط بين كيانين أو أكثر</b> في النظام، ولها <b>درجة ونوع وشروط محدّدة</b>.</div>
+      </div>
+      <p class="lead">وفي الشكل الآتي ثلاثة كيانات تربطها علاقتان:</p>
+      <div class="rel">
+        <div class="ent"><span class="e">📚</span>كتب</div>
+        <div class="lnk"><span class="a">↔</span>يسجّل</div>
+        <div class="ent"><span class="e">🎓</span>طالب</div>
+        <div class="lnk"><span class="a">↔</span>يدرس</div>
+        <div class="ent"><span class="e">👨‍🏫</span>معلم</div>
+      </div>
+      <div class="example">
+        <div class="ex-ic">🧭</div>
+        <div><div class="ex-h">لاحظ مع طلابك</div>
+        <div class="ex-b">العلاقة دائماً <b>فعل</b> يربط بين كيانين: الطالب <b>يسجّل</b> الكتب، والمعلم <b>يدرس</b> الطالب. فإذا سألك الطالب: «كيف أعرف العلاقة؟» قل له: ابحث عن <b>الفعل</b> بين الاسمين.</div></div>
+      </div>
+      <div class="navbtns">
+        <button class="btn btn-ghost" onclick="go(2)">›</button>
+        <button class="btn btn-main" onclick="go(4)">التالي: من المفهوم إلى الجدول ‹</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 MAPPING -->
+  <section class="station" id="s4">
+    <div class="card">
+      <span class="eyebrow">الخلاصة العملية</span>
+      <h2 class="title k">من المفهوم إلى الجدول</h2>
+      <p class="lead">هذا الجدول هو كيان <b>(طالب)</b> بعد تمثيله في قاعدة البيانات. اضغط الأزرار لترى أين يقع كل مصطلح.</p>
+      <div class="segbtns" id="segs"></div>
+      <div class="tbl">
+        <table id="stbl">
+          <thead>
+            <tr><th data-c="0">رقم الطالب</th><th data-c="1">اسم الطالب</th><th data-c="2">تاريخ الميلاد</th><th data-c="3">التخصص</th></tr>
+          </thead>
+          <tbody>
+            <tr data-r="0"><td data-c="0">111</td><td data-c="1">أحمد سليمان</td><td data-c="2">2008-03-12</td><td data-c="3">علمي</td></tr>
+            <tr data-r="1"><td data-c="0">112</td><td data-c="1">محمد خالد</td><td data-c="2">2008-07-04</td><td data-c="3">أدبي</td></tr>
+            <tr data-r="2"><td data-c="0">113</td><td data-c="1">سارة يوسف</td><td data-c="2">2009-01-25</td><td data-c="3">علمي</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="mapout" id="mapout">اختر مصطلحاً من الأعلى…</div>
+      <div class="navbtns">
+        <button class="btn btn-ghost" onclick="go(3)">›</button>
+        <button class="btn btn-main" onclick="go(5)">التالي: أسئلة الدرس ‹</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 TWO QUESTIONS -->
+  <section class="station" id="s5">
+    <div class="card">
+      <span class="eyebrow">📝 أسئلة الدرس</span>
+      <h2 class="title k">أجب في دفترك</h2>
+      <div class="qblock">
+        <div class="qh">السؤال الأول</div>
+        <div class="qtxt">حدّد ثلاثاً من الكيانات مع الصفات المناسبة لكلٍّ منها لنظام مدرستك.<span class="line"></span><span class="line"></span></div>
+      </div>
+      <div class="qblock">
+        <div class="qh">السؤال الثاني</div>
+        <div class="qtxt">في نظام قاعدة بيانات <b>(مستشفى)</b>، وبالنظر إلى كيان <b>(دواء)</b>: ما أسماء صفاته (حقوله)؟ وما مجال القيم الممكنة لكلّ حقل منها؟<span class="line"></span><span class="line"></span></div>
+      </div>
+      <div class="navbtns">
+        <button class="btn btn-ghost" onclick="go(4)">›</button>
+        <button class="btn btn-main" onclick="go(6)">التقويم ‹</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 QUIZ -->
+  <section class="station" id="s6">
+    <div class="card">
+      <span class="eyebrow">التقويم · اختيار من متعدد</span>
+      <h2 class="title k">اختبر فهمك</h2>
+      <div class="progress-quiz"><i id="qbar"></i></div>
+      <div id="qwrap"></div>
+    </div>
+  </section>
+
+  <div class="teacher">
+    <div>
+      <div class="tt">إعداد الأستاذ</div>
+      <div class="tn">رامي فتحي فلفل</div>
+      <div class="tp">هاتف / واتساب: +972&nbsp;59&nbsp;788&nbsp;0216</div>
+    </div>
+    <a class="wa" href="https://wa.me/972597880216" target="_blank" rel="noopener">💬 تواصل عبر واتساب</a>
+  </div>
+</div>
+
+<script>
+var STATIONS=["البداية","الكيان","الصفة","العلاقة","الجدول","الأسئلة","التقويم"];
+var cur=0, visited={0:true}, rail=document.getElementById('rail');
+function toAr(n){return String(n).replace(/[0-9]/g,function(d){return "٠١٢٣٤٥٦٧٨٩"[d]})}
+STATIONS.forEach(function(t,i){
+  var b=document.createElement('button');
+  b.innerHTML='<span class="n">'+toAr(i+1)+'</span>'+t;
+  b.onclick=function(){go(i)}; rail.appendChild(b);
+});
+function go(i){
+  document.getElementById('s'+cur).classList.remove('on');
+  cur=i; visited[i]=true;
+  document.getElementById('s'+i).classList.add('on');
+  updRail(); window.scrollTo({top:0,behavior:'smooth'});
+  if(i===6 && !quizStarted) startQuiz();
+}
+function updRail(){[].forEach.call(rail.children,function(b,i){
+  b.classList.toggle('active',i===cur); b.classList.toggle('done',!!visited[i] && i!==cur);});}
+updRail();
+
+/* hero pulse */
+(function(){
+  if(matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+  var k=0; setInterval(function(){
+    for(var j=0;j<3;j++) document.getElementById('h'+j).classList.toggle('lit',j===k);
+    k=(k+1)%3;
+  },950);
+})();
+
+/* entity flips */
+var ENTS=[["🧑","شخص",0],["🏠","منزل",0],["🚗","سيارة",0],["🏢","شركة",1],["📘","مقرر",1],["🎯","دورة",1]];
+var ew=document.getElementById('ents');
+ENTS.forEach(function(e){
+  var b=document.createElement('button'); b.className='flip'+(e[2]?' log':'');
+  b.innerHTML='<span class="e">'+e[0]+'</span><span class="fa">'+e[1]+'</span><span class="fb">'+(e[2]?'وجود منطقي':'وجود حقيقي')+'</span>';
+  b.onclick=function(){b.classList.toggle('on')}; ew.appendChild(b);
+});
+
+/* mapping table */
+var MAPS=[
+ {k:"الكيان = الجدول",fn:function(){mark('tbl')},
+  t:'<b>الكيان (Entity)</b> يُمثَّل في قواعد البيانات على شكل <b>جدول (ملف)</b>. وهذا الجدول كلّه هو كيان «طالب».'},
+ {k:"الصفة = عمود (حقل)",fn:function(){mark('col',1)},
+  t:'<b>الصفة (Attribute)</b> تُسمّى في قواعد البيانات <b>حقلاً (Field)</b>، وتُمثَّل <b>عموداً</b> في الجدول. المُظلَّل هنا حقل «اسم الطالب».'},
+ {k:"السجل = صف",fn:function(){mark('row',1)},
+  t:'قيم مجموعة الحقول <b>لصفٍ واحد</b> تسمّى <b>سجلّاً (Record)</b>. المُظلَّل هنا سجل الطالب «محمد خالد».'},
+ {k:"مجال القيم (Domain)",fn:function(){mark('col',3)},
+  t:'لكلّ صفة <b>مجال (Domain)</b> من القيم الممكنة. فمجال حقل «التخصص» هنا هو: <b>علمي</b> أو <b>أدبي</b> فقط.'}
+];
+var segs=document.getElementById('segs');
+MAPS.forEach(function(m,i){
+  var b=document.createElement('button'); b.textContent=m.k;
+  b.onclick=function(){
+    [].forEach.call(segs.children,function(c){c.classList.remove('on')});
+    b.classList.add('on'); clearMarks(); m.fn();
+    document.getElementById('mapout').innerHTML=m.t;
+  };
+  segs.appendChild(b);
+});
+var tbl=document.getElementById('stbl');
+function clearMarks(){
+  tbl.classList.remove('tablehl');
+  [].forEach.call(tbl.querySelectorAll('th,td'),function(c){c.classList.remove('cellhl','cellhl2')});
+}
+function mark(mode,idx){
+  if(mode==='tbl'){tbl.classList.add('tablehl');return}
+  if(mode==='col'){
+    [].forEach.call(tbl.querySelectorAll('[data-c="'+idx+'"]'),function(c){c.classList.add('cellhl')});
+  }
+  if(mode==='row'){
+    var tr=tbl.querySelector('tr[data-r="'+idx+'"]');
+    [].forEach.call(tr.children,function(c){c.classList.add('cellhl2')});
+  }
+}
+
+/* quiz */
+var QUIZ=[
+ {q:"الوحدة الأساسية المستقلّة التي تكون محطّ اهتمام النظام هي:",o:["الصفة","الكيان","العلاقة","السجل"],a:1,e:"الكيان (Entity): وحدة أساسية مستقلّة محطّ اهتمام النظام، ويُمثَّل على شكل جدول."},
+ {q:"(شركة، مقرر، دورة) أمثلة على كيان له:",o:["وجود حقيقي","وجود منطقي","وجود مؤقت","لا وجود له"],a:1,e:"الوجود المنطقي مثل: شركة، مقرر، دورة. أما الحقيقي فمثل: شخص، منزل، سيارة."},
+ {q:"يُطلق على الصفات في قواعد البيانات حقولاً، وتُمثّل في الجدول:",o:["صفوفاً","أعمدة","سجلات","جداول"],a:1,e:"الصفات = حقول (Fields) = أعمدة في الجدول."},
+ {q:"قيم مجموعة الحقول لصفٍ واحد في الجدول تسمّى:",o:["مجالاً (Domain)","سجلّاً (Record)","كياناً (Entity)","علاقة (Relation)"],a:1,e:"تسمّى سجلّاً (Record)، وتشكّل مجموعة الكيانات الشبيهة ما يسمّى مثيل (Instance)."},
+ {q:"مجال القيم التي من الممكن أن تحتويها الصفة يسمّى:",o:["Domain","Record","Instance","Relation"],a:0,e:"لكلّ صفة من صفات الكيان مجال (Domain) من القيم التي من الممكن أن يحتويها."}
+];
+var quizStarted=false, qi=0, score=0, answered=false;
+function startQuiz(){quizStarted=true;qi=0;score=0;renderQ()}
+function renderQ(){
+  answered=false;
+  document.getElementById('qbar').style.width=(qi/QUIZ.length*100)+'%';
+  if(qi>=QUIZ.length) return renderResult();
+  var Q=QUIZ[qi], marks=["أ","ب","ج","د"];
+  var h='<div class="qmeta"><span>السؤال '+toAr(qi+1)+' من '+toAr(QUIZ.length)+'</span><span id="qsc">النقاط: '+toAr(score)+'</span></div>';
+  h+='<div class="qtext">'+Q.q+'</div><div class="opts">';
+  Q.o.forEach(function(op,k){h+='<button class="opt" onclick="answer('+k+')"><span class="mk">'+marks[k]+'</span><span>'+op+'</span></button>'});
+  h+='</div><div class="explain" id="explain"></div><div class="navbtns"><span></span><button class="btn btn-main" id="nextQ" onclick="nextQ()" disabled>التالي ‹</button></div>';
+  document.getElementById('qwrap').innerHTML=h;
+}
+function answer(k){
+  if(answered) return; answered=true;
+  var Q=QUIZ[qi], opts=document.querySelectorAll('#qwrap .opt');
+  opts.forEach(function(o){o.classList.add('locked')});
+  opts[Q.a].classList.add('correct');
+  if(k===Q.a) score++; else opts[k].classList.add('wrong');
+  var ex=document.getElementById('explain');
+  ex.innerHTML=(k===Q.a?'✅ إجابة صحيحة! ':'❌ ليست صحيحة. ')+Q.e; ex.classList.add('show');
+  document.getElementById('nextQ').disabled=false;
+  document.getElementById('qsc').textContent='النقاط: '+toAr(score);
+}
+function nextQ(){qi++;renderQ()}
+function renderResult(){
+  document.getElementById('qbar').style.width='100%';
+  var pct=Math.round(score/QUIZ.length*100);
+  var msg=pct>=80?"ممتاز! أنت جاهز للدرس الثاني.":pct>=50?"جيد، راجع النقاط التي أخطأت فيها.":"لا بأس، أعد قراءة المحطات ثم حاول مجدداً.";
+  document.getElementById('qwrap').innerHTML='<div class="result"><div class="scorebig">'+toAr(score)+'/'+toAr(QUIZ.length)+'</div><p class="lead" style="margin:10px 0">'+msg+'</p><div class="navbtns" style="justify-content:center;gap:10px"><button class="btn btn-ghost" onclick="go(0)">↺ من البداية</button><button class="btn btn-main" onclick="startQuiz()">أعد التقويم</button></div></div>';
+}
+</script>
+</body></html>
+
+</body></html>
