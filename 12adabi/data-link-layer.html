@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>طبقة ربط البيانات</title>
+<title>Data Link Layer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@400;500;600;700&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -175,6 +175,47 @@ h2.title{font-size:27px;margin-bottom:8px}
 .teacher a.wa:hover{filter:brightness(1.06)}
 .teacher .tp{direction:ltr;font-family:"Tajawal";font-size:14px;color:#cdd6e6;margin-top:4px}
 
+/* traffic-cop (NIC) animation */
+.copwrap{background:#0f1a2e;border-radius:14px;padding:16px 14px;margin-top:6px;position:relative;overflow:hidden}
+.copstage{position:relative;height:210px}
+.cop-pc,.cop-net{position:absolute;top:50%;transform:translateY(-50%);text-align:center;color:#cfe}
+.cop-pc{right:4px;width:84px} .cop-net{left:4px;width:84px}
+.cop-pc .ico,.cop-net .ico{font-size:34px} .cop-pc .lbl,.cop-net .lbl{font-size:12px;font-family:"Reem Kufi";margin-top:2px;color:#9fb6d8}
+.cop-lane{position:absolute;top:50%;left:96px;right:96px;height:40px;transform:translateY(-50%);
+  background:rgba(255,255,255,.06);border-radius:8px;border:1px dashed #334a6b}
+.gate{position:absolute;top:50%;right:92px;transform:translateY(-50%);font-size:24px;opacity:.25;transition:.3s}
+.gate.on{opacity:1}
+.sig{position:absolute;top:50%;transform:translateY(-50%);height:30px;padding:0 10px;border-radius:15px;
+  display:flex;align-items:center;gap:5px;font-size:12px;font-family:"Reem Kufi";color:#fff;white-space:nowrap;
+  transition:right 1s linear, opacity .3s; box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.cop-flash{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  background:rgba(216,70,63,.22);color:#fff;font-family:"Reem Kufi";font-size:20px;opacity:0;pointer-events:none;transition:.2s;border-radius:14px}
+.cop-flash.show{opacity:1}
+.cop-status{text-align:center;color:#9fb6d8;font-size:13px;font-family:"Tajawal";margin-top:8px;min-height:20px}
+
+/* RJ-45 connector */
+.rj{display:flex;flex-direction:column;align-items:center}
+.rj svg{width:58px;height:46px}
+
+/* written questions */
+.wq{background:var(--paper);border:1px solid var(--wire);border-radius:14px;padding:14px 16px;margin-bottom:12px}
+.wq .wqq{font-family:"Reem Kufi";font-size:16px;color:var(--ink);line-height:1.6}
+.wq .wqn{color:var(--teal-dark);font-family:"Reem Kufi";margin-inline-end:6px}
+.wq .wqa{display:none;margin-top:10px;background:var(--teal-soft);border-radius:10px;padding:10px 14px;font-size:14px;color:var(--ink);line-height:1.7}
+.wq .wqa.show{display:block}
+.wq .wqbtn{margin-top:10px;background:#fff;border:1.5px solid var(--wire);border-radius:10px;padding:7px 14px;
+  font-family:"Reem Kufi";font-size:13px;color:var(--ink-soft);cursor:pointer}
+.qsec{font-family:"Reem Kufi";font-size:16px;color:var(--teal-dark);margin:6px 0 10px;display:flex;align-items:center;gap:8px}
+
+/* MAC characteristics */
+.macfeat{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:6px}
+@media (max-width:560px){.macfeat{grid-template-columns:1fr}}
+.macfeat .mf{background:var(--teal-soft);border:1px solid var(--teal);border-radius:12px;padding:12px 14px}
+.macfeat .mf b{color:var(--teal-dark);font-family:"Reem Kufi"}
+.macfeat .mf span{font-size:13.5px;color:var(--ink-soft)}
+.macsample{text-align:center;font-family:var(--font-mono,monospace);font-size:22px;color:var(--teal-dark);
+  background:var(--paper);border:1px dashed var(--teal);border-radius:12px;padding:12px;margin:12px 0;letter-spacing:1px}
+
 @media (max-width:560px){
   .wrap{padding:14px 12px 50px}
   .topbar h1{font-size:18px} .hero h2{font-size:26px} h2.title{font-size:22px}
@@ -317,13 +358,51 @@ h2.title{font-size:27px;margin-bottom:8px}
     </div>
   </section>
 
-  <!-- 3: NIC + MAC -->
+  <!-- 3: NIC definition + function (traffic cop) -->
   <section class="station" id="s3">
     <div class="card">
-      <span class="eyebrow">المحطة ٣ · القطعة الناقصة</span>
-      <h2 class="title k">كيف يرتبط الحاسوب بالسلك؟</h2>
-      <p class="lead">الحاسوب في جوهره <b>آلة حوسبة</b>، لا يعرف الشبكة من نفسه. ليتصل بالوسيط (السلك) يحتاج <b>واجهة مادية</b> تترجم بياناته إلى إشارات — هذه هي <b>بطاقة واجهة الشبكة (NIC)</b>.</p>
-      <div class="hint">✦ لاحظ الفجوة بين الحاسوب والسلك، ثم اضغط «ركّب بطاقة الشبكة».</div>
+      <span class="eyebrow">المحطة ٣ · التعريف والوظيفة</span>
+      <h2 class="title k">بطاقة واجهة الشبكة (NIC)</h2>
+
+      <div class="dfn">
+        <div class="dfn-t">التعريف والوظيفة</div>
+        <div class="dfn-b">أداة لربط الجهاز <b>بالوسيط (سلكي أو لاسلكي)</b>، ولا تنقل البيانات عبر الوسيط <b>إلا بعد التأكد من خلوّه من الإشارة</b> — حتى نضمن <b>عدم تداخل الإشارات</b>.</div>
+      </div>
+
+      <p class="lead">الحاسوب جهاز <b>متعدّد الاستخدامات</b>: يوتيوب، فيسبوك، تلغرام، إنستغرام، رفع ملفات، تسليم واجبات… وكلّها تمرّ عبر <b>سلك واحد</b> متصل بالشبكة. فلو انطلقت دفعةً واحدة، لتزاحمت وتداخلت. نحتاج <b>منظّماً — مثل شرطي المرور</b>، وهنا يأتي دور بطاقة NIC.</p>
+
+      <div class="hint">✦ اضغط «أرسِل الكل بلا منظّم» لترى الفوضى، ثم «فعّل البطاقة» لترى التنظيم.</div>
+
+      <div class="copwrap">
+        <div class="copstage" id="copstage">
+          <div class="cop-pc"><div class="ico">💻</div><div class="lbl">الحاسوب</div></div>
+          <div class="cop-lane"></div>
+          <div class="gate" id="gate">🚦</div>
+          <div class="cop-net"><div class="ico">🌐</div><div class="lbl">الشبكة</div></div>
+          <div class="cop-flash" id="copflash">⚠ تداخل الإشارات!</div>
+        </div>
+        <div class="cop-status" id="copstatus">خمس إشارات تنتظر العبور عبر سلك واحد…</div>
+      </div>
+
+      <div class="navbtns" style="justify-content:center;gap:10px;flex-wrap:wrap">
+        <button class="btn btn-ghost" id="chaosBtn" onclick="copChaos()">⚡ أرسِل الكل بلا منظّم</button>
+        <button class="btn btn-main" id="orderBtn" onclick="copOrder()">🚦 فعّل البطاقة (المنظّم)</button>
+      </div>
+
+      <div class="navbtns">
+        <button class="btn btn-ghost" onclick="go(2)">›</button>
+        <button class="btn btn-main" onclick="go(4)">التالي: التوصيل و MAC ‹</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4: NIC install (RJ-45) + MAC -->
+  <section class="station" id="s4">
+    <div class="card">
+      <span class="eyebrow">المحطة ٤ · التوصيل</span>
+      <h2 class="title k">كيف يرتبط الحاسوب بكابل الإنترنت؟</h2>
+      <p class="lead">ليتصل الحاسوب بالوسيط (<b>كابل الإنترنت RJ‑45</b>) يحتاج <b>واجهة مادية</b> تترجم بياناته إلى إشارات — هذه هي <b>بطاقة واجهة الشبكة (NIC)</b>، وعليها يوجد <b>عنوان MAC</b>.</p>
+      <div class="hint">✦ لاحظ الفجوة بين الحاسوب وكابل الإنترنت، ثم اضغط «ركّب بطاقة الشبكة».</div>
 
       <div class="nicstage">
         <div class="unit"><div class="ico">💻</div><div class="lbl">الحاسوب</div></div>
@@ -332,7 +411,22 @@ h2.title{font-size:27px;margin-bottom:8px}
           <div class="nic" id="nic">NIC</div>
         </div>
         <div class="conn" id="conn"></div>
-        <div class="unit"><div class="ico">🔌</div><div class="lbl">السلك (الوسيط)</div></div>
+        <div class="unit">
+          <div class="rj" aria-hidden="true">
+            <svg viewBox="0 0 64 52" role="img" aria-label="موصّل RJ-45">
+              <rect x="18" y="4" width="28" height="12" rx="2" fill="var(--amber)"/>
+              <rect x="30" y="0" width="4" height="6" rx="1" fill="var(--amber-dark)"/>
+              <rect x="16" y="14" width="32" height="26" rx="3" fill="#E8E2D4" stroke="var(--wire)" stroke-width="1.5"/>
+              <line x1="22" y1="14" x2="22" y2="26" stroke="#CBB26A" stroke-width="2"/>
+              <line x1="27" y1="14" x2="27" y2="26" stroke="#CBB26A" stroke-width="2"/>
+              <line x1="32" y1="14" x2="32" y2="26" stroke="#CBB26A" stroke-width="2"/>
+              <line x1="37" y1="14" x2="37" y2="26" stroke="#CBB26A" stroke-width="2"/>
+              <line x1="42" y1="14" x2="42" y2="26" stroke="#CBB26A" stroke-width="2"/>
+              <rect x="26" y="40" width="12" height="12" rx="2" fill="var(--ink-soft)"/>
+            </svg>
+          </div>
+          <div class="lbl">كابل إنترنت (RJ‑45)</div>
+        </div>
       </div>
 
       <div style="text-align:center">
@@ -346,16 +440,16 @@ h2.title{font-size:27px;margin-bottom:8px}
       </div>
 
       <div class="navbtns">
-        <button class="btn btn-ghost" onclick="go(2)">›</button>
-        <button class="btn btn-main" onclick="go(4)">التالي: لماذا عنوانان؟ ‹</button>
+        <button class="btn btn-ghost" onclick="go(3)">›</button>
+        <button class="btn btn-main" onclick="go(5)">التالي: لماذا عنوانان؟ ‹</button>
       </div>
     </div>
   </section>
 
-  <!-- 4: MAC vs IP -->
-  <section class="station" id="s4">
+  <!-- 5: MAC vs IP -->
+  <section class="station" id="s5">
     <div class="card">
-      <span class="eyebrow">المحطة ٤ · العنونة</span>
+      <span class="eyebrow">المحطة ٥ · العنونة</span>
       <h2 class="title k">لماذا نحتاج نظامين للعنونة؟</h2>
       <p class="lead">لدينا عنوانان يعملان <b>معاً</b> في الرسالة الواحدة — لا يُلغي أحدهما الآخر. الفرق بينهما في <b>الوظيفة</b>:</p>
 
@@ -402,46 +496,63 @@ h2.title{font-size:27px;margin-bottom:8px}
       </div>
 
       <div class="navbtns">
-        <button class="btn btn-ghost" onclick="go(3)">›</button>
-        <button class="btn btn-main" onclick="go(5)">التالي: ماذا بعد؟ ‹</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- 5: PREVIEW -->
-  <section class="station" id="s5">
-    <div class="card">
-      <span class="eyebrow">المحطة ٥ · تمهيد</span>
-      <h2 class="title k">ماذا بعد الطبقة الثانية؟</h2>
-      <p class="lead">أنهينا التسليم المحلي داخل الشبكة. يبقى السؤال: كيف تسافر الرسالة <b>بين الشبكات</b> حول العالم؟ هنا يأتي دور الطبقة الثالثة. اضغط البطاقة لتفتحها.</p>
-
-      <div class="road" id="road">
-        <div class="rcard" style="background:var(--indigo-soft)" onclick="toggleR(this)">
-          <div class="rh"><span class="rt" style="color:var(--indigo)">الطبقة الثالثة — الشبكة</span>
-            <span class="rtag" style="color:var(--indigo)">حزمة · Packet</span></div>
-          <div class="rbody">تغلّف البيانات في <b>حِزَم (Packets)</b> وتضيف <b>عنوان IP</b> المنطقي الذي يحدّد الموقع. جهازها: الموجّه Router.<br>🔹 في مثالنا: العنوان الكامل الذي يوجّه طرد رامي بين المدن — «أين أنا».</div>
-        </div>
-        <div class="rcard" style="background:var(--teal-soft)" onclick="toggleR(this)">
-          <div class="rh"><span class="rt" style="color:var(--teal-dark)">تذكِرة سريعة — أين نحن الآن</span>
-            <span class="rtag" style="color:var(--teal-dark)">إطار · Frame</span></div>
-          <div class="rbody">الطبقة الثانية نظّمت البتات في <b>إطارات</b>، وأضافت <b>عنوان MAC</b> عبر بطاقة NIC، ووجّهتها محلياً بالمحوّل. هذا أساسٌ نبني عليه في التوجيه العالمي.</div>
-        </div>
-      </div>
-
-      <div class="hint" style="margin-top:14px">🧭 تذكّر العمود: بت ⟶ <b>إطار</b> ⟶ حزمة. كلما صعدنا طبقةً، زاد نطاق العنونة من محليٍّ إلى عالمي.</div>
-
-      <div class="navbtns">
         <button class="btn btn-ghost" onclick="go(4)">›</button>
-        <button class="btn btn-main" onclick="go(6)">التقويم النهائي ‹</button>
+        <button class="btn btn-main" onclick="go(6)">التالي: مفهوم MAC ‹</button>
       </div>
     </div>
   </section>
 
-  <!-- 6: QUIZ -->
+  <!-- 6: PREVIEW — MAC concept -->
   <section class="station" id="s6">
     <div class="card">
-      <span class="eyebrow">المحطة ٦ · التقويم</span>
+      <span class="eyebrow">المحطة ٦ · تمهيد</span>
+      <h2 class="title k">ماذا بعد الطبقة الثانية؟ مفهوم عنوان MAC</h2>
+      <p class="lead">الدرس القادم يتعمّق في <b>عنوان MAC</b>: تعريفه وخصائصه. وهذه مقدّمة سريعة له.</p>
+
+      <div class="dfn">
+        <div class="dfn-t">تعريف عنوان MAC</div>
+        <div class="dfn-b">عنوان فيزيائي <b>فريد وثابت</b> يصنعه المُصنّع ويخزّنه على <b>بطاقة واجهة الشبكة (NIC)</b>، ويُستخدم لتمييز الجهاز داخل الشبكة المحلية.</div>
+      </div>
+
+      <div class="macsample">A4 : 5E : 60 : 1B : CC : 07</div>
+
+      <div class="macfeat">
+        <div class="mf"><b>فريد عالمياً</b><br><span>لا يتكرّر في جهازين حول العالم.</span></div>
+        <div class="mf"><b>ثابت</b><br><span>لا يتغيّر بتغيّر الشبكة (عكس IP).</span></div>
+        <div class="mf"><b>من صنع المُصنّع</b><br><span>يُحدَّد عند تصنيع البطاقة.</span></div>
+        <div class="mf"><b>مرتبط بالبطاقة</b><br><span>على NIC لا على الجهاز نفسه.</span></div>
+        <div class="mf"><b>نظام ست عشري</b><br><span>٦ خانات تفصلها النقطتان ( : ).</span></div>
+        <div class="mf"><b>طوله ٤٨ بت = ٦ بايت</b><br><span>تذكّر: ٨ بت = ١ بايت.</span></div>
+      </div>
+
+      <div class="hint" style="margin-top:14px">🧭 تذكّر العمود: بت ⟶ <b>إطار</b> ⟶ حزمة. والعنونة تبدأ محليّاً بـ MAC قبل أن تصعد عالمياً بـ IP.</div>
+
+      <div class="navbtns">
+        <button class="btn btn-ghost" onclick="go(5)">›</button>
+        <button class="btn btn-main" onclick="go(7)">التقويم النهائي ‹</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7: QUIZ -->
+  <section class="station" id="s7">
+    <div class="card">
+      <span class="eyebrow">المحطة ٧ · التقويم</span>
       <h2 class="title k">اختبر فهمك</h2>
+
+      <div class="qsec">✍️ أولاً: أسئلة كتابية</div>
+      <div class="wq">
+        <div class="wqq"><span class="wqn">س١.</span> عرّف بطاقة واجهة الشبكة (NIC)، واذكر وظيفتها.</div>
+        <button class="wqbtn" onclick="revealWq(this)">إظهار الإجابة النموذجية</button>
+        <div class="wqa">هي أداة لربط الجهاز بالوسيط (سلكي أو لاسلكي)، ولا تنقل البيانات عبر الوسيط إلا بعد التأكد من خلوّه من الإشارة لضمان عدم تداخل الإشارات. وعليها يوجد عنوان MAC الفريد.</div>
+      </div>
+      <div class="wq">
+        <div class="wqq"><span class="wqn">س٢.</span> اذكر ثلاثاً من خصائص عنوان MAC.</div>
+        <button class="wqbtn" onclick="revealWq(this)">إظهار الإجابة النموذجية</button>
+        <div class="wqa">فريد عالمياً لا يتكرّر · ثابت لا يتغيّر · يصنعه المُصنّع ويُخزَّن على بطاقة NIC · يُكتب بالنظام الست عشري في ٦ خانات · طوله ٤٨ بت = ٦ بايت.</div>
+      </div>
+
+      <div class="qsec" style="margin-top:18px">🔘 ثانياً: اختر الإجابة الصحيحة</div>
       <div class="progress-quiz"><i id="qbar"></i></div>
       <div class="qwrap" id="qwrap"></div>
     </div>
@@ -458,7 +569,7 @@ h2.title{font-size:27px;margin-bottom:8px}
 </div>
 
 <script>
-var STATIONS=["البداية","الوظيفة","الشبكة المحلية","بطاقة الشبكة","العنونة","تمهيد","التقويم"];
+var STATIONS=["البداية","الوظيفة","الشبكة المحلية","بطاقة الشبكة","التوصيل","العنونة","مفهوم MAC","التقويم"];
 var cur=0, visited={0:true};
 var rail=document.getElementById('rail');
 function toAr(n){return String(n).replace(/[0-9]/g,function(d){return "٠١٢٣٤٥٦٧٨٩"[d]})}
@@ -473,7 +584,7 @@ function go(i){
   cur=i; visited[i]=true;
   document.getElementById('s'+i).classList.add('on');
   updRail(); window.scrollTo({top:0,behavior:'smooth'});
-  if(i===6 && !quizStarted) startQuiz();
+  if(i===7 && !quizStarted) startQuiz();
 }
 function updRail(){[].forEach.call(rail.children,function(b,i){
   b.classList.toggle('active',i===cur); b.classList.toggle('done',visited[i] && i!==cur);});}
@@ -547,41 +658,89 @@ function moveTo(where){
     : '🏫 في المدرسة: تغيّر عنوان IP لأن الشبكة اختلفت — بينما بقي MAC ثابتاً (إنه على البطاقة).';
 }
 
-/* preview */
-function toggleR(el){el.classList.toggle('open')}
+/* traffic-cop (NIC) animation */
+var SIGS=[{t:'يوتيوب',c:'#E4644E'},{t:'فيسبوك',c:'#4C5FD5'},{t:'تلغرام',c:'#0E9C8C'},{t:'رفع ملف',c:'#E7973A'},{t:'واجب',c:'#2E9E63'}];
+var copBusy=false;
+function buildSigs(){
+  var stage=document.getElementById('copstage');
+  stage.querySelectorAll('.sig').forEach(function(s){s.remove()});
+  var els=[];
+  SIGS.forEach(function(s,i){
+    var el=document.createElement('div');
+    el.className='sig'; el.style.background=s.c; el.textContent=s.t;
+    el.style.right=(6+i*6)+'%'; el.style.top='50%'; el.style.opacity='1';
+    stage.appendChild(el); els.push(el);
+  });
+  return els;
+}
+function copChaos(){
+  if(copBusy) return; copBusy=true;
+  document.getElementById('gate').classList.remove('on');
+  var els=buildSigs(), flash=document.getElementById('copflash');
+  var reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  document.getElementById('copstatus').textContent='أُرسلت كلها دفعةً واحدة…';
+  function fire(){ els.forEach(function(el){el.style.top='50%';el.style.right='70%';}); }
+  reduce?fire():setTimeout(fire,60);
+  setTimeout(function(){flash.classList.add('show');
+    document.getElementById('copstatus').textContent='✗ بلا منظّم: تزاحمت الإشارات وتداخلت على السلك الواحد.';},reduce?100:1050);
+  setTimeout(function(){flash.classList.remove('show');buildSigs();
+    document.getElementById('copstatus').textContent='أعد المحاولة، أو فعّل البطاقة لترى الفرق.';copBusy=false;},reduce?300:2200);
+}
+function copOrder(){
+  if(copBusy) return; copBusy=true;
+  document.getElementById('gate').classList.add('on');
+  var els=buildSigs();
+  document.getElementById('copstatus').textContent='🚦 البطاقة تفحص السلك وتمرّر إشارة واحدة عند خلوّه…';
+  var reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var gap=reduce?60:950;
+  els.forEach(function(el,i){
+    setTimeout(function(){
+      el.style.right='70%';
+      setTimeout(function(){el.style.opacity='0';},reduce?30:850);
+    }, i*gap);
+  });
+  setTimeout(function(){
+    document.getElementById('copstatus').textContent='✓ مع المنظّم: عبرت الإشارات واحدةً تلو الأخرى دون تداخل.';
+    copBusy=false;
+  }, els.length*gap+(reduce?100:900));
+}
+buildSigs();
 
-/* quiz */
+/* NIC install */
+function installNic(){
+  var btn=document.getElementById('nicBtn');
+  document.getElementById('nic').classList.add('in');
+  document.getElementById('slotbox').style.opacity='0';
+  setTimeout(function(){
+    document.getElementById('conn').classList.add('live');
+    document.getElementById('macbadge').classList.add('show');
+    btn.textContent='✓ تم الاتصال'; btn.disabled=true;
+  },650);
+}
+
+/* written-answer reveal */
+function revealWq(btn){
+  var a=btn.nextElementSibling; a.classList.toggle('show');
+  btn.textContent=a.classList.contains('show')?'إخفاء الإجابة':'إظهار الإجابة النموذجية';
+}
+
+/* quiz — two written (above) + 5 MCQ */
 var QUIZ=[
   {q:"ما وظيفة طبقة ربط البيانات (الطبقة الثانية)؟",
    o:["توجيه الرسائل بين الشبكات المختلفة","تنظيم نقل البيانات بين الأجهزة داخل الشبكة المحلية","تخزين ملفات المستخدم","فتح المواقع الإلكترونية"],
    a:1, e:"الطبقة الثانية تنظّم النقل بين الأجهزة الموجودة في الشبكة نفسها (المحلية)."},
-  {q:"ما الجهاز المركزي الذي يربط أجهزة الشبكة المحلية ويوجّه الرسائل بينها؟",
-   o:["الموجّه Router","المحوّل Switch","بطاقة الشاشة","المُعالج"],
-   a:1, e:"المحوّل (Switch) هو الجهاز المركزي الذي تتصل به الأجهزة داخل الشبكة المحلية."},
   {q:"ما الأجهزة المستخدمة في طبقة ربط البيانات؟",
    o:["الموجّه ونقطة الوصول","بطاقة واجهة الشبكة NIC والمحوّل Switch","الطابعة والماسح الضوئي","القرص الصلب والذاكرة"],
    a:1, e:"أجهزة الطبقة الثانية: بطاقة واجهة الشبكة NIC والمحوّل Switch."},
-  {q:"ما وظيفة بطاقة واجهة الشبكة (NIC)؟",
-   o:["تخزين الملفات","ربط الحاسوب بالوسيط وتحويل بياناته إلى إشارات","عرض الصور","تشغيل الصوت"],
-   a:1, e:"NIC هي الواجهة المادية التي تربط الحاسوب بالسلك وتحمل عنوان MAC."},
-  {q:"أين يوجد عنوان MAC؟",
-   o:["في المعالج","على بطاقة واجهة الشبكة NIC","في الشاشة","على الموجّه فقط"],
-   a:1, e:"عنوان MAC بصمة فريدة وثابتة يصنعها المُصنّع على بطاقة NIC."},
+  {q:"متى تنقل بطاقة NIC البيانات عبر الوسيط؟",
+   o:["فور وجود بيانات مباشرةً","بعد التأكد من خلوّ الوسيط من الإشارة","عند إطفاء الجهاز","بعد تغيير عنوان MAC"],
+   a:1, e:"لا تنقل NIC إلا بعد التأكد من خلوّ الوسيط من الإشارة، لمنع تداخل الإشارات."},
+  {q:"أين يوجد عنوان MAC، وما خاصيته؟",
+   o:["في المعالج، ومتغيّر","على بطاقة NIC، وفريد وثابت","في الشاشة، ومؤقّت","على الموجّه، ويتكرّر"],
+   a:1, e:"عنوان MAC فريد وثابت يصنعه المُصنّع ويُخزَّن على بطاقة NIC."},
   {q:"لماذا نحتاج نظامين للعنونة (MAC وIP) معاً؟",
    o:["لأن أحدهما احتياطي للآخر","MAC للهوية والتسليم المحلي، وIP للموقع والتوجيه بين الشبكات","لزيادة السرعة فقط","لا حاجة فعلية لهما معاً"],
-   a:1, e:"يعملان معاً: MAC يقول «مَن أنا» محلياً، وIP يقول «أين أنا» للتوجيه العالمي."},
-  {q:"في مثال رسالة رامي، عبارة «مَن أنا» تقابل:",
-   o:["عنوان IP","عنوان MAC","اسم الشبكة","رقم المنفذ"],
-   a:1, e:"«مَن أنا» = الهوية = عنوان MAC؛ و«أين أنا» = الموقع = عنوان IP."},
-  {q:"ما وحدة البيانات (تنسيق الرسالة) في الطبقة الثانية؟",
-   o:["البت Bit","الإطار Frame","الحزمة Packet","الرسالة"],
-   a:1, e:"الطبقة الثانية تنظّم البتات في إطارات (Frames)."},
-  {q:"عند نقل الحاسوب من شبكة إلى أخرى، أيّ عبارة صحيحة؟",
-   o:["يتغيّر MAC ويبقى IP ثابتاً","يتغيّر IP ويبقى MAC ثابتاً","يتغيّر الاثنان","لا يتغيّر أيٌّ منهما"],
-   a:1, e:"IP يتبع الشبكة فيتغيّر، وMAC مثبّت على البطاقة فيبقى ثابتاً."},
-  {q:"الشبكة المحلية تتكوّن أساساً من:",
-   o:["جهاز واحد فقط","مجموعة أجهزة مرتبطة عبر جهاز مركزي (محوّل)","خوادم عالمية بعيدة","كوابل دون أجهزة"],
-   a:1, e:"الشبكة المحلية = مجموعة أجهزة مرتبطة معاً بجهاز مركزي هو المحوّل."}
+   a:1, e:"يعملان معاً: MAC يقول «مَن أنا» محلياً، وIP يقول «أين أنا» للتوجيه العالمي."}
 ];
 var quizStarted=false, qi=0, score=0, answered=false;
 function startQuiz(){quizStarted=true;qi=0;score=0;renderQ()}
