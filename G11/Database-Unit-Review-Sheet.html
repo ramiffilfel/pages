@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Database Unit Review Sheet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@500;600;700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#152238;--soft:#41506b;--wire:#CDC6B6;--paper:#F5F3EC;--teal:#0E9C8C;--teal-dark:#0a6e63;--teal-soft:#E1F3F0;
+  --amber:#E7973A;--amber-soft:#FBEDDB;--amber-dark:#a8620f;--coral:#E4644E;--coral-soft:#FBE7E2;--coral-dark:#b8412c;
+  --indigo:#4C5FD5;--indigo-soft:#E7E9FB;--plum:#8A4FC0;--plum-soft:#F1E8FA}
+*{box-sizing:border-box}
+body{margin:0;background:#e9e6dd;color:var(--ink);font-family:"Tajawal",Tahoma,"Segoe UI",sans-serif;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.k{font-family:"Reem Kufi",Tahoma,sans-serif}
+.tools{max-width:210mm;margin:14px auto 0;display:flex;justify-content:flex-start}
+.tools button{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14px;border:none;border-radius:10px;padding:9px 18px;cursor:pointer;background:var(--teal);color:#fff}
+.page{width:210mm;min-height:297mm;margin:12px auto 20px;background:#fff;box-shadow:0 6px 24px rgba(0,0,0,.12);padding:10mm 12mm 9mm;display:flex;flex-direction:column}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--ink);color:#fff;border-radius:12px;padding:3.5mm 5mm}
+.topbar h1{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:17pt;font-weight:600;margin:0;line-height:1.3}
+.topbar .sub{font-size:9.5pt;color:#b9c2d6}
+.badge{background:var(--teal);color:#fff;font-family:"Reem Kufi",Tahoma,sans-serif;font-size:9.5pt;padding:1.2mm 3.5mm;border-radius:999px;white-space:nowrap}
+.hint{margin:3mm 0 1mm;font-size:10pt;color:var(--amber-dark);background:var(--amber-soft);border-radius:8px;padding:1.8mm 4mm}
+.sec{border:1.3px solid;border-radius:10px;padding:2.2mm 4.5mm 1.6mm;margin-top:3mm}
+.sec h2{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:12pt;font-weight:600;margin:0 0 1mm;display:flex;align-items:center;gap:2.5mm}
+.sec h2 .n{width:6.5mm;height:6.5mm;border-radius:50%;color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:10pt;flex-shrink:0}
+.s1{border-color:var(--indigo);background:linear-gradient(var(--indigo-soft),var(--indigo-soft)) top/100% 0 no-repeat}
+.s1 h2{color:var(--indigo)} .s1 .n{background:var(--indigo)}
+.s2{border-color:var(--amber)} .s2 h2{color:var(--amber-dark)} .s2 .n{background:var(--amber)}
+.s3{border-color:var(--coral)} .s3 h2{color:var(--coral-dark)} .s3 .n{background:var(--coral)}
+.s4{border-color:var(--teal)} .s4 h2{color:var(--teal-dark)} .s4 .n{background:var(--teal)}
+ol{margin:0;padding-inline-start:7mm}
+li{font-size:11pt;line-height:1.6;margin:.4mm 0}
+li::marker{font-family:"Reem Kufi",Tahoma,sans-serif;color:var(--soft)}
+.steps{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0 4mm;font-size:9.8pt;line-height:1.5;color:var(--soft);margin:.5mm 0 .5mm}
+.teacher{margin-top:auto;background:var(--ink);color:#fff;border-radius:12px;padding:3mm 5mm;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.teacher .tt{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:8.5pt;color:#b9c2d6}
+.teacher .tn{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:12.5pt}
+.teacher .tp{direction:ltr;font-size:10pt;color:#b9c2d6}
+@page{size:A4;margin:0}
+@media print{
+  body{background:#fff}
+  .tools{display:none}
+  .page{margin:0;box-shadow:none;height:297mm;overflow:hidden}
+}
+</style>
+</head>
+<body>
+<div class="tools"><button onclick="window.print()">🖨️ طباعة الورقة</button></div>
+
+<div class="page">
+  <div class="topbar">
+    <div>
+      <h1>ورقة مراجعة · وحدة قواعد البيانات</h1>
+      <div class="sub">تكنولوجيا · الصف الحادي عشر العلمي</div>
+    </div>
+    <span class="badge">📝 مراجعة</span>
+  </div>
+
+  <div class="hint">✦ أجب عن الأسئلة في دفترك، وارجع إلى الكتاب وملفات الدروس عند الحاجة.</div>
+
+  <div class="sec s1">
+    <h2><span class="n">١</span>مفهوم قواعد البيانات وخصائصها</h2>
+    <ol start="1">
+      <li>عدّد ثلاثاً من خصائص قواعد البيانات.</li>
+      <li>قارن بين تجنّب التكرار (Redundancy) وتناسق البيانات (Consistency) من حيث: المفهوم، والمثال.</li>
+      <li>قارن بين المصادقة (Authentication) والتفويض (Authorization) من حيث: المفهوم، والمثال.</li>
+      <li>قارن بين نظام الملفات الورقي ونظام قواعد البيانات المحوسب من حيث: سرعة الوصول للمعلومة، وتكرار البيانات.</li>
+    </ol>
+  </div>
+
+  <div class="sec s2">
+    <h2><span class="n">٢</span>نظم إدارة قواعد البيانات وعمارتها</h2>
+    <ol start="5">
+      <li>عدّد ثلاثاً من وظائف إدارة قواعد البيانات.</li>
+      <li>عدّد ثلاثاً من ميزات نظم إدارة قواعد البيانات مقارنةً بنظام أرشفة الملفات التقليدي.</li>
+      <li>قارن بين نظم إدارة قواعد البيانات المخصّصة للأنظمة الصغيرة والمخصّصة للأنظمة الكبيرة من حيث: الأجهزة التي تعمل عليها، ومثالين لكلٍّ منهما.</li>
+      <li>اذكر مستويات عمارة نظم إدارة قواعد البيانات، ثم اشرح واحداً منها.</li>
+      <li>رتّب خطوات استرجاع سجل الآتية، ثم اشرح دور الـ Buffer:
+        <div class="steps">
+          <span>أ) يقرأ مدير الملفات الكتلة.</span>
+          <span>ب) عرض السجل على الشاشة.</span>
+          <span>ج) يطلب المستخدم السجل بالمفتاح الأساسي.</span>
+          <span>د) حفظ بيانات الكتلة في الـ Buffer.</span>
+          <span>هـ) يمرّر DBMS الطلب لمدير الملفات.</span>
+          <span>و) إرجاع السجل للبرنامج التطبيقي.</span>
+        </div>
+      </li>
+    </ol>
+  </div>
+
+  <div class="sec s3">
+    <h2><span class="n">٣</span>مكوّنات أنظمة إدارة قواعد البيانات</h2>
+    <ol start="10">
+      <li>عدّد مكوّنات أنظمة إدارة قواعد البيانات.</li>
+      <li>اذكر أنواع المكوّنات البرمجية لأنظمة إدارة قواعد البيانات، ثم اشرح واحداً منها.</li>
+      <li>قارن بين المستخدم المباشر والمستخدم غير المباشر لقواعد البيانات من حيث: المفهوم، والمثال.</li>
+      <li>عدّد ثلاثاً من مهام مدير قواعد البيانات (DBA).</li>
+      <li>عدّد ثلاثاً من أنواع المستخدم المباشر (End User).</li>
+    </ol>
+  </div>
+
+  <div class="sec s4">
+    <h2><span class="n">٤</span>نماذج قواعد البيانات</h2>
+    <ol start="15">
+      <li>اذكر نماذج قواعد البيانات الثلاثة، ثم اشرح واحداً منها.</li>
+      <li>قارن بين النموذج الهرميّ والنموذج الشّبكي من حيث: طريقة بناء النموذج، وطريقة ترابط البيانات.</li>
+      <li>اذكر مكوّنات النموذج العلائقي، ثم عرّف واحداً منها.</li>
+      <li>اذكر ما يقابل كلاً مما يأتي في الجدول: الكيان، الصفة (الحقل)، السجل. ثم عرّف واحداً منها.</li>
+    </ol>
+  </div>
+
+  <div class="teacher" style="margin-top:4mm">
+    <div>
+      <div class="tt">إعداد الأستاذ</div>
+      <div class="tn">رامي فتحي فلفل</div>
+    </div>
+    <div class="tp">هاتف / واتساب: +972&nbsp;59&nbsp;788&nbsp;0216</div>
+  </div>
+</div>
+</body>
+</html>
