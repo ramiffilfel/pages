@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Database Unit Review with Answers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@400;500;600;700&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#152238; --ink-soft:#41506b; --paper:#F5F3EC; --card:#ffffff; --wire:#CDC6B6;
+  --teal:#0E9C8C; --teal-dark:#0a6e63; --teal-soft:#E1F3F0;
+  --amber:#E7973A; --amber-soft:#FBEDDB; --amber-dark:#a8620f;
+  --coral:#E4644E; --coral-soft:#FBE7E2; --coral-dark:#b8412c;
+  --indigo:#4C5FD5; --indigo-soft:#E7E9FB;
+  --green:#2E9E63; --green-soft:#E1F2E8;
+  --bar:#152238; --bar-ink:#ffffff; --bar-sub:#b9c2d6;
+  --shadow:0 10px 30px rgba(21,34,56,.10);
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ink:#E9EDF4; --ink-soft:#A9B4C6; --paper:#11161E; --card:#1A212C; --wire:#34404F;
+    --teal:#2BB8A7; --teal-dark:#5FD6C6; --teal-soft:#123331;
+    --amber:#E9A24F; --amber-soft:#35291A; --amber-dark:#F0BC72;
+    --coral:#EE7D69; --coral-soft:#3A221F; --coral-dark:#F39B8B;
+    --indigo:#8D9BF0; --indigo-soft:#1F2442;
+    --green:#5CC98E; --green-soft:#16301F;
+    --bar:#243044; --bar-ink:#ffffff; --bar-sub:#b9c2d6;
+    --shadow:0 10px 30px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+    --ink:#E9EDF4; --ink-soft:#A9B4C6; --paper:#11161E; --card:#1A212C; --wire:#34404F;
+    --teal:#2BB8A7; --teal-dark:#5FD6C6; --teal-soft:#123331;
+    --amber:#E9A24F; --amber-soft:#35291A; --amber-dark:#F0BC72;
+    --coral:#EE7D69; --coral-soft:#3A221F; --coral-dark:#F39B8B;
+    --indigo:#8D9BF0; --indigo-soft:#1F2442;
+    --green:#5CC98E; --green-soft:#16301F;
+    --bar:#243044; --bar-ink:#ffffff; --bar-sub:#b9c2d6;
+    --shadow:0 10px 30px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+html{scroll-padding-top:70px;scroll-behavior:smooth}
+body{margin:0;background-color:var(--paper);color:var(--ink);
+  font-family:"Tajawal",Tahoma,"Segoe UI",sans-serif;line-height:1.75;
+  background-image:radial-gradient(var(--wire) .8px,transparent .8px);background-size:26px 26px}
+.wrap{max-width:920px;margin:0 auto;padding:20px 18px 60px}
+h1,h2,h3{font-family:"Reem Kufi",Tahoma,sans-serif;font-weight:600;line-height:1.35;margin:0}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;
+  background:var(--bar);color:var(--bar-ink);border-radius:16px;padding:14px 20px;box-shadow:var(--shadow);margin-bottom:18px}
+.topbar h1{font-size:21px}
+.topbar .sub{font-size:13px;color:var(--bar-sub)}
+.badge{background:var(--teal);color:#fff;font-size:12px;padding:5px 12px;border-radius:999px;font-family:"Reem Kufi",Tahoma,sans-serif;white-space:nowrap}
+.card{background:var(--card);border-radius:18px;padding:22px;box-shadow:var(--shadow);border:1px solid var(--wire);margin-bottom:16px}
+.hint{font-size:14px;color:var(--amber-dark);background:var(--amber-soft);border-radius:10px;padding:9px 14px;display:flex;gap:8px;align-items:center}
+
+/* rail = jump to lesson */
+.rail{position:sticky;top:0;z-index:5;display:flex;gap:6px;flex-wrap:wrap;margin:0 0 16px;padding:8px 0;background:var(--paper)}
+.rail a{flex:1 1 0;min-width:120px;background:var(--card);border:1.5px solid var(--wire);border-radius:12px;padding:8px 6px;
+  font-family:"Reem Kufi",Tahoma,sans-serif;font-size:12.5px;color:var(--ink-soft);text-decoration:none;
+  display:flex;align-items:center;justify-content:center;gap:6px;transition:.2s}
+.rail a .n{width:20px;height:20px;border-radius:50%;color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0}
+.rail a:hover{border-color:var(--teal)}
+.rail a:focus-visible{outline:3px solid var(--indigo);outline-offset:2px}
+
+.controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.btn{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14px;border:none;border-radius:12px;padding:10px 18px;cursor:pointer;transition:.15s}
+.btn-main{background:var(--teal);color:#fff}
+.btn-main:hover{background:var(--teal-dark)}
+.btn-ghost{background:var(--paper);color:var(--ink-soft);border:1.5px solid var(--wire)}
+.btn:focus-visible{outline:3px solid var(--indigo);outline-offset:2px}
+.prog{margin-inline-start:auto;align-self:center;font-family:"Reem Kufi",Tahoma,sans-serif;font-size:13px;color:var(--ink-soft)}
+
+/* sections */
+.sec h2{font-size:20px;display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.sec h2 .n{width:30px;height:30px;border-radius:50%;color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.c1{--c:var(--indigo);--cs:var(--indigo-soft)}
+.c2{--c:var(--amber-dark);--cs:var(--amber-soft)}
+.c3{--c:var(--coral-dark);--cs:var(--coral-soft)}
+.c4{--c:var(--teal-dark);--cs:var(--teal-soft)}
+.sec h2{color:var(--c)} .sec h2 .n,.rail a.c1 .n,.rail a.c2 .n,.rail a.c3 .n,.rail a.c4 .n{background:var(--c)}
+.sec{border-top:5px solid var(--c)}
+
+/* question item */
+.qi{border:1.5px solid var(--wire);border-radius:14px;margin-top:10px;background:var(--card);overflow:hidden;transition:border-color .2s}
+.qi.open{border-color:var(--c)}
+.qbtn{all:unset;box-sizing:border-box;display:flex;align-items:flex-start;gap:12px;width:100%;padding:13px 16px;cursor:pointer;
+  font-family:"Tajawal",Tahoma,sans-serif;font-size:16.5px;line-height:1.65;color:var(--ink)}
+.qbtn:hover{background:var(--cs)}
+.qbtn:focus-visible{outline:3px solid var(--indigo);outline-offset:-3px}
+.qnum{flex-shrink:0;width:30px;height:30px;border-radius:9px;background:var(--cs);color:var(--c);
+  font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14px;display:inline-flex;align-items:center;justify-content:center;margin-top:1px}
+.qtext{flex:1}
+.chev{flex-shrink:0;font-family:"Reem Kufi",Tahoma,sans-serif;font-size:12px;color:var(--c);background:var(--cs);
+  border-radius:999px;padding:3px 10px;margin-top:3px;white-space:nowrap}
+.qi.open .chev{background:var(--c);color:#fff}
+.steps{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:2px 14px;font-size:14.5px;color:var(--ink-soft);margin-top:6px}
+
+/* answer slide */
+.ans{display:grid;grid-template-rows:0fr;transition:grid-template-rows .4s ease}
+.qi.open .ans{grid-template-rows:1fr}
+.ans>div{overflow:hidden}
+.ansin{margin:0 16px 14px;padding:12px 16px;border-radius:12px;background:var(--green-soft);border-inline-start:4px solid var(--green);font-size:15.5px}
+.ansin .lbl{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:13px;color:var(--green);margin-bottom:4px;display:block}
+.ansin ul,.ansin ol{margin:2px 0;padding-inline-start:22px}
+.ansin li{margin:2px 0}
+.ansin b{color:var(--green)}
+.tbl{overflow-x:auto;margin:4px 0}
+table{width:100%;border-collapse:collapse;font-size:14.5px;background:var(--card);min-width:420px}
+th,td{border:1px solid var(--wire);padding:7px 10px;text-align:right;vertical-align:top;line-height:1.6}
+th{background:var(--paper);font-family:"Reem Kufi",Tahoma,sans-serif;font-weight:600}
+.order{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:18px;color:var(--green);letter-spacing:1px}
+
+.teacher{background:var(--bar);color:var(--bar-ink);border-radius:16px;padding:18px 22px;margin-top:22px;
+  display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;box-shadow:var(--shadow)}
+.teacher .tt{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:12px;color:var(--bar-sub)}
+.teacher .tn{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:19px;margin-top:2px}
+.teacher .tp{direction:ltr;font-size:14px;color:var(--bar-sub);margin-top:4px;text-align:right}
+.teacher a.wa{display:inline-flex;align-items:center;gap:8px;background:#25D366;color:#04331a;
+  font-family:"Reem Kufi",Tahoma,sans-serif;font-size:15px;text-decoration:none;padding:10px 18px;border-radius:12px}
+.teacher a.wa:hover{filter:brightness(1.06)}
+.teacher a.wa:focus-visible{outline:3px solid #fff;outline-offset:2px}
+@media (max-width:560px){
+  .wrap{padding:14px 12px 50px}
+  .topbar h1{font-size:17px}
+  .card{padding:16px}
+  .qbtn{font-size:15.5px;padding:12px}
+  .chev{display:none}
+  .rail a{min-width:calc(50% - 3px)}
+  .prog{margin-inline-start:0;width:100%}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div>
+      <h1>مراجعة وحدة قواعد البيانات · مع الحل</h1>
+      <div class="sub">تكنولوجيا · الصف الحادي عشر العلمي</div>
+    </div>
+    <span class="badge">١٨ سؤالاً</span>
+  </div>
+
+  <div class="card">
+    <div class="hint">✦ حاول أن تجيب في دفترك أولاً، ثم اضغط على السؤال لتظهر الإجابة النموذجية تحته وتقارن.</div>
+    <div class="controls">
+      <button class="btn btn-main" onclick="all_(true)">👁️ إظهار كل الإجابات</button>
+      <button class="btn btn-ghost" onclick="all_(false)">🙈 إخفاء الكل</button>
+      <span class="prog" id="prog">راجعت ٠ من ١٨</span>
+    </div>
+  </div>
+
+  <nav class="rail" aria-label="الدروس">
+    <a href="#l1" class="c1"><span class="n">١</span>المفهوم والخصائص</a>
+    <a href="#l2" class="c2"><span class="n">٢</span>DBMS وعمارتها</a>
+    <a href="#l3" class="c3"><span class="n">٣</span>المكوّنات</a>
+    <a href="#l4" class="c4"><span class="n">٤</span>النماذج</a>
+  </nav>
+
+  <!-- ===== LESSON 1 ===== -->
+  <section class="card sec c1" id="l1">
+    <h2><span class="n">١</span>مفهوم قواعد البيانات وخصائصها</h2>
+
+    <div class="qi">
+      <button class="qbtn" aria-expanded="false"><span class="qnum">١</span><span class="qtext">عدّد ثلاثاً من خصائص قواعد البيانات.</span><span class="chev">الحل ▾</span></button>
+      <div class="ans"><div><div class="ansin"><span class="lbl">✅ الإجابة النموذجية · أيّ ثلاث مما يأتي</span>
+        <ul>
+          <li>تجنّب التكرار (Redundancy).</li>
+          <li>تطابق أو تناسق البيانات (Consistency).</li>
+          <li>مشاركة البيانات (Sharing).</li>
+          <li>خصوصية وأمن البيانات (Privacy and Security).</li>
+          <li>استقلالية البيانات (Data Independence).</li>
+          <li>التكامل المرجعي (Referential Integrity).</li>
+        </ul>
+      </div></div></div>
+    </div>
+
+    <div class="qi">
+      <button class="qbtn" aria-expanded="false"><span class="qnum">٢</span><span class="qtext">قارن بين تجنّب التكرار (Redundancy) وتناسق البيانات (Consistency) من حيث: المفهوم، والمثال.</span><span class="chev">الحل ▾</span></button>
+      <div class="ans"><div><div class="ansin"><span class="lbl">✅ الإجابة النموذجية</span>
+        <div class="tbl"><table>
+          <tr><th>وجه المقارنة</th><th>تجنّب التكرار</th><th>تناسق البيانات</th></tr>
+          <tr><td>المفهوم</td><td>عدم تكرار البيانات في أقسام المؤسسة المختلفة، بتخزينها في قاعدة بيانات مركزية تستخدمها الأقسام جميعها.</td><td>أيّ إجراء على قاعدة البيانات يغيّر البيانات المتأثرة به بالطرق المسموح بها، وتكون البيانات المكتوبة صالحة وفق قواعد محدّدة.</td></tr>
+          <tr><td>المثال</td><td>تُسجَّل بيانات الطالب مرة واحدة، بدل تسجيلها في التسجيل والمالية والمكتبة كلٌّ على حدة.</td><td>كتابة «احمد سليمان» في قسم و«أحمد سليمان» في قسم آخر تجعل القاعدة تراهما طالبين مختلفين.</td></tr>
+        </table></div>
+      </div></div></div>
+    </div>
+
+    <div class="qi">
+      <button class="qbtn" aria-expanded="false"><span class="qnum">٣</span><span class="qtext">قارن بين المصادقة (Authentication) والتفويض (Authorization) من حيث: المفهوم، والمثال.</span><span class="chev">الحل ▾</span></button>
+      <div class="ans"><div><div class="ansin"><span class="lbl">✅ الإجابة النموذجية</span>
+        <div class="tbl"><table>
+          <tr><th>وجه المقارنة</th><th>المصادقة</th><th>التفويض</th></tr>
+          <tr><td>المفهوم</td><td>عملية التأكد أنّ الشخص الذي يحاول الدخول إلى قاعدة البيانات وإجراء بعض العمليات عليها مصرّح له بذلك.</td><td>عملية تحديد الصلاحيات (Permissions) للمستخدمين من قِبل مدير النظام، ونطاق البيانات المسموح لهم التعامل معها.</td></tr>
+          <tr><td>المثال</td><td>اسم المستخدم وكلمة المرور.</td><td>مستخدم يقرأ البيانات فقط، وآخر يضيف ويحدّث ويحذف.</td></tr>
+        </table></div>
+      </div></div></div>
+    </div>
+
+    <div class="qi">
+      <button class="qbtn" aria-expanded="false"><span class="qnum">٤</span><span class="qtext">قارن بين نظام الملفات الورقي ونظام قواعد البيانات المحوسب من حيث: سرعة الوصول للمعلومة، وتكرار البيانات.</span><span class="chev">الحل ▾</span></button>
+      <div class="ans"><div><div class="ansin"><span class="lbl">✅ الإجابة النموذجية</span>
+        <div class="tbl"><table>
+          <tr><th>وجه المقارنة</th><th>النظام الورقي</th><th>النظام المحوسب</th></tr>
+          <tr><td>سرعة الوصول للمعلومة</td><td>بطيء؛ يُبحث في الأوراق والدفاتر يدوياً.</td><td>سريع، وبدقة عالية.</td></tr>
+          <tr><td>تكرار البيانات</td><td>تتكرر البيانات؛ تُسجَّل بيانات الطالب في كل قسم على حدة.</td><td>لا تكرار؛ تُخزَّن مرة واحدة في قاعدة بيانات مركزية وتستخدمها الأقسام جميعها.</td></tr>
+        </table></div>
+      </div></div></div>
+    </div>
+  </section>
+
+  <!-- ===== LESSON 2 ===== -->
+  <section class="card sec c2" id="l2">
+    <h2><span class="n">٢</span>نظم إدارة قواعد البيانات وعمارتها</h2>
+
+    <div class="qi">
+      <button class="qbtn" aria-expanded="false"><span class="qnum">٥</span><span class="qtext">عدّد ثلاثاً من وظائف إدارة قواعد البيانات.</span><span class="chev">الحل ▾</span></button>
+      <div class="ans"><div><div class="ansin"><span class="lbl">✅ الإجابة النموذجية · أيّ ثلاث مما يأتي</span>
+        الإضافة، التعديل، التخزين، الحذف، الاسترجاع، البحث، العرض.
+      </div></div></div>
+    </div>
+
+    <div class="qi">
+      <button class="qbtn" aria-expanded="false"><span class="qnum">٦</span><span class="qtext">عدّد ثلاثاً من ميزات نظم إدارة قواعد البيانات مقارنةً بنظام أرشفة الملفات التقليدي.</span><span class="chev">الحل ▾</span></button>
+      <div class="ans"><div><div class="ansin"><span class="lbl">✅ الإجابة النموذجية · أيّ ثلاث مما يأتي</span>
+        <ul>
+          <li>زيادة إنتاجية المستخدمين.</li>
+          <li>سرعة استرجاع المعلومات.</li>
+          <li>زيادة أمن المعلومات.</li>
+          <li>إمكانية مراقبة قاعدة البيانات طوال الوقت.</li>
+        </ul>
+      </div></div></div>
+    </div>
+
+    <div class="qi">
+      <button class="qbtn" aria-expanded="false"><span class="qnum">٧</span><span class="qtext">قارن بين نظم إدارة قواعد البيانات المخصّصة للأنظمة الصغيرة والمخصّصة للأنظمة الكبيرة من حيث: الأجهزة التي تعمل عليها، ومثالين لكلٍّ منهما.</span><span class="chev">الحل ▾</span></button>
+      <div class="ans"><div><div class="ansin"><span class="lbl">✅ الإجابة النموذجية</span>
+        <div class="tbl"><table>
+          <tr><th>وجه المقارنة</th><th>للأنظمة الصغيرة</th><th>للأنظمة الكبيرة</th></tr>
+          <tr><td>الأجهزة</td><td>الأجهزة الشخصية والصغيرة.</td><td>الخوادم العملاقة والأجهزة الكبيرة، وتخدم عدداً كبيراً من المستخدمين.</td></tr>
+          <tr><td>مثالان</td><td>Access، FoxPro</td><td>Microsoft SQL، Oracle</td></tr>
+        </table></div>
+      </div></div></div>
+    </div>
+
+    <div class="qi">
+      <button class="qbtn" aria-expanded="false"><span class="qnum">٨</span><span class="qtext">اذكر مستويات عمارة نظم إدارة قواعد البيانات، ثم اشرح واحداً منها.</span><span class="chev">الحل ▾</span></button>
+      <div class="ans"><div><div class="ansin"><span class="lbl">✅ الإجابة النموذجية</span>
+        المستويات: <b>الداخلي/الفيزيائي</b>، <b>المنطقي</b>، <b>الخارجي</b>. ويكفي شرح واحد:
+        <ul>
+          <li><b>الداخلي/الفيزيائي:</b> يصف طريقة تخزين البيانات والعلاقات في وسائط التخزين، ويحدّد تراكيب البيانات وأماكن تخزينها وأحجامها، ويحوّلها للغة الآلة.</li>
+          <li><b>المنطقي:</b> الوسيط بين المستوى الداخلي والخارجي، يصف محتويات قاعدة البيانات وبنيتها وأنواعها وحقولها وعلاقاتها وقيودها.</li>
+          <li><b>الخارجي:</b> يصف مختلف المشاهد (Views) المعروضة للمستخدم لقاعدة البيانات.</li>
+        </ul>
+      </div></div></div>
+    </div>
+
+    <div class="qi">
+      <button class="qbtn" aria-expanded="false"><span class="qnum">٩</span><span class="qtext">رتّب خطوات استرجاع سجل الآتية، ثم اشرح دور الـ Buffer:
+        <span class="steps">
+          <span>أ) يقرأ مدير الملفات الكتلة.</span>
+          <span>ب) عرض السجل على الشاشة.</span>
+          <span>ج) يطلب المستخدم السجل بالمفتاح الأساسي.</span>
+          <span>د) حفظ بيانات الكتلة في الـ Buffer.</span>
+          <span>هـ) يمرّر DBMS الطلب لمدير الملفات.</span>
+          <span>و) إرجاع السجل للبرنامج التطبيقي.</span>
+        </span></span><span class="chev">الحل ▾</span></button>
+      <div class="ans"><div><div class="ansin"><span class="lbl">✅ الإجابة النموذجية</span>
+        <b>الترتيب الصحيح:</b> <span class="order">ج ← هـ ← أ ← د ← و ← ب</span><br>
+        <b>دور الـ Buffer:</b> منطقة تخزين مؤقت في الذاكرة، تُحفظ فيها بيانات الكتلة التي قرأها مدير الملفات، ومنها يُستخرج السجل المطلوب باستخدام المفتاح الأساسي ويُرجَع إلى البرنامج التطبيقي.
+      </div></div></div>
+    </div>
+  </section>
+
+  <!-- ===== LESSON 3 ===== -->
+  <section class="card sec c3" id="l3">
+    <h2><span class="n">٣</span>مكوّنات أنظمة إدارة قواعد البيانات</h2>
+
+    <div class="qi">
+      <button class="qbtn" aria-expanded="false"><span class="qnum">١٠</span><span class="qtext">عدّد مكوّنات أنظمة إدارة قواعد البيانات.</span><span class="chev">الحل ▾</span></button>
+      <div class="ans"><div><div class="ansin"><span class="lbl">✅ الإجابة النموذجية</span>
+        <ol>
+          <li>المكوّنات المادية (Hardware).</li>
+          <li>المكوّنات البرمجية (Software).</li>
+          <li>المستخدمون (Users).</li>
+        </ol>
+      </div></div></div>
+    </div>
+
+    <div class="qi">
+      <button class="qbtn" aria-expanded="false"><span class="qnum">١١</span><span class="qtext">اذكر أنواع المكوّنات البرمجية لأنظمة إدارة قواعد البيانات، ثم اشرح واحداً منها.</span><span class="chev">الحل ▾</span></button>
+      <div class="ans"><div><div class="ansin"><span class="lbl">✅ الإجابة النموذجية</span>
+        الأنواع: <b>أنظمة التشغيل</b>، <b>برمجيات قواعد البيانات</b>، <b>البرمجيات التطبيقية</b>. ويكفي شرح واحد:
+        <ul>
+          <li><b>أنظمة التشغيل:</b> مجموعة برمجيات تدير وتشغّل أجهزة الحاسوب، وتُعتبر حاضنة للبرمجيات الأخرى.</li>
+          <li><b>برمجيات قواعد البيانات:</b> البرامج المسؤولة عن تصميم ومعالجة قواعد البيانات، مثل لغة SQL وبرامج النسخ الاحتياطي.</li>
+          <li><b>البرمجيات التطبيقية:</b> البرامج والواجهات التي يبنيها المبرمجون للشركات والمؤسسات، مثل برامج الصيدليات والمحاسبة.</li>
+        </ul>
+      </div></div></div>
+    </div>
+
+    <div class="qi">
+      <button class="qbtn" aria-expanded="false"><span class="qnum">١٢</span><span class="qtext">قارن بين المستخدم المباشر والمستخدم غير المباشر لقواعد البيانات من حيث: المفهوم، والمثال.</span><span class="chev">الحل ▾</span></button>
+      <div class="ans"><div><div class="ansin"><span class="lbl">✅ الإجابة النموذجية</span>
+        <div class="tbl"><table>
+          <tr><th>وجه المقارنة</th><th>المستخدم المباشر</th><th>المستخدم غير المباشر</th></tr>
+          <tr><td>المفهوم</td><td>المستخدم النهائي (End User) «على المسرح»، يتعامل مع واجهات النظام وعملياته المختلفة.</td><td>«خلف الكواليس»، يصمّم قاعدة البيانات ويطوّرها ويديرها ويحافظ على تطبيقاتها.</td></tr>
+          <tr><td>المثال</td><td>موظف صيدلية يستخدم برنامج الصيدلية، أو طالب يستعلم عن علاماته.</td><td>مدير قواعد البيانات (DBA)، أو المصمّم والمحلّل، أو المبرمج.</td></tr>
+        </table></div>
+      </div></div></div>
+    </div>
+
+    <div class="qi">
+      <button class="qbtn" aria-expanded="false"><span class="qnum">١٣</span><span class="qtext">عدّد ثلاثاً من مهام مدير قواعد البيانات (DBA).</span><span class="chev">الحل ▾</span></button>
+      <div class="ans"><div><div class="ansin"><span class="lbl">✅ الإجابة النموذجية · أيّ ثلاث مما يأتي</span>
+        <ul>
+          <li>التصميم والتنفيذ والتشغيل.</li>
+          <li>النسخ الاحتياطي.</li>
+          <li>استعادة النظام.</li>
+          <li>مراقبة الأداء وتحديثه.</li>
+          <li>منح الصلاحيات.</li>
+        </ul>
+      </div></div></div>
+    </div>
+
+    <div class="qi">
+      <button class="qbtn" aria-expanded="false"><span class="qnum">١٤</span><span class="qtext">عدّد ثلاثاً من أنواع المستخدم المباشر (End User).</span><span class="chev">الحل ▾</span></button>
+      <div class="ans"><div><div class="ansin"><span class="lbl">✅ الإجابة النموذجية · أيّ ثلاث مما يأتي</span>
+        الدائم، النادر، المركّب، الوحيد.
+      </div></div></div>
+    </div>
+  </section>
+
+  <!-- ===== LESSON 4 ===== -->
+  <section class="card sec c4" id="l4">
+    <h2><span class="n">٤</span>نماذج قواعد البيانات</h2>
+
+    <div class="qi">
+      <button class="qbtn" aria-expanded="false"><span class="qnum">١٥</span><span class="qtext">اذكر نماذج قواعد البيانات الثلاثة، ثم اشرح واحداً منها.</span><span class="chev">الحل ▾</span></button>
+      <div class="ans"><div><div class="ansin"><span class="lbl">✅ الإجابة النموذجية</span>
+        النماذج: <b>الهرميّ</b>، <b>الشّبكي</b>، <b>العلائقي</b>. ويكفي شرح واحد:
+        <ul>
+          <li><b>الهرميّ:</b> النموذج الأول لتمثيل قواعد البيانات، يعتمد على الروابط للتنقّل بين ملفاته، ومبني من الأعلى للأسفل (Up-down)؛ المستوى الأعلى أب للمستوى الذي أسفله.</li>
+          <li><b>الشّبكي:</b> تُخزَّن فيه البيانات بصورة سلاسل مترابطة، وعلاقاته أكثر تعقيداً من سابقه، ويعتمد على المجموعات «المالكين» (Owners) والعناصر «المستخدمين» (Users).</li>
+          <li><b>العلائقي:</b> الأكثر انتشاراً لسهولة فهمه واستخدامه، يحوّل مفاهيم العالم الحقيقي إلى نموذج مصغّر، ومكوّناته: الكيان والصفة والعلاقة.</li>
+        </ul>
+      </div></div></div>
+    </div>
+
+    <div class="qi">
+      <button class="qbtn" aria-expanded="false"><span class="qnum">١٦</span><span class="qtext">قارن بين النموذج الهرميّ والنموذج الشّبكي من حيث: طريقة بناء النموذج، وطريقة ترابط البيانات.</span><span class="chev">الحل ▾</span></button>
+      <div class="ans"><div><div class="ansin"><span class="lbl">✅ الإجابة النموذجية</span>
+        <div class="tbl"><table>
+          <tr><th>وجه المقارنة</th><th>الهرميّ</th><th>الشّبكي</th></tr>
+          <tr><td>طريقة البناء</td><td>من الأعلى للأسفل (Up-down)، والمستوى الأعلى يُعتبر أباً للمستوى الذي أسفله.</td><td>يعتمد على المجموعات الجزئية والعناصر: المجموعات «المالكون» (Owners) والعناصر «المستخدمون» (Users).</td></tr>
+          <tr><td>ترابط البيانات</td><td>يعتمد على الروابط للتنقّل بين ملفاته في اتجاه واحد؛ لكل ابن أب واحد فقط.</td><td>سلاسل مترابطة، والعلاقات أكثر تعقيداً؛ العنصر الواحد قد يرتبط بأكثر من مالك.</td></tr>
+        </table></div>
+      </div></div></div>
+    </div>
+
+    <div class="qi">
+      <button class="qbtn" aria-expanded="false"><span class="qnum">١٧</span><span class="qtext">اذكر مكوّنات النموذج العلائقي، ثم عرّف واحداً منها.</span><span class="chev">الحل ▾</span></button>
+      <div class="ans"><div><div class="ansin"><span class="lbl">✅ الإجابة النموذجية</span>
+        المكوّنات: <b>الكيان (Entity)</b>، <b>الصفة (Attribute)</b>، <b>العلاقة (Relation)</b>. ويكفي تعريف واحد:
+        <ul>
+          <li><b>الكيان:</b> وحدة أساسية مستقلّة محطّ اهتمام النظام، له وجود حقيقي أو منطقي، ويُمثَّل على شكل جدول.</li>
+          <li><b>الصفة:</b> سمات أو خصائص لوصف الكيان، ولكلّ صفة مجال (Domain) من القيم الممكنة.</li>
+          <li><b>العلاقة:</b> الروابط بين كيانين أو أكثر في النظام، ولها درجة ونوع وشروط محدّدة.</li>
+        </ul>
+      </div></div></div>
+    </div>
+
+    <div class="qi">
+      <button class="qbtn" aria-expanded="false"><span class="qnum">١٨</span><span class="qtext">اذكر ما يقابل كلاً مما يأتي في الجدول: الكيان، الصفة (الحقل)، السجل. ثم عرّف واحداً منها.</span><span class="chev">الحل ▾</span></button>
+      <div class="ans"><div><div class="ansin"><span class="lbl">✅ الإجابة النموذجية</span>
+        <b>الكيان</b> ← الجدول، <b>الصفة (الحقل)</b> ← العمود، <b>السجل</b> ← الصف. ويكفي تعريف واحد:
+        <ul>
+          <li><b>الكيان:</b> وحدة أساسية مستقلّة محطّ اهتمام النظام، له وجود حقيقي أو منطقي.</li>
+          <li><b>الصفة/الحقل:</b> خاصية تصف الكيان، ولها مجال (Domain) من القيم الممكنة.</li>
+          <li><b>السجل:</b> قيم مجموعة الحقول لصفٍّ واحد في الجدول.</li>
+        </ul>
+      </div></div></div>
+    </div>
+  </section>
+
+  <div class="teacher">
+    <div>
+      <div class="tt">إعداد الأستاذ</div>
+      <div class="tn">رامي فتحي فلفل</div>
+      <div class="tp">هاتف / واتساب: +972&nbsp;59&nbsp;788&nbsp;0216</div>
+    </div>
+    <a class="wa" href="https://wa.me/972597880216" target="_blank" rel="noopener">💬 تواصل عبر واتساب</a>
+  </div>
+</div>
+
+<script>
+var items=[].slice.call(document.querySelectorAll('.qi')), seen={};
+function toAr(n){return String(n).replace(/[0-9]/g,function(d){return "٠١٢٣٤٥٦٧٨٩"[d]})}
+function setOpen(qi,on){
+  qi.classList.toggle('open',on);
+  var b=qi.querySelector('.qbtn'); b.setAttribute('aria-expanded',on);
+  qi.querySelector('.chev').textContent=on?'إخفاء ▴':'الحل ▾';
+  if(on) seen[items.indexOf(qi)]=1;
+  document.getElementById('prog').textContent='راجعت '+toAr(Object.keys(seen).length)+' من '+toAr(items.length);
+}
+items.forEach(function(qi){
+  qi.querySelector('.qbtn').addEventListener('click',function(){setOpen(qi,!qi.classList.contains('open'))});
+});
+function all_(on){items.forEach(function(qi){setOpen(qi,on)})}
+</script>
+</body>
+</html>
