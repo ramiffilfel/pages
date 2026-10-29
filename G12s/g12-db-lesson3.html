@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>One-to-Many Relationship · Grade 12 Science</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@400;500;600;700&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#152238; --ink-soft:#41506b; --paper:#F5F3EC; --card:#ffffff; --wire:#CDC6B6;
+  --teal:#0E9C8C; --teal-dark:#0a6e63; --teal-soft:#E1F3F0;
+  --amber:#E7973A; --amber-soft:#FBEDDB; --amber-dark:#a8620f;
+  --coral:#E4644E; --coral-soft:#FBE7E2; --coral-dark:#b8412c;
+  --indigo:#4C5FD5; --indigo-soft:#E7E9FB;
+  --plum:#8A4FC0; --plum-soft:#F1E8FA;
+  --green:#2E9E63; --green-soft:#E1F2E8; --red:#D8463F; --red-soft:#FAE3E2;
+  --bar:#152238; --bar-ink:#ffffff; --bar-sub:#b9c2d6;
+  --shadow:0 10px 30px rgba(21,34,56,.10);
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ink:#E9EDF4; --ink-soft:#A9B4C6; --paper:#11161E; --card:#1A212C; --wire:#34404F;
+    --teal:#2BB8A7; --teal-dark:#5FD6C6; --teal-soft:#123331;
+    --amber:#E9A24F; --amber-soft:#35291A; --amber-dark:#F0BC72;
+    --coral:#EE7D69; --coral-soft:#3A221F; --coral-dark:#F39B8B;
+    --indigo:#8D9BF0; --indigo-soft:#1F2442;
+    --plum:#B88BE6; --plum-soft:#2C2240;
+    --green:#5CC98E; --green-soft:#16301F; --red:#F0766F; --red-soft:#3A1E1D;
+    --bar:#243044; --bar-ink:#ffffff; --bar-sub:#b9c2d6;
+    --shadow:0 10px 30px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+    --ink:#E9EDF4; --ink-soft:#A9B4C6; --paper:#11161E; --card:#1A212C; --wire:#34404F;
+    --teal:#2BB8A7; --teal-dark:#5FD6C6; --teal-soft:#123331;
+    --amber:#E9A24F; --amber-soft:#35291A; --amber-dark:#F0BC72;
+    --coral:#EE7D69; --coral-soft:#3A221F; --coral-dark:#F39B8B;
+    --indigo:#8D9BF0; --indigo-soft:#1F2442;
+    --plum:#B88BE6; --plum-soft:#2C2240;
+    --green:#5CC98E; --green-soft:#16301F; --red:#F0766F; --red-soft:#3A1E1D;
+    --bar:#243044; --bar-ink:#ffffff; --bar-sub:#b9c2d6;
+    --shadow:0 10px 30px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background-color:var(--paper);color:var(--ink);
+  font-family:"Tajawal",Tahoma,"Segoe UI",sans-serif;line-height:1.75;
+  background-image:radial-gradient(var(--wire) .8px,transparent .8px);background-size:26px 26px}
+.wrap{max-width:920px;margin:0 auto;padding:20px 18px 60px}
+h1,h2,h3{font-family:"Reem Kufi",Tahoma,sans-serif;font-weight:600;line-height:1.35;margin:0}
+.k{font-family:"Reem Kufi",Tahoma,sans-serif}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;
+  background:var(--bar);color:var(--bar-ink);border-radius:16px;padding:14px 20px;box-shadow:var(--shadow);margin-bottom:18px}
+.topbar h1{font-size:21px}
+.topbar .sub{font-size:13px;color:var(--bar-sub)}
+.badge{background:var(--teal);color:#fff;font-size:12px;padding:5px 12px;border-radius:999px;font-family:"Reem Kufi",Tahoma,sans-serif;white-space:nowrap}
+.card{background:var(--card);border-radius:18px;padding:26px;box-shadow:var(--shadow);border:1px solid var(--wire)}
+.eyebrow{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:13px;color:var(--teal-dark);background:var(--teal-soft);
+  display:inline-block;padding:4px 12px;border-radius:999px;margin-bottom:12px}
+h2.title{font-size:26px;margin-bottom:8px}
+.lead{color:var(--ink-soft);font-size:16px;margin:0 0 8px}
+.hint{font-size:14px;color:var(--amber-dark);background:var(--amber-soft);border-radius:10px;
+  padding:9px 14px;display:block;margin-top:6px}
+.dfn{background:var(--teal-soft);border:1.5px solid var(--teal);border-radius:14px;padding:16px 18px;margin:14px 0}
+.dfn .dfn-t{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14px;color:var(--teal-dark);margin-bottom:4px}
+.dfn .dfn-b{font-size:17px;line-height:1.7}
+.dfn .dfn-b b{color:var(--teal-dark)}
+.dfn ul{margin:4px 0 0;padding-inline-start:20px}
+.dfn li{margin:4px 0}
+.example{display:flex;gap:14px;align-items:flex-start;background:var(--coral-soft);
+  border:1.5px dashed var(--coral);border-radius:14px;padding:14px 16px;margin:14px 0}
+.example .ex-ic{font-size:30px;flex-shrink:0}
+.example .ex-h{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14px;color:var(--coral-dark);margin-bottom:3px}
+.example .ex-b{font-size:14.5px;line-height:1.65}
+.example .ex-b b{color:var(--coral-dark)}
+.teacher{background:var(--bar);color:var(--bar-ink);border-radius:16px;padding:18px 22px;margin-top:22px;
+  display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;box-shadow:var(--shadow)}
+.teacher .tt{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:12px;color:var(--bar-sub)}
+.teacher .tn{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:19px;margin-top:2px}
+.teacher .tp{direction:ltr;font-size:14px;color:var(--bar-sub);margin-top:4px;text-align:right}
+.teacher a.wa{display:inline-flex;align-items:center;gap:8px;background:#25D366;color:#04331a;
+  font-family:"Reem Kufi",Tahoma,sans-serif;font-size:15px;text-decoration:none;padding:10px 18px;border-radius:12px}
+.teacher a.wa:hover{filter:brightness(1.06)}
+.teacher a.wa:focus-visible{outline:3px solid #fff;outline-offset:2px}
+@media (max-width:560px){
+  .wrap{padding:14px 12px 50px}
+  .topbar h1{font-size:17px} h2.title{font-size:22px}
+  .card{padding:18px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.rail{display:flex;gap:6px;margin:0 0 20px;flex-wrap:wrap}
+.rail button{flex:1 1 0;min-width:84px;background:var(--card);border:1.5px solid var(--wire);
+  border-radius:12px;padding:9px 6px;cursor:pointer;font-family:"Reem Kufi",Tahoma,sans-serif;font-size:12px;
+  color:var(--ink-soft);transition:.2s;display:flex;align-items:center;justify-content:center;gap:6px}
+.rail button .n{width:20px;height:20px;border-radius:50%;background:var(--paper);border:1.5px solid var(--wire);
+  display:inline-flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0}
+.rail button.active{border-color:var(--teal);color:var(--teal-dark);background:var(--teal-soft)}
+.rail button.active .n{background:var(--teal);color:#fff;border-color:var(--teal)}
+.rail button.done .n{background:var(--green);color:#fff;border-color:var(--green)}
+.station{display:none;animation:fade .45s ease both}
+.station.on{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.navbtns{display:flex;justify-content:space-between;margin-top:20px;gap:10px}
+.btn{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:15px;border:none;border-radius:12px;padding:12px 24px;cursor:pointer;transition:.15s}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn-main{background:var(--teal);color:#fff}
+.btn-main:hover:not(:disabled){background:var(--teal-dark)}
+.btn-ghost{background:var(--paper);color:var(--ink-soft);border:1.5px solid var(--wire)}
+.btn-sm{padding:8px 16px;font-size:14px}
+.btn:focus-visible,.rail button:focus-visible,.opt:focus-visible,.hbtn:focus-visible,.seg button:focus-visible,.qa .ab button:focus-visible{outline:3px solid var(--indigo);outline-offset:2px}
+.hero{text-align:center;padding:34px 22px}
+.hero h2{font-size:32px;margin-bottom:6px}
+.pill3{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:18px 0 6px}
+.pill3 span{background:var(--indigo-soft);color:var(--indigo);font-family:"Reem Kufi",Tahoma,sans-serif;font-size:13px;padding:7px 14px;border-radius:999px}
+
+/* database tables */
+.tw{overflow-x:auto;border-radius:12px;border:1.5px solid var(--wire);background:var(--card)}
+.dbt{width:100%;border-collapse:collapse;font-size:14.5px}
+.dbt caption{caption-side:top;background:var(--bar);color:var(--bar-ink);font-family:"Reem Kufi",Tahoma,sans-serif;font-size:15px;padding:7px 10px;text-align:center}
+.dbt th,.dbt td{border:1px solid var(--wire);padding:6px 8px;text-align:center;transition:background .2s,color .2s}
+.dbt th{background:var(--paper);font-family:"Reem Kufi",Tahoma,sans-serif;font-weight:600;font-size:13.5px;white-space:nowrap}
+.dbt tr:first-child th{border-top:none}
+.hbtn{all:unset;cursor:pointer;display:block;padding:2px 4px;border-radius:6px;border-bottom:2px dashed var(--teal)}
+.dbt .dup{background:var(--red-soft)!important;color:var(--red);font-weight:700}
+.dbt .ok{background:var(--green-soft)!important;color:var(--green);font-weight:700}
+.dbt .rep2{background:var(--amber-soft)!important;color:var(--amber-dark);font-weight:700}
+.dbt .pk{color:var(--indigo)}
+.dbt .fkc{color:var(--plum)}
+.dbt .pickc{background:var(--indigo-soft)!important;color:var(--indigo)}
+.dbt td.newc{background:var(--plum-soft);color:var(--plum);font-weight:700}
+.legend{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:13.5px;color:var(--ink-soft);margin-top:10px}
+.legend b{font-family:"Reem Kufi",Tahoma,sans-serif}
+
+.out{margin-top:12px;background:var(--paper);border:1.5px solid var(--wire);border-radius:12px;padding:12px 14px;font-size:15px;min-height:52px}
+.out.good{background:var(--green-soft);border-color:var(--green)}
+.out.bad{background:var(--red-soft);border-color:var(--red)}
+.out.warn{background:var(--amber-soft);border-color:var(--amber)}
+.out b{font-family:"Reem Kufi",Tahoma,sans-serif}
+.tasks{list-style:none;padding:0;margin:12px 0 0;display:flex;flex-direction:column;gap:8px}
+.tasks li{display:flex;gap:10px;align-items:center;background:var(--paper);border:1.5px solid var(--wire);border-radius:12px;padding:9px 12px;font-size:15px;flex-wrap:wrap}
+.tasks li .st{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--wire);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px;background:var(--card)}
+.tasks li.done{border-color:var(--green);background:var(--green-soft)}
+.tasks li.done .st{background:var(--green);border-color:var(--green);color:#fff}
+.seg{display:inline-flex;gap:6px;margin-inline-start:auto;flex-wrap:wrap}
+.seg button{border:1.5px solid var(--wire);background:var(--card);border-radius:10px;padding:4px 14px;font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14px;cursor:pointer;color:var(--ink)}
+.seg button.right{background:var(--green);border-color:var(--green);color:#fff}
+.seg button.wrong{background:var(--red-soft);border-color:var(--red);color:var(--red)}
+.cmp{width:100%;border-collapse:collapse;font-size:15px;margin-top:10px}
+.cmp th,.cmp td{border:1px solid var(--wire);padding:8px 10px;text-align:right;vertical-align:top}
+.cmp th{background:var(--paper);font-family:"Reem Kufi",Tahoma,sans-serif;font-weight:600}
+.cmp td.f{color:var(--teal-dark)} .cmp td.r{color:var(--amber-dark)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px;align-items:start}
+@media (max-width:620px){.two{grid-template-columns:1fr}}
+.hide{display:none}
+.reveal{animation:fade .35s ease both}
+h3.sub3{font-size:18px;margin-top:22px}
+
+/* quiz */
+.qwrap{min-height:60px}
+.qmeta{display:flex;justify-content:space-between;align-items:center;font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14px;color:var(--ink-soft);margin-bottom:8px}
+.qtext{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:19px;margin:6px 0 16px;line-height:1.5}
+.qsrc{font-size:12px;color:var(--ink-soft);font-family:"Tajawal",Tahoma,sans-serif;font-weight:400}
+.opts{display:flex;flex-direction:column;gap:10px}
+.opt{text-align:right;background:var(--card);border:1.5px solid var(--wire);border-radius:12px;padding:13px 16px;
+  cursor:pointer;font-family:"Tajawal",Tahoma,sans-serif;font-size:15.5px;color:var(--ink);transition:.15s;display:flex;align-items:center;gap:10px}
+.opt:hover:not(.locked){border-color:var(--teal)}
+.opt .mk{width:24px;height:24px;border-radius:50%;border:1.5px solid var(--wire);flex-shrink:0;
+  display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-family:"Reem Kufi",Tahoma,sans-serif;color:var(--ink-soft)}
+.opt.correct{background:var(--green-soft);border-color:var(--green);color:var(--green)}
+.opt.correct .mk{background:var(--green);border-color:var(--green);color:#fff}
+.opt.wrong{background:var(--red-soft);border-color:var(--red);color:var(--red)}
+.opt.wrong .mk{background:var(--red);border-color:var(--red);color:#fff}
+.opt.locked{cursor:default}
+.explain{margin-top:14px;background:var(--indigo-soft);color:var(--indigo);border-radius:12px;padding:12px 16px;font-size:14px;display:none}
+.explain.show{display:block;animation:fade .3s ease both}
+.result{text-align:center;padding:20px 10px}
+.scorebig{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:52px;color:var(--teal);line-height:1}
+.progress-quiz{height:8px;background:var(--paper);border-radius:99px;overflow:hidden;margin:4px 0 14px;border:1px solid var(--wire)}
+.progress-quiz i{display:block;height:100%;background:var(--teal);width:0;transition:.3s}
+
+/* written questions */
+.hw .qh{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:18px;color:var(--indigo);background:var(--indigo-soft);border-radius:10px;padding:6px 12px;margin:20px 0 8px;display:inline-block}
+.q{margin:10px 0;font-size:16px}
+.line{display:block;border-bottom:1.5px dotted var(--wire);height:2em}
+@media print{.rail,.navbtns,.teacher a.wa{display:none}.station{display:block!important}body{background:#fff}}
+
+/* ERD */
+.erdbox{background:var(--paper);border:1.5px solid var(--wire);border-radius:14px;padding:8px;margin-top:12px}
+.erd{width:100%;height:auto;display:block;font-family:"Reem Kufi",Tahoma,sans-serif}
+.erd .ln{stroke:var(--ink-soft);stroke-width:1.6}
+.erd .ent rect{fill:var(--indigo-soft);stroke:var(--indigo);stroke-width:2}
+.erd .ent text{fill:var(--indigo);font-size:15px;font-weight:600}
+.erd .rel polygon{fill:var(--amber-soft);stroke:var(--amber);stroke-width:2}
+.erd .rel text{fill:var(--amber-dark);font-size:13px;font-weight:600}
+.erd .card{fill:var(--coral-dark);font-size:24px;font-weight:700}
+.erd .card.q{fill:var(--ink-soft)}
+.erd .off{opacity:0;pointer-events:none}
+.erd g{transition:opacity .4s}
+.erd .arr{fill:none;stroke-width:2.2}
+.erd .arr.t{stroke:var(--teal)} .erd .arr.a{stroke:var(--plum)}
+.erd .arrt{font-size:11.5px;font-weight:600}
+.erd .arrt.t{fill:var(--teal-dark)} .erd .arrt.a{fill:var(--plum)}
+.qa{background:var(--paper);border:1.5px solid var(--wire);border-radius:14px;padding:12px 14px;margin-top:10px}
+.qa .qq{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:16px;margin-bottom:8px}
+.qa .ab{display:flex;gap:8px;flex-wrap:wrap}
+.qa .ab button{border:1.5px solid var(--wire);background:var(--card);border-radius:10px;padding:8px 18px;font-family:"Reem Kufi",Tahoma,sans-serif;font-size:15px;cursor:pointer;color:var(--ink)}
+.qa .ab button.right{background:var(--green);border-color:var(--green);color:#fff}
+.qa .ab button.wrong{background:var(--red-soft);border-color:var(--red);color:var(--red)}
+.qa .fb{font-size:14.5px;margin-top:8px;color:var(--ink-soft)}
+.qa.done{border-color:var(--green);background:var(--green-soft)}
+.qa.locked{opacity:.45;pointer-events:none}
+.bigres{text-align:center;font-family:"Reem Kufi",Tahoma,sans-serif;font-size:30px;color:var(--coral-dark);margin:14px 0 4px}
+.note{font-size:13px;color:var(--ink-soft);margin-top:6px}
+.tag{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:12px;padding:2px 9px;border-radius:999px;margin-inline-start:4px;white-space:nowrap}
+.tag.h{background:var(--indigo-soft);color:var(--indigo)}
+.tag.r{background:var(--coral-soft);color:var(--coral-dark)}
+.segbtns{display:inline-flex;background:var(--card);border:1.5px solid var(--wire);border-radius:12px;overflow:hidden}
+.segbtns button{border:none;background:transparent;padding:9px 14px;font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14px;cursor:pointer;color:var(--ink-soft)}
+.segbtns button.on{background:var(--indigo);color:#fff}
+.segbtns button:focus-visible{outline:3px solid var(--indigo);outline-offset:-3px}
+.readline{text-align:center;font-family:"Reem Kufi",Tahoma,sans-serif;font-size:17px;margin-top:10px}
+.readline b{color:var(--coral-dark);font-size:22px}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar">
+    <div>
+      <h1 class="k">العلاقات: علاقة واحد لمتعدد</h1>
+      <div class="sub">الصف الثاني عشر العلمي · الوحدة الأولى: قواعد البيانات · الحصة الثالثة</div>
+    </div>
+    <span class="badge">درس تفاعلي</span>
+  </div>
+
+  <nav class="rail" id="rail" aria-label="محطات الدرس"></nav>
+
+  <!-- 0 HERO -->
+  <section class="station on" id="s0">
+    <div class="card hero">
+      <span class="eyebrow">تمهيد ✏️</span>
+      <h2 class="k">الصف الواحد… كم طالباً فيه؟</h2>
+      <p class="lead">في الحصة السابقة عرفنا علاقة <b>واحد لواحد</b>: لكل دولة رئيس واحد، ولكل رئيس دولة واحدة. لكن الصف الواحد يسجل فيه أكثر من طالب! فما نوع العلاقة بين <b>الصف</b> و<b>الطالب</b>؟</p>
+      <div class="erdbox" style="max-width:420px;margin:14px auto 0"><svg class="erd" id="heroErd" viewBox="0 0 360 110" role="img" aria-label="الصف يسجل الطالب، الأرقام مجهولة"></svg></div>
+      <div class="pill3"><span>قراءة العلاقة</span><span>التعريف</span><span>المفتاح الأجنبي</span><span>عكس الترتيب</span><span>مثال تحله أنت</span><span>التقويم</span></div>
+      <div class="navbtns" style="justify-content:center"><button class="btn btn-main" onclick="go(1)">لنبدأ ‹</button></div>
+    </div>
+  </section>
+
+  <!-- 1 READING THE RELATION -->
+  <section class="station" id="s1">
+    <div class="card">
+      <span class="eyebrow">المحطة ١ · نقرأ العلاقة</span>
+      <h2 class="title k">الصف والطالب</h2>
+      <p class="lead">نقرأ العلاقة مرتين: مرة من كل طرف. نبدأ بـ<b>سجل واحد</b> من الطرف <span class="tag h">فرضية</span> ونسأل: كم يقابله في الطرف الآخر؟ <span class="tag r">النتيجة</span></p>
+      <div class="erdbox"><svg class="erd" id="erd1" viewBox="0 0 360 170" role="img" aria-label="الصف يسجل الطالب"></svg></div>
+      <div class="qa" id="q1a">
+        <div class="qq">١. نبدأ من الطرف الأول: <b>الصف الواحد</b> <span class="tag h">فرضية</span> يسجل فيه كم طالباً؟</div>
+        <div class="ab"><button data-v="1">طالب واحد (1)</button><button data-v="m">عدة طلاب (∞)</button></div>
+        <div class="fb"></div>
+      </div>
+      <div class="qa locked" id="q1b">
+        <div class="qq">٢. ومن الطرف الثاني: <b>الطالب الواحد</b> <span class="tag h">فرضية</span> يدرس في كم صفاً؟</div>
+        <div class="ab"><button data-v="1">صف واحد (1)</button><button data-v="m">عدة صفوف (∞)</button></div>
+        <div class="fb"></div>
+      </div>
+      <div id="res1" class="hide">
+        <div class="tw" style="margin-top:14px;border:none"><table class="cmp">
+          <tr><th>نقرأ من</th><th>الفرضية</th><th>النتيجة</th><th>تُكتب عند</th></tr>
+          <tr><td>الصف</td><td>صف واحد</td><td class="f"><b>عدة طلاب ∞</b></td><td>جدول الطالب</td></tr>
+          <tr><td>الطالب</td><td>طالب واحد</td><td class="r"><b>صف واحد 1</b></td><td>جدول الصف</td></tr>
+        </table></div>
+        <div class="hint">💡 النتيجة تُكتب عند <b>الجدول الآخر</b>، أي عند <b>نهاية السهم</b>. نهايات الأسهم (النتائج) هي التي تحدد نوع العلاقة.</div>
+        <div class="bigres"><span dir="ltr" style="unicode-bidi:isolate">∞ — 1</span> علاقة واحد لمتعدد</div>
+        <div class="example">
+          <div class="ex-ic">✍️</div>
+          <div><div class="ex-h">استنتج التعريف بنفسك</div>
+          <div class="ex-b">من الجهة الأولى: كل صف ⟵ <b>عدة</b> طلاب. ومن الجهة الثانية: كل طالب ⟵ صف <b>واحد</b> فقط (العكس ليس مثل الأول). اكتب في دفترك تعريفاً لعلاقة واحد لمتعدد، ثم قارن مع الكتاب.</div></div>
+        </div>
+        <div style="text-align:center"><button class="btn btn-main btn-sm" id="defBtn" onclick="showDef1()">قارن مع تعريف الكتاب</button></div>
+        <div class="dfn hide" id="def1">
+          <div class="dfn-t">📌 علاقة واحد لمتعدد (1-∞)</div>
+          <div class="dfn-b">ارتباط <b>كل سجل</b> في الجدول الأول <b>بعدة سجلات</b> في الجدول الثاني، <b>والعكس غير صحيح</b>.</div>
+        </div>
+      </div>
+      <div class="navbtns">
+        <button class="btn btn-ghost" onclick="go(0)">›</button>
+        <button class="btn btn-main" onclick="go(2)">التالي: المفتاح الأجنبي ‹</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 FOREIGN KEY -->
+  <section class="station" id="s2">
+    <div class="card">
+      <span class="eyebrow">المحطة ٢ · المفتاح الأجنبي</span>
+      <h2 class="title k">في أي جدول نضع المفتاح الأجنبي؟</h2>
+      <p class="lead">لنربط الجدولين يجب أن ينتقل المفتاح الأساسي لأحدهما إلى الآخر ليصبح فيه <b>مفتاحاً أجنبياً</b>. جرّب الخيارين ولاحظ ماذا يحدث.</p>
+      <div class="qa" id="q2">
+        <div class="qq">أين نضع المفتاح الأجنبي؟</div>
+        <div class="ab">
+          <button id="b2A" onclick="fk2('A')">في جدول الصف: نضيف «رقم الطالب»</button>
+          <button id="b2B" onclick="fk2('B')">في جدول الطالب: نضيف «رقم الصف»</button>
+        </div>
+      </div>
+      <div class="two">
+        <div id="t2a"></div>
+        <div id="t2b"></div>
+      </div>
+      <div class="legend"><span><b style="color:var(--indigo)">🔑</b> مفتاح أساسي</span><span><b style="color:var(--plum)">🔗</b> مفتاح أجنبي</span></div>
+      <div class="out" id="o2" aria-live="polite">اختر أحد الخيارين…</div>
+      <div id="con2" class="hide">
+        <div class="dfn">
+          <div class="dfn-t">📌 نقاط مهمة</div>
+          <div class="dfn-b"><ul>
+            <li>المفتاح الأجنبي يوضع <b>دائماً في جدول المتعدد (∞)</b>؛ فيكون «رقم الصف» في جدول الطالب.</li>
+            <li>في علاقة 1-∞ <b>يتكرر</b> المفتاح الأجنبي، لذلك <b>لا يصلح</b> أن يكون مفتاحاً أساسياً لجدوله.</li>
+            <li>العلاقة تربط بين <b>مفتاح أساسي</b> في جدول الواحد (رقم الصف في جدول الصف) و<b>مفتاح أجنبي</b> في جدول المتعدد (رقم الصف في جدول الطالب).</li>
+          </ul></div>
+        </div>
+        <h3 class="k sub3">قارن مع الحصة السابقة</h3>
+        <div class="tw" style="border:none"><table class="cmp">
+          <tr><th></th><th>واحد لواحد (1-1)</th><th>واحد لمتعدد (1-∞)</th></tr>
+          <tr><td>هل يتكرر المفتاح الأجنبي؟</td><td class="f">لا يتكرر</td><td class="r">يتكرر</td></tr>
+          <tr><td>طرفا العلاقة</td><td class="f">مفتاحان أساسيان</td><td class="r">مفتاح أساسي ومفتاح أجنبي</td></tr>
+          <tr><td>مكان المفتاح الأجنبي</td><td class="f">في أحد الجدولين</td><td class="r">دائماً في جدول المتعدد</td></tr>
+        </table></div>
+      </div>
+      <div class="navbtns">
+        <button class="btn btn-ghost" onclick="go(1)">›</button>
+        <button class="btn btn-main" onclick="go(3)">التالي: نعكس الترتيب ‹</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 REVERSE ORDER -->
+  <section class="station" id="s3">
+    <div class="card">
+      <span class="eyebrow">المحطة ٣ · عكس الترتيب</span>
+      <h2 class="title k">الطالب والصف… علاقة جديدة؟</h2>
+      <p class="lead">نفس المثال، لكن نبدأ هذه المرة بجدول <b>الطالب</b> ثم <b>الصف</b>. بدّل الترتيب وراقب النموذج والجداول.</p>
+      <div class="segbtns" role="group" aria-label="ترتيب الجداول">
+        <button id="bCS" class="on" onclick="order3('cs')">الصف ← الطالب</button>
+        <button id="bSC" onclick="order3('sc')">الطالب ← الصف</button>
+      </div>
+      <div class="erdbox"><svg class="erd" id="erd3" viewBox="0 0 360 110" role="img" aria-label="نموذج العلاقة بين الصف والطالب"></svg></div>
+      <div class="readline" id="read3"></div>
+      <div class="two">
+        <div id="t3a"></div>
+        <div id="t3b"></div>
+      </div>
+      <div class="hint">👆 بعد أن تبدّل الترتيب، أجب عن الأسئلة.</div>
+      <div class="qa locked" id="q3a">
+        <div class="qq">١. هل تغيّرت الجداول أو حقولها؟</div>
+        <div class="ab"><button data-v="y">نعم تغيّرت</button><button data-v="n">لا، نفس الجداول</button></div>
+        <div class="fb"></div>
+      </div>
+      <div class="qa locked" id="q3b">
+        <div class="qq">٢. أين المفتاح الأجنبي الآن؟</div>
+        <div class="ab"><button data-v="cl">انتقل إلى جدول الصف</button><button data-v="st">ما زال «رقم الصف» في جدول الطالب</button></div>
+        <div class="fb"></div>
+      </div>
+      <div class="qa locked" id="q3c">
+        <div class="qq">٣. إذن علاقة «الصف والطالب» (1-∞) وعلاقة «الطالب والصف» (∞-1):</div>
+        <div class="ab"><button data-v="x">علاقتان متعاكستان</button><button data-v="s">نفس العلاقة</button></div>
+        <div class="fb"></div>
+      </div>
+      <div id="con3" class="hide">
+        <div class="dfn">
+          <div class="dfn-t">📌 نستنتج</div>
+          <div class="dfn-b">علاقة <b>واحد لمتعدد</b> وعلاقة <b>متعدد لواحد</b> هما <b>نفس العلاقة</b>: نفس الجداول، بدون تغيير، ونفس المفتاح الأجنبي. <b>المهم</b> أن يتطابق <b>ترتيب العلاقة</b> مع <b>ترتيب الجداول</b> في السؤال:<br>الصف والطالب ⟵ واحد لمتعدد &nbsp;|&nbsp; الطالب والصف ⟵ متعدد لواحد</div>
+        </div>
+        <h3 class="k sub3">تدرّب: طابق الترتيب</h3>
+        <ul class="tasks" id="m3"></ul>
+        <div class="out" id="o3" aria-live="polite">اختر لكل سؤال نوع العلاقة حسب ترتيب الجداول.</div>
+      </div>
+      <div class="navbtns">
+        <button class="btn btn-ghost" onclick="go(2)">›</button>
+        <button class="btn btn-main" onclick="go(4)">التالي: مثال تحله أنت ‹</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 STUDENTS' EXAMPLE -->
+  <section class="station" id="s4">
+    <div class="card">
+      <span class="eyebrow">المحطة ٤ · مثال تحله أنت</span>
+      <h2 class="title k">العميل والحساب في البنك</h2>
+      <p class="lead">من امتحان (٢٠ د١): في نظام بنك، <b>يمكن أن يكون للعميل أكثر من حساب</b> (حساب دينار، حساب دولار…). طبّق خطوات الحصة بنفسك.</p>
+      <div class="erdbox"><svg class="erd" id="erd4" viewBox="0 0 360 110" role="img" aria-label="العميل يملك الحساب"></svg></div>
+      <div class="qa" id="q4a">
+        <div class="qq">١. <b>العميل الواحد</b> <span class="tag h">فرضية</span> يملك كم حساباً؟</div>
+        <div class="ab"><button data-v="1">1</button><button data-v="m">∞</button></div>
+        <div class="fb"></div>
+      </div>
+      <div class="qa locked" id="q4b">
+        <div class="qq">٢. <b>الحساب الواحد</b> <span class="tag h">فرضية</span> يتبع كم عميلاً؟</div>
+        <div class="ab"><button data-v="1">1</button><button data-v="m">∞</button></div>
+        <div class="fb"></div>
+      </div>
+      <div id="more4" class="hide">
+        <div class="bigres"><span dir="ltr" style="unicode-bidi:isolate">∞ — 1</span> علاقة واحد لمتعدد</div>
+        <div class="hint">👆 ٣. اضغط عنوان الحقل الذي يمثل <b>المفتاح الأجنبي</b> (في أي جدول من الجدولين).</div>
+        <div class="two" style="margin-top:10px">
+          <div id="t4a"></div>
+          <div id="t4b"></div>
+        </div>
+        <div class="out" id="o4" aria-live="polite">اختر حقلاً…</div>
+        <div class="qa locked" id="q4c">
+          <div class="qq">٤. وما العلاقة بين <b>الحساب</b> و<b>العميل</b>؟</div>
+          <div class="ab"><button data-v="11">واحد لواحد</button><button data-v="1m">واحد لمتعدد</button><button data-v="m1">متعدد لواحد</button></div>
+          <div class="fb"></div>
+        </div>
+      </div>
+      <div class="navbtns">
+        <button class="btn btn-ghost" onclick="go(3)">›</button>
+        <button class="btn btn-main" onclick="go(5)">التالي: أسئلة كتابية ‹</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 WRITTEN QUESTIONS -->
+  <section class="station" id="s5">
+    <div class="card hw">
+      <span class="eyebrow">📝 أسئلة كتابية</span>
+      <h2 class="title k">أجب في دفترك</h2>
+
+      <div class="qh">السؤال الأول</div>
+      <div class="q">١. عرّف علاقة واحد لمتعدد.<span class="line"></span></div>
+      <div class="q">٢. علّل: في علاقة واحد لمتعدد يوضع المفتاح الأجنبي في جدول المتعدد، ولا يصلح أن يكون مفتاحاً أساسياً.<span class="line"></span><span class="line"></span></div>
+
+      <div class="qh">السؤال الثاني</div>
+      <div class="q">في شركة: جدول <b>القسم</b> (رقم القسم، اسم القسم) وجدول <b>الموظف</b> (رقم الموظف، اسم الموظف، رقم القسم). القسم الواحد يعمل فيه عدة موظفين، والموظف الواحد يعمل في قسم واحد.</div>
+      <div class="q">١. ارسم نموذج ERD للجدولين مع الحقول، واكتب الأرقام على طرفي العلاقة.<span class="line"></span><span class="line"></span><span class="line"></span></div>
+      <div class="q">٢. حدّد المفتاح الأساسي لكل جدول، والمفتاح الأجنبي مع اسم الجدول التابع له.<span class="line"></span></div>
+      <div class="q">٣. ما العلاقة بين الموظف والقسم؟ وهل تختلف عن العلاقة بين القسم والموظف؟ وضّح.<span class="line"></span><span class="line"></span></div>
+      <div class="navbtns">
+        <button class="btn btn-ghost" onclick="go(4)">›</button>
+        <button class="btn btn-main" onclick="go(6)">التقويم الذاتي ‹</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 QUIZ -->
+  <section class="station" id="s6">
+    <div class="card">
+      <span class="eyebrow">المحطة الأخيرة · التقويم الذاتي</span>
+      <h2 class="title k">اختر الإجابة الصحيحة</h2>
+      <p class="note" style="margin-top:0">أسئلة من الملزمة وامتحانات الثانوية العامة السابقة.</p>
+      <div class="progress-quiz"><i id="qbar"></i></div>
+      <div class="qwrap" id="qwrap"></div>
+    </div>
+  </section>
+
+  <div class="teacher">
+    <div>
+      <div class="tt">إعداد الأستاذ</div>
+      <div class="tn">رامي فتحي فلفل</div>
+      <div class="tp">هاتف / واتساب: +972&nbsp;59&nbsp;788&nbsp;0216</div>
+    </div>
+    <a class="wa" href="https://wa.me/972597880216" target="_blank" rel="noopener">💬 تواصل عبر واتساب</a>
+  </div>
+</div>
+<script>
+var STATIONS=["التمهيد","قراءة العلاقة","المفتاح الأجنبي","عكس الترتيب","مثال تحله أنت","أسئلة كتابية","التقويم الذاتي"];
+var cur=0, visited={0:true}, rail=document.getElementById('rail');
+function toAr(n){return String(n).replace(/[0-9]/g,function(d){return "٠١٢٣٤٥٦٧٨٩"[d]})}
+function $(id){return document.getElementById(id)}
+STATIONS.forEach(function(t,i){
+  var b=document.createElement('button');
+  b.innerHTML='<span class="n">'+toAr(i+1)+'</span>'+t;
+  b.onclick=function(){go(i)}; rail.appendChild(b);
+});
+function go(i){
+  $('s'+cur).classList.remove('on');
+  cur=i; visited[i]=true;
+  $('s'+i).classList.add('on');
+  updRail(); window.scrollTo({top:0,behavior:'smooth'});
+  if(i===6 && !quizStarted) startQuiz();
+}
+function updRail(){[].forEach.call(rail.children,function(b,i){
+  b.classList.toggle('active',i===cur); b.classList.toggle('done',!!visited[i] && i!==cur);});}
+updRail();
+
+/* ---------- SVG / ERD helpers ---------- */
+var NS='http://www.w3.org/2000/svg';
+function S(tag,a,p){var e=document.createElementNS(NS,tag);for(var k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e}
+function T_(p,x,y,s,cls){var t=S('text',{x:x,y:y,'text-anchor':'middle','dominant-baseline':'central'},p);if(cls)t.setAttribute('class',cls);t.textContent=s;return t}
+function erd(svg,spec){
+  var out={ents:{},rels:[],cards:{}};
+  var byId={}; spec.ents.forEach(function(e){byId[e.id]=e});
+  (spec.rels||[]).forEach(function(r){
+    var g=S('g',{'class':'rel'},svg), A=byId[r.a], B=byId[r.b];
+    S('line',{x1:A.x,y1:A.y,x2:B.x,y2:B.y,'class':'ln'},g);
+    var hw=r.hw||46, hh=r.hh||25;
+    S('polygon',{points:[r.x,r.y-hh,r.x+hw,r.y,r.x,r.y+hh,r.x-hw,r.y].join(' ')},g);
+    T_(g,r.x,r.y,r.verb);
+    (r.cards||[]).forEach(function(c){out.cards[c.id]=T_(g,c.x,c.y,c.t||'?','card'+(c.t?'':' q'))});
+    out.rels.push(g);
+  });
+  spec.ents.forEach(function(e){
+    var g=S('g',{'class':'ent'},svg), w=e.w||120;
+    S('rect',{x:e.x-w/2,y:e.y-21,width:w,height:42,rx:4},g);
+    T_(g,e.x,e.y,e.name);
+    out.ents[e.id]=g;
+  });
+  return out;
+}
+function vis(g,on){g.classList.toggle('off',!on)}
+function setCard(c,t){c.textContent=t;c.classList.remove('q')}
+/* arrow with label: from x1 to x2 at height y */
+function arrow(svg,o){
+  var g=S('g',{'class':'off'},svg);
+  var defs=S('defs',{},g), id='mk'+Math.random().toString(36).slice(2,8);
+  var m=S('marker',{id:id,markerWidth:8,markerHeight:8,refX:7,refY:4,orient:'auto',markerUnits:'userSpaceOnUse'},defs);
+  S('path',{d:'M0,0 L8,4 L0,8 z',style:'fill:var(--'+(o.c==='t'?'teal':'plum')+')'},m);
+  S('line',{x1:o.x1,y1:o.y,x2:o.x2,y2:o.y,'class':'arr '+o.c,'marker-end':'url(#'+id+')'},g);
+  T_(g,(o.x1+o.x2)/2,o.ly,o.label,'arrt '+o.c);
+  return g;
+}
+
+/* hero */
+erd($('heroErd'),{ents:[{id:'c',name:'الصف',x:292,y:60,w:108},{id:'s',name:'الطالب',x:68,y:60,w:108}],
+  rels:[{a:'c',b:'s',verb:'يسجل',x:180,y:60,cards:[{id:'s',x:132,y:38},{id:'c',x:228,y:38}]}]});
+
+/* ---------- Q&A helper ---------- */
+function qa(id,right,onRight,msgR,msgW,nextId){
+  var box=$(id), fb=box.querySelector('.fb');
+  box.querySelectorAll('.ab button').forEach(function(b){
+    b.onclick=function(){
+      if(box.classList.contains('done')) return;
+      box.querySelectorAll('.ab button').forEach(function(x){x.classList.remove('right','wrong')});
+      if(b.dataset.v===right){
+        b.classList.add('right'); box.classList.add('done'); fb.innerHTML='✅ '+msgR; onRight();
+        if(nextId) $(nextId).classList.remove('locked');
+      }else{b.classList.add('wrong'); fb.innerHTML='🤔 '+(typeof msgW==='object'?(msgW[b.dataset.v]||''):msgW)}
+    };
+  });
+}
+
+/* ---------- 1: read the relation ---------- */
+var E1=erd($('erd1'),{ents:[{id:'c',name:'الصف',x:292,y:88,w:108},{id:'s',name:'الطالب',x:68,y:88,w:108}],
+  rels:[{a:'c',b:'s',verb:'يسجل',x:180,y:88,cards:[{id:'s',x:132,y:66},{id:'c',x:228,y:66}]}]});
+var A1=arrow($('erd1'),{x1:300,x2:62,y:32,ly:15,c:'t',label:'صف واحد (فرضية) ⟵ عدة طلاب (نتيجة)'});
+var A2=arrow($('erd1'),{x1:60,x2:298,y:138,ly:156,c:'a',label:'طالب واحد (فرضية) ⟵ صف واحد (نتيجة)'});
+var done1=0;
+qa('q1a','m',function(){setCard(E1.cards.s,'∞');vis(A1,true);done1++;fin1()},
+  'الصف الواحد يسجل فيه <b>عدة طلاب</b>. النتيجة <b>∞</b> نكتبها عند جهة <b>الطالب</b> (نهاية السهم).',
+  'فكّر في صفك أنت: هل فيه طالب واحد فقط؟','q1b');
+qa('q1b','1',function(){setCard(E1.cards.c,'1');vis(A2,true);done1++;fin1()},
+  'الطالب الواحد يدرس في <b>صف واحد</b>. النتيجة <b>1</b> نكتبها عند جهة <b>الصف</b>.',
+  'هل يمكن أن يُسجَّل الطالب نفسه في الصف الحادي عشر والثاني عشر معاً؟');
+function fin1(){if(done1===2){$('res1').classList.remove('hide');$('res1').classList.add('reveal')}}
+function showDef1(){$('def1').classList.remove('hide');$('def1').classList.add('reveal');$('defBtn').disabled=true}
+
+/* ---------- tables helper ---------- */
+function mkTable(host,D,o){
+  o=o||{};
+  host.innerHTML='';
+  var w=document.createElement('div'); w.className='tw';
+  var t=document.createElement('table'); t.className='dbt';
+  var h='<caption>'+D.name+'</caption><thead><tr>';
+  D.cols.forEach(function(c,i){
+    var ic=(o.pk&&o.pk.indexOf(i)>-1?'🔑':'')+(o.fk&&o.fk.indexOf(i)>-1?'🔗':'');
+    var lab=(ic?ic+' ':'')+c;
+    h+='<th data-c="'+i+'">'+(o.onHead?'<button class="hbtn" type="button">'+lab+'</button>':lab)+'</th>';
+  });
+  h+='</tr></thead><tbody>';
+  D.rows.forEach(function(r,ri){h+='<tr data-r="'+ri+'">';r.forEach(function(v,ci){h+='<td data-c="'+ci+'">'+v+'</td>'});h+='</tr>'});
+  t.innerHTML=h+'</tbody>'; w.appendChild(t); host.appendChild(w);
+  if(o.pk) o.pk.forEach(function(c){t.querySelector('th[data-c="'+c+'"]').classList.add('pk')});
+  if(o.fk) o.fk.forEach(function(c){t.querySelector('th[data-c="'+c+'"]').classList.add('fkc')});
+  var api={t:t,
+    th:function(c){return t.querySelector('th[data-c="'+c+'"]')},
+    cells:function(c){return t.querySelectorAll('tbody td[data-c="'+c+'"]')},
+    clear:function(){t.querySelectorAll('th,td').forEach(function(e){['dup','ok','pickc','rep2','newc'].forEach(function(k){e.classList.remove(k)})})}};
+  if(o.onHead) t.querySelectorAll('th').forEach(function(th){th.querySelector('.hbtn').onclick=function(){o.onHead(+th.dataset.c)}});
+  return api;
+}
+function markRepeats(api,c){
+  var n={}, cells=api.cells(c);
+  cells.forEach(function(td){n[td.textContent]=(n[td.textContent]||0)+1});
+  cells.forEach(function(td){if(n[td.textContent]>1)td.classList.add('rep2')});
+}
+
+/* ---------- 2: where does the FK go? ---------- */
+var CLS=[[1,"الأول"],[2,"الثاني"],[3,"الثالث"],[4,"الرابع"],[5,"الخامس"],[6,"السادس"]];
+var STU=[[601,"أحمد",6],[503,"محمود",5],[310,"محمد",3],[220,"حسن",2],[130,"حسين",2],[115,"رائد",1],[309,"خليل",3]];
+function clTable(withFk){
+  var rows=CLS.map(function(c){
+    if(!withFk) return [c[0],c[1]];
+    var ids=STU.filter(function(s){return s[2]===c[0]}).map(function(s){return s[0]});
+    return [c[0],c[1],ids.length?ids.join('، '):'—'];
+  });
+  return {name:"الصف",cols:withFk?["رقم الصف","اسم الصف","رقم الطالب"]:["رقم الصف","اسم الصف"],rows:rows};
+}
+function stTable(withFk){
+  return {name:"الطالب",cols:withFk?["رقم الطالب","اسم الطالب","رقم الصف"]:["رقم الطالب","اسم الطالب"],
+    rows:STU.map(function(s){return withFk?s.slice():[s[0],s[1]]})};
+}
+function draw2(m){
+  var a=mkTable($('t2a'),clTable(m==='A'),{pk:[0],fk:m==='A'?[2]:null});
+  var b=mkTable($('t2b'),stTable(m==='B'),{pk:[0],fk:m==='B'?[2]:null});
+  if(m==='A') a.cells(2).forEach(function(td){td.classList.add(td.textContent.indexOf('،')>-1?'dup':'newc')});
+  if(m==='B'){b.cells(2).forEach(function(td){td.classList.add('newc')}); markRepeats(b,2)}
+}
+draw2(null);
+var ok2=false;
+function fk2(m){
+  draw2(m);
+  $('b2A').classList.toggle('wrong',m==='A'); $('b2B').classList.toggle('right',m==='B');
+  if(m==='A'){
+    $('b2B').classList.remove('right');
+    $('o2').className='out bad';
+    $('o2').innerHTML='❌ الصف الثاني فيه طالبان (220 و130)، والصف الثالث فيه طالبان (310 و309)، فاحتاجت <b>الخلية الواحدة</b> أكثر من قيمة! والخلية لا تحمل إلا <b>قيمة واحدة</b>. ولو كان في الصف ٤٠ طالباً؟ جرّب الخيار الآخر.';
+  }else{
+    $('o2').className='out good';
+    $('o2').innerHTML='✅ كل طالب له <b>صف واحد</b>، فيُكتب رقم صفه في خلية واحدة. ولاحظ الخلايا البرتقالية: «رقم الصف» <b>يتكرر</b> (٢ مرتين، ٣ مرتين)، وهذا طبيعي لأن الصف الواحد له عدة طلاب.';
+    if(!ok2){ok2=true;$('con2').classList.remove('hide');$('con2').classList.add('reveal')}
+  }
+}
+
+/* ---------- 3: reverse the order ---------- */
+var seen3=false;
+function order3(o){
+  $('bCS').classList.toggle('on',o==='cs'); $('bSC').classList.toggle('on',o==='sc');
+  var svg=$('erd3'); svg.innerHTML='';
+  var right=o==='cs'?{id:'c',name:'الصف'}:{id:'s',name:'الطالب'};
+  var left =o==='cs'?{id:'s',name:'الطالب'}:{id:'c',name:'الصف'};
+  var E=erd(svg,{ents:[{id:right.id,name:right.name,x:292,y:60,w:108},{id:left.id,name:left.name,x:68,y:60,w:108}],
+    rels:[{a:right.id,b:left.id,verb:o==='cs'?'يسجل':'يسجل في',x:180,y:60,hw:52,
+      cards:[{id:left.id,x:132,y:38,t:left.id==='s'?'∞':'1'},{id:right.id,x:228,y:38,t:right.id==='s'?'∞':'1'}]}]});
+  $('read3').innerHTML=o==='cs'
+    ?'نقرأ من اليمين: <b dir="ltr" style="unicode-bidi:isolate">∞ — 1</b> علاقة <b style="font-size:inherit">واحد لمتعدد</b>'
+    :'نقرأ من اليمين: <b dir="ltr" style="unicode-bidi:isolate">1 — ∞</b> علاقة <b style="font-size:inherit">متعدد لواحد</b>';
+  var A=o==='cs'?$('t3a'):$('t3b'), B=o==='cs'?$('t3b'):$('t3a');
+  mkTable(A,clTable(false),{pk:[0]});
+  var st=mkTable(B,stTable(true),{pk:[0],fk:[2]}); st.cells(2).forEach(function(td){td.classList.add('newc')});
+  if(o==='sc'&&!seen3){seen3=true;$('q3a').classList.remove('locked')}
+}
+order3('cs');
+qa('q3a','n',function(){},'نفس الجدولين ونفس الحقول، تغيّر فقط <b>مكان</b> كل جدول.','قارن أعمدة الجدولين في الترتيبين: هل أُضيف أو حُذف حقل؟','q3b');
+qa('q3b','st',function(){},'«رقم الصف» ما زال مفتاحاً أجنبياً في جدول الطالب، لأن الطالب ما زال هو <b>جدول المتعدد</b>.','انظر إلى أيقونة 🔗 في الجداول: في أي جدول هي؟','q3c');
+qa('q3c','s',function(){$('con3').classList.remove('hide');$('con3').classList.add('reveal')},
+  'لم يتغير شيء إلا <b>ترتيب القراءة</b>.','لو كانت معاكسة لتغيّر مكان المفتاح الأجنبي… وهو لم يتغير!');
+var M3=[
+ {t:'العلاقة بين الصف والطالب',a:'1m'},
+ {t:'العلاقة بين الطالب والصف <span class="note">(٢١ د٢)</span>',a:'m1'},
+ {t:'العلاقة بين الأب والأبناء',a:'1m'},
+ {t:'العلاقة بين الأبناء والأب',a:'m1'}
+];
+var m3done=0;
+M3.forEach(function(it,i){
+  var li=document.createElement('li');
+  li.innerHTML='<span class="st">'+toAr(i+1)+'</span><span>'+it.t+'</span><span class="seg"><button data-v="1m">واحد لمتعدد</button><button data-v="m1">متعدد لواحد</button></span>';
+  li.querySelectorAll('button').forEach(function(b){b.onclick=function(){
+    if(li.classList.contains('done')) return;
+    li.querySelectorAll('button').forEach(function(x){x.classList.remove('wrong')});
+    if(b.dataset.v===it.a){
+      b.classList.add('right'); li.classList.add('done'); li.querySelector('.st').textContent='✓'; m3done++;
+      $('o3').className='out good';
+      $('o3').innerHTML=m3done===M3.length?'✅ <b>أحسنت!</b> الجدول الذي له طرف «واحد» يُذكر أولاً ⟵ واحد لمتعدد، وإذا ذُكر جدول المتعدد أولاً ⟵ متعدد لواحد.':'✅ صحيح. تابع…';
+    }else{
+      b.classList.add('wrong');
+      $('o3').className='out bad';
+      $('o3').innerHTML='🤔 انظر أي جدول ذُكر <b>أولاً</b> في السؤال: هل هو جدول «الواحد» أم جدول «المتعدد»؟';
+    }
+  }});
+  $('m3').appendChild(li);
+});
+
+/* ---------- 4: client / account ---------- */
+var E4=erd($('erd4'),{ents:[{id:'c',name:'العميل',x:292,y:60,w:108},{id:'a',name:'الحساب',x:68,y:60,w:108}],
+  rels:[{a:'c',b:'a',verb:'يملك',x:180,y:60,cards:[{id:'a',x:132,y:38},{id:'c',x:228,y:38}]}]});
+var done4=0;
+qa('q4a','m',function(){setCard(E4.cards.a,'∞');done4++;fin4()},
+  'العميل الواحد له <b>عدة حسابات</b>، فنكتب ∞ عند جهة الحساب.',
+  'اقرأ نص السؤال مرة أخرى: «يمكن أن يكون للعميل أكثر من حساب».','q4b');
+qa('q4b','1',function(){setCard(E4.cards.c,'1');done4++;fin4()},
+  'الحساب الواحد يتبع <b>عميلاً واحداً</b>، فنكتب 1 عند جهة العميل.',
+  'هل حساب الدولار الخاص بسامي يتبع ليلى أيضاً؟');
+function fin4(){if(done4===2){$('more4').classList.remove('hide');$('more4').classList.add('reveal')}}
+var CU={name:"العميل",cols:["رقم العميل","اسم العميل","العنوان"],rows:[[1,"سامي","غزة"],[2,"ليلى","خانيونس"],[3,"يوسف","رفح"]]};
+var AC={name:"الحساب",cols:["رقم الحساب","نوع عملة الحساب","رقم العميل"],rows:[[1001,"دينار",1],[1002,"دولار",1],[1003,"شيكل",2],[1004,"دولار",3],[1005,"دينار",3],[1006,"شيكل",3]]};
+var fk4=false, t4a, t4b;
+t4a=mkTable($('t4a'),CU,{pk:[0],onHead:function(c){pick4('cu',c)}});
+t4b=mkTable($('t4b'),AC,{pk:[0],onHead:function(c){pick4('ac',c)}});
+function pick4(tb,c){
+  if(fk4) return;
+  t4a.clear(); t4b.clear();
+  (tb==='cu'?t4a:t4b).th(c).classList.add('pickc');
+  if(tb==='ac'&&c===2){
+    fk4=true;
+    t4b.th(2).querySelector('.hbtn').textContent='🔗 رقم العميل'; t4b.th(2).classList.add('fkc');
+    markRepeats(t4b,2); t4a.cells(0).forEach(function(td){td.classList.add('ok')});
+    $('o4').className='out good';
+    $('o4').innerHTML='✅ <b>صحيح!</b> «رقم العميل» مفتاح أجنبي في جدول <b>الحساب</b> لأنه <b>جدول المتعدد</b>، ولاحظ أنه <b>يتكرر</b> (العميل 3 له ثلاثة حسابات). ويرتبط بالمفتاح الأساسي «رقم العميل» في جدول العميل.';
+    $('q4c').classList.remove('locked');
+  }else if(tb==='cu'&&c===0){
+    $('o4').className='out bad'; $('o4').innerHTML='❌ هذا <b>مفتاح أساسي</b> في جدول العميل (جدول الواحد). تذكّر: المفتاح الأجنبي يكون في <b>جدول المتعدد</b>.';
+  }else if(tb==='ac'&&c===0){
+    $('o4').className='out bad'; $('o4').innerHTML='❌ «رقم الحساب» هو المفتاح الأساسي لجدول الحساب، ولا يوجد في جدول العميل.';
+  }else{
+    $('o4').className='out bad'; $('o4').innerHTML='❌ هذا حقل عادي لا يربط بين الجدولين.';
+  }
+}
+qa('q4c','m1',function(){},
+  'نفس الجداول ونفس المفتاح الأجنبي، لكننا ذكرنا جدول المتعدد (الحساب) أولاً، فنقرأها <b>متعدد لواحد</b>.',
+  {'11':'كل عميل له عدة حسابات، فليست 1-1.','1m':'انتبه للترتيب: السؤال بدأ بـ«الحساب» وهو جدول المتعدد.'});
+
+/* ---------- 6: quiz ---------- */
+var QUIZ=[
+ {q:"ارتباط كل سجل في الجدول الأول بعدة سجلات في الجدول الثاني والعكس غير صحيح:",o:["واحد لواحد","واحد لمتعدد","متعدد لمتعدد","لا توجد علاقة"],a:1,e:"هذا تعريف علاقة واحد لمتعدد (1-∞) كما في الملزمة."},
+ {q:"ما العلاقة بين الطالب والصف؟",src:"(٢١ د٢)",o:["واحد إلى واحد","واحد إلى متعدد","متعدد إلى متعدد","متعدد إلى واحد"],a:3,e:"ذُكر الطالب (جدول المتعدد) أولاً ثم الصف (جدول الواحد)، فهي متعدد إلى واحد."},
+ {q:"في علاقة واحد لمتعدد يوضع المفتاح الأجنبي في:",o:["جدول الواحد","جدول المتعدد","الجدولين معاً","جدول ثالث دائماً"],a:1,e:"المفتاح الأجنبي دائماً في جدول المتعدد، مثل رقم الصف في جدول الطالب."},
+ {q:"ما المفتاح الأجنبي في جدول عمليات التحويل الذي حقوله (رقم العملية، اسم العملية، رقم العميل، المبلغ، التاريخ)؟",src:"(١٩ د١)",o:["رقم العملية","اسم العملية","رقم العميل","التاريخ"],a:2,e:"رقم العميل مفتاح أساسي في جدول العميل، وهنا يربط كل عملية بعميلها."},
+ {q:"ما المفتاح الأجنبي في جدول الإعارة الذي حقوله (رقم الطالب، رقم متسلسل، رقم الكتاب، تاريخ الإعارة، تاريخ الإرجاع)؟",src:"(٢٠٢٠)",o:["رقم الطالب","رقم متسلسل","تاريخ الإعارة","تاريخ الإرجاع"],a:0,e:"رقم الطالب مفتاح أساسي في جدول الطالب، فهو في جدول الإعارة مفتاح أجنبي."},
+ {q:"في نظام بنك، يمكن أن يكون للعميل أكثر من حساب. العلاقة بين كيان العميل وكيان الحساب:",src:"(٢٠ د١)",o:["1-1","1-∞","∞-∞","لا توجد علاقة"],a:1,e:"العميل الواحد ⟵ عدة حسابات، والحساب الواحد ⟵ عميل واحد."},
+ {q:"في علاقة الصف والطالب، «رقم الصف» في جدول الطالب:",o:["مفتاح أساسي لا يتكرر","مفتاح أجنبي يتكرر","مفتاح مركب","حقل يُترك فارغاً"],a:1,e:"الصف الواحد له عدة طلاب، فيتكرر رقمه في جدول الطالب."},
+ {q:"علاقة الصف والطالب (1-∞) وعلاقة الطالب والصف (∞-1):",o:["علاقتان متعاكستان","نفس العلاقة","الثانية متعدد لمتعدد","الأولى خاطئة"],a:1,e:"نفس الجداول ونفس المفتاح الأجنبي، ويتغير ترتيب القراءة فقط حسب ترتيب الجداول."},
+ {q:"تكون علاقة واحد لمتعدد بين:",o:["مفتاحين أساسيين","مفتاح أساسي ومفتاح أجنبي","مفتاحين أجنبيين","حقلين عاديين"],a:1,e:"مفتاح أساسي في جدول الواحد، ومفتاح أجنبي في جدول المتعدد."},
+ {q:"ما العلاقة الواجب كسرها في قاعدة البيانات التي تستخدم النظام العلائقي؟",src:"(٢٠ د٢)",o:["واحد لواحد","واحد لمتعدد","متعدد لواحد","متعدد لمتعدد"],a:3,e:"علاقة واحد لمتعدد لا تُكسر؛ أما متعدد لمتعدد فتُكسر، وسندرسها في الحصة القادمة."}
+];
+var quizStarted=false, qi=0, score=0, answered=false;
+function startQuiz(){quizStarted=true;qi=0;score=0;renderQ()}
+function renderQ(){
+  answered=false;
+  $('qbar').style.width=(qi/QUIZ.length*100)+'%';
+  if(qi>=QUIZ.length) return renderResult();
+  var Q=QUIZ[qi], marks=["أ","ب","ج","د"];
+  var h='<div class="qmeta"><span>السؤال '+toAr(qi+1)+' من '+toAr(QUIZ.length)+'</span><span id="qsc">النقاط: '+toAr(score)+'</span></div>';
+  h+='<div class="qtext">'+Q.q+(Q.src?' <span class="qsrc">'+Q.src+'</span>':'')+'</div><div class="opts">';
+  Q.o.forEach(function(op,k){h+='<button class="opt" onclick="answer('+k+')"><span class="mk">'+marks[k]+'</span><span>'+op+'</span></button>'});
+  h+='</div><div class="explain" id="explain"></div><div class="navbtns"><span></span><button class="btn btn-main" id="nextQ" onclick="nextQ()" disabled>التالي ‹</button></div>';
+  $('qwrap').innerHTML=h;
+}
+function answer(k){
+  if(answered) return; answered=true;
+  var Q=QUIZ[qi], opts=document.querySelectorAll('#qwrap .opt');
+  opts.forEach(function(o){o.classList.add('locked')});
+  opts[Q.a].classList.add('correct');
+  if(k===Q.a) score++; else opts[k].classList.add('wrong');
+  var ex=$('explain'); ex.innerHTML=(k===Q.a?'✅ إجابة صحيحة! ':'❌ ليست صحيحة. ')+Q.e; ex.classList.add('show');
+  $('nextQ').disabled=false; $('qsc').textContent='النقاط: '+toAr(score);
+}
+function nextQ(){qi++;renderQ()}
+function renderResult(){
+  $('qbar').style.width='100%';
+  var pct=Math.round(score/QUIZ.length*100);
+  var msg=pct>=80?"ممتاز! أتقنت الدرس.":pct>=50?"جيد، راجع المحطات التي أخطأت فيها.":"لا بأس، أعد المحطات ثم حاول مجدداً.";
+  $('qwrap').innerHTML='<div class="result"><div class="scorebig">'+toAr(score)+'/'+toAr(QUIZ.length)+'</div><p class="lead" style="margin:10px 0">'+msg+'</p><div class="navbtns" style="justify-content:center;gap:10px"><button class="btn btn-ghost" onclick="startQuiz()">أعد التقويم</button><button class="btn btn-main" onclick="go(0)">↺ من البداية</button></div></div>';
+}
+</script></body></html>
