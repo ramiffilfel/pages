@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Primary and Foreign Keys</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@400;500;600;700&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#152238; --ink-soft:#41506b; --paper:#F5F3EC; --card:#ffffff; --wire:#CDC6B6;
+  --teal:#0E9C8C; --teal-dark:#0a6e63; --teal-soft:#E1F3F0;
+  --amber:#E7973A; --amber-soft:#FBEDDB; --amber-dark:#a8620f;
+  --coral:#E4644E; --coral-soft:#FBE7E2; --coral-dark:#b8412c;
+  --indigo:#4C5FD5; --indigo-soft:#E7E9FB;
+  --plum:#8A4FC0; --plum-soft:#F1E8FA;
+  --green:#2E9E63; --green-soft:#E1F2E8; --red:#D8463F; --red-soft:#FAE3E2;
+  --bar:#152238; --bar-ink:#ffffff; --bar-sub:#b9c2d6;
+  --shadow:0 10px 30px rgba(21,34,56,.10);
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ink:#E9EDF4; --ink-soft:#A9B4C6; --paper:#11161E; --card:#1A212C; --wire:#34404F;
+    --teal:#2BB8A7; --teal-dark:#5FD6C6; --teal-soft:#123331;
+    --amber:#E9A24F; --amber-soft:#35291A; --amber-dark:#F0BC72;
+    --coral:#EE7D69; --coral-soft:#3A221F; --coral-dark:#F39B8B;
+    --indigo:#8D9BF0; --indigo-soft:#1F2442;
+    --plum:#B88BE6; --plum-soft:#2C2240;
+    --green:#5CC98E; --green-soft:#16301F; --red:#F0766F; --red-soft:#3A1E1D;
+    --bar:#243044; --bar-ink:#ffffff; --bar-sub:#b9c2d6;
+    --shadow:0 10px 30px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+    --ink:#E9EDF4; --ink-soft:#A9B4C6; --paper:#11161E; --card:#1A212C; --wire:#34404F;
+    --teal:#2BB8A7; --teal-dark:#5FD6C6; --teal-soft:#123331;
+    --amber:#E9A24F; --amber-soft:#35291A; --amber-dark:#F0BC72;
+    --coral:#EE7D69; --coral-soft:#3A221F; --coral-dark:#F39B8B;
+    --indigo:#8D9BF0; --indigo-soft:#1F2442;
+    --plum:#B88BE6; --plum-soft:#2C2240;
+    --green:#5CC98E; --green-soft:#16301F; --red:#F0766F; --red-soft:#3A1E1D;
+    --bar:#243044; --bar-ink:#ffffff; --bar-sub:#b9c2d6;
+    --shadow:0 10px 30px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background-color:var(--paper);color:var(--ink);
+  font-family:"Tajawal",Tahoma,"Segoe UI",sans-serif;line-height:1.75;
+  background-image:radial-gradient(var(--wire) .8px,transparent .8px);background-size:26px 26px}
+body.big .wrap{zoom:1.3}
+.wrap{max-width:920px;margin:0 auto;padding:20px 18px 60px}
+h1,h2,h3{font-family:"Reem Kufi",Tahoma,sans-serif;font-weight:600;line-height:1.35;margin:0}
+.k{font-family:"Reem Kufi",Tahoma,sans-serif}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;
+  background:var(--bar);color:var(--bar-ink);border-radius:16px;padding:14px 20px;box-shadow:var(--shadow);margin-bottom:18px}
+.topbar h1{font-size:21px}
+.topbar .sub{font-size:13px;color:var(--bar-sub)}
+.tb-r{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+.badge{background:var(--teal);color:#fff;font-size:12px;padding:5px 12px;border-radius:999px;font-family:"Reem Kufi",Tahoma,sans-serif;white-space:nowrap}
+.zoom{background:transparent;color:var(--bar-ink);border:1.5px solid var(--bar-sub);border-radius:999px;padding:4px 12px;
+  font-family:"Reem Kufi",Tahoma,sans-serif;font-size:12px;cursor:pointer;white-space:nowrap}
+.zoom:focus-visible{outline:3px solid #fff;outline-offset:2px}
+.card{background:var(--card);border-radius:18px;padding:26px;box-shadow:var(--shadow);border:1px solid var(--wire)}
+.eyebrow{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:13px;color:var(--teal-dark);background:var(--teal-soft);
+  display:inline-block;padding:4px 12px;border-radius:999px;margin-bottom:12px}
+h2.title{font-size:26px;margin-bottom:8px}
+h3.sec{font-size:18px;margin:20px 0 4px}
+.lead{color:var(--ink-soft);font-size:16px;margin:0 0 8px}
+.hint{font-size:14px;color:var(--amber-dark);background:var(--amber-soft);border-radius:10px;
+  padding:9px 14px;display:inline-flex;gap:8px;align-items:center;margin-top:6px}
+.dfn{background:var(--teal-soft);border:1.5px solid var(--teal);border-radius:14px;padding:16px 18px;margin:14px 0}
+.dfn .dfn-t{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14px;color:var(--teal-dark);margin-bottom:4px}
+.dfn .dfn-b{font-size:17px;line-height:1.7}
+.dfn .dfn-b b{color:var(--teal-dark)}
+.dfn.fk{background:var(--indigo-soft);border-color:var(--indigo)}
+.dfn.fk .dfn-t,.dfn.fk .dfn-b b{color:var(--indigo)}
+.props{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.props span{background:var(--card);border:1.5px solid currentColor;border-radius:999px;padding:4px 14px;font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14px}
+.example{display:flex;gap:14px;align-items:flex-start;background:var(--coral-soft);
+  border:1.5px dashed var(--coral);border-radius:14px;padding:14px 16px;margin:14px 0}
+.example .ex-ic{font-size:30px;flex-shrink:0}
+.example .ex-h{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14px;color:var(--coral-dark);margin-bottom:3px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.example .ex-b{font-size:14.5px;line-height:1.65}
+.example .ex-b b{color:var(--coral-dark)}
+.tag{font-size:11.5px;font-family:"Reem Kufi",Tahoma,sans-serif;border-radius:999px;padding:1px 10px;border:1px solid var(--plum);color:var(--plum);background:var(--card)}
+.teacher{background:var(--bar);color:var(--bar-ink);border-radius:16px;padding:18px 22px;margin-top:22px;
+  display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;box-shadow:var(--shadow)}
+.teacher .tt{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:12px;color:var(--bar-sub)}
+.teacher .tn{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:19px;margin-top:2px}
+.teacher .tp{direction:ltr;font-size:14px;color:var(--bar-sub);margin-top:4px;text-align:right}
+.teacher a.wa{display:inline-flex;align-items:center;gap:8px;background:#25D366;color:#04331a;
+  font-family:"Reem Kufi",Tahoma,sans-serif;font-size:15px;text-decoration:none;padding:10px 18px;border-radius:12px}
+.teacher a.wa:hover{filter:brightness(1.06)}
+.teacher a.wa:focus-visible{outline:3px solid #fff;outline-offset:2px}
+@media (max-width:560px){
+  .wrap{padding:14px 12px 50px}
+  .topbar{flex-wrap:wrap}
+  .topbar h1{font-size:17px} h2.title{font-size:22px}
+  .card{padding:18px}
+  .zoom{display:none}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.rail{display:flex;gap:6px;margin:0 0 20px;flex-wrap:wrap}
+.rail button{flex:1 1 0;min-width:84px;background:var(--card);border:1.5px solid var(--wire);
+  border-radius:12px;padding:9px 6px;cursor:pointer;font-family:"Reem Kufi",Tahoma,sans-serif;font-size:12px;
+  color:var(--ink-soft);transition:.2s;display:flex;align-items:center;justify-content:center;gap:6px}
+.rail button .n{width:20px;height:20px;border-radius:50%;background:var(--paper);border:1.5px solid var(--wire);
+  display:inline-flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0}
+.rail button.active{border-color:var(--teal);color:var(--teal-dark);background:var(--teal-soft)}
+.rail button.active .n{background:var(--teal);color:#fff;border-color:var(--teal)}
+.rail button.done .n{background:var(--green);color:#fff;border-color:var(--green)}
+.station{display:none;animation:fade .45s ease both}
+.station.on{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes shake{0%,100%{transform:none}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.navbtns{display:flex;justify-content:space-between;margin-top:20px;gap:10px}
+.btn{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:15px;border:none;border-radius:12px;padding:12px 24px;cursor:pointer;transition:.15s}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn-main{background:var(--teal);color:#fff}
+.btn-main:hover:not(:disabled){background:var(--teal-dark)}
+.btn-ghost{background:var(--paper);color:var(--ink-soft);border:1.5px solid var(--wire)}
+.btn-sm{font-size:14px;padding:8px 16px}
+button:focus-visible{outline:3px solid var(--indigo);outline-offset:2px}
+.hero{text-align:center;padding:30px 22px}
+.hero h2{font-size:30px;margin-bottom:6px}
+/* hook */
+.hook{background:var(--indigo-soft);border:1.5px solid var(--indigo);border-radius:14px;padding:16px 18px;margin:16px 0;text-align:right}
+.hook .hk-t{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14px;color:var(--indigo);margin-bottom:4px}
+.hook .hk-q{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:20px;line-height:1.5}
+.hook .hk-a{display:none;margin-top:10px;font-size:16px;animation:fade .35s ease both}
+.hook.open .hk-a{display:block}
+.hook .btn{margin-top:10px;background:var(--indigo);color:#fff}
+.hook.open .btn{display:none}
+.twin{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:16px 0}
+.twin div{background:var(--card);border:1.5px solid var(--wire);border-radius:14px;padding:12px 18px;font-family:"Reem Kufi",Tahoma,sans-serif;font-size:18px;min-width:150px}
+.twin div small{display:block;font-size:13px;color:var(--ink-soft);font-family:"Tajawal",Tahoma,sans-serif}
+.twin .id{display:none;color:var(--teal-dark);font-size:15px;margin-top:4px;animation:fade .4s ease both}
+.hook.open ~ .twin .id{display:block}
+/* data tables */
+.tbl{overflow-x:auto;margin:10px 0}
+table{border-collapse:collapse;width:100%;min-width:420px;background:var(--card);font-size:15px}
+th,td{border:1px solid var(--wire);padding:8px 10px;text-align:center}
+th{background:var(--paper);font-family:"Reem Kufi",Tahoma,sans-serif;font-weight:600}
+th button{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14.5px;background:var(--card);border:1.5px solid var(--indigo);color:var(--indigo);
+  border-radius:10px;padding:5px 12px;cursor:pointer;width:100%}
+th button.sel{background:var(--indigo);color:#fff}
+td.dup{background:var(--red-soft);color:var(--red);font-weight:700}
+td.nul{background:var(--red-soft);color:var(--red);font-style:italic}
+td.ok{background:var(--green-soft);color:var(--green);font-weight:700}
+td.lnk{background:var(--indigo-soft);color:var(--indigo);font-weight:700}
+td.empty{color:var(--ink-soft);font-style:italic}
+tr.hl td{background:var(--indigo-soft)}
+.cap{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:15px;margin-bottom:2px;display:flex;gap:8px;align-items:center}
+.cap code{direction:ltr;font-size:13px;opacity:.75}
+.fb{margin-top:10px;background:var(--indigo-soft);color:var(--indigo);border-radius:12px;padding:12px 16px;font-size:15px;min-height:48px}
+.fb.good{background:var(--green-soft);color:var(--green)}
+.fb.bad{background:var(--red-soft);color:var(--red)}
+.fb b{font-family:"Reem Kufi",Tahoma,sans-serif}
+.choices{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.ch{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:15px;padding:9px 16px;border-radius:12px;border:1.5px solid var(--indigo);background:var(--card);color:var(--indigo);cursor:pointer}
+.ch.sel{background:var(--indigo);color:#fff}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:640px){.grid2{grid-template-columns:1fr}}
+.grid2 table{min-width:0}
+.cmp th,.cmp td{text-align:right}
+/* activity 2 */
+.a2{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+.a2row{background:var(--card);border:1.5px solid var(--wire);border-radius:14px;padding:10px 14px;display:flex;flex-wrap:wrap;align-items:center;gap:10px;justify-content:space-between}
+.a2row .nm{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:17px}
+.a2row .yn{display:flex;gap:6px}
+.a2row .yn button{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14px;border-radius:10px;padding:6px 14px;cursor:pointer;border:1.5px solid var(--wire);background:var(--paper);color:var(--ink)}
+.a2row .why{flex-basis:100%;display:none;font-size:14.5px;animation:fade .3s ease both}
+.a2row.right{border-color:var(--green);background:var(--green-soft)} .a2row.right .why{display:block;color:var(--green)}
+.a2row.wrong{border-color:var(--red);background:var(--red-soft)} .a2row.wrong .why{display:block;color:var(--red)}
+.a2row.done .yn button{cursor:default;opacity:.55}
+.score{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14px;color:var(--ink-soft);margin-top:8px}
+/* office */
+.ents{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+@media (max-width:640px){.ents{grid-template-columns:1fr}}
+.ent{border:1.5px solid var(--wire);border-radius:14px;padding:12px 14px;background:var(--card)}
+.ent .eh{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:16px;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.ent .eh code{direction:ltr;font-size:12.5px;opacity:.7}
+.ent .st{font-size:13.5px;color:var(--amber-dark);background:var(--amber-soft);border-radius:8px;padding:3px 10px;margin:6px 0;display:inline-block}
+.ent.fin{border-color:var(--green)}
+.ent.fin .st{color:var(--green);background:var(--green-soft)}
+.attrs{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.attrs button{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14px;border-radius:999px;padding:4px 12px;border:1px solid var(--wire);background:var(--paper);color:var(--ink);cursor:pointer}
+.attrs button.pk{text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:2px;background:var(--teal-soft);border-color:var(--teal);color:var(--teal-dark);font-weight:700}
+.attrs button.fkk{border:1.5px dashed var(--indigo);background:var(--indigo-soft);color:var(--indigo);font-weight:700}
+.attrs button.no{animation:shake .3s;background:var(--red-soft);border-color:var(--red);color:var(--red)}
+.ent .msg{font-size:13.5px;color:var(--ink-soft);min-height:1.5em;margin-top:6px}
+.legend{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px;font-size:14px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{display:inline-block;width:34px;height:18px;border-radius:999px}
+/* questions */
+.qblock{margin-top:16px}
+.qh{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:17px;color:var(--amber-dark);background:var(--amber-soft);border-radius:10px;padding:8px 14px;display:inline-block;margin-bottom:6px}
+.qtxt{font-size:16px;margin:4px 0}
+.line{display:block;border-bottom:1.5px dotted var(--wire);height:2em}
+/* quiz */
+.qmeta{display:flex;justify-content:space-between;align-items:center;font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14px;color:var(--ink-soft);margin-bottom:8px}
+.qtext{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:19px;margin:6px 0 16px;line-height:1.5}
+.opts{display:flex;flex-direction:column;gap:10px}
+.opt{text-align:right;background:var(--card);border:1.5px solid var(--wire);border-radius:12px;padding:13px 16px;
+  cursor:pointer;font-family:"Tajawal",Tahoma,sans-serif;font-size:15.5px;color:var(--ink);transition:.15s;display:flex;align-items:center;gap:10px;width:100%}
+.opt:hover:not(.locked){border-color:var(--teal)}
+.opt .mk{width:24px;height:24px;border-radius:50%;border:1.5px solid var(--wire);flex-shrink:0;
+  display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-family:"Reem Kufi",Tahoma,sans-serif;color:var(--ink-soft)}
+.opt.correct{background:var(--green-soft);border-color:var(--green);color:var(--green)}
+.opt.correct .mk{background:var(--green);border-color:var(--green);color:#fff}
+.opt.wrong{background:var(--red-soft);border-color:var(--red);color:var(--red)}
+.opt.wrong .mk{background:var(--red);border-color:var(--red);color:#fff}
+.opt.locked{cursor:default}
+.explain{margin-top:14px;background:var(--indigo-soft);color:var(--indigo);border-radius:12px;padding:12px 16px;font-size:14px;display:none}
+.explain.show{display:block;animation:fade .3s ease both}
+.result{text-align:center;padding:20px 10px}
+.scorebig{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:52px;color:var(--teal);line-height:1}
+.progress-quiz{height:8px;background:var(--paper);border-radius:99px;overflow:hidden;margin:4px 0 14px;border:1px solid var(--wire)}
+.progress-quiz i{display:block;height:100%;background:var(--teal);width:0;transition:.3s}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar">
+    <div>
+      <h1 class="k">المفتاح الأساسي والمفتاح الأجنبي</h1>
+      <div class="sub">الصف الحادي عشر العلمي · وحدة قواعد البيانات · الدرس الثاني</div>
+    </div>
+    <div class="tb-r">
+      <button class="zoom" id="zoomBtn" onclick="toggleZoom()">🔍 وضع العرض</button>
+      <span class="badge">درس تفاعلي</span>
+    </div>
+  </div>
+
+  <nav class="rail" id="rail" aria-label="محطات الدرس"></nav>
+
+  <!-- 0 HERO -->
+  <section class="station on" id="s0">
+    <div class="card hero">
+      <span class="eyebrow">فكرة اليوم 🔑</span>
+      <h2 class="k">صفات تميّز<br>وصفات تربط</h2>
+      <p class="lead">تعرّفنا على أنواع الصفات من حيث تكوينها. اليوم نتعرّف على صفات لها <b>وظيفة خاصة</b>: صفات <b>تميّز</b> سجلات الكيان، وصفات <b>تنشئ العلاقات</b> بين الكيانات.</p>
+      <div class="hook" id="k0">
+        <div class="hk-t">🙋 سؤال للصف</div>
+        <div class="hk-q">في كشف علامات الصف طالبان بالاسم نفسه. كيف يعرف المعلّم لمن هذه العلامة؟</div>
+        <button class="btn btn-sm" onclick="openHook(0)">اكشف ‹</button>
+        <div class="hk-a">بشيء لا يتكرّر أبداً: <b>رقم الطالب</b>. هذه الصفة التي تميّز كل سجل عن غيره هي <b>المفتاح الأساسي</b>.</div>
+      </div>
+      <div class="twin">
+        <div>محمد أحمد<small>الصف الحادي عشر · ٣</small><span class="id">رقم الطالب: ١٠١</span></div>
+        <div>محمد أحمد<small>الصف الحادي عشر · ٣</small><span class="id">رقم الطالب: ١٠٣</span></div>
+      </div>
+      <div class="navbtns" style="justify-content:center"><button class="btn btn-main" onclick="go(1)">لنبدأ ‹</button></div>
+    </div>
+  </section>
+
+  <!-- 1 PRIMARY KEY -->
+  <section class="station" id="s1">
+    <div class="card">
+      <span class="eyebrow">المفتاح ١ · يميّز</span>
+      <h2 class="title k">المفتاح الأساسي · Primary Key (PK)</h2>
+      <div class="dfn">
+        <div class="dfn-t">📌 التعريف</div>
+        <div class="dfn-b">الصفة أو مجموعة الصفات المختارة و<b>الأكثر ملاءمة لتمييز سجلات الكائن</b>.</div>
+        <div class="props" style="color:var(--teal-dark)">
+          <span>✅ قيمه فريدة ولا تتكرّر</span>
+          <span>🚫 لا يُسمح بالقيمة الفارغة (NULL)</span>
+        </div>
+      </div>
+      <h3 class="sec k">🧪 جرّب بنفسك: أيّ عمود يصلح مفتاحاً أساسياً؟</h3>
+      <div class="hint">✦ اضغط على عنوان أيّ عمود، وسيفحص النظام الشرطين: هل تتكرّر قيمه؟ وهل فيه قيمة فارغة؟</div>
+      <div class="tbl"><table id="tStd"></table></div>
+      <div class="fb" id="fStd">اختر عموداً…</div>
+      <div class="example">
+        <div class="ex-ic">💡</div>
+        <div><div class="ex-h">إثراء <span class="tag">إثراء</span></div>
+        <div class="ex-b">لماذا نضيف صفة مثل «رقم الطالب» أو «رقم المهندس» بدل الاعتماد على الاسم؟ لأن الأسماء تتكرّر وقد تتغيّر. الرقم نصنعه بأنفسنا <b>فريداً من البداية</b>، فيبقى ثابتاً طوال حياة السجل.</div></div>
+      </div>
+      <div class="navbtns">
+        <button class="btn btn-ghost" onclick="go(0)">›</button>
+        <button class="btn btn-main" onclick="go(2)">التالي: البسيط والمركب ‹</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 SIMPLE / COMPOSITE KEY -->
+  <section class="station" id="s2">
+    <div class="card">
+      <span class="eyebrow">المفتاح ١ · شكلاه</span>
+      <h2 class="title k">للمفتاح الأساسي شكلان</h2>
+      <div class="grid2">
+        <div class="dfn" style="margin:6px 0">
+          <div class="dfn-t">١. البسيط</div>
+          <div class="dfn-b" style="font-size:16px"><b>صفة واحدة فريدة</b>، مثل: صفة «رقم القسم» في كيان «القسم».</div>
+        </div>
+        <div class="dfn" style="margin:6px 0">
+          <div class="dfn-t">٢. المركب</div>
+          <div class="dfn-b" style="font-size:16px"><b>مجموعة صفات تشكّل معاً صفة فريدة</b>، وذلك في حال عدم وجود صفة واحدة فريدة.</div>
+        </div>
+      </div>
+      <h3 class="sec k">🧾 مثال الكتاب: الفاتورة التي يُعاد ترقيمها كل عام</h3>
+      <p class="lead">المحلّ يبدأ ترقيم الفواتير من ١ في بداية كل سنة. اختر المفتاح الأساسي:</p>
+      <div class="tbl"><table id="tInv"></table></div>
+      <div class="choices" id="invCh"></div>
+      <div class="fb" id="fInv">اختر أحد الخيارات…</div>
+      <div class="navbtns">
+        <button class="btn btn-ghost" onclick="go(1)">›</button>
+        <button class="btn btn-main" onclick="go(3)">التالي: المفتاح الأجنبي ‹</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 FOREIGN KEY -->
+  <section class="station" id="s3">
+    <div class="card">
+      <span class="eyebrow">المفتاح ٢ · يربط</span>
+      <h2 class="title k">المفتاح الأجنبي · Foreign Key (FK)</h2>
+      <div class="dfn fk">
+        <div class="dfn-t">📌 التعريف</div>
+        <div class="dfn-b">صفة في كيان معيّن تكون <b>صفة فريدة في كيان آخر</b>، هدفه <b>الربط وإنشاء العلاقات</b> بين الكيانات. ويكون مجال قيمه <b>ضمن مجال قيم الصفة المرتبطة معها</b> في الكيان الآخر ومن <b>نفس نوع البيانات</b>.</div>
+        <div class="props" style="color:var(--indigo)">
+          <span>🔁 يُسمح بتكرار قيمه</span>
+          <span>⭕ يقبل القيمة الفارغة (NULL)</span>
+        </div>
+      </div>
+      <p class="lead">تذكّر سؤال الحصة الأولى: لماذا وُضع «رقم القسم» داخل كيان المهندس؟ <b>اضغط على أيّ مهندس</b> لترى إلى أين يشير.</p>
+      <div class="grid2">
+        <div>
+          <div class="cap">🏢 القسم <code>tbl_DEPARTMENT</code></div>
+          <div class="tbl"><table id="tDep"></table></div>
+        </div>
+        <div>
+          <div class="cap">👷 المهندس <code>tbl_ENGINEER</code></div>
+          <div class="tbl"><table id="tEng"></table></div>
+        </div>
+      </div>
+      <div class="fb" id="fEng">«رقم القسم» في جدول القسم <b>مفتاح أساسي</b>، وفي جدول المهندس <b>مفتاح أجنبي</b>.</div>
+
+      <h3 class="sec k">➕ أضف مهندساً جديداً: «نور» · اختر رقم قسمها</h3>
+      <div class="choices" id="addCh"></div>
+      <div class="fb" id="fAdd">جرّب كل الخيارات ولاحظ أيّها يقبله النظام…</div>
+      <div class="example">
+        <div class="ex-ic">💡</div>
+        <div><div class="ex-h">إثراء <span class="tag">إثراء</span></div>
+        <div class="ex-b">منع إدخال رقم قسم غير موجود يسمّى <b>التكامل المرجعي</b> (Referential Integrity)، وسنفرضه بأنفسنا عندما نبني العلاقات في برنامج Access.</div></div>
+      </div>
+      <div class="navbtns">
+        <button class="btn btn-ghost" onclick="go(2)">›</button>
+        <button class="btn btn-main" onclick="go(4)">التالي: المقارنة ‹</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 COMPARE -->
+  <section class="station" id="s4">
+    <div class="card">
+      <span class="eyebrow">خلاصة</span>
+      <h2 class="title k">الأساسي والأجنبي جنباً إلى جنب</h2>
+      <div class="tbl">
+        <table class="cmp">
+          <tr><th>وجه المقارنة</th><th>المفتاح الأساسي PK</th><th>المفتاح الأجنبي FK</th></tr>
+          <tr><td><b>الهدف</b></td><td>تمييز سجلات الكيان</td><td>الربط وإنشاء العلاقات بين الكيانات</td></tr>
+          <tr><td><b>تكرار القيم</b></td><td>لا تتكرّر (فريدة)</td><td>يُسمح بالتكرار</td></tr>
+          <tr><td><b>القيمة الفارغة NULL</b></td><td>غير مسموحة</td><td>مسموحة</td></tr>
+          <tr><td><b>مثال</b></td><td>«رقم القسم» في كيان القسم</td><td>«رقم القسم» في كيان المهندس</td></tr>
+        </table>
+      </div>
+      <div class="example">
+        <div class="ex-ic">⚠️</div>
+        <div><div class="ex-h">انتبه</div>
+        <div class="ex-b">الصفة نفسها («رقم القسم») قد تكون <b>مفتاحاً أساسياً في جدول</b> و<b>مفتاحاً أجنبياً في جدول آخر</b>. نوع المفتاح يُحدَّد حسب الجدول الذي توجد فيه.</div></div>
+      </div>
+      <div class="navbtns">
+        <button class="btn btn-ghost" onclick="go(3)">›</button>
+        <button class="btn btn-main" onclick="go(5)">التالي: نشاط ٢ ‹</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 ACTIVITY 2 -->
+  <section class="station" id="s5">
+    <div class="card">
+      <span class="eyebrow">نشاط ٢ · المفتاح الأساسي الأنسب</span>
+      <h2 class="title k">أيّ الحقول يصلح مفتاحاً أساسياً؟</h2>
+      <p class="lead">لكل حقل: هل يصلح أن يكون مفتاحاً أساسياً؟ فكّر في الشرطين: <b>فريد</b> و<b>غير فارغ</b>.</p>
+      <div class="a2" id="a2"></div>
+      <div class="score" id="a2s"></div>
+      <div class="navbtns">
+        <button class="btn btn-ghost" onclick="go(4)">›</button>
+        <button class="btn btn-main" onclick="go(6)">التالي: المكتب الهندسي ‹</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 OFFICE -->
+  <section class="station" id="s6">
+    <div class="card">
+      <span class="eyebrow">تطبيق · المكتب الهندسي</span>
+      <h2 class="title k">حدّد المفاتيح في كيانات النظام</h2>
+      <p class="lead">في كل كيان: اضغط أولاً <b>المفتاح الأساسي</b>، ثم <b>المفتاح الأجنبي</b> إن وُجد.</p>
+      <div class="legend">
+        <span><i style="background:var(--teal-soft);border:1px solid var(--teal)"></i>مفتاح أساسي (الخطّ تحت الصفة كما في الكتاب)</span>
+        <span><i style="background:var(--indigo-soft);border:1.5px dashed var(--indigo)"></i>مفتاح أجنبي</span>
+      </div>
+      <div class="ents" id="ents"></div>
+      <div class="hint" style="margin-top:12px">✦ قد تظهر الحاجة أثناء العمل في تحليل النظام لوجود كيانات أو صفات أخرى ضرورية.</div>
+      <div class="navbtns">
+        <button class="btn btn-ghost" onclick="go(5)">›</button>
+        <button class="btn btn-main" onclick="go(7)">التالي: أسئلة الدرس ‹</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 TWO QUESTIONS -->
+  <section class="station" id="s7">
+    <div class="card">
+      <span class="eyebrow">📝 أسئلة الدرس</span>
+      <h2 class="title k">أجب في دفترك</h2>
+      <div class="qblock">
+        <div class="qh">السؤال الأول</div>
+        <div class="qtxt">قارن بين المفتاح الأساسي والمفتاح الأجنبي من حيث: الهدف، وتكرار القيم، وقبول القيمة الفارغة.<span class="line"></span><span class="line"></span></div>
+      </div>
+      <div class="qblock">
+        <div class="qh">السؤال الثاني</div>
+        <div class="qtxt">جدول «عمليات التحويل» في بنك، حقوله: (رقم العملية، اسم العملية، رقم العميل، المبلغ، التاريخ). حدّد المفتاح الأساسي والمفتاح الأجنبي فيه، مع التعليل.<span class="line"></span><span class="line"></span></div>
+      </div>
+      <div class="navbtns">
+        <button class="btn btn-ghost" onclick="go(6)">›</button>
+        <button class="btn btn-main" onclick="go(8)">التقويم ‹</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8 QUIZ -->
+  <section class="station" id="s8">
+    <div class="card">
+      <span class="eyebrow">التقويم · اختيار من متعدد</span>
+      <h2 class="title k">اختبر فهمك</h2>
+      <div class="progress-quiz"><i id="qbar"></i></div>
+      <div id="qwrap"></div>
+    </div>
+  </section>
+
+  <div class="teacher">
+    <div>
+      <div class="tt">إعداد الأستاذ</div>
+      <div class="tn">رامي فتحي فلفل</div>
+      <div class="tp">هاتف / واتساب: +972&nbsp;59&nbsp;788&nbsp;0216</div>
+    </div>
+    <a class="wa" href="https://wa.me/972597880216" target="_blank" rel="noopener">💬 تواصل عبر واتساب</a>
+  </div>
+</div>
+
+<script>
+var STATIONS=["البداية","الأساسي","البسيط والمركب","الأجنبي","المقارنة","نشاط ٢","المكتب الهندسي","الأسئلة","التقويم"];
+var QUIZ_ST=8;
+var cur=0, visited={0:true}, rail=document.getElementById('rail');
+function toAr(n){return String(n).replace(/[0-9]/g,function(d){return "٠١٢٣٤٥٦٧٨٩"[d]})}
+STATIONS.forEach(function(t,i){
+  var b=document.createElement('button');
+  b.innerHTML='<span class="n">'+toAr(i+1)+'</span>'+t;
+  b.onclick=function(){go(i)}; rail.appendChild(b);
+});
+function go(i){
+  document.getElementById('s'+cur).classList.remove('on');
+  cur=i; visited[i]=true;
+  document.getElementById('s'+i).classList.add('on');
+  updRail(); window.scrollTo({top:0,behavior:'smooth'});
+  if(i===QUIZ_ST && !quizStarted) startQuiz();
+}
+function updRail(){[].forEach.call(rail.children,function(b,i){
+  b.classList.toggle('active',i===cur); b.classList.toggle('done',!!visited[i] && i!==cur);});}
+updRail();
+function toggleZoom(){
+  var on=document.body.classList.toggle('big');
+  document.getElementById('zoomBtn').textContent=on?'↩ الحجم العادي':'🔍 وضع العرض';
+}
+function openHook(n){document.getElementById('k'+n).classList.add('open')}
+
+/* ---------- key checker ---------- */
+function check(rows, cols){
+  var seen={}, dups={}, nulls=[];
+  rows.forEach(function(r,i){
+    var empty=cols.some(function(c){return r[c]===""});
+    if(empty){nulls.push(i);return}
+    var k=cols.map(function(c){return r[c]}).join('|');
+    if(k in seen){dups[i]=1;dups[seen[k]]=1} else seen[k]=i;
+  });
+  return {dups:dups,nulls:nulls};
+}
+function paint(tableId, rows, cols, res){
+  var trs=document.getElementById(tableId).querySelectorAll('tr');
+  rows.forEach(function(r,i){
+    var tds=trs[i+1].querySelectorAll('td');
+    [].forEach.call(tds,function(td,c){
+      td.className = r[c]==="" ? 'empty' : '';
+      if(cols.indexOf(c)>-1){
+        if(r[c]==="") td.className='nul';
+        else if(res.dups[i]) td.className='dup';
+        else if(res.nulls.indexOf(i)>-1) td.className='';
+        else td.className='ok';
+      }
+    });
+  });
+}
+function cellTxt(v){return v===""?"فارغ":v}
+
+/* students table */
+var SH=["رقم الطالب","الاسم","زمرة الدم","رقم الهاتف"];
+var SR=[["١٠١","محمد أحمد","O+","0591111111"],["١٠٢","سامي خالد","A+",""],["١٠٣","محمد أحمد","O+","0592222222"],["١٠٤","يوسف علي","B+","0593333333"]];
+(function(){
+  var t=document.getElementById('tStd'), h='<tr>';
+  SH.forEach(function(x,c){h+='<th><button onclick="pickStd('+c+',this)">'+x+'</button></th>'});
+  h+='</tr>';
+  SR.forEach(function(r){h+='<tr>'+r.map(function(v){return '<td'+(v===""?' class="empty"':'')+' dir="auto">'+cellTxt(v)+'</td>'}).join('')+'</tr>'});
+  t.innerHTML=h;
+})();
+function pickStd(c,btn){
+  [].forEach.call(document.querySelectorAll('#tStd th button'),function(b){b.classList.remove('sel')});
+  btn.classList.add('sel');
+  var res=check(SR,[c]); paint('tStd',SR,[c],res);
+  var d=Object.keys(res.dups).length>0, n=res.nulls.length>0, f=document.getElementById('fStd');
+  if(!d && !n){f.className='fb good';f.innerHTML='✅ <b>«'+SH[c]+'» يصلح مفتاحاً أساسياً:</b> قيمه فريدة لا تتكرّر، ولا يوجد فيه حقل فارغ.';}
+  else{
+    var why=[];
+    if(d) why.push('قيمه <b>تتكرّر</b> (المظلّل بالأحمر)');
+    if(n) why.push('فيه قيمة <b>فارغة</b> (NULL)');
+    f.className='fb bad'; f.innerHTML='❌ <b>«'+SH[c]+'» لا يصلح:</b> '+why.join('، و')+'.';
+  }
+}
+
+/* invoice table */
+var IH=["رقم الفاتورة","السنة","المبلغ"];
+var IR=[["١","٢٠٢٥","٣٠٠"],["٢","٢٠٢٥","١٥٠"],["١","٢٠٢٦","٤٢٠"],["٢","٢٠٢٦","٩٠"]];
+(function(){
+  var t=document.getElementById('tInv'), h='<tr>'+IH.map(function(x){return '<th>'+x+'</th>'}).join('')+'</tr>';
+  IR.forEach(function(r){h+='<tr>'+r.map(function(v){return '<td>'+v+'</td>'}).join('')+'</tr>'});
+  t.innerHTML=h;
+  var opts=[["رقم الفاتورة وحده",[0]],["السنة وحدها",[1]],["رقم الفاتورة + السنة معاً",[0,1]]], box=document.getElementById('invCh');
+  opts.forEach(function(o){
+    var b=document.createElement('button'); b.className='ch'; b.textContent=o[0];
+    b.onclick=function(){
+      [].forEach.call(box.children,function(x){x.classList.remove('sel')}); b.classList.add('sel');
+      var res=check(IR,o[1]); paint('tInv',IR,o[1],res);
+      var f=document.getElementById('fInv'), d=Object.keys(res.dups).length>0;
+      if(d){f.className='fb bad';f.innerHTML='❌ <b>لا يصلح:</b> القيم تتكرّر. '+(o[1][0]===0?'الفاتورة رقم ١ موجودة في ٢٠٢٥ وفي ٢٠٢٦.':'عدّة فواتير في السنة نفسها.');}
+      else{f.className='fb good';f.innerHTML='✅ <b>هذا مفتاح أساسي مركّب:</b> لا توجد صفة واحدة فريدة، لكن «رقم الفاتورة» و«السنة» <b>معاً</b> لا يتكرّران أبداً.';}
+    };
+    box.appendChild(b);
+  });
+})();
+
+/* departments & engineers */
+var DEP=[["١","التصميم"],["٢","الإنشاءات"],["٣","الإشراف"]];
+var ENG=[["١١","سامر","١"],["١٢","ليلى","١"],["١٣","خالد","٢"],["١٤","هبة",""]];
+function drawDep(){
+  var h='<tr><th><u>رقم القسم</u></th><th>اسم القسم</th></tr>';
+  DEP.forEach(function(r,i){h+='<tr data-d="'+r[0]+'"><td>'+r[0]+'</td><td>'+r[1]+'</td></tr>'});
+  document.getElementById('tDep').innerHTML=h;
+}
+function drawEng(){
+  var h='<tr><th><u>رقم المهندس</u></th><th>الاسم</th><th>🔗 رقم القسم</th></tr>';
+  ENG.forEach(function(r,i){h+='<tr style="cursor:pointer" onclick="pickEng('+i+')"><td>'+r[0]+'</td><td>'+r[1]+'</td><td class="'+(r[2]===""?'empty':'lnk')+'">'+cellTxt(r[2])+'</td></tr>'});
+  document.getElementById('tEng').innerHTML=h;
+}
+drawDep(); drawEng();
+function pickEng(i){
+  var e=ENG[i], f=document.getElementById('fEng');
+  [].forEach.call(document.querySelectorAll('#tDep tr[data-d]'),function(tr){tr.classList.toggle('hl',tr.dataset.d===e[2])});
+  [].forEach.call(document.querySelectorAll('#tEng tr'),function(tr,k){tr.classList.toggle('hl',k===i+1)});
+  if(e[2]===""){f.className='fb';f.innerHTML='<b>'+e[1]+'</b> مهندسة جديدة لم تُوزَّع على قسم بعد، فقيمة المفتاح الأجنبي <b>فارغة (NULL)</b>، وهذا <b>مسموح</b> في المفتاح الأجنبي.';return}
+  var dn=DEP.filter(function(d){return d[0]===e[2]})[0][1];
+  var same=ENG.filter(function(x){return x[2]===e[2]}).length;
+  f.className='fb';f.innerHTML='<b>'+e[1]+'</b> يعمل في القسم رقم '+e[2]+' («'+dn+'»).'+(same>1?' لاحظ أن القسم '+e[2]+' مكرّر لأكثر من مهندس: <b>المفتاح الأجنبي يسمح بالتكرار</b>.':'');
+}
+(function(){
+  var opts=["٢","٣","٩","فارغ"], box=document.getElementById('addCh'), added=false;
+  opts.forEach(function(o){
+    var b=document.createElement('button'); b.className='ch'; b.textContent=o==="فارغ"?"بدون قسم (فارغ)":"القسم "+o;
+    b.onclick=function(){
+      [].forEach.call(box.children,function(x){x.classList.remove('sel')}); b.classList.add('sel');
+      var f=document.getElementById('fAdd');
+      if(o==="٩"){f.className='fb bad';f.innerHTML='❌ <b>مرفوض:</b> لا يوجد قسم رقم ٩ في جدول القسم. قيمة المفتاح الأجنبي يجب أن تكون <b>ضمن مجال قيم الصفة المرتبطة معها</b> في الكيان الآخر.';return}
+      f.className='fb good';
+      f.innerHTML= o==="فارغ" ? '✅ <b>مقبول:</b> المفتاح الأجنبي يقبل القيمة الفارغة. تُضاف «نور» الآن، ونحدّد قسمها لاحقاً.'
+                              : '✅ <b>مقبول:</b> القسم '+o+' موجود في جدول القسم، فأُضيفت «نور» إليه.';
+      var row=["١٥","نور",o==="فارغ"?"":o];
+      if(added) ENG[ENG.length-1]=row; else {ENG.push(row); added=true}
+      drawEng();
+    };
+    box.appendChild(b);
+  });
+})();
+
+/* activity 2 */
+var A2=[
+ {n:"رقم الهوية",y:true,w:"فريد لكل شخص، ولا يكون فارغاً."},
+ {n:"بصمة المريض",y:true,w:"لا تتطابق بصمتان لشخصين، فهي فريدة لكل مريض."},
+ {n:"اسم الطالب",y:false,w:"الأسماء تتكرّر، فقد يحمل طالبان الاسم نفسه."},
+ {n:"عنوان المستودع",y:true,w:"لكل مستودع عنوان مختلف لا يتكرّر. (لكنه طويل، و«رقم المستودع» أنسب منه عملياً.)"},
+ {n:"زمرة الدم",y:false,w:"قيمها محدودة (A، B، AB، O) وتتكرّر بين أشخاص كثيرين."},
+ {n:"تاريخ البدء بالدورة",y:false,w:"عدّة متدرّبين يبدؤون الدورة في التاريخ نفسه، فقيمه تتكرّر."},
+ {n:"رقم IP",y:true,w:"لكل جهاز داخل الشبكة عنوان IP فريد لا يتكرّر."}
+];
+var a2ok=0,a2done=0, a2box=document.getElementById('a2');
+A2.forEach(function(a){
+  var row=document.createElement('div'); row.className='a2row';
+  row.innerHTML='<span class="nm">'+a.n+'</span><span class="yn"><button>✅ يصلح</button><button>❌ لا يصلح</button></span><span class="why">'+a.w+'</span>';
+  var bs=row.querySelectorAll('.yn button');
+  [true,false].forEach(function(v,k){
+    bs[k].onclick=function(){
+      if(row.classList.contains('done')) return;
+      row.classList.add('done', v===a.y?'right':'wrong');
+      row.querySelector('.why').innerHTML=(v===a.y?'✔ صحيح: ':'✖ الإجابة: '+(a.y?'يصلح':'لا يصلح')+'. ')+a.w;
+      a2done++; if(v===a.y) a2ok++; upA2();
+    };
+  });
+  a2box.appendChild(row);
+});
+function upA2(){document.getElementById('a2s').textContent='أجبت '+toAr(a2done)+' من '+toAr(A2.length)+' · الصحيح: '+toAr(a2ok)}
+upA2();
+
+/* office entities */
+var ENTS=[
+ {n:"👷 كيان مهندس",c:"tbl_ENGINEER",a:["رقم المهندس","اسم المهندس","التخصّص","تاريخ التعيين","البريد الإلكتروني","رقم القسم"],pk:0,fk:5,fkTo:"كيان القسم"},
+ {n:"🏗️ كيان مشروع",c:"tbl_PROJECT",a:["رقم المشروع","اسم المشروع","الموقع","تاريخ التأسيس","التكلفة الإجمالية"],pk:0,fk:-1},
+ {n:"🏢 كيان قسم",c:"tbl_DEPARTMENT",a:["رقم القسم","اسم القسم"],pk:0,fk:-1},
+ {n:"🧰 كيان عامل",c:"tbl_WORKER",a:["رقم العامل","اسم العامل","الأجرة بالساعة","رقم الهاتف","رقم المشروع"],pk:0,fk:4,fkTo:"كيان المشروع"}
+];
+var eb=document.getElementById('ents');
+ENTS.forEach(function(e){
+  var d=document.createElement('div'); d.className='ent'; e.stage='pk';
+  d.innerHTML='<div class="eh"><span class="k">'+e.n+'</span><code>'+e.c+'</code></div><span class="st">اختر المفتاح الأساسي</span><div class="attrs"></div><div class="msg"></div>';
+  var ab=d.querySelector('.attrs'), st=d.querySelector('.st'), msg=d.querySelector('.msg');
+  e.a.forEach(function(x,i){
+    var b=document.createElement('button'); b.textContent=x;
+    b.onclick=function(){
+      if(e.stage==='done' || b.classList.contains('pk') || b.classList.contains('fkk')) return;
+      if(e.stage==='pk'){
+        if(i===e.pk){
+          b.classList.add('pk');
+          if(e.fk<0){e.stage='done';d.classList.add('fin');st.textContent='✔ اكتمل';msg.textContent='«'+x+'» مفتاح أساسي، ولا يوجد في هذا الكيان مفتاح أجنبي.';}
+          else{e.stage='fk';st.textContent='الآن اختر المفتاح الأجنبي';msg.textContent='✔ «'+x+'» فريد لكل سجل. والآن: أيّ صفة تربط هذا الكيان بكيان آخر؟';}
+        } else bad(b, i===e.fk ? 'هذه صفة تربط بكيان آخر وقد تتكرّر قيمها. ابحث أولاً عن الصفة الفريدة.' : '«'+x+'» قد تتكرّر قيمها بين السجلات، فلا تميّز السجل.');
+      } else {
+        if(i===e.fk){b.classList.add('fkk');e.stage='done';d.classList.add('fin');st.textContent='✔ اكتمل';msg.textContent='«'+x+'» مفتاح أجنبي: هو مفتاح أساسي في '+e.fkTo+'، ويربط الكيانين.';}
+        else bad(b,'المفتاح الأجنبي هو الصفة التي تكون مفتاحاً أساسياً في كيان آخر.');
+      }
+    };
+    ab.appendChild(b);
+  });
+  function bad(b,t){b.classList.remove('no');void b.offsetWidth;b.classList.add('no');msg.textContent='✖ '+t;setTimeout(function(){b.classList.remove('no')},700)}
+  eb.appendChild(d);
+});
+
+/* quiz */
+var QUIZ=[
+ {q:"من خصائص المفتاح الأساسي:",o:["قيمه تتكرّر ويقبل القيمة الفارغة","قيمه فريدة ولا يقبل القيمة الفارغة","هدفه الربط بين الكيانات فقط","يجب أن يكون صفة مشتقة"],a:1,e:"المفتاح الأساسي قيمه فريدة لا تتكرّر، ولا يُسمح فيه بالقيمة الفارغة (NULL)."},
+ {q:"الهدف من المفتاح الأجنبي:",o:["تمييز سجلات الكيان","حساب قيم صفات أخرى","الربط وإنشاء العلاقات بين الكيانات","منع تكرار البيانات"],a:2,e:"المفتاح الأجنبي هدفه الربط وإنشاء العلاقات بين الكيانات."},
+ {q:"«رقم الفاتورة» و«السنة» معاً في كيان الفاتورة مثال على:",o:["مفتاح أساسي بسيط","مفتاح أساسي مركّب","مفتاح أجنبي","صفة متعددة القيم"],a:1,e:"مجموعة صفات تشكّل معاً صفة فريدة عند عدم وجود صفة واحدة فريدة: مفتاح أساسي مركّب."},
+ {q:"أيّ الحقول الآتية لا يصلح مفتاحاً أساسياً؟",o:["رقم الهوية","رقم IP","زمرة الدم","بصمة المريض"],a:2,e:"زمرة الدم تتكرّر بين أشخاص كثيرين، فلا تميّز السجل."},
+ {q:"الصفة «رقم القسم» في كيان المهندس تُعدّ:",o:["مفتاحاً أساسياً","مفتاحاً أجنبياً","صفة مشتقة","صفة مركبة"],a:1,e:"هي مفتاح أساسي في كيان القسم، ووجودها في كيان المهندس يربطه بالقسم، فهي مفتاح أجنبي."}
+];
+var quizStarted=false, qi=0, score=0, answered=false;
+function startQuiz(){quizStarted=true;qi=0;score=0;renderQ()}
+function renderQ(){
+  answered=false;
+  document.getElementById('qbar').style.width=(qi/QUIZ.length*100)+'%';
+  if(qi>=QUIZ.length) return renderResult();
+  var Q=QUIZ[qi], marks=["أ","ب","ج","د"];
+  var h='<div class="qmeta"><span>السؤال '+toAr(qi+1)+' من '+toAr(QUIZ.length)+'</span><span id="qsc">النقاط: '+toAr(score)+'</span></div>';
+  h+='<div class="qtext">'+Q.q+'</div><div class="opts">';
+  Q.o.forEach(function(op,k){h+='<button class="opt" onclick="answer('+k+')"><span class="mk">'+marks[k]+'</span><span>'+op+'</span></button>'});
+  h+='</div><div class="explain" id="explain"></div><div class="navbtns"><span></span><button class="btn btn-main" id="nextQ" onclick="nextQ()" disabled>التالي ‹</button></div>';
+  document.getElementById('qwrap').innerHTML=h;
+}
+function answer(k){
+  if(answered) return; answered=true;
+  var Q=QUIZ[qi], opts=document.querySelectorAll('#qwrap .opt');
+  opts.forEach(function(o){o.classList.add('locked')});
+  opts[Q.a].classList.add('correct');
+  if(k===Q.a) score++; else opts[k].classList.add('wrong');
+  var ex=document.getElementById('explain');
+  ex.innerHTML=(k===Q.a?'✅ إجابة صحيحة! ':'❌ ليست صحيحة. ')+Q.e; ex.classList.add('show');
+  document.getElementById('nextQ').disabled=false;
+  document.getElementById('qsc').textContent='النقاط: '+toAr(score);
+}
+function nextQ(){qi++;renderQ()}
+function renderResult(){
+  document.getElementById('qbar').style.width='100%';
+  var pct=Math.round(score/QUIZ.length*100);
+  var msg=pct>=80?"ممتاز! أتقنت الدرس.":pct>=50?"جيد، راجع النقاط التي أخطأت فيها.":"لا بأس، أعد قراءة المحطات ثم حاول مجدداً.";
+  document.getElementById('qwrap').innerHTML='<div class="result"><div class="scorebig">'+toAr(score)+'/'+toAr(QUIZ.length)+'</div><p class="lead" style="margin:10px 0">'+msg+'</p><div class="navbtns" style="justify-content:center;gap:10px"><button class="btn btn-ghost" onclick="go(0)">↺ من البداية</button><button class="btn btn-main" onclick="startQuiz()">أعد التقويم</button></div></div>';
+}
+</script>
+</body></html>
