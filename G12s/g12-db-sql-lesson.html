@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Structured Query Language SQL · Grade 12 Science</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@400;500;600;700&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#152238; --ink-soft:#41506b; --paper:#F5F3EC; --card:#ffffff; --wire:#CDC6B6;
+  --teal:#0E9C8C; --teal-dark:#0a6e63; --teal-soft:#E1F3F0;
+  --amber:#E7973A; --amber-soft:#FBEDDB; --amber-dark:#a8620f;
+  --coral:#E4644E; --coral-soft:#FBE7E2; --coral-dark:#b8412c;
+  --indigo:#4C5FD5; --indigo-soft:#E7E9FB;
+  --plum:#8A4FC0; --plum-soft:#F1E8FA;
+  --green:#2E9E63; --green-soft:#E1F2E8; --red:#D8463F; --red-soft:#FAE3E2;
+  --bar:#152238; --bar-ink:#ffffff; --bar-sub:#b9c2d6;
+  --shadow:0 10px 30px rgba(21,34,56,.10);
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ink:#E9EDF4; --ink-soft:#A9B4C6; --paper:#11161E; --card:#1A212C; --wire:#34404F;
+    --teal:#2BB8A7; --teal-dark:#5FD6C6; --teal-soft:#123331;
+    --amber:#E9A24F; --amber-soft:#35291A; --amber-dark:#F0BC72;
+    --coral:#EE7D69; --coral-soft:#3A221F; --coral-dark:#F39B8B;
+    --indigo:#8D9BF0; --indigo-soft:#1F2442;
+    --plum:#B88BE6; --plum-soft:#2C2240;
+    --green:#5CC98E; --green-soft:#16301F; --red:#F0766F; --red-soft:#3A1E1D;
+    --bar:#243044; --bar-ink:#ffffff; --bar-sub:#b9c2d6;
+    --shadow:0 10px 30px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+    --ink:#E9EDF4; --ink-soft:#A9B4C6; --paper:#11161E; --card:#1A212C; --wire:#34404F;
+    --teal:#2BB8A7; --teal-dark:#5FD6C6; --teal-soft:#123331;
+    --amber:#E9A24F; --amber-soft:#35291A; --amber-dark:#F0BC72;
+    --coral:#EE7D69; --coral-soft:#3A221F; --coral-dark:#F39B8B;
+    --indigo:#8D9BF0; --indigo-soft:#1F2442;
+    --plum:#B88BE6; --plum-soft:#2C2240;
+    --green:#5CC98E; --green-soft:#16301F; --red:#F0766F; --red-soft:#3A1E1D;
+    --bar:#243044; --bar-ink:#ffffff; --bar-sub:#b9c2d6;
+    --shadow:0 10px 30px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background-color:var(--paper);color:var(--ink);
+  font-family:"Tajawal",Tahoma,"Segoe UI",sans-serif;line-height:1.75;
+  background-image:radial-gradient(var(--wire) .8px,transparent .8px);background-size:26px 26px}
+.wrap{max-width:920px;margin:0 auto;padding:20px 18px 60px}
+h1,h2,h3{font-family:"Reem Kufi",Tahoma,sans-serif;font-weight:600;line-height:1.35;margin:0}
+.k{font-family:"Reem Kufi",Tahoma,sans-serif}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;
+  background:var(--bar);color:var(--bar-ink);border-radius:16px;padding:14px 20px;box-shadow:var(--shadow);margin-bottom:18px}
+.topbar h1{font-size:21px}
+.topbar .sub{font-size:13px;color:var(--bar-sub)}
+.badge{background:var(--teal);color:#fff;font-size:12px;padding:5px 12px;border-radius:999px;font-family:"Reem Kufi",Tahoma,sans-serif;white-space:nowrap}
+.card{background:var(--card);border-radius:18px;padding:26px;box-shadow:var(--shadow);border:1px solid var(--wire)}
+.eyebrow{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:13px;color:var(--teal-dark);background:var(--teal-soft);
+  display:inline-block;padding:4px 12px;border-radius:999px;margin-bottom:12px}
+h2.title{font-size:26px;margin-bottom:8px}
+.lead{color:var(--ink-soft);font-size:16px;margin:0 0 8px}
+.hint{font-size:14px;color:var(--amber-dark);background:var(--amber-soft);border-radius:10px;
+  padding:9px 14px;display:block;margin-top:6px}
+.dfn{background:var(--teal-soft);border:1.5px solid var(--teal);border-radius:14px;padding:16px 18px;margin:14px 0}
+.dfn .dfn-t{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14px;color:var(--teal-dark);margin-bottom:4px}
+.dfn .dfn-b{font-size:17px;line-height:1.7}
+.dfn .dfn-b b{color:var(--teal-dark)}
+.dfn ul{margin:4px 0 0;padding-inline-start:20px}
+.dfn li{margin:4px 0}
+.example{display:flex;gap:14px;align-items:flex-start;background:var(--coral-soft);
+  border:1.5px dashed var(--coral);border-radius:14px;padding:14px 16px;margin:14px 0}
+.example .ex-ic{font-size:30px;flex-shrink:0}
+.example .ex-h{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14px;color:var(--coral-dark);margin-bottom:3px}
+.example .ex-b{font-size:14.5px;line-height:1.65}
+.example .ex-b b{color:var(--coral-dark)}
+.teacher{background:var(--bar);color:var(--bar-ink);border-radius:16px;padding:18px 22px;margin-top:22px;
+  display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;box-shadow:var(--shadow)}
+.teacher .tt{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:12px;color:var(--bar-sub)}
+.teacher .tn{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:19px;margin-top:2px}
+.teacher .tp{direction:ltr;font-size:14px;color:var(--bar-sub);margin-top:4px;text-align:right}
+.teacher a.wa{display:inline-flex;align-items:center;gap:8px;background:#25D366;color:#04331a;
+  font-family:"Reem Kufi",Tahoma,sans-serif;font-size:15px;text-decoration:none;padding:10px 18px;border-radius:12px}
+.teacher a.wa:hover{filter:brightness(1.06)}
+.teacher a.wa:focus-visible{outline:3px solid #fff;outline-offset:2px}
+@media (max-width:560px){
+  .wrap{padding:14px 12px 50px}
+  .topbar h1{font-size:17px} h2.title{font-size:22px}
+  .card{padding:18px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.rail{display:flex;gap:6px;margin:0 0 20px;flex-wrap:wrap}
+.rail button{flex:1 1 0;min-width:84px;background:var(--card);border:1.5px solid var(--wire);
+  border-radius:12px;padding:9px 6px;cursor:pointer;font-family:"Reem Kufi",Tahoma,sans-serif;font-size:12px;
+  color:var(--ink-soft);transition:.2s;display:flex;align-items:center;justify-content:center;gap:6px}
+.rail button .n{width:20px;height:20px;border-radius:50%;background:var(--paper);border:1.5px solid var(--wire);
+  display:inline-flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0}
+.rail button.active{border-color:var(--teal);color:var(--teal-dark);background:var(--teal-soft)}
+.rail button.active .n{background:var(--teal);color:#fff;border-color:var(--teal)}
+.rail button.done .n{background:var(--green);color:#fff;border-color:var(--green)}
+.station{display:none;animation:fade .45s ease both}
+.station.on{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.navbtns{display:flex;justify-content:space-between;margin-top:20px;gap:10px}
+.btn{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:15px;border:none;border-radius:12px;padding:12px 24px;cursor:pointer;transition:.15s}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn-main{background:var(--teal);color:#fff}
+.btn-main:hover:not(:disabled){background:var(--teal-dark)}
+.btn-ghost{background:var(--paper);color:var(--ink-soft);border:1.5px solid var(--wire)}
+.btn-sm{padding:8px 16px;font-size:14px}
+.btn:focus-visible,.rail button:focus-visible,.opt:focus-visible,.hbtn:focus-visible,.seg button:focus-visible,.qa .ab button:focus-visible{outline:3px solid var(--indigo);outline-offset:2px}
+.hero{text-align:center;padding:34px 22px}
+.hero h2{font-size:32px;margin-bottom:6px}
+.pill3{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:18px 0 6px}
+.pill3 span{background:var(--indigo-soft);color:var(--indigo);font-family:"Reem Kufi",Tahoma,sans-serif;font-size:13px;padding:7px 14px;border-radius:999px}
+
+/* database tables */
+.tw{overflow-x:auto;border-radius:12px;border:1.5px solid var(--wire);background:var(--card)}
+.dbt{width:100%;border-collapse:collapse;font-size:14.5px}
+.dbt caption{caption-side:top;background:var(--bar);color:var(--bar-ink);font-family:"Reem Kufi",Tahoma,sans-serif;font-size:15px;padding:7px 10px;text-align:center}
+.dbt th,.dbt td{border:1px solid var(--wire);padding:6px 8px;text-align:center;transition:background .2s,color .2s}
+.dbt th{background:var(--paper);font-family:"Reem Kufi",Tahoma,sans-serif;font-weight:600;font-size:13.5px;white-space:nowrap}
+.dbt tr:first-child th{border-top:none}
+.hbtn{all:unset;cursor:pointer;display:block;padding:2px 4px;border-radius:6px;border-bottom:2px dashed var(--teal)}
+.dbt .dup{background:var(--red-soft)!important;color:var(--red);font-weight:700}
+.dbt .ok{background:var(--green-soft)!important;color:var(--green);font-weight:700}
+.dbt .rep2{background:var(--amber-soft)!important;color:var(--amber-dark);font-weight:700}
+.dbt .pk{color:var(--indigo)}
+.dbt .fkc{color:var(--plum)}
+.dbt .pickc{background:var(--indigo-soft)!important;color:var(--indigo)}
+.dbt td.newc{background:var(--plum-soft);color:var(--plum);font-weight:700}
+.legend{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:13.5px;color:var(--ink-soft);margin-top:10px}
+.legend b{font-family:"Reem Kufi",Tahoma,sans-serif}
+
+.out{margin-top:12px;background:var(--paper);border:1.5px solid var(--wire);border-radius:12px;padding:12px 14px;font-size:15px;min-height:52px}
+.out.good{background:var(--green-soft);border-color:var(--green)}
+.out.bad{background:var(--red-soft);border-color:var(--red)}
+.out.warn{background:var(--amber-soft);border-color:var(--amber)}
+.out b{font-family:"Reem Kufi",Tahoma,sans-serif}
+.tasks{list-style:none;padding:0;margin:12px 0 0;display:flex;flex-direction:column;gap:8px}
+.tasks li{display:flex;gap:10px;align-items:center;background:var(--paper);border:1.5px solid var(--wire);border-radius:12px;padding:9px 12px;font-size:15px;flex-wrap:wrap}
+.tasks li .st{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--wire);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px;background:var(--card)}
+.tasks li.done{border-color:var(--green);background:var(--green-soft)}
+.tasks li.done .st{background:var(--green);border-color:var(--green);color:#fff}
+.seg{display:inline-flex;gap:6px;margin-inline-start:auto;flex-wrap:wrap}
+.seg button{border:1.5px solid var(--wire);background:var(--card);border-radius:10px;padding:4px 14px;font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14px;cursor:pointer;color:var(--ink)}
+.seg button.right{background:var(--green);border-color:var(--green);color:#fff}
+.seg button.wrong{background:var(--red-soft);border-color:var(--red);color:var(--red)}
+.cmp{width:100%;border-collapse:collapse;font-size:15px;margin-top:10px}
+.cmp th,.cmp td{border:1px solid var(--wire);padding:8px 10px;text-align:right;vertical-align:top}
+.cmp th{background:var(--paper);font-family:"Reem Kufi",Tahoma,sans-serif;font-weight:600}
+.cmp td.f{color:var(--teal-dark)} .cmp td.r{color:var(--amber-dark)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px;align-items:start}
+@media (max-width:620px){.two{grid-template-columns:1fr}}
+.hide{display:none}
+.reveal{animation:fade .35s ease both}
+h3.sub3{font-size:18px;margin-top:22px}
+
+/* quiz */
+.qwrap{min-height:60px}
+.qmeta{display:flex;justify-content:space-between;align-items:center;font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14px;color:var(--ink-soft);margin-bottom:8px}
+.qtext{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:19px;margin:6px 0 16px;line-height:1.5}
+.qsrc{font-size:12px;color:var(--ink-soft);font-family:"Tajawal",Tahoma,sans-serif;font-weight:400}
+.opts{display:flex;flex-direction:column;gap:10px}
+.opt{text-align:right;background:var(--card);border:1.5px solid var(--wire);border-radius:12px;padding:13px 16px;
+  cursor:pointer;font-family:"Tajawal",Tahoma,sans-serif;font-size:15.5px;color:var(--ink);transition:.15s;display:flex;align-items:center;gap:10px}
+.opt:hover:not(.locked){border-color:var(--teal)}
+.opt .mk{width:24px;height:24px;border-radius:50%;border:1.5px solid var(--wire);flex-shrink:0;
+  display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-family:"Reem Kufi",Tahoma,sans-serif;color:var(--ink-soft)}
+.opt.correct{background:var(--green-soft);border-color:var(--green);color:var(--green)}
+.opt.correct .mk{background:var(--green);border-color:var(--green);color:#fff}
+.opt.wrong{background:var(--red-soft);border-color:var(--red);color:var(--red)}
+.opt.wrong .mk{background:var(--red);border-color:var(--red);color:#fff}
+.opt.locked{cursor:default}
+.explain{margin-top:14px;background:var(--indigo-soft);color:var(--indigo);border-radius:12px;padding:12px 16px;font-size:14px;display:none}
+.explain.show{display:block;animation:fade .3s ease both}
+.result{text-align:center;padding:20px 10px}
+.scorebig{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:52px;color:var(--teal);line-height:1}
+.progress-quiz{height:8px;background:var(--paper);border-radius:99px;overflow:hidden;margin:4px 0 14px;border:1px solid var(--wire)}
+.progress-quiz i{display:block;height:100%;background:var(--teal);width:0;transition:.3s}
+
+/* written questions */
+.hw .qh{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:18px;color:var(--indigo);background:var(--indigo-soft);border-radius:10px;padding:6px 12px;margin:20px 0 8px;display:inline-block}
+.q{margin:10px 0;font-size:16px}
+.line{display:block;border-bottom:1.5px dotted var(--wire);height:2em}
+@media print{.rail,.navbtns,.teacher a.wa{display:none}.station{display:block!important}body{background:#fff}}
+
+/* ERD */
+.erdbox{background:var(--paper);border:1.5px solid var(--wire);border-radius:14px;padding:8px;margin-top:12px}
+.erd{width:100%;height:auto;display:block;font-family:"Reem Kufi",Tahoma,sans-serif}
+.erd .ln{stroke:var(--ink-soft);stroke-width:1.6}
+.erd .ent rect{fill:var(--indigo-soft);stroke:var(--indigo);stroke-width:2}
+.erd .ent text{fill:var(--indigo);font-size:15px;font-weight:600}
+.erd .rel polygon{fill:var(--amber-soft);stroke:var(--amber);stroke-width:2}
+.erd .rel text{fill:var(--amber-dark);font-size:13px;font-weight:600}
+.erd .card{fill:var(--coral-dark);font-size:24px;font-weight:700}
+.erd .card.q{fill:var(--ink-soft)}
+.erd .off{opacity:0;pointer-events:none}
+.erd g{transition:opacity .4s}
+.erd .arr{fill:none;stroke-width:2.2}
+.erd .arr.t{stroke:var(--teal)} .erd .arr.a{stroke:var(--plum)}
+.erd .arrt{font-size:11.5px;font-weight:600}
+.erd .arrt.t{fill:var(--teal-dark)} .erd .arrt.a{fill:var(--plum)}
+.qa{background:var(--paper);border:1.5px solid var(--wire);border-radius:14px;padding:12px 14px;margin-top:10px}
+.qa .qq{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:16px;margin-bottom:8px}
+.qa .ab{display:flex;gap:8px;flex-wrap:wrap}
+.qa .ab button{border:1.5px solid var(--wire);background:var(--card);border-radius:10px;padding:8px 18px;font-family:"Reem Kufi",Tahoma,sans-serif;font-size:15px;cursor:pointer;color:var(--ink)}
+.qa .ab button.right{background:var(--green);border-color:var(--green);color:#fff}
+.qa .ab button.wrong{background:var(--red-soft);border-color:var(--red);color:var(--red)}
+.qa .fb{font-size:14.5px;margin-top:8px;color:var(--ink-soft)}
+.qa.done{border-color:var(--green);background:var(--green-soft)}
+.qa.locked{opacity:.45;pointer-events:none}
+.bigres{text-align:center;font-family:"Reem Kufi",Tahoma,sans-serif;font-size:30px;color:var(--coral-dark);margin:14px 0 4px}
+.note{font-size:13px;color:var(--ink-soft);margin-top:6px}
+.tag{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:12px;padding:2px 9px;border-radius:999px;margin-inline-start:4px;white-space:nowrap}
+.tag.h{background:var(--indigo-soft);color:var(--indigo)}
+.tag.r{background:var(--coral-soft);color:var(--coral-dark)}
+.segbtns{display:inline-flex;background:var(--card);border:1.5px solid var(--wire);border-radius:12px;overflow:hidden}
+.segbtns button{border:none;background:transparent;padding:9px 14px;font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14px;cursor:pointer;color:var(--ink-soft)}
+.segbtns button.on{background:var(--indigo);color:#fff}
+.segbtns button:focus-visible{outline:3px solid var(--indigo);outline-offset:-3px}
+.readline{text-align:center;font-family:"Reem Kufi",Tahoma,sans-serif;font-size:17px;margin-top:10px}
+.readline b{color:var(--coral-dark);font-size:22px}
+
+.steps{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.steps span{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:12.5px;padding:5px 12px;border-radius:999px;background:var(--paper);border:1.5px solid var(--wire);color:var(--ink-soft)}
+.steps span.on{background:var(--teal);border-color:var(--teal);color:#fff}
+.steps span.done{background:var(--green-soft);border-color:var(--green);color:var(--green)}
+.erd .xm line{stroke:var(--red);stroke-width:5;stroke-linecap:round}
+.erd .broken{opacity:.35}
+.erd .ent.jn rect{fill:var(--plum-soft);stroke:var(--plum);stroke-dasharray:6 4}
+.erd .ent.jn text{fill:var(--plum)}
+.rcards{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-top:12px}
+.rc{background:var(--card);border:1.5px solid var(--wire);border-radius:14px;padding:12px 14px;cursor:pointer;text-align:right;font-family:"Tajawal",Tahoma,sans-serif;font-size:14.5px;color:var(--ink);line-height:1.7}
+.rc .rt{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:17px;display:block;margin-bottom:4px}
+.rc .rb{display:none}
+.rc.on{border-color:var(--plum);background:var(--plum-soft)}
+.rc.on .rb{display:block}
+.rc:focus-visible,.fchip:focus-visible{outline:3px solid var(--indigo);outline-offset:2px}
+.fpick{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.fchip{border:1.5px solid var(--wire);background:var(--card);border-radius:999px;padding:7px 16px;font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14px;cursor:pointer;color:var(--ink)}
+.fchip small{color:var(--ink-soft);font-family:"Tajawal",Tahoma,sans-serif}
+.fchip.on{background:var(--plum);border-color:var(--plum);color:#fff}
+.fchip.on small{color:#f3e9ff}
+.fchip.bad{background:var(--red-soft);border-color:var(--red);color:var(--red)}
+.fchip.good{background:var(--green);border-color:var(--green);color:#fff}
+.three{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:10px;align-items:start}
+@media (max-width:760px){.three{grid-template-columns:1fr}}
+.dbt tr.newrow td{outline:2px solid var(--amber);outline-offset:-2px}
+.ilist{counter-reset:i;list-style:none;padding:0;margin:10px 0 0;display:flex;flex-direction:column;gap:8px}
+.ilist li{counter-increment:i;display:flex;gap:10px;align-items:center;background:var(--indigo-soft);border-radius:12px;padding:10px 14px;font-size:16px}
+.ilist li::before{content:counter(i,arabic-indic);width:28px;height:28px;border-radius:50%;background:var(--indigo);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-family:"Reem Kufi",Tahoma,sans-serif;flex-shrink:0}
+
+/* ===== SQL lesson extras ===== */
+.sqlbox{direction:ltr;text-align:left;font-family:Consolas,"Courier New",monospace;background:var(--bar);color:#d7f5ee;border-radius:12px;padding:12px 16px;font-size:16px;margin-top:10px;overflow-x:auto;white-space:nowrap}
+.hl-d{background:var(--green-soft);color:var(--green);border-radius:6px;padding:0 4px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.hl-s{background:var(--plum-soft);color:var(--plum);border-radius:6px;padding:0 4px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.sw{display:inline-block;width:14px;height:14px;border-radius:4px;vertical-align:middle}
+.sw-d{background:var(--green)} .sw-s{background:var(--plum)}
+.secs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+@media (max-width:620px){.secs{grid-template-columns:1fr}}
+.sec{border:2px solid var(--wire);background:var(--card);border-radius:16px;padding:14px 10px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--ink);transition:.2s}
+.sec .si{font-size:34px}
+.sec .sk{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:26px;direction:ltr}
+.sec .sn{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:15px}
+.sec .se{font-size:12px;color:var(--ink-soft);direction:ltr}
+.sec.ddl .sk{color:var(--teal-dark)} .sec.dcl .sk{color:var(--amber-dark)} .sec.dml .sk{color:var(--plum)}
+.sec.ddl.on{border-color:var(--teal);background:var(--teal-soft)}
+.sec.dcl.on{border-color:var(--amber);background:var(--amber-soft)}
+.sec.dml.on{border-color:var(--plum);background:var(--plum-soft)}
+.sec:focus-visible,.cmd:focus-visible{outline:3px solid var(--indigo);outline-offset:2px}
+.out.ddl-o{background:var(--teal-soft);border-color:var(--teal)}
+.out.dcl-o{background:var(--amber-soft);border-color:var(--amber)}
+.out.dml-o{background:var(--plum-soft);border-color:var(--plum)}
+.cmdgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;margin-top:10px}
+.cmd{border:1.5px solid var(--wire);background:var(--card);border-radius:12px;padding:10px 12px;cursor:pointer;text-align:right;font-family:"Tajawal",Tahoma,sans-serif;font-size:14.5px;color:var(--ink);display:flex;align-items:center;justify-content:space-between;gap:8px}
+.cmd:hover{border-color:var(--indigo)}
+.tagq{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:12px;padding:2px 9px;border-radius:999px;background:var(--paper);border:1px solid var(--wire);direction:ltr;flex-shrink:0}
+.tagq.ddl{background:var(--teal);color:#fff;border-color:var(--teal)}
+.tagq.dcl{background:var(--amber);color:#fff;border-color:var(--amber)}
+.tagq.dml{background:var(--plum);color:#fff;border-color:var(--plum)}
+.dmlc{flex-direction:column;align-items:flex-start;justify-content:flex-start}
+.dmlc .kw{font-family:Consolas,"Courier New",monospace;font-weight:700;color:var(--plum);font-size:17px;direction:ltr}
+.gone{background:var(--red-soft);border:1.5px dashed var(--red);color:var(--red);border-radius:12px;padding:30px 14px;text-align:center;font-size:15px}
+.perm{position:absolute;top:34px;left:8px;background:var(--amber-soft);border:1.5px solid var(--amber);color:var(--amber-dark);border-radius:10px;padding:5px 10px;font-size:13px;box-shadow:var(--shadow);animation:fade .35s ease both}
+.dbt tr.match td{background:var(--green-soft)!important;color:var(--green);font-weight:700}
+.dbt tr.bad td{background:var(--red-soft)!important;color:var(--red);text-decoration:line-through;transition:.5s}
+.meter{background:var(--paper);border:1.5px solid var(--wire);border-radius:12px;padding:10px 12px}
+.meter .mt{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14px}
+.meter .mv{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:20px;color:var(--teal-dark)}
+.meter .mb2{height:10px;background:var(--card);border:1px solid var(--wire);border-radius:99px;overflow:hidden;margin-top:4px}
+.meter .mb2 i{display:block;height:100%;background:var(--teal)}
+.why{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:8px;margin-top:12px}
+.why div{background:var(--indigo-soft);border-radius:12px;padding:10px 12px;font-size:14.5px}
+.why div b{color:var(--indigo)}
+.why div>b:first-child{display:block;font-family:"Reem Kufi",Tahoma,sans-serif;font-size:15px}
+.why.hide{display:none}
+.hwt{width:100%;border-collapse:collapse;font-size:15px;margin:6px 0}
+.hwt th,.hwt td{border:1px solid var(--wire);padding:8px 10px;text-align:right;height:2.4em}
+.hwt th{background:var(--paper);font-family:"Reem Kufi",Tahoma,sans-serif;font-weight:600}
+.cmap{width:100%;height:auto;display:block;max-width:560px;margin:0 auto;font-family:"Reem Kufi",Tahoma,sans-serif}
+.cmap .cl{fill:none;stroke:var(--ink-soft);stroke-width:1.6;transition:opacity .4s}
+.cmap .cn{transition:opacity .4s}
+.cmap .cn rect{stroke-width:2}
+.cmap .t1{font-size:13px;font-weight:600} .cmap .t2{font-size:10.5px}
+.cmap .root rect{fill:var(--bar);stroke:var(--bar)} .cmap .root text{fill:var(--bar-ink)}
+.cmap .ddl rect{fill:var(--teal-soft);stroke:var(--teal)} .cmap .ddl text{fill:var(--teal-dark)}
+.cmap .dcl rect{fill:var(--amber-soft);stroke:var(--amber)} .cmap .dcl text{fill:var(--amber-dark)}
+.cmap .dml rect{fill:var(--plum);stroke:var(--plum)} .cmap .dml text{fill:#fff}
+.cmap .st rect{fill:var(--plum-soft);stroke:var(--plum)} .cmap .st text{fill:var(--plum)}
+.cmap .st2 rect{fill:var(--card);stroke:var(--wire);stroke-dasharray:4 3} .cmap .st2 text{fill:var(--ink-soft)}
+.cmap .sub rect{fill:var(--indigo-soft);stroke:var(--indigo)} .cmap .sub text{fill:var(--indigo)}
+.cmap .agg rect{fill:var(--card);stroke:var(--indigo)} .cmap .agg .t1{fill:var(--indigo);font-family:Consolas,monospace;font-size:11.5px} .cmap .agg .t2{fill:var(--ink-soft)}
+.cmap .note2{font-size:11px;fill:var(--ink-soft)}
+.cmap .hid{opacity:0}
+</style></head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div>
+      <h1 class="k">لغة الاستعلام البنيوية SQL</h1>
+      <div class="sub">الصف الثاني عشر العلمي · الوحدة الأولى: قواعد البيانات · الدرس الثاني</div>
+    </div>
+    <span class="badge">درس تفاعلي</span>
+  </div>
+
+  <nav class="rail" id="rail" aria-label="محطات الدرس"></nav>
+
+  <!-- 0 HERO -->
+  <section class="station on" id="s0">
+    <div class="card hero">
+      <span class="eyebrow">تمهيد ✏️</span>
+      <h2 class="k">ما اللغة التي يفهمها<br>برنامج قاعدة البيانات؟</h2>
+      <p class="lead">في الدرس السابق شغّلنا جملة واحدة في أربعة برامج مختلفة فعملت فيها كلها. هذه الجملة مكتوبة بلغة اسمها <b>SQL</b>. اليوم نتعرّف عليها وعلى أقسامها.</p>
+      <div class="sqlbox" style="max-width:460px;margin:14px auto 0">SELECT StudentName FROM Student;</div>
+      <div class="pill3"><span>التعريف</span><span>أقسام SQL</span><span>إنشاء أم إدخال؟</span><span>تدرّب</span><span>جمل DML الأربع</span><span>لماذا الاستعلامات؟</span><span>الخريطة المفاهيمية</span></div>
+      <div class="navbtns" style="justify-content:center"><button class="btn btn-main" onclick="go(1)">لنبدأ ‹</button></div>
+    </div>
+  </section>
+
+  <!-- 1 DEFINITION -->
+  <section class="station" id="s1">
+    <div class="card">
+      <span class="eyebrow">المحطة ١ · التعريف</span>
+      <h2 class="title k">ما لغة SQL؟</h2>
+      <div class="dfn">
+        <div class="dfn-t">📌 لغة الاستعلام البنيوية SQL</div>
+        <div class="dfn-b">عبارة عن <b>أوامر برمجية</b> تخاطب قاعدة البيانات، وتمكّن من القيام بعدة عمليات عليها، منها <span class="hl-d">(إضافة، وحذف، واسترجاع، وتحديث) للبيانات المخزنة</span>، كما تقوم <span class="hl-s">بإنشاء قاعدة بيانات وحذفها، وإنشاء الجداول والعلاقات بينها</span>.</div>
+      </div>
+      <div class="legend"><span><b class="sw sw-d"></b> عمليات على <b>البيانات</b> داخل الجداول</span><span><b class="sw sw-s"></b> عمليات على <b>البنية</b>: القاعدة والجداول</span></div>
+      <div class="qa" id="q1">
+        <div class="qq">لاحظ اللونين في التعريف: لماذا قسّمناه إلى جزأين؟</div>
+        <div class="ab"><button data-v="a">لأن بعض الأوامر تعمل على البيانات، وبعضها على بنية القاعدة</button><button data-v="b">لأن اللغة لها اسمان</button></div>
+        <div class="fb"></div>
+      </div>
+      <div class="hint">💡 هذا التمييز هو مفتاح الدرس كله: <b>على ماذا يعمل الأمر؟</b></div>
+      <div class="navbtns">
+        <button class="btn btn-ghost" onclick="go(0)">›</button>
+        <button class="btn btn-main" onclick="go(2)">التالي: أقسام SQL ‹</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 SECTIONS -->
+  <section class="station" id="s2">
+    <div class="card">
+      <span class="eyebrow">المحطة ٢ · أقسام لغة SQL</span>
+      <h2 class="title k">ثلاثة أقسام… ثلاث مهام</h2>
+      <p class="lead">تخيّل قاعدة البيانات <b>أرشيف المدرسة</b>. اضغط كل قسم.</p>
+      <div class="secs" id="secs"></div>
+      <div class="out" id="o2" aria-live="polite">اضغط قسماً لتعرفه…</div>
+      <div class="navbtns">
+        <button class="btn btn-ghost" onclick="go(1)">›</button>
+        <button class="btn btn-main" onclick="go(3)">التالي: إنشاء أم إدخال؟ ‹</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 TRAP -->
+  <section class="station" id="s3">
+    <div class="card">
+      <span class="eyebrow">المحطة ٣ · انتبه للفخ!</span>
+      <h2 class="title k">نفس الفعل… وأقسام مختلفة</h2>
+      <p class="lead">«حذف» قد يكون DDL وقد يكون DML! جرّب الأوامر على الجدول وراقب ماذا يتغيّر: <b>البنية</b> أم <b>البيانات</b> أم <b>الصلاحيات</b>؟</p>
+      <div class="cmdgrid" id="cmds"></div>
+      <div id="demoT" style="margin-top:12px;position:relative"></div>
+      <div class="out" id="o3" aria-live="polite">اختر أمراً…</div>
+      <div style="text-align:center;margin-top:8px"><button class="btn btn-ghost btn-sm" onclick="resetDemo()">↺ أعد الجدول</button></div>
+      <div class="dfn hide" id="rule3">
+        <div class="dfn-t">📌 القاعدة الذهبية: على ماذا يقع الأمر؟</div>
+        <div class="dfn-b"><ul>
+          <li>على <b>قاعدة البيانات أو الجدول نفسه</b> (إنشاء، حذف، تعديل، إضافة حقل) ⟵ <b>DDL</b></li>
+          <li>على <b>المستخدمين وصلاحياتهم</b> (إنشاء مستخدم، منح صلاحية، سحبها) ⟵ <b>DCL</b></li>
+          <li>على <b>السجلات داخل الجدول</b> (إدخال، تحديث، حذف، استرجاع) ⟵ <b>DML</b></li>
+        </ul></div>
+      </div>
+      <div class="navbtns">
+        <button class="btn btn-ghost" onclick="go(2)">›</button>
+        <button class="btn btn-main" onclick="go(4)">التالي: تدرّب ‹</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 PRACTICE -->
+  <section class="station" id="s4">
+    <div class="card">
+      <span class="eyebrow">المحطة ٤ · تدرّب</span>
+      <h2 class="title k">إلى أي قسم يتبع؟</h2>
+      <p class="lead">اسأل نفسك في كل مرة: هل يقع الأمر على <b>البنية</b>، أم <b>الصلاحيات</b>، أم <b>السجلات</b>؟</p>
+      <ul class="tasks" id="m4"></ul>
+      <div class="out" id="o4" aria-live="polite">صنّف كل عملية.</div>
+      <div class="navbtns">
+        <button class="btn btn-ghost" onclick="go(3)">›</button>
+        <button class="btn btn-main" onclick="go(5)">التالي: جمل DML ‹</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 DML -->
+  <section class="station" id="s5">
+    <div class="card">
+      <span class="eyebrow">المحطة ٥ · لغة معالجة البيانات DML</span>
+      <h2 class="title k">أربع جمل سندرسها في هذه الوحدة</h2>
+      <p class="lead">جمل DML هي <b>أنواع الاستعلامات</b>. اضغط كل جملة وراقب أثرها على الجدول.</p>
+      <div class="cmdgrid" id="dmls"></div>
+      <div id="dmlT" style="margin-top:12px"></div>
+      <div id="dmlR" style="margin-top:10px"></div>
+      <div class="out" id="o5" aria-live="polite">اختر جملة…</div>
+      <div class="navbtns">
+        <button class="btn btn-ghost" onclick="go(4)">›</button>
+        <button class="btn btn-main" onclick="go(6)">التالي: لماذا الاستعلامات؟ ‹</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 WHY QUERIES -->
+  <section class="station" id="s6">
+    <div class="card">
+      <span class="eyebrow">المحطة ٦ · لماذا نستخدم الاستعلامات؟</span>
+      <h2 class="title k">جدول واحد… وواجهات كثيرة</h2>
+      <p class="lead">في المدرسة جدول واحد للطلاب. لكن لا يجوز أن يرى كل شخص كل شيء! بدّل بين المستخدمين.</p>
+      <div class="segbtns" role="group" aria-label="المستخدم">
+        <button id="r0" class="on" onclick="role6(0)">👨‍💼 المدير</button>
+        <button id="r1" onclick="role6(1)">👨‍🏫 المعلم</button>
+        <button id="r2" onclick="role6(2)">🧾 المحاسب</button>
+      </div>
+      <div class="two" style="margin-top:10px">
+        <div id="v6"></div>
+        <div>
+          <div class="meter"><div class="mt">💾 حجم البيانات المخزّنة</div><div class="mv" id="size6">الجدول: ٣٢ KB</div><div class="mb2"><i style="width:60%"></i></div><div class="note" id="sizeN">استعلامات محفوظة: ٠</div></div>
+          <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">
+            <button class="btn btn-ghost btn-sm" onclick="saveQ()">💾 احفظ واجهة هذا المستخدم كاستعلام</button>
+            <button class="btn btn-ghost btn-sm" onclick="calc6()">🧮 احسب معدل العلامات</button>
+          </div>
+        </div>
+      </div>
+      <div class="out" id="o6" aria-live="polite">المدير يرى كل الحقول. بدّل إلى المعلم ثم المحاسب.</div>
+      <div class="why hide" id="why6">
+        <div><b>🛡️ الحماية</b>الاستعلام وسيط بين الجداول والمستخدم، فيرى كل مستخدم ما هو ضمن <b>صلاحيته</b> فقط (تعدد درجات الأمان).</div>
+        <div><b>🪟 تعدد الواجهات</b>واجهات مختلفة من <b>نفس البيانات</b>، ومن جدول واحد أو عدة جداول، حسب معايير مختلفة.</div>
+        <div><b>💾 لا حجم إضافي</b>الاستعلام يحفظ <b>الجملة</b> فقط ولا يكرر البيانات، فلا يزيد حجم البيانات.</div>
+        <div><b>🧮 الحساب والمعالجة</b>إجراء العمليات الحسابية على السجلات، مثل المعدل والمجموع.</div>
+        <div><b>🔍 البحث والعرض</b>البحث عن البيانات وعرضها من جدول واحد أو عدة جداول.</div>
+      </div>
+      <div class="navbtns">
+        <button class="btn btn-ghost" onclick="go(5)">›</button>
+        <button class="btn btn-main" onclick="go(7)">التالي: الخريطة المفاهيمية ‹</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 CONCEPT MAP -->
+  <section class="station" id="s7">
+    <div class="card">
+      <span class="eyebrow">المحطة ٧ · الخريطة المفاهيمية</span>
+      <h2 class="title k">SQL في صفحة واحدة</h2>
+      <p class="lead">اكشف الخريطة مستوى بعد مستوى، وحاول أن تتوقع ما سيظهر قبل أن تضغط. الجزء الملوّن هو ما سندرسه بالتفصيل في الدروس القادمة.</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center">
+        <button class="btn btn-main btn-sm" id="mapNext" onclick="mapStep(1)">اكشف المستوى التالي ‹</button>
+        <button class="btn btn-ghost btn-sm" onclick="mapStep(9)">اكشف الكل</button>
+        <button class="btn btn-ghost btn-sm" onclick="mapLv=0;mapStep(0)">↺</button>
+      </div>
+      <div class="erdbox"><svg class="cmap" id="cmap" viewBox="0 0 360 500" role="img" aria-label="خريطة مفاهيمية للغة SQL وأقسامها وجمل DML"></svg></div>
+      <div class="navbtns">
+        <button class="btn btn-ghost" onclick="go(6)">›</button>
+        <button class="btn btn-main" onclick="go(8)">التالي: أسئلة كتابية ‹</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8 WRITTEN -->
+  <section class="station" id="s8">
+    <div class="card hw">
+      <span class="eyebrow">📝 أسئلة كتابية</span>
+      <h2 class="title k">أجب في دفترك</h2>
+      <div class="qh">السؤال الأول</div>
+      <div class="q">١. عرّف لغة الاستعلام البنيوية SQL، واذكر أقسامها مع تعريف كل قسم.<span class="line"></span><span class="line"></span><span class="line"></span></div>
+      <div class="q">٢. اذكر ثلاثة أسباب لاستخدام الاستعلامات في قاعدة البيانات.<span class="line"></span><span class="line"></span></div>
+      <div class="qh">السؤال الثاني: حدّد القسم الذي يتبع له كل أمر، وعلّل</div>
+      <div class="tw" style="border:none"><table class="hwt">
+        <tr><th>الأمر</th><th>القسم</th><th>السبب</th></tr>
+        <tr><td>حذف جدول المهندسين من قاعدة البيانات</td><td></td><td></td></tr>
+        <tr><td>حذف سجل المهندس رقم 216</td><td></td><td></td></tr>
+        <tr><td>إضافة حقل Email إلى جدول الطالب</td><td></td><td></td></tr>
+        <tr><td>إضافة طالب جديد إلى جدول الطالب</td><td></td><td></td></tr>
+        <tr><td>منح المحاسب صلاحية قراءة جدول الرسوم فقط</td><td></td><td></td></tr>
+      </table></div>
+      <div class="navbtns">
+        <button class="btn btn-ghost" onclick="go(7)">›</button>
+        <button class="btn btn-main" onclick="go(9)">التقويم الذاتي ‹</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9 QUIZ -->
+  <section class="station" id="s9">
+    <div class="card">
+      <span class="eyebrow">المحطة الأخيرة · التقويم الذاتي</span>
+      <h2 class="title k">اختر الإجابة الصحيحة</h2>
+      <p class="note" style="margin-top:0">أسئلة من الملزمة وامتحانات الثانوية العامة السابقة.</p>
+      <div class="progress-quiz"><i id="qbar"></i></div>
+      <div class="qwrap" id="qwrap"></div>
+    </div>
+  </section>
+
+  <div class="teacher">
+    <div>
+      <div class="tt">إعداد الأستاذ</div>
+      <div class="tn">رامي فتحي فلفل</div>
+      <div class="tp">هاتف / واتساب: +972&nbsp;59&nbsp;788&nbsp;0216</div>
+    </div>
+    <a class="wa" href="https://wa.me/972597880216" target="_blank" rel="noopener">💬 تواصل عبر واتساب</a>
+  </div>
+</div>
+<script>
+var STATIONS=["التمهيد","التعريف","الأقسام","انتبه للفخ","تدرّب","جمل DML","لماذا الاستعلامات","الخريطة","أسئلة كتابية","التقويم"];
+var cur=0, visited={0:true}, rail=document.getElementById('rail');
+function toAr(n){return String(n).replace(/[0-9]/g,function(d){return "٠١٢٣٤٥٦٧٨٩"[d]})}
+function $(id){return document.getElementById(id)}
+STATIONS.forEach(function(t,i){
+  var b=document.createElement('button');
+  b.innerHTML='<span class="n">'+toAr(i+1)+'</span>'+t;
+  b.onclick=function(){go(i)}; rail.appendChild(b);
+});
+function go(i){
+  $('s'+cur).classList.remove('on');
+  cur=i; visited[i]=true;
+  $('s'+i).classList.add('on');
+  updRail(); window.scrollTo({top:0,behavior:'smooth'});
+  if(i===9 && !quizStarted) startQuiz();
+}
+function updRail(){[].forEach.call(rail.children,function(b,i){
+  b.classList.toggle('active',i===cur); b.classList.toggle('done',!!visited[i] && i!==cur);});}
+updRail();
+
+/* ---------- SVG / ERD helpers ---------- */
+var NS='http://www.w3.org/2000/svg';
+function S(tag,a,p){var e=document.createElementNS(NS,tag);for(var k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e}
+function T_(p,x,y,s,cls){var t=S('text',{x:x,y:y,'text-anchor':'middle','dominant-baseline':'central'},p);if(cls)t.setAttribute('class',cls);t.textContent=s;return t}
+function erd(svg,spec){
+  var out={ents:{},rels:[],cards:{}};
+  var byId={}; spec.ents.forEach(function(e){byId[e.id]=e});
+  (spec.rels||[]).forEach(function(r){
+    var g=S('g',{'class':'rel'},svg), A=byId[r.a], B=byId[r.b];
+    S('line',{x1:A.x,y1:A.y,x2:B.x,y2:B.y,'class':'ln'},g);
+    var hw=r.hw||46, hh=r.hh||25;
+    S('polygon',{points:[r.x,r.y-hh,r.x+hw,r.y,r.x,r.y+hh,r.x-hw,r.y].join(' ')},g);
+    T_(g,r.x,r.y,r.verb);
+    (r.cards||[]).forEach(function(c){out.cards[c.id]=T_(g,c.x,c.y,c.t||'?','card'+(c.t?'':' q'))});
+    out.rels.push(g);
+  });
+  spec.ents.forEach(function(e){
+    var g=S('g',{'class':'ent'},svg), w=e.w||120;
+    S('rect',{x:e.x-w/2,y:e.y-21,width:w,height:42,rx:4},g);
+    T_(g,e.x,e.y,e.name);
+    out.ents[e.id]=g;
+  });
+  return out;
+}
+function vis(g,on){g.classList.toggle('off',!on)}
+function setCard(c,t){c.textContent=t;c.classList.remove('q')}
+/* arrow with label: from x1 to x2 at height y */
+function arrow(svg,o){
+  var g=S('g',{'class':'off'},svg);
+  var defs=S('defs',{},g), id='mk'+Math.random().toString(36).slice(2,8);
+  var m=S('marker',{id:id,markerWidth:8,markerHeight:8,refX:7,refY:4,orient:'auto',markerUnits:'userSpaceOnUse'},defs);
+  S('path',{d:'M0,0 L8,4 L0,8 z',style:'fill:var(--'+(o.c==='t'?'teal':'plum')+')'},m);
+  S('line',{x1:o.x1,y1:o.y,x2:o.x2,y2:o.y,'class':'arr '+o.c,'marker-end':'url(#'+id+')'},g);
+  T_(g,(o.x1+o.x2)/2,o.ly,o.label,'arrt '+o.c);
+  return g;
+}
+
+/* ---------- Q&A helper ---------- */
+function qa(id,right,onRight,msgR,msgW,nextId){
+  var box=$(id), fb=box.querySelector('.fb');
+  box.querySelectorAll('.ab button').forEach(function(b){
+    b.onclick=function(){
+      if(box.classList.contains('done')) return;
+      box.querySelectorAll('.ab button').forEach(function(x){x.classList.remove('right','wrong')});
+      if(b.dataset.v===right){
+        b.classList.add('right'); box.classList.add('done'); fb.innerHTML='✅ '+msgR; onRight();
+        if(nextId) $(nextId).classList.remove('locked');
+      }else{b.classList.add('wrong'); fb.innerHTML='🤔 '+(typeof msgW==='object'?(msgW[b.dataset.v]||''):msgW)}
+    };
+  });
+}
+
+/* ---------- tables helper ---------- */
+function mkTable(host,D,o){
+  o=o||{};
+  host.innerHTML='';
+  var w=document.createElement('div'); w.className='tw';
+  var t=document.createElement('table'); t.className='dbt';
+  var h='<caption>'+D.name+'</caption><thead><tr>';
+  D.cols.forEach(function(c,i){
+    var ic=(o.pk&&o.pk.indexOf(i)>-1?'🔑':'')+(o.fk&&o.fk.indexOf(i)>-1?'🔗':'');
+    var lab=(ic?ic+' ':'')+c;
+    h+='<th data-c="'+i+'">'+(o.onHead?'<button class="hbtn" type="button">'+lab+'</button>':lab)+'</th>';
+  });
+  h+='</tr></thead><tbody>';
+  D.rows.forEach(function(r,ri){h+='<tr data-r="'+ri+'">';r.forEach(function(v,ci){h+='<td data-c="'+ci+'">'+v+'</td>'});h+='</tr>'});
+  t.innerHTML=h+'</tbody>'; w.appendChild(t); host.appendChild(w);
+  if(o.pk) o.pk.forEach(function(c){t.querySelector('th[data-c="'+c+'"]').classList.add('pk')});
+  if(o.fk) o.fk.forEach(function(c){t.querySelector('th[data-c="'+c+'"]').classList.add('fkc')});
+  var api={t:t,
+    th:function(c){return t.querySelector('th[data-c="'+c+'"]')},
+    cells:function(c){return t.querySelectorAll('tbody td[data-c="'+c+'"]')},
+    clear:function(){t.querySelectorAll('th,td').forEach(function(e){['dup','ok','pickc','rep2','newc'].forEach(function(k){e.classList.remove(k)})})}};
+  if(o.onHead) t.querySelectorAll('th').forEach(function(th){th.querySelector('.hbtn').onclick=function(){o.onHead(+th.dataset.c)}});
+  return api;
+}
+function markRepeats(api,c){
+  var n={}, cells=api.cells(c);
+  cells.forEach(function(td){n[td.textContent]=(n[td.textContent]||0)+1});
+  cells.forEach(function(td){if(n[td.textContent]>1)td.classList.add('rep2')});
+}
+
+
+
+function matchList(ul,out,items,opts,doneMsg){
+  var n=0;
+  items.forEach(function(it,i){
+    var li=document.createElement('li');
+    li.innerHTML='<span class="st">'+toAr(i+1)+'</span><span>'+it.t+'</span><span class="seg">'+opts.map(function(o){return '<button data-v="'+o+'">'+o+'</button>'}).join('')+'</span>';
+    li.querySelectorAll('button').forEach(function(b){b.onclick=function(){
+      if(li.classList.contains('done')) return;
+      li.querySelectorAll('button').forEach(function(x){x.classList.remove('wrong')});
+      if(b.dataset.v===it.a){b.classList.add('right');li.classList.add('done');li.querySelector('.st').textContent='✓';n++;
+        $(out).className='out good';$(out).innerHTML='✅ '+(it.e||'صحيح.')+(n===items.length?' <b>'+doneMsg+'</b>':'');}
+      else{b.classList.add('wrong');$(out).className='out bad';$(out).innerHTML='🤔 '+(it.w||'حاول مرة أخرى.')}
+    }});
+    $(ul).appendChild(li);
+  });
+}
+
+/* ---------- 1 ---------- */
+qa('q1','a',function(){},'أوامر <b>البيانات</b> (أخضر) تعمل على السجلات، وأوامر <b>البنية</b> (بنفسجي) تعمل على القاعدة والجداول. ولهذا قُسّمت اللغة إلى أقسام.','اقرأ ما تحت كل لون: على ماذا يعمل؟');
+
+/* ---------- 2 ---------- */
+var SECS=[
+ {k:'DDL',n:'لغة تعريف البيانات',en:'Data Definition Language',c:'ddl',ic:'🏗️',
+  d:'مجموعة من الأوامر <b>لإنشاء قاعدة بيانات وحذفها، وإنشاء الجداول وتعديلها وحذفها</b>.',
+  a:'في الأرشيف: <b>بناء الخزائن والرفوف</b> وتغيير تصميمها أو إزالتها.'},
+ {k:'DCL',n:'لغة التحكم بالبيانات',en:'Data Control Language',c:'dcl',ic:'🔐',
+  d:'مجموعة من الأوامر <b>لتحديد صلاحيات مستخدمي قاعدة البيانات</b> من حيث الوصول إلى مكوناتها واستخدامها.',
+  a:'في الأرشيف: <b>المفاتيح والبوّاب</b>؛ من يدخل، وأي خزانة يفتح.'},
+ {k:'DML',n:'لغة معالجة البيانات',en:'Data Manipulation Language',c:'dml',ic:'📂',
+  d:'مجموعة من الأوامر <b>لإجراء عمليات على الجداول (إدخال، وتحديث، وحذف، واسترجاع)</b> بناءً على معايير محددة.',
+  a:'في الأرشيف: <b>وضع الملفات في الرفوف وأخذها وتعديلها</b>.'}
+];
+var seen2={};
+SECS.forEach(function(s){
+  var b=document.createElement('button'); b.type='button'; b.className='sec '+s.c;
+  b.innerHTML='<span class="si">'+s.ic+'</span><span class="sk">'+s.k+'</span><span class="sn">'+s.n+'</span><span class="se">'+s.en+'</span>';
+  b.onclick=function(){
+    document.querySelectorAll('#secs .sec').forEach(function(x){x.classList.remove('on')}); b.classList.add('on'); seen2[s.k]=1;
+    $('o2').className='out '+s.c+'-o';
+    $('o2').innerHTML='<b>'+s.k+' · '+s.n+'</b><br>📌 '+s.d+'<br>🗄️ '+s.a+(Object.keys(seen2).length===3?'<br><b>✅ عرفت الأقسام الثلاثة. انتقل لترى أين يقع الطلاب في الخطأ!</b>':'');
+  };
+  $('secs').appendChild(b);
+});
+
+/* ---------- 3: trap demo ---------- */
+var BASE={name:"Student",cols:["StudentID","StudentName","ClassID"],rows:[[601,"أحمد",6],[503,"محمود",5],[310,"محمد",3],[220,"حسن",2]]};
+var demo, tried3={};
+function resetDemo(){
+  demo=JSON.parse(JSON.stringify(BASE)); demo.perm=null; demo.gone=false; drawDemo();
+  $('o3').className='out'; $('o3').innerHTML='عاد الجدول كما كان. اختر أمراً…';
+}
+function drawDemo(hl){
+  var h=$('demoT'); h.innerHTML='';
+  if(demo.gone){h.innerHTML='<div class="gone">🗑️ لم يعد الجدول <b>Student</b> موجوداً في قاعدة البيانات: <b>البنية</b> نفسها حُذفت مع كل سجلاتها.</div>';return}
+  var api=mkTable(h,demo,{pk:[0],fk:[2]});
+  api.t.querySelectorAll('caption').forEach(function(c){c.style.direction='ltr'});
+  api.t.querySelectorAll('th').forEach(function(th){th.style.direction='ltr'});
+  if(hl) hl(api);
+  if(demo.perm){var p=document.createElement('div');p.className='perm';p.innerHTML=demo.perm;h.appendChild(p)}
+}
+var CMDS=[
+ {t:'حذف سجل الطالب 310',s:'DML',f:function(){
+   var r=demo.rows.findIndex(function(x){return x[0]===310}); if(r<0) return 'السجل محذوف أصلاً، أعد الجدول.';
+   drawDemo(function(api){api.t.tBodies[0].rows[r].classList.add('bad')});
+   setTimeout(function(){demo.rows.splice(r,1);drawDemo()},700);
+   return 'اختفى <b>سجل واحد</b> فقط، و<b>بقي الجدول</b> بحقوله. العملية وقعت على <b>البيانات</b> ⟵ <b>DML</b>.'}},
+ {t:'حذف الجدول Student',s:'DDL',f:function(){
+   demo.gone=true; drawDemo(); return 'اختفى <b>الجدول كله</b>: البنية والسجلات. العملية وقعت على <b>بنية القاعدة</b> ⟵ <b>DDL</b>.'}},
+ {t:'إدخال طالب جديد',s:'DML',f:function(){
+   if(demo.gone) return 'لا يوجد جدول! أعد الجدول أولاً.';
+   demo.rows.push(demo.cols.length>3?[115,'رائد',1,'raed@mail.ps']:[115,'رائد',1]);
+   drawDemo(function(api){var rs=api.t.tBodies[0].rows;rs[rs.length-1].classList.add('match')});
+   return 'زاد <b>سجل</b> جديد، والحقول كما هي. العملية على <b>البيانات</b> ⟵ <b>DML</b>.'}},
+ {t:'إضافة حقل Email للجدول',s:'DDL',f:function(){
+   if(demo.gone) return 'لا يوجد جدول! أعد الجدول أولاً.';
+   if(demo.cols.length>3) return 'الحقل موجود أصلاً.';
+   demo.cols.push('Email'); demo.rows.forEach(function(r){r.push('')});
+   drawDemo(function(api){api.cells(3).forEach(function(td){td.classList.add('pickc')});api.th(3).classList.add('pickc')});
+   return 'تغيّر <b>تصميم الجدول</b>: صار فيه حقل جديد فارغ في كل السجلات. هذا <b>تعديل جدول</b> ⟵ <b>DDL</b>. انتبه: «إضافة حقل» ≠ «إضافة سجل»!'}},
+ {t:'إنشاء مستخدم للمعلم ومنحه صلاحية القراءة فقط',s:'DCL',f:function(){
+   if(demo.gone) return 'لا يوجد جدول! أعد الجدول أولاً.';
+   demo.perm='🔐 المعلم: <b>قراءة فقط</b> 👀 · لا تعديل ✏️❌ · لا حذف 🗑️❌'; drawDemo();
+   return 'لم يتغيّر في الجدول شيء: لا سجل ولا حقل! تغيّر <b>من يستطيع الوصول</b> إليه وماذا يفعل ⟵ <b>DCL</b>.'}},
+ {t:'إنشاء قاعدة بيانات جديدة',s:'DDL',f:function(){
+   return 'إنشاء قاعدة البيانات نفسها (الملف والبنية) ⟵ <b>DDL</b>، كما فعلنا في المحاكاة ١ في الدرس السابق.'}}
+];
+CMDS.forEach(function(c){
+  var b=document.createElement('button'); b.type='button'; b.className='cmd';
+  b.innerHTML=c.t+'<span class="tagq">؟</span>';
+  b.onclick=function(){
+    var m=c.f(); tried3[c.t]=1;
+    b.querySelector('.tagq').textContent=c.s; b.querySelector('.tagq').className='tagq '+c.s.toLowerCase();
+    $('o3').className='out '+c.s.toLowerCase()+'-o'; $('o3').innerHTML=m;
+    if(Object.keys(tried3).length>=4){$('rule3').classList.remove('hide');$('rule3').classList.add('reveal')}
+  };
+  $('cmds').appendChild(b);
+});
+resetDemo();
+
+/* ---------- 4 ---------- */
+matchList('m4','o4',[
+ {t:'إنشاء جدول جديد للمعلمين',a:'DDL',e:'إنشاء بنية جديدة.'},
+ {t:'حذف سجل طالب انتقل إلى مدرسة أخرى',a:'DML',e:'حذف سجل = بيانات.',w:'هل حذفنا الجدول، أم سجلاً بداخله؟'},
+ {t:'منح المرشد صلاحية الاطلاع على جدول الطلاب',a:'DCL',e:'صلاحيات.'},
+ {t:'إضافة حقل «رقم الهاتف» إلى جدول الطالب',a:'DDL',e:'إضافة حقل تغيّر تصميم الجدول.',w:'الحقل عمود في تصميم الجدول، وليس سجلاً.'},
+ {t:'تعديل علامة طالب في مادة الرياضيات',a:'DML',e:'تحديث بيانات سجل.'},
+ {t:'حذف قاعدة بيانات العام الماضي',a:'DDL',e:'حذف قاعدة البيانات نفسها.'},
+ {t:'إنشاء مستخدم جديد للسكرتير',a:'DCL',e:'مستخدمون وصلاحيات.',w:'هل أنشأنا جدولاً أو سجلاً؟ أم شخصاً يدخل القاعدة؟'},
+ {t:'إدخال بيانات ١٠ طلاب جدد',a:'DML',e:'إدخال سجلات.',w:'«إنشاء بيانات داخل الجدول» = إدخال سجلات.'},
+ {t:'عرض أسماء طلاب الصف الثالث',a:'DML',e:'استرجاع بيانات.'},
+ {t:'سحب صلاحية التعديل من مستخدم',a:'DCL',e:'صلاحيات.'}
+],['DDL','DCL','DML'],'ممتاز! أتقنت التفريق.');
+
+/* ---------- 5: DML ---------- */
+var DT={name:"Student",cols:["StudentID","StudentName","ClassID"],rows:[[601,"أحمد",6],[503,"محمود",5],[310,"محمد",3],[220,"حسن",2],[309,"خليل",3]]};
+var dm;
+function drawDml(hl){var api=mkTable($('dmlT'),dm,{pk:[0],fk:[2]});api.t.querySelector('caption').style.direction='ltr';api.t.querySelectorAll('th').forEach(function(th){th.style.direction='ltr'});if(hl)hl(api);return api}
+function resetDml(){dm=JSON.parse(JSON.stringify(DT));drawDml();$('dmlR').innerHTML=''}
+resetDml();
+var DMLS=[
+ {k:'SELECT',n:'استعلام التحديد (الاختيار)',f:function(){
+   resetDml();
+   drawDml(function(api){[].forEach.call(api.t.tBodies[0].rows,function(tr){if(tr.cells[2].textContent==='3')tr.classList.add('match')})});
+   mkTable($('dmlR'),{name:"نتيجة الاستعلام",cols:["StudentName"],rows:[["محمد"],["خليل"]]});
+   return '<b>SELECT</b> يسترجع البيانات ويعرضها، و<b>لا يغيّر</b> الجدول. هنا: أسماء طلاب الصف 3.<br>سندرس منه: التحديد <b>من جدول</b>، ومن <b>جدولين</b>، و<b>الإجماليات</b> (SUM، COUNT، MAX، MIN، AVG).'}},
+ {k:'INSERT INTO',n:'استعلام الإلحاق',f:function(){
+   resetDml(); dm.rows.push([115,'رائد',1]);
+   drawDml(function(api){var rs=api.t.tBodies[0].rows;rs[rs.length-1].classList.add('match')});
+   return '<b>INSERT INTO</b> يضيف سجلات جديدة. وله صورتان سندرسهما: <b>الإضافة</b> (إدخال قيم جديدة) و<b>الإلحاق</b> (نسخ سجلات من جدول آخر).'}},
+ {k:'UPDATE',n:'استعلام التحديث',f:function(){
+   resetDml(); dm.rows[1][2]=6;
+   drawDml(function(api){var td=api.t.tBodies[0].rows[1].cells[2];td.classList.add('rep2')});
+   return '<b>UPDATE</b> يعدّل قيم سجلات موجودة. هنا: انتقل محمود إلى الصف 6.'}},
+ {k:'DELETE',n:'استعلام الحذف',f:function(){
+   resetDml();
+   drawDml(function(api){api.t.tBodies[0].rows[3].classList.add('bad')});
+   setTimeout(function(){dm.rows.splice(3,1);drawDml()},700);
+   return '<b>DELETE</b> يحذف <b>سجلات</b> من الجدول، ويبقى الجدول نفسه.'}}
+];
+DMLS.forEach(function(c){
+  var b=document.createElement('button'); b.type='button'; b.className='cmd dmlc';
+  b.innerHTML='<span class="kw">'+c.k+'</span>'+c.n;
+  b.onclick=function(){$('dmlR').innerHTML='';$('o5').className='out dml-o';$('o5').innerHTML=c.f()};
+  $('dmls').appendChild(b);
+});
+
+/* ---------- 6: why queries ---------- */
+var ST6={name:"Student",cols:["StudentName","Phone","Mark","Fees"],rows:[["أحمد","0599123456",88,"مدفوعة"],["محمود","0598765432",74,"متأخرة"],["محمد","0597111222",92,"مدفوعة"],["حسن","0592333444",65,"مدفوعة"]]};
+var ROLES=[
+ {c:[0,1,2,3],m:'👨‍💼 المدير يرى <b>كل الحقول</b>.'},
+ {c:[0,2],m:'👨‍🏫 المعلم يرى <b>الاسم والعلامة</b> فقط، ضمن صلاحيته. الهاتف والرسوم مخفية عنه.'},
+ {c:[0,3],m:'🧾 المحاسب يرى <b>الاسم والرسوم</b> فقط. لا يرى العلامات.'}
+];
+var role=0, saved={}, roles6={0:1};
+function role6(i){
+  role=i; roles6[i]=1; ['r0','r1','r2'].forEach(function(id,k){$(id).classList.toggle('on',k===i)});
+  var R=ROLES[i];
+  mkTable($('v6'),{name:i===0?'الجدول Student':'استعلام: واجهة '+['المدير','المعلم','المحاسب'][i],cols:R.c.map(function(c){return ST6.cols[c]}),rows:ST6.rows.map(function(r){return R.c.map(function(c){return r[c]})})});
+  $('v6').querySelectorAll('th').forEach(function(th){th.style.direction='ltr'});
+  $('o6').className='out'; $('o6').innerHTML=R.m+(Object.keys(roles6).length===3?' <b>نفس البيانات… ثلاث واجهات.</b>':'');
+  chk6();
+}
+function saveQ(){
+  saved[role]=1; var n=Object.keys(saved).length;
+  $('sizeN').textContent='استعلامات محفوظة: '+toAr(n);
+  $('o6').className='out good';
+  $('o6').innerHTML='✅ حُفظ استعلام واجهة '+['المدير','المعلم','المحاسب'][role]+'. لاحظ: <b>حجم البيانات لم يتغيّر</b> (٣٢ KB)، لأن الاستعلام يحفظ <b>الجملة</b> فقط ولا ينسخ البيانات.';
+  chk6();
+}
+var calcDone=false;
+function calc6(){
+  calcDone=true;
+  var avg=ST6.rows.reduce(function(s,r){return s+r[2]},0)/ST6.rows.length;
+  $('o6').className='out good';
+  $('o6').innerHTML='🧮 معدل العلامات = (88 + 74 + 92 + 65) ÷ 4 = <b>'+avg.toFixed(2)+'</b>. الاستعلام يجري <b>العمليات الحسابية</b> دون أن نحسبها يدوياً.';
+  chk6();
+}
+function chk6(){if(Object.keys(roles6).length===3&&Object.keys(saved).length&&calcDone){$('why6').classList.remove('hide');$('why6').classList.add('reveal')}}
+role6(0);
+
+/* ---------- 7: concept map ---------- */
+var NS2='http://www.w3.org/2000/svg';
+function E2(tag,a,p){var e=document.createElementNS(NS2,tag);for(var k in a)e.setAttribute(k,a[k]);p.appendChild(e);return e}
+var NODES=[
+ {id:'sql',l:0,x:180,y:28,w:150,t:['لغة الاستعلام البنيوية','SQL'],c:'root'},
+ {id:'ddl',l:1,x:300,y:105,w:100,t:['DDL','تعريف البيانات'],c:'ddl',p:'sql'},
+ {id:'dml',l:1,x:180,y:105,w:100,t:['DML','معالجة البيانات'],c:'dml',p:'sql'},
+ {id:'dcl',l:1,x:60,y:105,w:100,t:['DCL','التحكم بالبيانات'],c:'dcl',p:'sql'},
+ {id:'sel',l:2,x:300,y:195,w:96,t:['SELECT','التحديد'],c:'st',p:'dml'},
+ {id:'ins',l:2,x:200,y:195,w:90,t:['INSERT INTO','الإلحاق'],c:'st',p:'dml'},
+ {id:'upd',l:2,x:112,y:195,w:76,t:['UPDATE','التحديث'],c:'st2',p:'dml'},
+ {id:'del',l:2,x:38,y:195,w:68,t:['DELETE','الحذف'],c:'st2',p:'dml'},
+ {id:'s1',l:3,x:300,y:270,w:96,t:['من جدول'],c:'sub',p:'sel'},
+ {id:'s2',l:3,x:300,y:312,w:96,t:['من جدولين'],c:'sub',p:'sel'},
+ {id:'s3',l:3,x:300,y:354,w:96,t:['الإجماليات'],c:'sub',p:'sel'},
+ {id:'i1',l:3,x:200,y:270,w:80,t:['الإضافة'],c:'sub',p:'ins'},
+ {id:'i2',l:3,x:200,y:312,w:80,t:['الإلحاق'],c:'sub',p:'ins'},
+ {id:'a1',l:4,x:326,y:440,w:52,t:['SUM','المجموع'],c:'agg',p:'s3'},
+ {id:'a2',l:4,x:268,y:440,w:52,t:['COUNT','العدد'],c:'agg',p:'s3'},
+ {id:'a3',l:4,x:210,y:440,w:52,t:['MAX','الأعلى'],c:'agg',p:'s3'},
+ {id:'a4',l:4,x:152,y:440,w:52,t:['MIN','الأدنى'],c:'agg',p:'s3'},
+ {id:'a5',l:4,x:94,y:440,w:52,t:['AVG','المعدل'],c:'agg',p:'s3'}
+];
+var mapG={}, mapLv=0;
+(function(){
+  var svg=$('cmap'), byId={}; NODES.forEach(function(n){byId[n.id]=n});
+  var lines=E2('g',{},svg), boxes=E2('g',{},svg);
+  NODES.forEach(function(n){
+    var h=n.t.length>1?38:28;
+    if(n.p){var P=byId[n.p],ph=P.t.length>1?38:28;
+      var stacked=(n.p==='sel'||n.p==='ins');
+      var d=stacked?'M'+(P.x+P.w/2-6)+' '+(P.y+ph/2)+' V'+n.y+' H'+(n.x+n.w/2):'M'+P.x+' '+(P.y+ph/2)+' C'+P.x+' '+((P.y+n.y)/2)+' '+n.x+' '+((P.y+n.y)/2)+' '+n.x+' '+(n.y-h/2);
+      n.ln=E2('path',{d:d,'class':'cl'},lines);}
+    var g=E2('g',{'class':'cn '+n.c},boxes);
+    E2('rect',{x:n.x-n.w/2,y:n.y-h/2,width:n.w,height:h,rx:8},g);
+    n.t.forEach(function(s,k){var t=E2('text',{x:n.x,y:n.y+(n.t.length>1?(k?9:-8):0),'text-anchor':'middle','dominant-baseline':'central','class':k?'t2':'t1'},g);t.textContent=s});
+    n.g=g;
+  });
+  E2('text',{x:75,y:250,'class':'note2','text-anchor':'middle'},svg).textContent='UPDATE و DELETE:';
+  var nt=E2('text',{x:75,y:266,'class':'note2','text-anchor':'middle'},svg); nt.textContent='للمعرفة فقط';
+  mapG.note=[svg.lastChild.previousSibling,nt];
+})();
+function mapStep(d){
+  mapLv=Math.max(0,Math.min(4,mapLv+(d===9?9:d)));
+  NODES.forEach(function(n){var on=n.l<=mapLv;n.g.classList.toggle('hid',!on);if(n.ln)n.ln.classList.toggle('hid',!on)});
+  mapG.note.forEach(function(t){t.classList.toggle('hid',mapLv<3)});
+  $('mapNext').disabled=mapLv>=4;
+}
+mapStep(0);
+
+/* ---------- quiz ---------- */
+var QUIZ=[
+ {q:"أي من الآتية ليست من أقسام لغة SQL؟",src:"(٢١ د٢)",o:["DFL","DML","DCL","DDL"],a:0,e:"الأقسام: DDL و DCL و DML فقط."},
+ {q:"ماذا يُطلق على مجموعة من الأوامر لتحديد صلاحيات مستخدمي قواعد البيانات من حيث الوصول إليها؟",src:"(٢٠ د١)",o:["لغة تعريف البيانات DDL","لغة التحكم بالبيانات DCL","لغة معالجة البيانات DML","لغة إدارة البيانات DRL"],a:1,e:"الصلاحيات ⟵ DCL."},
+ {q:"ما اللغة التي تتشارك بها جميع برامج إدارة قواعد البيانات؟",src:"(٢٠ د١)",o:["App Inventor","Sketchup","SQL","Access"],a:2,e:"لغة الاستعلام البنيوية SQL."},
+ {q:"عملية حذف سجل طالب من جدول الطلاب تتبع:",o:["DDL","DCL","DML","لا تتبع أي قسم"],a:2,e:"الحذف وقع على سجل (بيانات)، والجدول باقٍ."},
+ {q:"عملية حذف جدول الطلاب من قاعدة البيانات تتبع:",o:["DML","DDL","DCL","DRL"],a:1,e:"الحذف وقع على بنية القاعدة نفسها."},
+ {q:"إضافة حقل جديد (Email) إلى جدول الطالب تتبع:",o:["DML لأنها إضافة","DCL","DDL لأنها تعديل للجدول","لا يمكن تنفيذها"],a:2,e:"الحقل جزء من تصميم الجدول؛ إضافة السجل هي DML."},
+ {q:"أي مما يلي من جمل لغة معالجة البيانات DML؟",o:["CREATE TABLE","SELECT","GRANT","DROP TABLE"],a:1,e:"جمل DML: SELECT و INSERT INTO و UPDATE و DELETE."},
+ {q:"ما ناتج تنفيذ الجملة: SELECT * FROM Table;",src:"(٢٠ د٢)",o:["استخراج بعض البيانات","استخراج جميع الحقول من الجدول","استخراج كل الجداول من قاعدة البيانات","استخراج كل الاستعلامات"],a:1,e:"الرمز * يعني جميع الحقول."},
+ {q:"ماذا تسمى عملية نسخ حقول جدول أو جزء منه إلى جدول مطابق له في المفتاح الأساسي وبنفس الترتيب؟",src:"(٢٠ د٢)",o:["التحديد","التحديث","الإلحاق","الحذف"],a:2,e:"الإلحاق إحدى صورتي INSERT INTO."},
+ {q:"يُستخدم الاستعلام لغرض الحماية لأنه:",o:["يحذف البيانات القديمة","يكون بمثابة الوسيط بين الجداول والمستخدم","يزيد حجم قاعدة البيانات","يغيّر تصميم الجداول"],a:1,e:"فيرى كل مستخدم ما هو ضمن صلاحيته فقط."},
+ {q:"حفظ عدة استعلامات على جدول الطالب:",o:["يضاعف حجم البيانات","لا يزيد حجم البيانات لأنه يحفظ الجملة فقط","يحذف الجدول الأصلي","ينشئ جداول جديدة"],a:1,e:"الاستعلام لا ينسخ البيانات."}
+];
+var quizStarted=false, qi=0, score=0, answered=false;
+function startQuiz(){quizStarted=true;qi=0;score=0;renderQ()}
+function renderQ(){
+  answered=false;
+  $('qbar').style.width=(qi/QUIZ.length*100)+'%';
+  if(qi>=QUIZ.length) return renderResult();
+  var Q=QUIZ[qi], marks=["أ","ب","ج","د"];
+  var h='<div class="qmeta"><span>السؤال '+toAr(qi+1)+' من '+toAr(QUIZ.length)+'</span><span id="qsc">النقاط: '+toAr(score)+'</span></div>';
+  h+='<div class="qtext">'+Q.q+(Q.src?' <span class="qsrc">'+Q.src+'</span>':'')+'</div><div class="opts">';
+  Q.o.forEach(function(op,k){h+='<button class="opt" onclick="answer('+k+')"><span class="mk">'+marks[k]+'</span><span>'+op+'</span></button>'});
+  h+='</div><div class="explain" id="explain"></div><div class="navbtns"><span></span><button class="btn btn-main" id="nextQ" onclick="nextQ()" disabled>التالي ‹</button></div>';
+  $('qwrap').innerHTML=h;
+}
+function answer(k){
+  if(answered) return; answered=true;
+  var Q=QUIZ[qi], opts=document.querySelectorAll('#qwrap .opt');
+  opts.forEach(function(o){o.classList.add('locked')});
+  opts[Q.a].classList.add('correct');
+  if(k===Q.a) score++; else opts[k].classList.add('wrong');
+  var ex=$('explain'); ex.innerHTML=(k===Q.a?'✅ إجابة صحيحة! ':'❌ ليست صحيحة. ')+Q.e; ex.classList.add('show');
+  $('nextQ').disabled=false; $('qsc').textContent='النقاط: '+toAr(score);
+}
+function nextQ(){qi++;renderQ()}
+function renderResult(){
+  $('qbar').style.width='100%';
+  var pct=Math.round(score/QUIZ.length*100);
+  var msg=pct>=80?"ممتاز! أتقنت الدرس.":pct>=50?"جيد، راجع المحطات التي أخطأت فيها.":"لا بأس، أعد المحطات ثم حاول مجدداً.";
+  $('qwrap').innerHTML='<div class="result"><div class="scorebig">'+toAr(score)+'/'+toAr(QUIZ.length)+'</div><p class="lead" style="margin:10px 0">'+msg+'</p><div class="navbtns" style="justify-content:center;gap:10px"><button class="btn btn-ghost" onclick="startQuiz()">أعد التقويم</button><button class="btn btn-main" onclick="go(0)">↺ من البداية</button></div></div>';
+}
+
+</script></body></html>
