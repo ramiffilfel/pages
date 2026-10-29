@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Access 2010 Database Program · Grade 12 Science</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@400;500;600;700&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#152238; --ink-soft:#41506b; --paper:#F5F3EC; --card:#ffffff; --wire:#CDC6B6;
+  --teal:#0E9C8C; --teal-dark:#0a6e63; --teal-soft:#E1F3F0;
+  --amber:#E7973A; --amber-soft:#FBEDDB; --amber-dark:#a8620f;
+  --coral:#E4644E; --coral-soft:#FBE7E2; --coral-dark:#b8412c;
+  --indigo:#4C5FD5; --indigo-soft:#E7E9FB;
+  --plum:#8A4FC0; --plum-soft:#F1E8FA;
+  --green:#2E9E63; --green-soft:#E1F2E8; --red:#D8463F; --red-soft:#FAE3E2;
+  --bar:#152238; --bar-ink:#ffffff; --bar-sub:#b9c2d6;
+  --shadow:0 10px 30px rgba(21,34,56,.10);
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ink:#E9EDF4; --ink-soft:#A9B4C6; --paper:#11161E; --card:#1A212C; --wire:#34404F;
+    --teal:#2BB8A7; --teal-dark:#5FD6C6; --teal-soft:#123331;
+    --amber:#E9A24F; --amber-soft:#35291A; --amber-dark:#F0BC72;
+    --coral:#EE7D69; --coral-soft:#3A221F; --coral-dark:#F39B8B;
+    --indigo:#8D9BF0; --indigo-soft:#1F2442;
+    --plum:#B88BE6; --plum-soft:#2C2240;
+    --green:#5CC98E; --green-soft:#16301F; --red:#F0766F; --red-soft:#3A1E1D;
+    --bar:#243044; --bar-ink:#ffffff; --bar-sub:#b9c2d6;
+    --shadow:0 10px 30px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+    --ink:#E9EDF4; --ink-soft:#A9B4C6; --paper:#11161E; --card:#1A212C; --wire:#34404F;
+    --teal:#2BB8A7; --teal-dark:#5FD6C6; --teal-soft:#123331;
+    --amber:#E9A24F; --amber-soft:#35291A; --amber-dark:#F0BC72;
+    --coral:#EE7D69; --coral-soft:#3A221F; --coral-dark:#F39B8B;
+    --indigo:#8D9BF0; --indigo-soft:#1F2442;
+    --plum:#B88BE6; --plum-soft:#2C2240;
+    --green:#5CC98E; --green-soft:#16301F; --red:#F0766F; --red-soft:#3A1E1D;
+    --bar:#243044; --bar-ink:#ffffff; --bar-sub:#b9c2d6;
+    --shadow:0 10px 30px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background-color:var(--paper);color:var(--ink);
+  font-family:"Tajawal",Tahoma,"Segoe UI",sans-serif;line-height:1.75;
+  background-image:radial-gradient(var(--wire) .8px,transparent .8px);background-size:26px 26px}
+.wrap{max-width:920px;margin:0 auto;padding:20px 18px 60px}
+h1,h2,h3{font-family:"Reem Kufi",Tahoma,sans-serif;font-weight:600;line-height:1.35;margin:0}
+.k{font-family:"Reem Kufi",Tahoma,sans-serif}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;
+  background:var(--bar);color:var(--bar-ink);border-radius:16px;padding:14px 20px;box-shadow:var(--shadow);margin-bottom:18px}
+.topbar h1{font-size:21px}
+.topbar .sub{font-size:13px;color:var(--bar-sub)}
+.badge{background:var(--teal);color:#fff;font-size:12px;padding:5px 12px;border-radius:999px;font-family:"Reem Kufi",Tahoma,sans-serif;white-space:nowrap}
+.card{background:var(--card);border-radius:18px;padding:26px;box-shadow:var(--shadow);border:1px solid var(--wire)}
+.eyebrow{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:13px;color:var(--teal-dark);background:var(--teal-soft);
+  display:inline-block;padding:4px 12px;border-radius:999px;margin-bottom:12px}
+h2.title{font-size:26px;margin-bottom:8px}
+.lead{color:var(--ink-soft);font-size:16px;margin:0 0 8px}
+.hint{font-size:14px;color:var(--amber-dark);background:var(--amber-soft);border-radius:10px;
+  padding:9px 14px;display:block;margin-top:6px}
+.dfn{background:var(--teal-soft);border:1.5px solid var(--teal);border-radius:14px;padding:16px 18px;margin:14px 0}
+.dfn .dfn-t{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14px;color:var(--teal-dark);margin-bottom:4px}
+.dfn .dfn-b{font-size:17px;line-height:1.7}
+.dfn .dfn-b b{color:var(--teal-dark)}
+.dfn ul{margin:4px 0 0;padding-inline-start:20px}
+.dfn li{margin:4px 0}
+.example{display:flex;gap:14px;align-items:flex-start;background:var(--coral-soft);
+  border:1.5px dashed var(--coral);border-radius:14px;padding:14px 16px;margin:14px 0}
+.example .ex-ic{font-size:30px;flex-shrink:0}
+.example .ex-h{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14px;color:var(--coral-dark);margin-bottom:3px}
+.example .ex-b{font-size:14.5px;line-height:1.65}
+.example .ex-b b{color:var(--coral-dark)}
+.teacher{background:var(--bar);color:var(--bar-ink);border-radius:16px;padding:18px 22px;margin-top:22px;
+  display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;box-shadow:var(--shadow)}
+.teacher .tt{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:12px;color:var(--bar-sub)}
+.teacher .tn{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:19px;margin-top:2px}
+.teacher .tp{direction:ltr;font-size:14px;color:var(--bar-sub);margin-top:4px;text-align:right}
+.teacher a.wa{display:inline-flex;align-items:center;gap:8px;background:#25D366;color:#04331a;
+  font-family:"Reem Kufi",Tahoma,sans-serif;font-size:15px;text-decoration:none;padding:10px 18px;border-radius:12px}
+.teacher a.wa:hover{filter:brightness(1.06)}
+.teacher a.wa:focus-visible{outline:3px solid #fff;outline-offset:2px}
+@media (max-width:560px){
+  .wrap{padding:14px 12px 50px}
+  .topbar h1{font-size:17px} h2.title{font-size:22px}
+  .card{padding:18px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.rail{display:flex;gap:6px;margin:0 0 20px;flex-wrap:wrap}
+.rail button{flex:1 1 0;min-width:84px;background:var(--card);border:1.5px solid var(--wire);
+  border-radius:12px;padding:9px 6px;cursor:pointer;font-family:"Reem Kufi",Tahoma,sans-serif;font-size:12px;
+  color:var(--ink-soft);transition:.2s;display:flex;align-items:center;justify-content:center;gap:6px}
+.rail button .n{width:20px;height:20px;border-radius:50%;background:var(--paper);border:1.5px solid var(--wire);
+  display:inline-flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0}
+.rail button.active{border-color:var(--teal);color:var(--teal-dark);background:var(--teal-soft)}
+.rail button.active .n{background:var(--teal);color:#fff;border-color:var(--teal)}
+.rail button.done .n{background:var(--green);color:#fff;border-color:var(--green)}
+.station{display:none;animation:fade .45s ease both}
+.station.on{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.navbtns{display:flex;justify-content:space-between;margin-top:20px;gap:10px}
+.btn{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:15px;border:none;border-radius:12px;padding:12px 24px;cursor:pointer;transition:.15s}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn-main{background:var(--teal);color:#fff}
+.btn-main:hover:not(:disabled){background:var(--teal-dark)}
+.btn-ghost{background:var(--paper);color:var(--ink-soft);border:1.5px solid var(--wire)}
+.btn-sm{padding:8px 16px;font-size:14px}
+.btn:focus-visible,.rail button:focus-visible,.opt:focus-visible,.hbtn:focus-visible,.seg button:focus-visible,.qa .ab button:focus-visible{outline:3px solid var(--indigo);outline-offset:2px}
+.hero{text-align:center;padding:34px 22px}
+.hero h2{font-size:32px;margin-bottom:6px}
+.pill3{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:18px 0 6px}
+.pill3 span{background:var(--indigo-soft);color:var(--indigo);font-family:"Reem Kufi",Tahoma,sans-serif;font-size:13px;padding:7px 14px;border-radius:999px}
+
+/* database tables */
+.tw{overflow-x:auto;border-radius:12px;border:1.5px solid var(--wire);background:var(--card)}
+.dbt{width:100%;border-collapse:collapse;font-size:14.5px}
+.dbt caption{caption-side:top;background:var(--bar);color:var(--bar-ink);font-family:"Reem Kufi",Tahoma,sans-serif;font-size:15px;padding:7px 10px;text-align:center}
+.dbt th,.dbt td{border:1px solid var(--wire);padding:6px 8px;text-align:center;transition:background .2s,color .2s}
+.dbt th{background:var(--paper);font-family:"Reem Kufi",Tahoma,sans-serif;font-weight:600;font-size:13.5px;white-space:nowrap}
+.dbt tr:first-child th{border-top:none}
+.hbtn{all:unset;cursor:pointer;display:block;padding:2px 4px;border-radius:6px;border-bottom:2px dashed var(--teal)}
+.dbt .dup{background:var(--red-soft)!important;color:var(--red);font-weight:700}
+.dbt .ok{background:var(--green-soft)!important;color:var(--green);font-weight:700}
+.dbt .rep2{background:var(--amber-soft)!important;color:var(--amber-dark);font-weight:700}
+.dbt .pk{color:var(--indigo)}
+.dbt .fkc{color:var(--plum)}
+.dbt .pickc{background:var(--indigo-soft)!important;color:var(--indigo)}
+.dbt td.newc{background:var(--plum-soft);color:var(--plum);font-weight:700}
+.legend{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:13.5px;color:var(--ink-soft);margin-top:10px}
+.legend b{font-family:"Reem Kufi",Tahoma,sans-serif}
+
+.out{margin-top:12px;background:var(--paper);border:1.5px solid var(--wire);border-radius:12px;padding:12px 14px;font-size:15px;min-height:52px}
+.out.good{background:var(--green-soft);border-color:var(--green)}
+.out.bad{background:var(--red-soft);border-color:var(--red)}
+.out.warn{background:var(--amber-soft);border-color:var(--amber)}
+.out b{font-family:"Reem Kufi",Tahoma,sans-serif}
+.tasks{list-style:none;padding:0;margin:12px 0 0;display:flex;flex-direction:column;gap:8px}
+.tasks li{display:flex;gap:10px;align-items:center;background:var(--paper);border:1.5px solid var(--wire);border-radius:12px;padding:9px 12px;font-size:15px;flex-wrap:wrap}
+.tasks li .st{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--wire);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px;background:var(--card)}
+.tasks li.done{border-color:var(--green);background:var(--green-soft)}
+.tasks li.done .st{background:var(--green);border-color:var(--green);color:#fff}
+.seg{display:inline-flex;gap:6px;margin-inline-start:auto;flex-wrap:wrap}
+.seg button{border:1.5px solid var(--wire);background:var(--card);border-radius:10px;padding:4px 14px;font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14px;cursor:pointer;color:var(--ink)}
+.seg button.right{background:var(--green);border-color:var(--green);color:#fff}
+.seg button.wrong{background:var(--red-soft);border-color:var(--red);color:var(--red)}
+.cmp{width:100%;border-collapse:collapse;font-size:15px;margin-top:10px}
+.cmp th,.cmp td{border:1px solid var(--wire);padding:8px 10px;text-align:right;vertical-align:top}
+.cmp th{background:var(--paper);font-family:"Reem Kufi",Tahoma,sans-serif;font-weight:600}
+.cmp td.f{color:var(--teal-dark)} .cmp td.r{color:var(--amber-dark)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px;align-items:start}
+@media (max-width:620px){.two{grid-template-columns:1fr}}
+.hide{display:none}
+.reveal{animation:fade .35s ease both}
+h3.sub3{font-size:18px;margin-top:22px}
+
+/* quiz */
+.qwrap{min-height:60px}
+.qmeta{display:flex;justify-content:space-between;align-items:center;font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14px;color:var(--ink-soft);margin-bottom:8px}
+.qtext{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:19px;margin:6px 0 16px;line-height:1.5}
+.qsrc{font-size:12px;color:var(--ink-soft);font-family:"Tajawal",Tahoma,sans-serif;font-weight:400}
+.opts{display:flex;flex-direction:column;gap:10px}
+.opt{text-align:right;background:var(--card);border:1.5px solid var(--wire);border-radius:12px;padding:13px 16px;
+  cursor:pointer;font-family:"Tajawal",Tahoma,sans-serif;font-size:15.5px;color:var(--ink);transition:.15s;display:flex;align-items:center;gap:10px}
+.opt:hover:not(.locked){border-color:var(--teal)}
+.opt .mk{width:24px;height:24px;border-radius:50%;border:1.5px solid var(--wire);flex-shrink:0;
+  display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-family:"Reem Kufi",Tahoma,sans-serif;color:var(--ink-soft)}
+.opt.correct{background:var(--green-soft);border-color:var(--green);color:var(--green)}
+.opt.correct .mk{background:var(--green);border-color:var(--green);color:#fff}
+.opt.wrong{background:var(--red-soft);border-color:var(--red);color:var(--red)}
+.opt.wrong .mk{background:var(--red);border-color:var(--red);color:#fff}
+.opt.locked{cursor:default}
+.explain{margin-top:14px;background:var(--indigo-soft);color:var(--indigo);border-radius:12px;padding:12px 16px;font-size:14px;display:none}
+.explain.show{display:block;animation:fade .3s ease both}
+.result{text-align:center;padding:20px 10px}
+.scorebig{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:52px;color:var(--teal);line-height:1}
+.progress-quiz{height:8px;background:var(--paper);border-radius:99px;overflow:hidden;margin:4px 0 14px;border:1px solid var(--wire)}
+.progress-quiz i{display:block;height:100%;background:var(--teal);width:0;transition:.3s}
+
+/* written questions */
+.hw .qh{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:18px;color:var(--indigo);background:var(--indigo-soft);border-radius:10px;padding:6px 12px;margin:20px 0 8px;display:inline-block}
+.q{margin:10px 0;font-size:16px}
+.line{display:block;border-bottom:1.5px dotted var(--wire);height:2em}
+@media print{.rail,.navbtns,.teacher a.wa{display:none}.station{display:block!important}body{background:#fff}}
+
+/* ERD */
+.erdbox{background:var(--paper);border:1.5px solid var(--wire);border-radius:14px;padding:8px;margin-top:12px}
+.erd{width:100%;height:auto;display:block;font-family:"Reem Kufi",Tahoma,sans-serif}
+.erd .ln{stroke:var(--ink-soft);stroke-width:1.6}
+.erd .ent rect{fill:var(--indigo-soft);stroke:var(--indigo);stroke-width:2}
+.erd .ent text{fill:var(--indigo);font-size:15px;font-weight:600}
+.erd .rel polygon{fill:var(--amber-soft);stroke:var(--amber);stroke-width:2}
+.erd .rel text{fill:var(--amber-dark);font-size:13px;font-weight:600}
+.erd .card{fill:var(--coral-dark);font-size:24px;font-weight:700}
+.erd .card.q{fill:var(--ink-soft)}
+.erd .off{opacity:0;pointer-events:none}
+.erd g{transition:opacity .4s}
+.erd .arr{fill:none;stroke-width:2.2}
+.erd .arr.t{stroke:var(--teal)} .erd .arr.a{stroke:var(--plum)}
+.erd .arrt{font-size:11.5px;font-weight:600}
+.erd .arrt.t{fill:var(--teal-dark)} .erd .arrt.a{fill:var(--plum)}
+.qa{background:var(--paper);border:1.5px solid var(--wire);border-radius:14px;padding:12px 14px;margin-top:10px}
+.qa .qq{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:16px;margin-bottom:8px}
+.qa .ab{display:flex;gap:8px;flex-wrap:wrap}
+.qa .ab button{border:1.5px solid var(--wire);background:var(--card);border-radius:10px;padding:8px 18px;font-family:"Reem Kufi",Tahoma,sans-serif;font-size:15px;cursor:pointer;color:var(--ink)}
+.qa .ab button.right{background:var(--green);border-color:var(--green);color:#fff}
+.qa .ab button.wrong{background:var(--red-soft);border-color:var(--red);color:var(--red)}
+.qa .fb{font-size:14.5px;margin-top:8px;color:var(--ink-soft)}
+.qa.done{border-color:var(--green);background:var(--green-soft)}
+.qa.locked{opacity:.45;pointer-events:none}
+.bigres{text-align:center;font-family:"Reem Kufi",Tahoma,sans-serif;font-size:30px;color:var(--coral-dark);margin:14px 0 4px}
+.note{font-size:13px;color:var(--ink-soft);margin-top:6px}
+.tag{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:12px;padding:2px 9px;border-radius:999px;margin-inline-start:4px;white-space:nowrap}
+.tag.h{background:var(--indigo-soft);color:var(--indigo)}
+.tag.r{background:var(--coral-soft);color:var(--coral-dark)}
+.segbtns{display:inline-flex;background:var(--card);border:1.5px solid var(--wire);border-radius:12px;overflow:hidden}
+.segbtns button{border:none;background:transparent;padding:9px 14px;font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14px;cursor:pointer;color:var(--ink-soft)}
+.segbtns button.on{background:var(--indigo);color:#fff}
+.segbtns button:focus-visible{outline:3px solid var(--indigo);outline-offset:-3px}
+.readline{text-align:center;font-family:"Reem Kufi",Tahoma,sans-serif;font-size:17px;margin-top:10px}
+.readline b{color:var(--coral-dark);font-size:22px}
+
+.steps{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.steps span{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:12.5px;padding:5px 12px;border-radius:999px;background:var(--paper);border:1.5px solid var(--wire);color:var(--ink-soft)}
+.steps span.on{background:var(--teal);border-color:var(--teal);color:#fff}
+.steps span.done{background:var(--green-soft);border-color:var(--green);color:var(--green)}
+.erd .xm line{stroke:var(--red);stroke-width:5;stroke-linecap:round}
+.erd .broken{opacity:.35}
+.erd .ent.jn rect{fill:var(--plum-soft);stroke:var(--plum);stroke-dasharray:6 4}
+.erd .ent.jn text{fill:var(--plum)}
+.rcards{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-top:12px}
+.rc{background:var(--card);border:1.5px solid var(--wire);border-radius:14px;padding:12px 14px;cursor:pointer;text-align:right;font-family:"Tajawal",Tahoma,sans-serif;font-size:14.5px;color:var(--ink);line-height:1.7}
+.rc .rt{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:17px;display:block;margin-bottom:4px}
+.rc .rb{display:none}
+.rc.on{border-color:var(--plum);background:var(--plum-soft)}
+.rc.on .rb{display:block}
+.rc:focus-visible,.fchip:focus-visible{outline:3px solid var(--indigo);outline-offset:2px}
+.fpick{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.fchip{border:1.5px solid var(--wire);background:var(--card);border-radius:999px;padding:7px 16px;font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14px;cursor:pointer;color:var(--ink)}
+.fchip small{color:var(--ink-soft);font-family:"Tajawal",Tahoma,sans-serif}
+.fchip.on{background:var(--plum);border-color:var(--plum);color:#fff}
+.fchip.on small{color:#f3e9ff}
+.fchip.bad{background:var(--red-soft);border-color:var(--red);color:var(--red)}
+.fchip.good{background:var(--green);border-color:var(--green);color:#fff}
+.three{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:10px;align-items:start}
+@media (max-width:760px){.three{grid-template-columns:1fr}}
+.dbt tr.newrow td{outline:2px solid var(--amber);outline-offset:-2px}
+.ilist{counter-reset:i;list-style:none;padding:0;margin:10px 0 0;display:flex;flex-direction:column;gap:8px}
+.ilist li{counter-increment:i;display:flex;gap:10px;align-items:center;background:var(--indigo-soft);border-radius:12px;padding:10px 14px;font-size:16px}
+.ilist li::before{content:counter(i,arabic-indic);width:28px;height:28px;border-radius:50%;background:var(--indigo);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-family:"Reem Kufi",Tahoma,sans-serif;flex-shrink:0}
+
+/* ===== lesson 1 extras ===== */
+.flip{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px;margin-top:12px}
+.fc{background:var(--card);border:1.5px solid var(--wire);border-radius:14px;padding:12px 14px;cursor:pointer;text-align:right;font-family:"Tajawal",Tahoma,sans-serif;font-size:14.5px;color:var(--ink);line-height:1.7;min-height:84px}
+.fc .ft{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:16px;display:flex;gap:8px;align-items:center}
+.fc .fi{font-size:24px}
+.fc .fb2{display:none;margin-top:6px;color:var(--ink-soft)}
+.fc.on{border-color:var(--teal);background:var(--teal-soft)}
+.fc.on .fb2{display:block}
+.fc:focus-visible{outline:3px solid var(--indigo);outline-offset:2px}
+.sqlbox{direction:ltr;text-align:left;font-family:Consolas,"Courier New",monospace;background:var(--bar);color:#d7f5ee;border-radius:12px;padding:12px 16px;font-size:16px;margin-top:10px;overflow-x:auto;white-space:nowrap}
+.progs{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px}
+@media (max-width:620px){.progs{grid-template-columns:repeat(2,1fr)}}
+.prog{background:var(--paper);border:1.5px solid var(--wire);border-radius:12px;padding:10px;text-align:center;font-family:"Reem Kufi",Tahoma,sans-serif;font-size:15px;transition:.3s}
+.prog .pr{display:block;font-size:13px;color:var(--ink-soft);font-family:"Tajawal",Tahoma,sans-serif;min-height:1.6em}
+.prog.ran{background:var(--green-soft);border-color:var(--green);color:var(--green)}
+.road{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin-top:10px;counter-reset:r}
+.road div{counter-increment:r;background:var(--paper);border:1.5px solid var(--wire);border-radius:12px;padding:10px 12px;font-size:14.5px;position:relative}
+.road div::before{content:counter(r,arabic-indic);display:inline-flex;width:24px;height:24px;border-radius:50%;background:var(--wire);color:var(--ink);align-items:center;justify-content:center;font-family:"Reem Kufi",Tahoma,sans-serif;font-size:13px;margin-inline-end:6px}
+.road div.today{background:var(--teal-soft);border-color:var(--teal)}
+.road div.today::before{background:var(--teal);color:#fff}
+.road div small{display:block;color:var(--ink-soft);font-size:12.5px;margin-top:4px}
+
+/* ===== Access 2010 simulation (always light, like the real program) ===== */
+.simbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:12px 0 8px}
+.simhint{background:var(--indigo-soft);color:var(--indigo);border-radius:10px;padding:9px 14px;font-size:15px;margin-bottom:8px;min-height:46px}
+.simhint b{font-family:"Reem Kufi",Tahoma,sans-serif}
+.simhint.err{background:var(--red-soft);color:var(--red)}
+.simhint.fin{background:var(--green-soft);color:var(--green)}
+.accwrap{overflow-x:auto;border-radius:8px;padding-bottom:2px}
+.acc{position:relative;min-width:660px;direction:rtl;background:#fff;border:1px solid #8a9bb4;border-radius:6px;overflow:hidden;
+  font-family:Tahoma,"Segoe UI",Arial,sans-serif;font-size:12.5px;color:#1e2a3a;line-height:1.5;user-select:none;-webkit-user-select:none;box-shadow:0 6px 20px rgba(21,34,56,.15)}
+.acc button{font-family:inherit}
+.acc-title{background:linear-gradient(#b8474a,#952c30);color:#fff;display:flex;align-items:center;gap:6px;padding:3px 8px;font-size:12px}
+.acc-title .qb{background:transparent;border:none;color:#fff;cursor:pointer;font-size:13px;padding:0 3px;border-radius:3px}
+.acc-title .tt2{flex:1;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.acc-title .wc{letter-spacing:8px;opacity:.9}
+.acc-tabs{display:flex;gap:2px;background:#dfe7f1;padding:3px 6px 0;border-bottom:1px solid #b6c4d6;align-items:flex-end}
+.acc-tab{padding:3px 12px;border:1px solid transparent;border-bottom:none;border-radius:4px 4px 0 0;cursor:pointer;background:transparent;font-size:12.5px;color:#1e2a3a}
+.acc-tab.file{background:linear-gradient(#b8474a,#952c30);color:#fff}
+.acc-tab.on{background:#f5f8fc;border-color:#b6c4d6;position:relative;top:1px}
+.acc-tab.ctx{background:#fbe9c9;color:#7a3c00}
+.acc-tab.ctx.on{background:#f5f8fc;border-color:#e4b660}
+.acc-ribbon{background:linear-gradient(#f5f8fc,#e1e9f3);border-bottom:1px solid #b6c4d6;display:flex;gap:2px;padding:4px 6px 2px;min-height:76px}
+.rg{display:flex;flex-direction:column;border-left:1px solid #c5d1e0;padding:0 4px}
+.rg:last-child{border-left:none}
+.rg .rbs{display:flex;gap:1px;flex:1}
+.rg .rgt{font-size:10.5px;color:#5b6b80;text-align:center;white-space:nowrap}
+.rb{display:flex;flex-direction:column;align-items:center;gap:1px;background:transparent;border:1px solid transparent;border-radius:3px;padding:2px 4px;cursor:pointer;font-size:11px;color:#1e2a3a;min-width:44px;max-width:76px;line-height:1.25;text-align:center}
+.rb .ri{font-size:19px;line-height:1.15}
+.rb:hover{background:#fdeeb6;border-color:#e3c060}
+.acc-body{display:flex;height:330px;background:#fff}
+.nav{width:150px;flex-shrink:0;border-left:1px solid #b6c4d6;background:#fff;overflow:hidden}
+.nav .nh{background:#dfe7f1;padding:4px 8px;font-weight:bold;font-size:11.5px;border-bottom:1px solid #b6c4d6}
+.nav .ng{padding:3px 8px;color:#2a4a7a;font-weight:bold;font-size:11.5px;border-bottom:1px solid #e3e9f1;background:#f4f7fb}
+.nav .ni{padding:3px 14px;font-size:12px;direction:ltr;text-align:right}
+.nav .ni.new{background:#fdeeb6}
+.work{flex:1;position:relative;background:#e9eef5;overflow:hidden}
+.doctab{background:#fff;padding:3px 12px;font-size:11.5px;border:1px solid #b6c4d6;border-bottom:none;display:inline-block;margin:4px 6px 0;border-radius:3px 3px 0 0}
+.docarea{position:absolute;top:27px;left:0;right:0;bottom:0;background:#fff;border-top:1px solid #b6c4d6;overflow:hidden}
+.acc .glow{outline:3px solid #f2b705!important;outline-offset:1px;animation:glw 1.1s infinite}
+.acc .rcan.glow{outline-offset:-4px}
+@keyframes glw{50%{outline-color:#ff7a00}}
+.cursor{position:absolute;width:22px;height:22px;pointer-events:none;z-index:60;left:50%;top:50%;transition:left .7s ease,top .7s ease;display:none}
+.watching .cursor{display:block}
+.cursor svg{width:22px;height:22px;filter:drop-shadow(1px 1px 1px rgba(0,0,0,.4))}
+.cursor.clk::after{content:"";position:absolute;left:-9px;top:-9px;width:18px;height:18px;border-radius:50%;border:3px solid #ff7a00;animation:rip .45s ease-out}
+@keyframes rip{from{transform:scale(.3);opacity:1}to{transform:scale(1.6);opacity:0}}
+.abtn{padding:3px 14px;border:1px solid #8a9bb4;border-radius:3px;background:linear-gradient(#fff,#e3e9f1);cursor:pointer;color:#1e2a3a;font-size:12px}
+input.ai{border:1px solid #9aabbf;padding:3px 5px;width:100%;direction:ltr;text-align:left;background:#fff;color:#000;font:inherit}
+input.ai:disabled,select.dgs:disabled{color:#000;opacity:1;background:#fff}
+/* backstage */
+.bs{display:flex;height:406px}
+.bs-menu{width:150px;background:linear-gradient(#a4373a,#7a2226);padding:6px 0;flex-shrink:0}
+.bs-menu button{display:block;width:100%;text-align:right;background:transparent;border:none;color:#fff;padding:5px 14px;cursor:pointer;font-size:12.5px}
+.bs-menu button.on{background:#fff;color:#a4373a;font-weight:bold}
+.bs-mid{flex:1;padding:10px 12px;background:#fff}
+.bs-mid h4{margin:0 0 8px;font-size:13px;color:#2a4a7a;border-bottom:1px solid #dde4ee;padding-bottom:4px}
+.bs-right{width:200px;padding:12px;background:#f2f5f9;border-right:1px solid #dde4ee;flex-shrink:0}
+.tile{display:inline-flex;flex-direction:column;align-items:center;width:100px;padding:6px;margin:2px;border:1px solid transparent;border-radius:4px;cursor:pointer;background:transparent;font-size:11.5px;color:#1e2a3a;vertical-align:top}
+.tile .ti{font-size:34px;line-height:1.2}
+.tile.on{background:#fdeeb6;border-color:#e3c060}
+/* dialogs */
+.dlg{position:absolute;z-index:30;background:#f0f0f0;border:1px solid #6b7c93;box-shadow:0 8px 24px rgba(0,0,0,.3);font-family:Tahoma,"Segoe UI",Arial,sans-serif;font-size:12px;color:#1e2a3a;direction:rtl;line-height:1.5}
+.dlg .dt{background:linear-gradient(#e9eef5,#cfd9e6);padding:4px 8px;font-weight:bold;display:flex;justify-content:space-between;border-bottom:1px solid #a9b7c9}
+.dlg .dbody{padding:10px}
+.dlg.static{position:relative;display:inline-block;max-width:100%;margin-top:10px}
+.li{display:block;width:100%;text-align:left;direction:ltr;background:#fff;border:none;padding:2px 6px;cursor:pointer;font-size:12px;color:#1e2a3a}
+.li.sel{background:#3d73c4;color:#fff}
+.lbox{background:#fff;border:1px solid #9aabbf;height:110px;overflow:hidden}
+.cmenu{position:absolute;z-index:32;background:#fff;border:1px solid #8a9bb4;box-shadow:2px 4px 10px rgba(0,0,0,.25);padding:2px 0;min-width:140px}
+.cmenu button{display:block;width:100%;text-align:right;border:none;background:none;padding:4px 18px;cursor:pointer;font-size:12px;color:#1e2a3a}
+/* design grid */
+table.dg{width:100%;border-collapse:collapse;font-size:12px}
+table.dg th{background:#e9eef5;border:1px solid #c5d1e0;font-weight:normal;padding:3px;color:#1e2a3a}
+table.dg td{border:1px solid #d5dde8;padding:0;height:24px}
+table.dg td.sel{width:24px;background:#e9eef5;text-align:center;cursor:pointer}
+table.dg tr.rowsel td{background:#fdeeb6}
+input.dgi{border:none;width:100%;padding:3px 5px;font:inherit;direction:ltr;text-align:left;background:transparent;color:#000}
+select.dgs{border:none;width:100%;font:inherit;background:transparent;color:#000;padding:2px}
+/* relationships */
+.rcan{position:absolute;inset:0;background:#fff}
+.tbox{position:absolute;width:128px;border:1px solid #6b7c93;background:#fff;box-shadow:2px 2px 0 rgba(0,0,0,.12);font-size:12px;z-index:2}
+.tbox .tbh{background:linear-gradient(#dfe7f1,#c7d4e4);padding:2px 6px;font-weight:bold;text-align:center;direction:ltr}
+.fld{padding:2px 6px;direction:ltr;text-align:left;cursor:grab;touch-action:none}
+.fld.pkf::before{content:"🔑 ";font-size:10px}
+svg.rl{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}
+svg.rl line{stroke:#1e2a3a;stroke-width:2}
+svg.rl text{font:bold 15px Tahoma,sans-serif;fill:#1e2a3a;direction:ltr;unicode-bidi:plaintext}
+.ghost{position:absolute;z-index:45;pointer-events:none;background:#fdeeb6;border:1px dashed #b07d00;padding:1px 6px;font-size:11px;direction:ltr;transform:translate(-50%,-140%);display:none}
+.erdlg{width:390px}
+.ergrid{display:flex;gap:10px}
+.erleft{flex:1}
+.erbtns{display:flex;flex-direction:column;gap:6px;width:92px}
+.erbtns .abtn{width:100%}
+.ertab{width:100%;border-collapse:collapse;background:#fff}
+.ertab th{text-align:right;font-weight:normal;padding:2px 4px;border:1px solid #c5d1e0;background:#f4f6f9;font-size:11.5px}
+.ertab td{border:1px solid #c5d1e0;padding:3px 6px;direction:ltr;text-align:left;height:22px}
+.erpick{cursor:pointer}
+.chk{display:flex;align-items:center;gap:6px;margin-top:6px;cursor:pointer;width:max-content}
+.chk .bx{width:13px;height:13px;border:1px solid #6b7c93;background:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:11px;line-height:1}
+.chk.dim{color:#8a95a5;cursor:default}
+.rtype{margin-top:10px;display:flex;gap:10px}
+.rtype b{cursor:pointer;padding:0 4px}
+.ann{display:inline-block;background:#fff4c2;border:1px solid #e3c060;color:#7a4d00;border-radius:4px;padding:0 5px;font-size:11px;margin-top:3px;font-family:Tahoma,sans-serif;direction:rtl}
+.miniacc{display:flex;border:1px solid #8a9bb4;border-radius:6px;overflow:hidden;background:#fff;margin-top:12px;font-family:Tahoma,"Segoe UI",sans-serif;color:#1e2a3a;min-height:210px}
+.miniacc .nav{height:auto}
+.miniacc .ng{cursor:pointer;border:none;width:100%;text-align:right;display:block;font-family:inherit}
+.miniacc .ng.on{background:#fdeeb6}
+.miniacc .mw{flex:1;padding:12px;font-size:14px;line-height:1.8;font-family:"Tajawal",Tahoma,sans-serif}
+.mock{margin-top:8px;border:1px solid #c5d1e0;border-radius:4px;background:#fafcff;padding:8px;font-family:Tahoma,sans-serif;font-size:12px;direction:rtl}
+.mock table{border-collapse:collapse}
+.mock td,.mock th{border:1px solid #c5d1e0;padding:2px 8px}
+</style></head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div>
+      <h1 class="k">برنامج إدارة قواعد البيانات: أكسس 2010</h1>
+      <div class="sub">الصف الثاني عشر العلمي · الوحدة الأولى: قواعد البيانات · الدرس الأول</div>
+    </div>
+    <span class="badge">درس تفاعلي + محاكاة</span>
+  </div>
+
+  <nav class="rail" id="rail" aria-label="محطات الدرس"></nav>
+
+  <!-- 0 HERO -->
+  <section class="station on" id="s0">
+    <div class="card hero">
+      <span class="eyebrow">تمهيد ✏️</span>
+      <h2 class="k">صمّمناها على الورق…<br>فكيف نبنيها على الحاسوب؟</h2>
+      <p class="lead">رسمنا نموذج ERD لقاعدة بيانات المدرسة، وعرفنا المفاتيح والعلاقات. اليوم نتعرّف على <b>برنامج إدارة قواعد البيانات</b>، ونبني بأيدينا قاعدة البيانات والجداول والعلاقات في <b>محاكاة لبرنامج أكسس 2010</b>.</p>
+      <div class="erdbox" style="max-width:420px;margin:14px auto 0"><svg class="erd" id="heroErd" viewBox="0 0 360 110" role="img" aria-label="الصف يسجل الطالب"></svg></div>
+      <div class="pill3"><span>برامج إدارة قواعد البيانات</span><span>خصائص أكسس</span><span>المكونات</span><span>محاكاة: إنشاء قاعدة</span><span>محاكاة: بناء جدول</span><span>محاكاة: العلاقات</span></div>
+      <div class="navbtns" style="justify-content:center"><button class="btn btn-main" onclick="go(1)">لنبدأ ‹</button></div>
+    </div>
+  </section>
+
+  <!-- 1 PROGRAMS -->
+  <section class="station" id="s1">
+    <div class="card">
+      <span class="eyebrow">المحطة ١ · برامج إدارة قواعد البيانات</span>
+      <h2 class="title k">من يعالج البيانات؟</h2>
+      <div class="dfn">
+        <div class="dfn-t">📌 معالجة البيانات</div>
+        <div class="dfn-b">تتلخص في عمليات <b>تخزين</b> و<b>استرجاع</b> البيانات، وتتضمن <b>الحذف</b> و<b>التحديث</b> واسترجاع <b>التقارير</b> اللازمة. ويقوم بها برنامج إدارة قواعد البيانات.</div>
+      </div>
+      <h3 class="k sub3" style="margin-top:8px">صنّف البرامج: هل تحتاج ترخيصاً؟</h3>
+      <ul class="tasks" id="m1"></ul>
+      <div class="out" id="o1" aria-live="polite">اختر لكل برنامج تصنيفه.</div>
+      <h3 class="k sub3">ماذا يجمع هذه البرامج كلها؟</h3>
+      <p class="lead">جملة واحدة تطلب أسماء الطلاب. هل تعمل في البرامج الأربعة؟</p>
+      <div class="sqlbox">SELECT StudentName FROM Student;</div>
+      <div class="progs" id="progs"></div>
+      <div style="text-align:center;margin-top:10px"><button class="btn btn-main btn-sm" id="runBtn" onclick="runSql()">▶ شغّل الجملة في البرامج الأربعة</button></div>
+      <div class="dfn hide" id="sqlDef">
+        <div class="dfn-t">📌 ملاحظة مهمة</div>
+        <div class="dfn-b">جميع برامج إدارة قواعد البيانات تتشارك بلغة <b>الاستعلام البنيوية SQL</b>.</div>
+      </div>
+      <div class="navbtns">
+        <button class="btn btn-ghost" onclick="go(0)">›</button>
+        <button class="btn btn-main" onclick="go(2)">التالي: خصائص أكسس ‹</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 PROPERTIES -->
+  <section class="station" id="s2">
+    <div class="card">
+      <span class="eyebrow">المحطة ٢ · خصائص برنامج أكسس</span>
+      <h2 class="title k">لماذا نتعلّم أكسس؟</h2>
+      <p class="lead">ست خصائص. اضغط كل بطاقة لتكشفها، وحاول أن تتوقع قبل أن تضغط.</p>
+      <div class="flip" id="flip"></div>
+      <div class="out" id="o2" aria-live="polite">كشفت ٠ من ٦</div>
+      <div class="navbtns">
+        <button class="btn btn-ghost" onclick="go(1)">›</button>
+        <button class="btn btn-main" onclick="go(3)">التالي: المكونات ‹</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 COMPONENTS -->
+  <section class="station" id="s3">
+    <div class="card">
+      <span class="eyebrow">المحطة ٣ · مكونات قاعدة البيانات</span>
+      <h2 class="title k">ماذا يوجد داخل ملف أكسس؟</h2>
+      <p class="lead">هذا جزء التنقل في أكسس. اضغط كل مجموعة من الكائنات.</p>
+      <div class="miniacc">
+        <div class="nav">
+          <div class="nh">كافة كائنات Access</div>
+          <button class="ng" data-c="0">▦ الجداول</button>
+          <button class="ng" data-c="1">❓ الاستعلامات</button>
+          <button class="ng" data-c="2">🗒️ النماذج</button>
+          <button class="ng" data-c="3">📑 التقارير</button>
+        </div>
+        <div class="mw" id="cmpOut" aria-live="polite">اختر كائناً من القائمة…</div>
+      </div>
+      <h3 class="k sub3">طابق الوظيفة مع المكوّن</h3>
+      <ul class="tasks" id="m3"></ul>
+      <div class="out" id="o3" aria-live="polite">اختر لكل وظيفة المكوّن المناسب.</div>
+      <div class="navbtns">
+        <button class="btn btn-ghost" onclick="go(2)">›</button>
+        <button class="btn btn-main" onclick="go(4)">التالي: خطوات البناء ‹</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 ROADMAP -->
+  <section class="station" id="s4">
+    <div class="card">
+      <span class="eyebrow">المحطة ٤ · أمور يجب مراعاتها</span>
+      <h2 class="title k">خطة بناء قاعدة بيانات في أكسس</h2>
+      <p class="lead">هذه الأمور التي يجب مراعاتها عند بناء قاعدة بيانات. ننفّذ اليوم <b>الثلاثة الأولى</b> في المحاكاة، والباقي في الدروس القادمة.</p>
+      <div class="road">
+        <div class="today"><b>تحديد اسم قاعدة البيانات وموقع تخزينها</b><small>بعد تشغيل البرنامج · المحاكاة ١</small></div>
+        <div class="today"><b>بناء الجداول والحقول وتحديد نوع البيانات</b><small>المحاكاة ٢</small></div>
+        <div class="today"><b>إنشاء العلاقات بين الجداول</b><small>بناءً على تحليل النظام · المحاكاة ٣</small></div>
+        <div><b>تصميم نماذج إدخال البيانات</b><small>لاحقاً</small></div>
+        <div><b>بناء الاستعلامات</b><small>تحديد، تحديث، إلحاق، حذف</small></div>
+        <div><b>بناء التقارير</b><small>للطباعة الورقية</small></div>
+      </div>
+      <div class="dfn" style="background:var(--indigo-soft);border-color:var(--indigo)">
+        <div class="dfn-t" style="color:var(--indigo)">📌 وعند تصميم كل جدول نراعي</div>
+        <ol class="ilist">
+          <li>كتابة أسماء الحقول <b>باللغة الإنجليزية</b>.</li>
+          <li>تحديد <b>نوع البيانات</b> المناسب لكل حقل.</li>
+          <li>تحديد <b>المفتاح الأساسي</b> في الجدول.</li>
+        </ol>
+      </div>
+      <div class="navbtns">
+        <button class="btn btn-ghost" onclick="go(3)">›</button>
+        <button class="btn btn-main" onclick="go(5)">التالي: المحاكاة ١ ‹</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 SIM 1 -->
+  <section class="station" id="s5">
+    <div class="card">
+      <span class="eyebrow">المحطة ٥ · محاكاة ١</span>
+      <h2 class="title k">إنشاء قاعدة بيانات جديدة</h2>
+      <p class="lead">أولاً: نحدد <b>اسم قاعدة البيانات</b> و<b>موقع تخزينها</b>. اضغط «جرّب بنفسك» واتبع العنصر المتوهج، أو «شاهد» ليعمل البرنامج وحده.</p>
+      <div class="sim" id="sim1"></div>
+      <div class="navbtns">
+        <button class="btn btn-ghost" onclick="go(4)">›</button>
+        <button class="btn btn-main" onclick="go(6)">التالي: أنواع البيانات ‹</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 DATA TYPES -->
+  <section class="station" id="s6">
+    <div class="card">
+      <span class="eyebrow">المحطة ٦ · أنواع البيانات</span>
+      <h2 class="title k">ماذا سنخزّن في الحقل؟</h2>
+      <p class="lead">قبل بناء الجدول نتعرف على أهم أنواع البيانات. (ملخص نظري مطلوب للامتحان)</p>
+      <div class="two">
+        <div class="tw" style="border:none"><table class="cmp">
+          <tr><th colspan="2">القيم النصية</th></tr>
+          <tr><td class="f"><b>نص</b> (نص مختصر)</td><td>من حرف واحد إلى <b>255</b> حرفاً بحد أقصى</td></tr>
+          <tr><td class="f"><b>مذكرة</b> (نص طويل)</td><td>أكثر من 255 حرفاً، ويصل إلى <b>65536</b> حرفاً</td></tr>
+          <tr><th colspan="2">أنواع أخرى</th></tr>
+          <tr><td class="f"><b>تاريخ/وقت</b></td><td>تاريخ الميلاد، تاريخ الإعارة</td></tr>
+          <tr><td class="f"><b>نعم/لا</b></td><td>قيمة من اثنتين: ناجح/راسب</td></tr>
+        </table></div>
+        <div class="tw" style="border:none"><table class="cmp">
+          <tr><th colspan="2">القيم الرقمية</th></tr>
+          <tr><td class="r"><b>رقم</b></td><td>يُخزَّن في <b>2</b> بايت</td></tr>
+          <tr><td class="r"><b>ترقيم تلقائي</b></td><td>رقم <b>فريد</b> يزداد بصورة منتظمة مع كل سجل جديد</td></tr>
+          <tr><td class="r"><b>عدد صحيح مطوّل</b></td><td>يُخزَّن في <b>4</b> بايت</td></tr>
+          <tr><td class="r"><b>عدد كسري مفرد</b></td><td>يُخزَّن في <b>4</b> بايت</td></tr>
+          <tr><td class="r"><b>عدد كسري مزدوج</b></td><td>يُخزَّن في <b>8</b> بايت</td></tr>
+        </table></div>
+      </div>
+      <h3 class="k sub3">اختر النوع المناسب</h3>
+      <ul class="tasks" id="m6"></ul>
+      <div class="out" id="o6" aria-live="polite">اختر لكل حقل نوع بياناته.</div>
+      <div class="navbtns">
+        <button class="btn btn-ghost" onclick="go(5)">›</button>
+        <button class="btn btn-main" onclick="go(7)">التالي: المحاكاة ٢ ‹</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 SIM 2 -->
+  <section class="station" id="s7">
+    <div class="card">
+      <span class="eyebrow">المحطة ٧ · محاكاة ٢</span>
+      <h2 class="title k">بناء جدول الطالب في عرض التصميم</h2>
+      <p class="lead">نبني الجدول <b>Student</b>: نكتب الحقول بالإنجليزية، ونختار نوع بيانات كل حقل، ونحدد المفتاح الأساسي، ثم نحفظ.</p>
+      <div class="tw" style="border:none;max-width:520px"><table class="cmp">
+        <tr><th>الحقل (بالعربي)</th><th>اسم الحقل</th><th>نوع البيانات</th></tr>
+        <tr><td>رقم الطالب 🔑</td><td style="direction:ltr;text-align:left">StudentID</td><td>رقم</td></tr>
+        <tr><td>اسم الطالب</td><td style="direction:ltr;text-align:left">StudentName</td><td>نص</td></tr>
+        <tr><td>رقم الصف 🔗</td><td style="direction:ltr;text-align:left">ClassID</td><td>رقم</td></tr>
+      </table></div>
+      <div class="sim" id="sim2"></div>
+      <div class="example" style="margin-top:18px">
+        <div class="ex-ic">❓</div>
+        <div><div class="ex-h">علّل: يُفضَّل تسمية الجداول والحقول باللغة الإنجليزية.</div>
+        <div class="ex-b">قارن بين الجملتين، أيهما أوضح؟ ثم اضغط لترى الإجابة.</div></div>
+      </div>
+      <div class="sqlbox">SELECT اسم_الطالب FROM الطالب WHERE رقم_الصف = 3;</div>
+      <div class="sqlbox">SELECT StudentName FROM Student WHERE ClassID = 3;</div>
+      <div style="text-align:center;margin-top:10px"><button class="btn btn-main btn-sm" id="enBtn" onclick="showEn()">أظهر الإجابة</button></div>
+      <div class="dfn hide" id="enAns">
+        <div class="dfn-t">📌 الإجابة</div>
+        <div class="dfn-b">حتى يسهل التعامل معها في <b>لغة الاستعلام البنيوية SQL</b>؛ فأوامرها مكتوبة بالإنجليزية، والأسماء العربية تختلط باتجاه الكتابة كما ترى في الجملة الأولى.</div>
+      </div>
+      <div class="navbtns">
+        <button class="btn btn-ghost" onclick="go(6)">›</button>
+        <button class="btn btn-main" onclick="go(8)">التالي: المحاكاة ٣ ‹</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8 SIM 3 -->
+  <section class="station" id="s8">
+    <div class="card">
+      <span class="eyebrow">المحطة ٨ · محاكاة ٣</span>
+      <h2 class="title k">العلاقات وشاشة تحرير العلاقة</h2>
+      <p class="lead">نربط جدول <b>Class</b> بجدول <b>Student</b> (علاقة الصف والطالب من الحصة الثالثة).</p>
+      <div class="sim" id="sim3"></div>
+      <div id="sum3" class="hide">
+        <div class="dfn">
+          <div class="dfn-t">📌 شاشة تحرير العلاقات</div>
+          <div class="dfn-b"><ul>
+            <li>تظهر من علامة تبويب <b>أدوات قاعدة البيانات</b> ← <b>العلاقات</b>.</li>
+            <li><b>الجدول</b>: الذي يحتوي <b>المفتاح الأساسي</b> (Class).</li>
+            <li><b>الجدول المرتبط</b>: الذي يحتوي <b>المفتاح الأجنبي</b> (Student).</li>
+            <li>تحت كل جدول اسم <b>الحقل</b> الذي يربط بينهما (ClassID).</li>
+            <li><b>نوع العلاقة: رأس بأطراف</b> لأن الربط بين مفتاح أساسي ومفتاح أجنبي، أي <b>واحد لمتعدد</b>.</li>
+          </ul></div>
+        </div>
+        <div class="hint">💡 الرقمان <b>1</b> و<b>∞</b> يظهران على خط العلاقة فقط عند تفعيل <b>فرض التكامل المرجعي</b>، الذي يمنع مثلاً إدخال طالب في صف غير موجود.</div>
+        <h3 class="k sub3">والآن دورك: الدولة والرئيس</h3>
+        <p class="lead">في الحصة الثانية صار «رقم الدولة» مفتاحاً أساسياً في جدول الرئيس أيضاً. اربط الجدولين وانظر نوع العلاقة.</p>
+        <div class="sim" id="sim4"></div>
+        <div class="qa locked" id="q8">
+          <div class="qq">لماذا ظهر نوع العلاقة «رأس برأس» هذه المرة؟</div>
+          <div class="ab"><button data-v="a">لأن الربط بين مفتاحين أساسيين</button><button data-v="b">لأن الربط بين مفتاحين أجنبيين</button><button data-v="c">لأننا فعّلنا فرض التكامل المرجعي</button></div>
+          <div class="fb"></div>
+        </div>
+        <div class="dfn hide" id="con8">
+          <div class="dfn-t">📌 نستنتج</div>
+          <div class="dfn-b"><b>رأس برأس</b>: الربط بين <b>مفتاحين أساسيين</b> في الجدولين ⟵ واحد لواحد.<br><b>رأس بأطراف</b>: الربط بين <b>مفتاح أساسي</b> ومفتاح <b>أجنبي</b> ⟵ واحد لمتعدد.</div>
+        </div>
+      </div>
+      <div class="navbtns">
+        <button class="btn btn-ghost" onclick="go(7)">›</button>
+        <button class="btn btn-main" onclick="go(9)">التالي: أسئلة كتابية ‹</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9 WRITTEN -->
+  <section class="station" id="s9">
+    <div class="card hw">
+      <span class="eyebrow">📝 أسئلة كتابية</span>
+      <h2 class="title k">أجب في دفترك</h2>
+      <div class="qh">السؤال الأول: علّل</div>
+      <div class="q">١. يُفضَّل تسمية الجداول والحقول باللغة الإنجليزية.<span class="line"></span></div>
+      <div class="q">٢. جميع برامج إدارة قواعد البيانات تستطيع تنفيذ جملة الاستعلام نفسها.<span class="line"></span></div>
+      <div class="qh">السؤال الثاني: تأمّل شاشة تحرير العلاقات ثم أجب</div>
+      <div id="staticDlg"></div>
+      <div class="q">١. من أي علامة تبويب تظهر هذه الشاشة؟<span class="line"></span></div>
+      <div class="q">٢. حدّد الجدول والجدول المرتبط، والمفتاح الأساسي والمفتاح الأجنبي.<span class="line"></span><span class="line"></span></div>
+      <div class="q">٣. ماذا سيُكتب مكان علامات الاستفهام في نوع العلاقة؟ ولماذا؟ (علماً أن مفتاح جدول Mark مركب من StudentID و SubjectID)<span class="line"></span><span class="line"></span></div>
+      <div class="navbtns">
+        <button class="btn btn-ghost" onclick="go(8)">›</button>
+        <button class="btn btn-main" onclick="go(10)">التقويم الذاتي ‹</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 QUIZ -->
+  <section class="station" id="s10">
+    <div class="card">
+      <span class="eyebrow">المحطة الأخيرة · التقويم الذاتي</span>
+      <h2 class="title k">اختر الإجابة الصحيحة</h2>
+      <p class="note" style="margin-top:0">أسئلة من الملزمة وامتحانات الثانوية العامة السابقة.</p>
+      <div class="progress-quiz"><i id="qbar"></i></div>
+      <div class="qwrap" id="qwrap"></div>
+    </div>
+  </section>
+
+  <div class="teacher">
+    <div>
+      <div class="tt">إعداد الأستاذ</div>
+      <div class="tn">رامي فتحي فلفل</div>
+      <div class="tp">هاتف / واتساب: +972&nbsp;59&nbsp;788&nbsp;0216</div>
+    </div>
+    <a class="wa" href="https://wa.me/972597880216" target="_blank" rel="noopener">💬 تواصل عبر واتساب</a>
+  </div>
+</div>
+<script>
+var STATIONS=["التمهيد","البرامج","الخصائص","المكونات","خطة البناء","إنشاء قاعدة","أنواع البيانات","بناء جدول","العلاقات","أسئلة كتابية","التقويم"];
+var cur=0, visited={0:true}, rail=document.getElementById('rail');
+function toAr(n){return String(n).replace(/[0-9]/g,function(d){return "٠١٢٣٤٥٦٧٨٩"[d]})}
+function $(id){return document.getElementById(id)}
+STATIONS.forEach(function(t,i){
+  var b=document.createElement('button');
+  b.innerHTML='<span class="n">'+toAr(i+1)+'</span>'+t;
+  b.onclick=function(){go(i)}; rail.appendChild(b);
+});
+function go(i){
+  $('s'+cur).classList.remove('on');
+  cur=i; visited[i]=true;
+  $('s'+i).classList.add('on');
+  updRail(); window.scrollTo({top:0,behavior:'smooth'});
+  if(i===10 && !quizStarted) startQuiz();
+}
+function updRail(){[].forEach.call(rail.children,function(b,i){
+  b.classList.toggle('active',i===cur); b.classList.toggle('done',!!visited[i] && i!==cur);});}
+updRail();
+
+/* ---------- SVG / ERD helpers ---------- */
+var NS='http://www.w3.org/2000/svg';
+function S(tag,a,p){var e=document.createElementNS(NS,tag);for(var k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e}
+function T_(p,x,y,s,cls){var t=S('text',{x:x,y:y,'text-anchor':'middle','dominant-baseline':'central'},p);if(cls)t.setAttribute('class',cls);t.textContent=s;return t}
+function erd(svg,spec){
+  var out={ents:{},rels:[],cards:{}};
+  var byId={}; spec.ents.forEach(function(e){byId[e.id]=e});
+  (spec.rels||[]).forEach(function(r){
+    var g=S('g',{'class':'rel'},svg), A=byId[r.a], B=byId[r.b];
+    S('line',{x1:A.x,y1:A.y,x2:B.x,y2:B.y,'class':'ln'},g);
+    var hw=r.hw||46, hh=r.hh||25;
+    S('polygon',{points:[r.x,r.y-hh,r.x+hw,r.y,r.x,r.y+hh,r.x-hw,r.y].join(' ')},g);
+    T_(g,r.x,r.y,r.verb);
+    (r.cards||[]).forEach(function(c){out.cards[c.id]=T_(g,c.x,c.y,c.t||'?','card'+(c.t?'':' q'))});
+    out.rels.push(g);
+  });
+  spec.ents.forEach(function(e){
+    var g=S('g',{'class':'ent'},svg), w=e.w||120;
+    S('rect',{x:e.x-w/2,y:e.y-21,width:w,height:42,rx:4},g);
+    T_(g,e.x,e.y,e.name);
+    out.ents[e.id]=g;
+  });
+  return out;
+}
+function vis(g,on){g.classList.toggle('off',!on)}
+function setCard(c,t){c.textContent=t;c.classList.remove('q')}
+/* arrow with label: from x1 to x2 at height y */
+function arrow(svg,o){
+  var g=S('g',{'class':'off'},svg);
+  var defs=S('defs',{},g), id='mk'+Math.random().toString(36).slice(2,8);
+  var m=S('marker',{id:id,markerWidth:8,markerHeight:8,refX:7,refY:4,orient:'auto',markerUnits:'userSpaceOnUse'},defs);
+  S('path',{d:'M0,0 L8,4 L0,8 z',style:'fill:var(--'+(o.c==='t'?'teal':'plum')+')'},m);
+  S('line',{x1:o.x1,y1:o.y,x2:o.x2,y2:o.y,'class':'arr '+o.c,'marker-end':'url(#'+id+')'},g);
+  T_(g,(o.x1+o.x2)/2,o.ly,o.label,'arrt '+o.c);
+  return g;
+}
+
+/* ---------- Q&A helper ---------- */
+function qa(id,right,onRight,msgR,msgW,nextId){
+  var box=$(id), fb=box.querySelector('.fb');
+  box.querySelectorAll('.ab button').forEach(function(b){
+    b.onclick=function(){
+      if(box.classList.contains('done')) return;
+      box.querySelectorAll('.ab button').forEach(function(x){x.classList.remove('right','wrong')});
+      if(b.dataset.v===right){
+        b.classList.add('right'); box.classList.add('done'); fb.innerHTML='✅ '+msgR; onRight();
+        if(nextId) $(nextId).classList.remove('locked');
+      }else{b.classList.add('wrong'); fb.innerHTML='🤔 '+(typeof msgW==='object'?(msgW[b.dataset.v]||''):msgW)}
+    };
+  });
+}
+
+/* ---------- tables helper ---------- */
+function mkTable(host,D,o){
+  o=o||{};
+  host.innerHTML='';
+  var w=document.createElement('div'); w.className='tw';
+  var t=document.createElement('table'); t.className='dbt';
+  var h='<caption>'+D.name+'</caption><thead><tr>';
+  D.cols.forEach(function(c,i){
+    var ic=(o.pk&&o.pk.indexOf(i)>-1?'🔑':'')+(o.fk&&o.fk.indexOf(i)>-1?'🔗':'');
+    var lab=(ic?ic+' ':'')+c;
+    h+='<th data-c="'+i+'">'+(o.onHead?'<button class="hbtn" type="button">'+lab+'</button>':lab)+'</th>';
+  });
+  h+='</tr></thead><tbody>';
+  D.rows.forEach(function(r,ri){h+='<tr data-r="'+ri+'">';r.forEach(function(v,ci){h+='<td data-c="'+ci+'">'+v+'</td>'});h+='</tr>'});
+  t.innerHTML=h+'</tbody>'; w.appendChild(t); host.appendChild(w);
+  if(o.pk) o.pk.forEach(function(c){t.querySelector('th[data-c="'+c+'"]').classList.add('pk')});
+  if(o.fk) o.fk.forEach(function(c){t.querySelector('th[data-c="'+c+'"]').classList.add('fkc')});
+  var api={t:t,
+    th:function(c){return t.querySelector('th[data-c="'+c+'"]')},
+    cells:function(c){return t.querySelectorAll('tbody td[data-c="'+c+'"]')},
+    clear:function(){t.querySelectorAll('th,td').forEach(function(e){['dup','ok','pickc','rep2','newc'].forEach(function(k){e.classList.remove(k)})})}};
+  if(o.onHead) t.querySelectorAll('th').forEach(function(th){th.querySelector('.hbtn').onclick=function(){o.onHead(+th.dataset.c)}});
+  return api;
+}
+function markRepeats(api,c){
+  var n={}, cells=api.cells(c);
+  cells.forEach(function(td){n[td.textContent]=(n[td.textContent]||0)+1});
+  cells.forEach(function(td){if(n[td.textContent]>1)td.classList.add('rep2')});
+}
+
+
+
+erd($('heroErd'),{ents:[{id:'c',name:'الصف',x:292,y:60,w:108},{id:'s',name:'الطالب',x:68,y:60,w:108}],
+  rels:[{a:'c',b:'s',verb:'يسجل',x:180,y:60,cards:[{id:'s',x:132,y:38,t:'∞'},{id:'c',x:228,y:38,t:'1'}]}]});
+
+/* generic "choose one" task list */
+function matchList(ul,out,items,opts,doneMsg){
+  var n=0;
+  items.forEach(function(it,i){
+    var li=document.createElement('li');
+    li.innerHTML='<span class="st">'+toAr(i+1)+'</span><span>'+it.t+'</span><span class="seg">'+opts.map(function(o){return '<button data-v="'+o+'">'+o+'</button>'}).join('')+'</span>';
+    li.querySelectorAll('button').forEach(function(b){b.onclick=function(){
+      if(li.classList.contains('done')) return;
+      li.querySelectorAll('button').forEach(function(x){x.classList.remove('wrong')});
+      if(b.dataset.v===it.a){b.classList.add('right');li.classList.add('done');li.querySelector('.st').textContent='✓';n++;
+        $(out).className='out good';$(out).innerHTML='✅ '+(it.e||'صحيح.')+(n===items.length?' <b>'+doneMsg+'</b>':'');}
+      else{b.classList.add('wrong');$(out).className='out bad';$(out).innerHTML='🤔 '+(it.w||'حاول مرة أخرى.')}
+    }});
+    $(ul).appendChild(li);
+  });
+}
+
+/* ---------- 1 ---------- */
+matchList('m1','o1',[
+ {t:'MySQL',a:'مفتوح المصدر',e:'MySQL مفتوح المصدر، <b>لا يحتاج ترخيصاً</b>.'},
+ {t:'MS Access 2010',a:'يحتاج ترخيصاً',e:'أكسس برنامج غير مفتوح المصدر يحتاج ترخيصاً.'},
+ {t:'Oracle',a:'يحتاج ترخيصاً',e:'Oracle غير مفتوح المصدر.'},
+ {t:'SQL Server',a:'يحتاج ترخيصاً',e:'SQL Server غير مفتوح المصدر.'}
+],['مفتوح المصدر','يحتاج ترخيصاً'],'البرنامج الوحيد الذي لا يحتاج ترخيصاً: MySQL.');
+var PROGS=['MySQL','MS Access','Oracle','SQL Server'];
+PROGS.forEach(function(p,i){var d=document.createElement('div');d.className='prog';d.id='pg'+i;d.innerHTML=p+'<span class="pr"></span>';$('progs').appendChild(d)});
+function runSql(){
+  $('runBtn').disabled=true;
+  PROGS.forEach(function(p,i){setTimeout(function(){
+    $('pg'+i).classList.add('ran'); $('pg'+i).querySelector('.pr').textContent='✓ أحمد، محمود، محمد…';
+    if(i===3){$('sqlDef').classList.remove('hide');$('sqlDef').classList.add('reveal')}
+  },500*(i+1))});
+}
+
+/* ---------- 2 ---------- */
+var PROPS=[
+ ['🔗','يبني قاعدة بيانات علائقية','جداول مرتبطة مع بعضها بعلاقات، كما صمّمنا في الحصص السابقة.'],
+ ['📦','يجمع كل المكونات في ملف واحد','امتداده <b>accdb</b>، وحجمه الأقصى <b>2 غيغابايت</b>.'],
+ ['🔄','الاستيراد والتصدير','إمكانية استيراد البيانات وتصديرها من برامج أخرى مثل Excel.'],
+ ['🛡️','تعدد درجات الأمان','وصلاحيات الوصول للبيانات حسب الحاجة.'],
+ ['🌐','المشاركة على الشبكة','إمكانية مشاركة قاعدة البيانات على شبكة الحاسوب.'],
+ ['👨‍💼','تحكم مدير قاعدة البيانات','يمكّن مدير قاعدة البيانات من التحكم الكامل وإعطاء الصلاحيات المطلوبة.']
+];
+var seen2=0;
+PROPS.forEach(function(p){
+  var b=document.createElement('button'); b.type='button'; b.className='fc';
+  b.innerHTML='<span class="ft"><span class="fi">'+p[0]+'</span>'+p[1]+'</span><span class="fb2">'+p[2]+'</span>';
+  b.onclick=function(){if(!b.classList.contains('on')){seen2++;$('o2').className='out'+(seen2===6?' good':'');$('o2').innerHTML=seen2===6?'✅ كشفت الخصائص الست. ركّز على: <b>accdb</b> و<b>2 غيغابايت</b>، فهما من أسئلة الامتحان.':'كشفت '+toAr(seen2)+' من ٦'}b.classList.add('on')};
+  $('flip').appendChild(b);
+});
+
+/* ---------- 3 ---------- */
+var CMP=[
+ ['الجداول','مجموعة من <b>السجلات والحقول</b>، وفيها تُخزَّن البيانات. وهي أهم مكوّن لبناء قاعدة البيانات.','<table><tr><th>StudentID</th><th>StudentName</th></tr><tr><td>601</td><td>أحمد</td></tr><tr><td>503</td><td>محمود</td></tr></table>'],
+ ['الاستعلامات','طلب واسترجاع البيانات من جدول أو عدة جداول مرتبطة بعلاقات، وتتيح عمليات <b>الحذف والتحديث والإلحاق</b>.','❓ أظهر أسماء طلاب الصف الثالث ⟵ محمد، خليل'],
+ ['النماذج','<b>واجهات</b> يُدخل المستخدم من خلالها البيانات ويعدّلها داخل الجداول.','رقم الطالب: [ 310 ]<br>اسم الطالب: [ محمد ]<br>[ حفظ ]'],
+ ['التقارير','وسيلة لعرض البيانات وتجهيزها <b>للطباعة الورقية</b>.','📑 كشف علامات الصف الثاني عشر · صفحة ١']
+];
+document.querySelectorAll('.miniacc .ng').forEach(function(b){b.onclick=function(){
+  document.querySelectorAll('.miniacc .ng').forEach(function(x){x.classList.remove('on')}); b.classList.add('on');
+  var c=CMP[+b.dataset.c]; $('cmpOut').innerHTML='<b class="k" style="font-size:17px">'+c[0]+'</b><br>'+c[1]+'<div class="mock">'+c[2]+'</div>';
+}});
+matchList('m3','o3',[
+ {t:'أين تُخزَّن البيانات؟',a:'الجداول'},
+ {t:'استرجاع أسماء الطلاب الراسبين من عدة جداول',a:'الاستعلامات'},
+ {t:'شاشة يُدخل منها السكرتير بيانات طالب جديد',a:'النماذج'},
+ {t:'كشف علامات جاهز للطباعة',a:'التقارير'}
+],['الجداول','الاستعلامات','النماذج','التقارير'],'أتقنت المكونات الأربعة.');
+
+/* ---------- 6 ---------- */
+matchList('m6','o6',[
+ {t:'البريد الإلكتروني للطالب <span class="qsrc">(٢٠ د١)</span>',a:'نص',e:'البريد الإلكتروني نص قصير.',w:'لا يوجد نوع اسمه «إيميل»، وهو أقل من 255 حرفاً.'},
+ {t:'تفاصيل زيارة المريض <span class="qsrc">(٢١ د٢)</span>',a:'مذكرة',e:'التفاصيل نص طويل قد يزيد عن 255 حرفاً.'},
+ {t:'رقم المهندس <span class="qsrc">(٢٠ د٣)</span>',a:'رقم',e:'قيمة رقمية.'},
+ {t:'رقم فريد يزداد تسلسلياً مع كل سجل <span class="qsrc">(٢٠٢٠)</span>',a:'ترقيم تلقائي',e:'يضعه البرنامج تلقائياً ولا يتكرر.'},
+ {t:'تاريخ الإعارة',a:'تاريخ/وقت',e:'تاريخ.'}
+],['نص','مذكرة','رقم','ترقيم تلقائي','تاريخ/وقت'],'أحسنت!');
+
+function showEn(){$('enAns').classList.remove('hide');$('enAns').classList.add('reveal');$('enBtn').disabled=true}
+
+/* ===================== ACCESS 2010 SIMULATION ===================== */
+function sleep(ms){return new Promise(function(r){setTimeout(r,ms)})}
+var RIB={
+ home:[['طرق العرض',[['📊','عرض']]],['الحافظة',[['📋','لصق'],['✂️','قص'],['📄','نسخ']]],['فرز وتصفية',[['🔽','تصفية'],['⬆️','تصاعدي'],['⬇️','تنازلي']]],['سجلات',[['➕','جديد'],['💾','حفظ'],['❌','حذف']]],['بحث',[['🔍','بحث']]]],
+ create:[['قوالب',[['🧩','أجزاء التطبيق']]],['جداول',[['▦','جدول'],['📐','تصميم الجدول','tdesign'],['📃','قوائم SharePoint']]],['استعلامات',[['🪄','معالج الاستعلامات'],['❓','تصميم الاستعلام']]],['نماذج',[['🗒️','نموذج'],['✏️','تصميم النموذج']]],['تقارير',[['📑','تقرير'],['🖨️','تصميم التقرير']]]],
+ ext:[['استيراد وارتباط',[['📗','Excel'],['🗄️','Access'],['📝','ملف نصي']]],['تصدير',[['📗','Excel'],['📄','PDF']]]],
+ db:[['أدوات',[['🗜️','ضغط وإصلاح']]],['ماكرو',[['⚙️','Visual Basic']]],['علاقات',[['🔗','العلاقات','rels'],['🕸️','تبعيات الكائن']]],['تحليل',[['📈','تحليل الأداء']]]],
+ tdesign:[['طرق العرض',[['📊','عرض']]],['أدوات',[['🔑','مفتاح أساسي','pk'],['🛠️','منشئ'],['✅','اختبار قواعد التحقق']]],['إظهار/إخفاء',[['📋','ورقة الخصائص']]]],
+ rdesign:[['أدوات',[['✏️','تحرير العلاقات'],['🧹','مسح التخطيط'],['📑','تقرير العلاقة']]],['علاقات',[['➕','إظهار الجدول'],['➖','إخفاء الجدول'],['🔗','كافة العلاقات'],['✖️','إغلاق']]]]
+};
+var TABS=[['file','ملف'],['home','الصفحة الرئيسية'],['create','إنشاء'],['ext','بيانات خارجية'],['db','أدوات قاعدة البيانات']];
+var CTX={tdesign:'أدوات الجدول: تصميم',rdesign:'أدوات العلاقات: تصميم'};
+function tabsHtml(on,ctx){
+  return TABS.map(function(t){return '<button class="acc-tab'+(t[0]==='file'?' file':'')+(t[0]===on?' on':'')+'" data-tab="'+t[0]+'">'+t[1]+'</button>'}).join('')
+   +(ctx?'<button class="acc-tab ctx'+(on===ctx?' on':'')+'" data-tab="'+ctx+'">'+CTX[ctx]+'</button>':'');
+}
+function ribbonHtml(k){
+  return (RIB[k]||[]).map(function(g){return '<div class="rg"><div class="rbs">'+g[1].map(function(b){
+    return '<button class="rb"'+(b[2]?' data-k="'+b[2]+'"':'')+'><span class="ri">'+b[0]+'</span>'+b[1]+'</button>'}).join('')+'</div><div class="rgt">'+g[0]+'</div></div>'}).join('');
+}
+function titleHtml(t){return '<div class="acc-title"><button class="qb" data-k="save" title="حفظ">💾</button><button class="qb">↶</button><button class="qb">↷</button><span class="tt2">'+t+'</span><span class="wc">─ ▢ ✕</span></div>'}
+function navHtml(items){
+  return '<div class="nav"><div class="nh">كافة كائنات Access</div><div class="ng">الجداول</div><div class="navlist">'+
+    items.map(function(n){return '<div class="ni">▦ '+n+'</div>'}).join('')+'</div></div>';
+}
+function appHtml(o){
+  return titleHtml((o.db||'School')+' : قاعدة بيانات (Access 2007 - 2010) - Access')+
+   '<div class="acc-tabs">'+tabsHtml(o.tab||'home',o.ctx)+'</div><div class="acc-ribbon">'+ribbonHtml(o.rib||o.tab||'home')+'</div>'+
+   '<div class="acc-body">'+navHtml(o.nav||[])+'<div class="work">'+(o.work||'')+'</div></div>';
+}
+function setTab(api,tab,ctx){
+  api.q('.acc-tabs').innerHTML=tabsHtml(tab,ctx); api.q('.acc-ribbon').innerHTML=ribbonHtml(tab);
+}
+function addNav(api,n){var d=document.createElement('div');d.className='ni new';d.textContent='▦ '+n;api.q('.navlist').appendChild(d)}
+function mkEl(html){var d=document.createElement('div');d.innerHTML=html;return d.firstElementChild}
+
+function Sim(o){
+  var root=$(o.id), i=0, mode='try', tok=0, acc, cursor, ghost, drag=null, dropAt=0;
+  root.innerHTML='<div class="simbar"><button class="btn btn-main btn-sm" data-m="try">✋ جرّب بنفسك</button><button class="btn btn-ghost btn-sm" data-m="watch">▶ شاهد</button><button class="btn btn-ghost btn-sm" data-m="reset">↺ من جديد</button></div><div class="simhint" aria-live="polite"></div><div class="accwrap"></div>';
+  var hint=root.querySelector('.simhint'), wrap=root.querySelector('.accwrap');
+  var api={q:function(s){return acc.querySelector(s)},qa:function(s){return acc.querySelectorAll(s)},acc:function(){return acc}};
+  var n=o.steps.length;
+  function tgt(k){var s=o.steps[k===undefined?i:k];if(!s)return null;return typeof s.t==='function'?s.t(api):acc.querySelector(s.t)}
+  function build(){
+    tok++; wrap.innerHTML=''; acc=document.createElement('div'); acc.className='acc'; wrap.appendChild(acc);
+    o.build(api);
+    cursor=mkEl('<div class="cursor"><svg viewBox="0 0 22 22"><path d="M3 2 L3 18 L7.5 13.5 L10.5 20 L13 19 L10 12.5 L16 12.5 Z" fill="#fff" stroke="#000" stroke-width="1.3"/></svg></div>');
+    ghost=mkEl('<div class="ghost"></div>');
+    acc.appendChild(cursor); acc.appendChild(ghost);
+    i=0; root.classList.toggle('watching',mode==='watch'); show();
+  }
+  function show(){
+    acc.querySelectorAll('.glow').forEach(function(x){x.classList.remove('glow')});
+    if(i>=n){hint.className='simhint fin';hint.innerHTML=o.fin;if(o.finish)o.finish(api);return}
+    var s=o.steps[i], t=tgt();
+    if(t){t.classList.add('glow'); if(s.k==='type'||s.k==='select'){t.disabled=false; if(mode==='try'&&s.k==='type'){try{t.focus({preventScroll:true})}catch(e){}}}}
+    hint.className='simhint'; hint.innerHTML='<b>الخطوة '+toAr(i+1)+' من '+toAr(n)+':</b> '+s.h;
+  }
+  function next(){
+    var s=o.steps[i], t=tgt();
+    if(t){t.classList.remove('glow'); if(s.k==='type'||s.k==='select') t.disabled=true;}
+    if(s.d) s.d(api); i++; show();
+  }
+  function err(m){
+    hint.className='simhint err';
+    hint.innerHTML='🤔 '+(m||'ليس هنا. ابحث عن العنصر المتوهج.')+'<br><span style="font-size:14px">'+o.steps[i].h+'</span>';
+  }
+  function norm(v){return String(v).trim().toLowerCase()}
+  wrap.addEventListener('click',function(e){
+    if(mode!=='try'||i>=n||!acc.contains(e.target)) return;
+    if(Date.now()-dropAt<400&&!e.target.closest('.dlg')) return;
+    var s=o.steps[i], t=tgt();
+    if((s.k==='click'||s.k==='rclick')&&t&&t.contains(e.target)){
+      next(); return;
+    }
+    if((s.k==='type'||s.k==='select')&&t&&t.contains(e.target)) return;
+    if(e.target.closest('button,.tile,input,select,.fld,td.sel,.erpick,.chk,.li,.rcan')) err(s.w);
+  });
+  wrap.addEventListener('contextmenu',function(e){
+    if(!acc||!acc.contains(e.target)) return; e.preventDefault();
+    if(mode!=='try'||i>=n) return;
+    var s=o.steps[i], t=tgt();
+    if(s.k==='rclick'&&t&&t.contains(e.target)) next(); else err(s.w);
+  });
+  wrap.addEventListener('input',function(e){
+    if(mode!=='try'||i>=n) return; var s=o.steps[i];
+    if(s.k==='type'&&e.target===tgt()){var v=norm(e.target.value);if(v===norm(s.v)||(s.alt||[]).some(function(a){return norm(a)===v}))next()}
+  });
+  wrap.addEventListener('change',function(e){
+    if(mode!=='try'||i>=n) return; var s=o.steps[i];
+    if(s.k==='select'&&e.target===tgt()){if(e.target.value===s.v)next();else err(s.w)}
+  });
+  wrap.addEventListener('pointerdown',function(e){
+    if(mode!=='try'||i>=n||!acc.contains(e.target)) return; var s=o.steps[i];
+    if(s.k!=='drag') return;
+    var src=e.target.closest('.fld'); if(!src) return;
+    e.preventDefault();
+    drag={ok:src===tgt(),id:e.pointerId}; ghost.textContent=src.textContent; ghost.style.display='block'; placeGhost(e);
+  });
+  function placeGhost(e){var a=acc.getBoundingClientRect();ghost.style.left=(e.clientX-a.left)+'px';ghost.style.top=(e.clientY-a.top)+'px'}
+  window.addEventListener('pointermove',function(e){if(drag)placeGhost(e)});
+  window.addEventListener('pointerup',function(e){
+    if(!drag) return; var ok=drag.ok; drag=null; dropAt=Date.now(); ghost.style.display='none';
+    var s=o.steps[i]; if(!s||s.k!=='drag') return;
+    var el=document.elementFromPoint(e.clientX,e.clientY);
+    if(ok&&el&&el.closest(s.to)&&acc.contains(el)) next();
+    else err(ok?'أفلت الحقل فوق الحقل المتوهج في الجدول الآخر.':s.w);
+  });
+  function center(t){var r=t.getBoundingClientRect(),a=acc.getBoundingClientRect();return {x:r.left-a.left+Math.min(r.width/2,60),y:r.top-a.top+r.height/2}}
+  async function moveTo(t,my){
+    if(!t) return;
+    var c=center(t); cursor.style.left=c.x+'px'; cursor.style.top=c.y+'px'; await sleep(800);
+  }
+  async function clickFx(){cursor.classList.remove('clk');void cursor.offsetWidth;cursor.classList.add('clk');await sleep(350)}
+  async function watch(){
+    mode='watch'; build(); var my=tok;
+    var a=acc.getBoundingClientRect(); cursor.style.left=(a.width/2)+'px'; cursor.style.top='120px';
+    await sleep(600);
+    while(i<n&&my===tok){
+      var s=o.steps[i], t=tgt();
+      await moveTo(t); if(my!==tok) return;
+      if(s.k==='click'||s.k==='rclick'){await clickFx(); if(my!==tok) return; next()}
+      else if(s.k==='type'){t.value='';for(var k=1;k<=s.v.length;k++){t.value=s.v.slice(0,k);await sleep(70);if(my!==tok)return}await sleep(250);next()}
+      else if(s.k==='select'){await clickFx();t.value=s.v;await sleep(450);if(my!==tok)return;next()}
+      else if(s.k==='drag'){
+        var dst=acc.querySelector(s.to); ghost.textContent=t.textContent; ghost.style.display='block';
+        var c0=center(t); ghost.style.left=c0.x+'px'; ghost.style.top=c0.y+'px';
+        ghost.style.transition='left .7s ease,top .7s ease';
+        var c1=center(dst); cursor.style.left=c1.x+'px'; cursor.style.top=c1.y+'px'; ghost.style.left=c1.x+'px'; ghost.style.top=c1.y+'px';
+        await sleep(850); ghost.style.display='none'; ghost.style.transition=''; if(my!==tok)return; next();
+      }
+      await sleep(450);
+    }
+  }
+  root.querySelector('.simbar').addEventListener('click',function(e){
+    var b=e.target.closest('button'); if(!b) return;
+    var m=b.dataset.m;
+    root.querySelectorAll('.simbar button').forEach(function(x){x.className='btn btn-ghost btn-sm'});
+    if(m==='watch'){b.className='btn btn-main btn-sm';watch()}
+    else{root.querySelector('[data-m=try]').className='btn btn-main btn-sm';mode='try';build()}
+  });
+  mode='try'; build();
+  return api;
+}
+
+/* ---------- SIM 1: new database ---------- */
+var BSMENU=['حفظ','حفظ الكائن باسم','حفظ قاعدة البيانات باسم','فتح','إغلاق قاعدة البيانات','معلومات','حديث','جديد','طباعة','حفظ ونشر','تعليمات','خيارات','إنهاء'];
+Sim({id:'sim1',
+ build:function(api){
+  api.acc().innerHTML=titleHtml('Access')+'<div class="acc-tabs">'+tabsHtml('file')+'</div>'+
+   '<div class="bs"><div class="bs-menu">'+BSMENU.map(function(m){return '<button'+(m==='جديد'?' data-k="new"':'')+(m==='حديث'?' class="on"':'')+'>'+m+'</button>'}).join('')+'</div>'+
+   '<div class="bs-mid"><h4>قواعد البيانات المستخدمة مؤخراً</h4><div style="color:#7a8798">لا توجد ملفات حديثة.</div></div><div class="bs-right"></div></div>';
+ },
+ steps:[
+  {k:'click',t:'[data-k=new]',h:'نبدأ من علامة تبويب <b>ملف</b>. اضغط <b>جديد</b> لإنشاء قاعدة بيانات جديدة.',
+   d:function(api){api.qa('.bs-menu button').forEach(function(b){b.classList.toggle('on',b.dataset.k==='new')});
+    api.q('.bs-mid').innerHTML='<h4>القوالب المتوفرة</h4><button class="tile" data-k="blank"><span class="ti">🗄️</span>قاعدة بيانات فارغة</button><button class="tile"><span class="ti">🌐</span>قاعدة بيانات ويب فارغة</button><button class="tile"><span class="ti">🕘</span>القوالب الحديثة</button><button class="tile"><span class="ti">📁</span>نماذج القوالب</button>'}},
+  {k:'click',t:'[data-k=blank]',h:'اختر <b>قاعدة بيانات فارغة</b>.',
+   d:function(api){api.q('[data-k=blank]').classList.add('on');
+    api.q('.bs-right').innerHTML='<div style="text-align:center;font-size:40px">🗄️</div><div style="font-weight:bold;text-align:center;margin-bottom:10px">قاعدة بيانات فارغة</div>اسم الملف:<input class="ai" id="fn" disabled placeholder="Database1.accdb"><div style="display:flex;gap:6px;align-items:center;margin-top:6px"><span id="fp" style="direction:ltr;flex:1;font-size:11px;color:#3a4a5e">C:\\Users\\Student\\Documents\\</span><button class="abtn" data-k="folder" title="استعراض">📁</button></div><div style="text-align:center;margin-top:16px"><button class="abtn" data-k="create" style="padding:6px 22px">إنشاء</button></div>'}},
+  {k:'type',t:'#fn',v:'School',alt:['School.accdb'],h:'<b>أولاً: اسم قاعدة البيانات.</b> اكتب في «اسم الملف»: <b dir="ltr">School</b> (بالإنجليزية).',
+   d:function(api){api.q('#fn').value='School.accdb'}},
+  {k:'click',t:'[data-k=folder]',h:'<b>ثانياً: موقع التخزين.</b> اضغط أيقونة المجلد 📁 لاختيار مكان حفظ الملف.',
+   d:function(api){api.acc().appendChild(mkEl('<div class="dlg" id="fdlg" style="top:120px;left:170px;width:270px"><div class="dt">ملف قاعدة بيانات جديد<span>✕</span></div><div class="dbody">حفظ في:<div class="lbox" style="height:auto;margin:4px 0 8px"><button class="li">Desktop</button><button class="li">Documents</button><button class="li" data-k="dl">D:\\Lessons</button></div><div style="text-align:left"><button class="abtn" data-k="ok1">موافق</button> <button class="abtn">إلغاء</button></div></div></div>'))}},
+  {k:'click',t:'[data-k=dl]',h:'اختر المجلد <b dir="ltr">D:\\Lessons</b>.',d:function(api){api.q('[data-k=dl]').classList.add('sel')}},
+  {k:'click',t:'[data-k=ok1]',h:'اضغط <b>موافق</b>.',d:function(api){api.q('#fdlg').remove();api.q('#fp').textContent='D:\\Lessons\\'}},
+  {k:'click',t:'[data-k=create]',h:'تأكد من الاسم والموقع، ثم اضغط <b>إنشاء</b>.',
+   d:function(api){var keep=[].slice.call(api.qa('.cursor,.ghost'));api.acc().innerHTML=appHtml({nav:['Table1'],work:'<span class="doctab">Table1</span><div class="docarea"><table class="dg" style="width:auto"><tr><th>المعرّف</th><th>انقر للإضافة</th></tr><tr><td style="padding:2px 8px">(جديد)</td><td></td></tr></table></div>'});keep.forEach(function(k){api.acc().appendChild(k)})}}
+ ],
+ fin:'✅ <b>تم!</b> أُنشئ الملف <b dir="ltr">D:\\Lessons\\School.accdb</b>. لاحظ الامتداد <b>accdb</b>: كل مكونات قاعدة البيانات في ملف واحد. وفتح أكسس جدولاً جديداً Table1.'
+});
+
+/* ---------- SIM 2: table design ---------- */
+var DTYPES=['نص','مذكرة','رقم','تاريخ/وقت','عملة','ترقيم تلقائي','نعم/لا','كائن OLE','ارتباط تشعبي','مرفق','محسوب','معالج البحث...'];
+function dgRow(r){return '<tr data-r="'+r+'"><td class="sel"></td><td><input class="dgi" disabled></td><td><select class="dgs" disabled><option value=""></option>'+DTYPES.map(function(t){return '<option>'+t+'</option>'}).join('')+'</select></td><td></td></tr>'}
+var F2=[['StudentID','رقم'],['StudentName','نص'],['ClassID','رقم']];
+var steps2=[
+ {k:'click',t:'[data-tab=create]',h:'افتح علامة تبويب <b>إنشاء</b>.',d:function(api){setTab(api,'create')}},
+ {k:'click',t:'[data-k=tdesign]',h:'من مجموعة «جداول» اضغط <b>تصميم الجدول</b>.',
+  d:function(api){setTab(api,'tdesign','tdesign');
+   api.q('.work').innerHTML='<span class="doctab">Table1</span><div class="docarea"><table class="dg"><tr><th style="width:24px"></th><th>اسم الحقل</th><th>نوع البيانات</th><th>الوصف</th></tr>'+dgRow(0)+dgRow(1)+dgRow(2)+dgRow(3)+'</table></div>'}}
+];
+F2.forEach(function(f,r){
+  steps2.push({k:'type',t:'tr[data-r="'+r+'"] .dgi',v:f[0],h:'اكتب اسم الحقل <b dir="ltr">'+f[0]+'</b> (بالإنجليزية).'});
+  steps2.push({k:'select',t:'tr[data-r="'+r+'"] .dgs',v:f[1],h:'اختر نوع البيانات للحقل <b dir="ltr">'+f[0]+'</b>: <b>'+f[1]+'</b>.',
+    w:f[1]==='نص'?'الاسم حروف لا تزيد عن 255، فنوعه <b>نص</b>.':'هذا الحقل قيمة رقمية، فنوعه <b>رقم</b>.'});
+});
+steps2.push(
+ {k:'click',t:'tr[data-r="0"] td.sel',h:'حدد صف الحقل <b dir="ltr">StudentID</b> بالضغط على المربع الرمادي في بدايته.',d:function(api){api.q('tr[data-r="0"]').classList.add('rowsel')}},
+ {k:'click',t:'[data-k=pk]',h:'اضغط <b>مفتاح أساسي</b> 🔑 من علامة التبويب «تصميم».',d:function(api){api.q('tr[data-r="0"]').classList.remove('rowsel');api.q('tr[data-r="0"] td.sel').textContent='🔑'}},
+ {k:'click',t:'.acc-title [data-k=save]',h:'احفظ الجدول من زر الحفظ 💾 في أعلى النافذة.',
+  d:function(api){api.acc().appendChild(mkEl('<div class="dlg" id="sdlg" style="top:150px;left:220px;width:230px"><div class="dt">حفظ باسم<span>✕</span></div><div class="dbody">اسم الجدول:<input class="ai" id="tn" value="Table1" disabled><div style="text-align:left;margin-top:8px"><button class="abtn" data-k="ok2">موافق</button> <button class="abtn">إلغاء</button></div></div></div>'))}},
+ {k:'type',t:'#tn',v:'Student',h:'امسح Table1 واكتب اسم الجدول <b dir="ltr">Student</b>.'},
+ {k:'click',t:'[data-k=ok2]',h:'اضغط <b>موافق</b>.',d:function(api){api.q('#sdlg').remove();api.q('.doctab').textContent='Student';addNav(api,'Student')}}
+);
+Sim({id:'sim2',
+ build:function(api){api.acc().innerHTML=appHtml({nav:[]})},
+ steps:steps2,
+ fin:'✅ <b>تم بناء الجدول Student!</b> ثلاثة حقول بأسماء إنجليزية، ولكل حقل نوع بيانات، و<b dir="ltr">StudentID</b> مفتاح أساسي 🔑. وظهر الجدول في جزء التنقل.'
+});
+
+/* ---------- relationships helpers ---------- */
+var TB={
+ Class:[['ClassID',1],['ClassName',0]],
+ Student:[['StudentID',1],['StudentName',0],['ClassID',0]],
+ Country:[['CountryID',1],['CountryName',0]],
+ President:[['CountryID',1],['PresidentID',0],['PresidentName',0]]
+};
+function addBox(api,name,side,top){
+  var b=mkEl('<div class="tbox" data-t="'+name+'" style="'+side+':40px;top:'+top+'px"><div class="tbh">'+name+'</div>'+
+    TB[name].map(function(f){return '<div class="fld'+(f[1]?' pkf':'')+'" data-f="'+f[0]+'">'+f[0]+'</div>'}).join('')+'</div>');
+  api.q('.rcan').appendChild(b);
+}
+function erDialog(A,B,f,type,stat){
+  return '<div class="dlg erdlg'+(stat?' static':'')+'"'+(stat?'':' id="erd" style="top:70px;left:130px"')+'><div class="dt">تحرير العلاقات<span>? ✕</span></div><div class="dbody"><div class="ergrid"><div class="erleft">'+
+   '<table class="ertab"><tr><th>الجدول/الاستعلام:</th><th>الجدول/الاستعلام المرتبط:</th></tr>'+
+   '<tr><td class="erpick" data-k="tA">'+A+' ▾</td><td class="erpick" data-k="tB">'+B+' ▾</td></tr>'+
+   '<tr><td data-k="fA">'+f[0]+'</td><td data-k="fB">'+f[1]+'</td></tr><tr><td></td><td></td></tr></table>'+
+   '<div id="annA"></div>'+
+   '<div class="chk" data-k="ri"><span class="bx"></span>فرض التكامل المرجعي</div>'+
+   '<div class="chk dim"><span class="bx"></span>تتالي تحديث الحقول المرتبطة</div>'+
+   '<div class="chk dim"><span class="bx"></span>تتالي حذف السجلات المرتبطة</div>'+
+   '<div class="rtype">نوع العلاقة: <b data-k="rtype">'+type+'</b></div><div id="annT"></div>'+
+   '</div><div class="erbtns"><button class="abtn" data-k="create">إنشاء</button><button class="abtn">إلغاء</button><button class="abtn">نوع الربط...</button><button class="abtn">إنشاء جديد...</button></div></div></div></div>';
+}
+function drawLink(api,A,B,f,one){
+  var can=api.q('.rcan'), c=can.getBoundingClientRect();
+  var a=api.q('.tbox[data-t="'+A+'"] .fld[data-f="'+f+'"]').getBoundingClientRect();
+  var b=api.q('.tbox[data-t="'+B+'"] .fld[data-f="'+f+'"]').getBoundingClientRect();
+  var x1=a.left-c.left, y1=a.top-c.top+a.height/2, x2=b.right-c.left, y2=b.top-c.top+b.height/2;
+  var svg=api.q('svg.rl');
+  svg.innerHTML='<line x1="'+x1+'" y1="'+y1+'" x2="'+(x1-14)+'" y2="'+y1+'"/><line x1="'+(x1-14)+'" y1="'+y1+'" x2="'+(x2+14)+'" y2="'+y2+'"/><line x1="'+(x2+14)+'" y1="'+y2+'" x2="'+x2+'" y2="'+y2+'"/>'+
+    '<text x="'+(x1-12)+'" y="'+(y1-6)+'">1</text><text x="'+(x2+4)+'" y="'+(y2-6)+'">'+(one?'1':'∞')+'</text>';
+}
+function relWork(){return '<span class="doctab">العلاقات</span><div class="docarea"><div class="rcan"><svg class="rl"></svg></div></div>'}
+function check(api){api.q('[data-k=ri] .bx').textContent='✔'}
+function ann(api,id,txt){api.q('#'+id).innerHTML+='<div class="ann">'+txt+'</div>'}
+
+/* ---------- SIM 3: Class - Student ---------- */
+Sim({id:'sim3',
+ build:function(api){api.acc().innerHTML=appHtml({nav:['Class','Country','President','Student']})},
+ steps:[
+  {k:'click',t:'[data-tab=db]',h:'افتح علامة تبويب <b>أدوات قاعدة البيانات</b>.',d:function(api){setTab(api,'db')}},
+  {k:'click',t:'[data-k=rels]',h:'اضغط <b>العلاقات</b>.',d:function(api){setTab(api,'rdesign','rdesign');api.q('.work').innerHTML=relWork()}},
+  {k:'rclick',t:'.rcan',h:'انقر <b>بزر الفأرة الأيمن</b> داخل نافذة العلاقات لإظهار الجداول.',w:'انقر بزر الفأرة الأيمن داخل المساحة البيضاء.',
+   d:function(api){api.q('.rcan').appendChild(mkEl('<div class="cmenu" style="top:60px;left:45%"><button data-k="showt">إظهار الجدول...</button><button>كافة العلاقات</button><button>حفظ التخطيط</button></div>'))}},
+  {k:'click',t:'[data-k=showt]',h:'اختر <b>إظهار الجدول...</b>',
+   d:function(api){api.q('.cmenu').remove();api.acc().appendChild(mkEl('<div class="dlg" id="stdlg" style="top:90px;left:200px;width:250px"><div class="dt">إظهار الجدول<span>? ✕</span></div><div class="dbody"><div style="margin-bottom:4px"><b>الجداول</b> | الاستعلامات | كلاهما</div><div class="lbox">'+['Class','Country','President','Student'].map(function(n){return '<button class="li" data-n="'+n+'">'+n+'</button>'}).join('')+'</div><div style="text-align:left;margin-top:8px"><button class="abtn" data-k="add">إضافة</button> <button class="abtn" data-k="close">إغلاق</button></div></div></div>'))}},
+  {k:'click',t:'[data-n=Class]',h:'اختر الجدول <b dir="ltr">Class</b>.',d:function(api){api.q('[data-n=Class]').classList.add('sel')}},
+  {k:'click',t:'[data-k=add]',h:'اضغط <b>إضافة</b>.',d:function(api){api.q('[data-n=Class]').classList.remove('sel');addBox(api,'Class','right',40)}},
+  {k:'click',t:'[data-n=Student]',h:'اختر الجدول <b dir="ltr">Student</b>.',d:function(api){api.q('[data-n=Student]').classList.add('sel')}},
+  {k:'click',t:'[data-k=add]',h:'اضغط <b>إضافة</b>.',d:function(api){addBox(api,'Student','left',70)}},
+  {k:'click',t:'[data-k=close]',h:'اضغط <b>إغلاق</b>.',d:function(api){api.q('#stdlg').remove()}},
+  {k:'drag',t:'.tbox[data-t=Class] .fld[data-f=ClassID]',to:'.tbox[data-t=Student] .fld[data-f=ClassID]',
+   h:'<b>اسحب</b> المفتاح الأساسي <b dir="ltr">ClassID</b> من جدول Class، و<b>أفلته</b> فوق المفتاح الأجنبي <b dir="ltr">ClassID</b> في جدول Student.',
+   w:'ابدأ السحب من المفتاح الأساسي ClassID 🔑 في جدول Class.',
+   d:function(api){api.acc().appendChild(mkEl(erDialog('Class','Student',['ClassID','ClassID'],'رأس بأطراف')))}},
+  {k:'click',t:'[data-k=tA]',h:'ظهرت شاشة <b>تحرير العلاقات</b>. اضغط اسم <b>الجدول</b> الذي يحتوي <b>المفتاح الأساسي</b>.',w:'الجدول (الأساسي) في العمود الأول تحت «الجدول/الاستعلام».',
+   d:function(api){ann(api,'annA','الجدول: Class ⟵ فيه المفتاح الأساسي 🔑')}},
+  {k:'click',t:'[data-k=tB]',h:'اضغط اسم <b>الجدول المرتبط</b> الذي يحتوي <b>المفتاح الأجنبي</b>.',w:'الجدول المرتبط في العمود الثاني.',
+   d:function(api){ann(api,'annA','الجدول المرتبط: Student ⟵ فيه المفتاح الأجنبي 🔗')}},
+  {k:'click',t:'[data-k=ri]',h:'فعّل <b>فرض التكامل المرجعي</b>.',d:check},
+  {k:'click',t:'[data-k=rtype]',h:'اقرأ <b>نوع العلاقة</b> أسفل الشاشة واضغط عليه.',
+   d:function(api){ann(api,'annT','رأس بأطراف = واحد لمتعدد: مفتاح أساسي ⟷ مفتاح أجنبي')}},
+  {k:'click',t:'#erd [data-k=create]',h:'اضغط <b>إنشاء</b>.',d:function(api){api.q('#erd').remove();drawLink(api,'Class','Student','ClassID',false)}}
+ ],
+ fin:'✅ <b>أُنشئت العلاقة!</b> الخط يربط ClassID بـ ClassID: <b>1</b> عند جدول Class و<b>∞</b> عند جدول Student.',
+ finish:function(){$('sum3').classList.remove('hide');$('sum3').classList.add('reveal')}
+});
+
+/* ---------- SIM 4: Country - President (student does it) ---------- */
+Sim({id:'sim4',
+ build:function(api){
+  api.acc().innerHTML=appHtml({tab:'rdesign',ctx:'rdesign',rib:'rdesign',nav:['Class','Country','President','Student'],work:relWork()});
+  addBox(api,'Country','right',40); addBox(api,'President','left',60);
+ },
+ steps:[
+  {k:'drag',t:'.tbox[data-t=Country] .fld[data-f=CountryID]',to:'.tbox[data-t=President] .fld[data-f=CountryID]',
+   h:'اسحب <b dir="ltr">CountryID</b> من جدول Country وأفلته فوق <b dir="ltr">CountryID</b> في جدول President.',w:'ابدأ من CountryID 🔑 في جدول Country.',
+   d:function(api){api.acc().appendChild(mkEl(erDialog('Country','President',['CountryID','CountryID'],'رأس برأس')))}},
+  {k:'click',t:'[data-k=ri]',h:'فعّل <b>فرض التكامل المرجعي</b>.',d:check},
+  {k:'click',t:'[data-k=rtype]',h:'ما نوع العلاقة هذه المرة؟ اضغط عليه.',d:function(api){ann(api,'annT','لاحظ: CountryID مفتاح أساسي 🔑 في الجدولين!')}},
+  {k:'click',t:'#erd [data-k=create]',h:'اضغط <b>إنشاء</b>.',d:function(api){api.q('#erd').remove();drawLink(api,'Country','President','CountryID',true)}}
+ ],
+ fin:'✅ ظهر <b>1</b> عند الطرفين، ونوع العلاقة <b>رأس برأس</b>. أجب عن السؤال بالأسفل.',
+ finish:function(){$('q8').classList.remove('locked')}
+});
+qa('q8','a',function(){$('con8').classList.remove('hide');$('con8').classList.add('reveal')},
+  'CountryID مفتاح أساسي في الجدولين، فالعلاقة واحد لواحد.',
+  {b:'CountryID في الجدولين عليه 🔑، فهو مفتاح أساسي.',c:'التكامل المرجعي فعّلناه في المحاكاة السابقة أيضاً وظهر «رأس بأطراف».'});
+
+/* static dialog for written question */
+$('staticDlg').innerHTML=erDialog('Subject','Mark',['SubjectID','SubjectID'],'؟؟؟؟',true);
+$('staticDlg').querySelector('[data-k=ri] .bx').textContent='✔';
+
+/* ---------- quiz ---------- */
+var QUIZ=[
+ {q:"جميع برامج قواعد البيانات تتشارك بلغة:",src:"(٢٠٢٠)",o:["Objective C","لغة الاستعلام البنيوية SQL","Java","VB.NET"],a:1,e:"SQL لغة مشتركة بين جميع برامج إدارة قواعد البيانات."},
+ {q:"ما قاعدة البيانات التي لا تتطلب ترخيصاً؟",src:"(١٩ د١)",o:["Oracle","Microsoft Access","SQL Server","MySQL"],a:3,e:"MySQL مفتوحة المصدر."},
+ {q:"ما الامتداد الذي يأخذه ملف قاعدة البيانات في برنامج MS Access؟",src:"(٢٠ د٢)",o:["Msacdb","Accdb","Sqldb","MSdb"],a:1,e:"كل المكونات في ملف واحد امتداده accdb."},
+ {q:"الحجم الأقصى لملف قاعدة البيانات في برنامج Microsoft Access:",src:"(٢١ د٢)",o:["2 MB","4 GB","4 MB","2 GB"],a:3,e:"2 غيغابايت."},
+ {q:"أين يتم تخزين البيانات في قاعدة البيانات؟",src:"(٢٠ د٢)",o:["الجداول","الاستعلامات","النماذج","التقارير"],a:0,e:"الجداول مجموعة من السجلات والحقول."},
+ {q:"أي من الآتية يعتبر الأكثر أهمية لبناء قاعدة البيانات؟",src:"(٢٠ د١)",o:["النماذج","التقارير","الاستعلامات","الجداول"],a:3,e:"بدون جداول لا توجد بيانات."},
+ {q:"من الشخص الذي يملك التحكم الكامل بقاعدة البيانات ومنع التغيير غير المصرح به؟",src:"(٢٠ د٣)",o:["مدير قاعدة البيانات","مدير الشركة","محلل النظام","المستخدم"],a:0,e:"من خصائص أكسس: تمكين مدير قاعدة البيانات من التحكم الكامل."},
+ {q:"ما نوع البيانات الأنسب لتخزين حقل (البريد الإلكتروني) في جدول الطالب؟",src:"(٢٠ د١)",o:["نص Text","مذكرة Memo","إيميل E-mail","رقم Number"],a:0,e:"لا يوجد نوع إيميل، والبريد نص قصير."},
+ {q:"ما نوع البيانات الأنسب لتخزين حقل (تفاصيل الزيارة) في جدول معاينة المريض؟",src:"(٢١ د٢)",o:["تقرير Report","تاريخ/وقت","مذكرة Memo","نص Text"],a:2,e:"نص طويل قد يزيد عن 255 حرفاً."},
+ {q:"كم عدد الرموز الذي يستطيع نوع البيانات (نص) استقباله؟",src:"(٢٠ د٣)",o:["4","8","128","255"],a:3,e:"من حرف إلى 255 حرفاً."},
+ {q:"ما السعة التخزينية المطلوبة لتخزين قيم رقمية من نوع عدد كسري مزدوج (Double)؟",src:"(٢٠ د١)",o:["2 بايت","4 بايت","6 بايت","8 بايت"],a:3,e:"المزدوج 8 بايت، والمفرد 4 بايت."},
+ {q:"ما الطريقة التي يتم من خلالها التعديل على الجداول المنشأة لإضافة حقول جديدة؟",o:["عرض التصميم","عرض ورقة البيانات","عرض التخطيط","عرض الجدول"],a:0,e:"كما فعلنا في المحاكاة ٢: تصميم الجدول."},
+ {q:"ما علامة التبويب في برنامج أكسس التي يتم من خلالها إنشاء علاقة بين الجداول؟",src:"(٢٠ د٢)",o:["الصفحة الرئيسية","إنشاء","إدراج","أدوات قاعدة البيانات"],a:3,e:"أدوات قاعدة البيانات ← العلاقات."},
+ {q:"في شاشة تحرير العلاقات، يظهر نوع العلاقة «رأس بأطراف» عندما يكون الربط بين:",o:["مفتاحين أساسيين","مفتاح أساسي ومفتاح أجنبي","حقلين عاديين","مفتاحين أجنبيين"],a:1,e:"وهي علاقة واحد لمتعدد. أما «رأس برأس» فبين مفتاحين أساسيين."}
+];
+var quizStarted=false, qi=0, score=0, answered=false;
+function startQuiz(){quizStarted=true;qi=0;score=0;renderQ()}
+function renderQ(){
+  answered=false;
+  $('qbar').style.width=(qi/QUIZ.length*100)+'%';
+  if(qi>=QUIZ.length) return renderResult();
+  var Q=QUIZ[qi], marks=["أ","ب","ج","د"];
+  var h='<div class="qmeta"><span>السؤال '+toAr(qi+1)+' من '+toAr(QUIZ.length)+'</span><span id="qsc">النقاط: '+toAr(score)+'</span></div>';
+  h+='<div class="qtext">'+Q.q+(Q.src?' <span class="qsrc">'+Q.src+'</span>':'')+'</div><div class="opts">';
+  Q.o.forEach(function(op,k){h+='<button class="opt" onclick="answer('+k+')"><span class="mk">'+marks[k]+'</span><span>'+op+'</span></button>'});
+  h+='</div><div class="explain" id="explain"></div><div class="navbtns"><span></span><button class="btn btn-main" id="nextQ" onclick="nextQ()" disabled>التالي ‹</button></div>';
+  $('qwrap').innerHTML=h;
+}
+function answer(k){
+  if(answered) return; answered=true;
+  var Q=QUIZ[qi], opts=document.querySelectorAll('#qwrap .opt');
+  opts.forEach(function(o){o.classList.add('locked')});
+  opts[Q.a].classList.add('correct');
+  if(k===Q.a) score++; else opts[k].classList.add('wrong');
+  var ex=$('explain'); ex.innerHTML=(k===Q.a?'✅ إجابة صحيحة! ':'❌ ليست صحيحة. ')+Q.e; ex.classList.add('show');
+  $('nextQ').disabled=false; $('qsc').textContent='النقاط: '+toAr(score);
+}
+function nextQ(){qi++;renderQ()}
+function renderResult(){
+  $('qbar').style.width='100%';
+  var pct=Math.round(score/QUIZ.length*100);
+  var msg=pct>=80?"ممتاز! أتقنت الدرس.":pct>=50?"جيد، راجع المحطات التي أخطأت فيها.":"لا بأس، أعد المحطات ثم حاول مجدداً.";
+  $('qwrap').innerHTML='<div class="result"><div class="scorebig">'+toAr(score)+'/'+toAr(QUIZ.length)+'</div><p class="lead" style="margin:10px 0">'+msg+'</p><div class="navbtns" style="justify-content:center;gap:10px"><button class="btn btn-ghost" onclick="startQuiz()">أعد التقويم</button><button class="btn btn-main" onclick="go(0)">↺ من البداية</button></div></div>';
+}
+
+</script></body></html>
