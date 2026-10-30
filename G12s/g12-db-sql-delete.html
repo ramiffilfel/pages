@@ -1,0 +1,1443 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SQL DELETE Query · Grade 12 Science</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@400;500;600;700&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#152238; --ink-soft:#41506b; --paper:#F5F3EC; --card:#ffffff; --wire:#CDC6B6;
+  --teal:#0E9C8C; --teal-dark:#0a6e63; --teal-soft:#E1F3F0;
+  --amber:#E7973A; --amber-soft:#FBEDDB; --amber-dark:#a8620f;
+  --coral:#E4644E; --coral-soft:#FBE7E2; --coral-dark:#b8412c;
+  --indigo:#4C5FD5; --indigo-soft:#E7E9FB;
+  --plum:#8A4FC0; --plum-soft:#F1E8FA;
+  --green:#2E9E63; --green-soft:#E1F2E8; --red:#D8463F; --red-soft:#FAE3E2;
+  --bar:#152238; --bar-ink:#ffffff; --bar-sub:#b9c2d6;
+  --shadow:0 10px 30px rgba(21,34,56,.10);
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ink:#E9EDF4; --ink-soft:#A9B4C6; --paper:#11161E; --card:#1A212C; --wire:#34404F;
+    --teal:#2BB8A7; --teal-dark:#5FD6C6; --teal-soft:#123331;
+    --amber:#E9A24F; --amber-soft:#35291A; --amber-dark:#F0BC72;
+    --coral:#EE7D69; --coral-soft:#3A221F; --coral-dark:#F39B8B;
+    --indigo:#8D9BF0; --indigo-soft:#1F2442;
+    --plum:#B88BE6; --plum-soft:#2C2240;
+    --green:#5CC98E; --green-soft:#16301F; --red:#F0766F; --red-soft:#3A1E1D;
+    --bar:#243044; --bar-ink:#ffffff; --bar-sub:#b9c2d6;
+    --shadow:0 10px 30px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+    --ink:#E9EDF4; --ink-soft:#A9B4C6; --paper:#11161E; --card:#1A212C; --wire:#34404F;
+    --teal:#2BB8A7; --teal-dark:#5FD6C6; --teal-soft:#123331;
+    --amber:#E9A24F; --amber-soft:#35291A; --amber-dark:#F0BC72;
+    --coral:#EE7D69; --coral-soft:#3A221F; --coral-dark:#F39B8B;
+    --indigo:#8D9BF0; --indigo-soft:#1F2442;
+    --plum:#B88BE6; --plum-soft:#2C2240;
+    --green:#5CC98E; --green-soft:#16301F; --red:#F0766F; --red-soft:#3A1E1D;
+    --bar:#243044; --bar-ink:#ffffff; --bar-sub:#b9c2d6;
+    --shadow:0 10px 30px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background-color:var(--paper);color:var(--ink);
+  font-family:"Tajawal",Tahoma,"Segoe UI",sans-serif;line-height:1.75;
+  background-image:radial-gradient(var(--wire) .8px,transparent .8px);background-size:26px 26px}
+.wrap{max-width:920px;margin:0 auto;padding:20px 18px 60px}
+h1,h2,h3{font-family:"Reem Kufi",Tahoma,sans-serif;font-weight:600;line-height:1.35;margin:0}
+.k{font-family:"Reem Kufi",Tahoma,sans-serif}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;
+  background:var(--bar);color:var(--bar-ink);border-radius:16px;padding:14px 20px;box-shadow:var(--shadow);margin-bottom:18px}
+.topbar h1{font-size:21px}
+.topbar .sub{font-size:13px;color:var(--bar-sub)}
+.badge{background:var(--teal);color:#fff;font-size:12px;padding:5px 12px;border-radius:999px;font-family:"Reem Kufi",Tahoma,sans-serif;white-space:nowrap}
+.card{background:var(--card);border-radius:18px;padding:26px;box-shadow:var(--shadow);border:1px solid var(--wire)}
+.eyebrow{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:13px;color:var(--teal-dark);background:var(--teal-soft);
+  display:inline-block;padding:4px 12px;border-radius:999px;margin-bottom:12px}
+h2.title{font-size:26px;margin-bottom:8px}
+.lead{color:var(--ink-soft);font-size:16px;margin:0 0 8px}
+.hint{font-size:14px;color:var(--amber-dark);background:var(--amber-soft);border-radius:10px;
+  padding:9px 14px;display:block;margin-top:6px}
+.dfn{background:var(--teal-soft);border:1.5px solid var(--teal);border-radius:14px;padding:16px 18px;margin:14px 0}
+.dfn .dfn-t{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14px;color:var(--teal-dark);margin-bottom:4px}
+.dfn .dfn-b{font-size:17px;line-height:1.7}
+.dfn .dfn-b b{color:var(--teal-dark)}
+.dfn ul{margin:4px 0 0;padding-inline-start:20px}
+.dfn li{margin:4px 0}
+.example{display:flex;gap:14px;align-items:flex-start;background:var(--coral-soft);
+  border:1.5px dashed var(--coral);border-radius:14px;padding:14px 16px;margin:14px 0}
+.example .ex-ic{font-size:30px;flex-shrink:0}
+.example .ex-h{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14px;color:var(--coral-dark);margin-bottom:3px}
+.example .ex-b{font-size:14.5px;line-height:1.65}
+.example .ex-b b{color:var(--coral-dark)}
+.teacher{background:var(--bar);color:var(--bar-ink);border-radius:16px;padding:18px 22px;margin-top:22px;
+  display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;box-shadow:var(--shadow)}
+.teacher .tt{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:12px;color:var(--bar-sub)}
+.teacher .tn{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:19px;margin-top:2px}
+.teacher .tp{direction:ltr;font-size:14px;color:var(--bar-sub);margin-top:4px;text-align:right}
+.teacher a.wa{display:inline-flex;align-items:center;gap:8px;background:#25D366;color:#04331a;
+  font-family:"Reem Kufi",Tahoma,sans-serif;font-size:15px;text-decoration:none;padding:10px 18px;border-radius:12px}
+.teacher a.wa:hover{filter:brightness(1.06)}
+.teacher a.wa:focus-visible{outline:3px solid #fff;outline-offset:2px}
+@media (max-width:560px){
+  .wrap{padding:14px 12px 50px}
+  .topbar h1{font-size:17px} h2.title{font-size:22px}
+  .card{padding:18px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.rail{display:flex;gap:6px;margin:0 0 20px;flex-wrap:wrap}
+.rail button{flex:1 1 0;min-width:84px;background:var(--card);border:1.5px solid var(--wire);
+  border-radius:12px;padding:9px 6px;cursor:pointer;font-family:"Reem Kufi",Tahoma,sans-serif;font-size:12px;
+  color:var(--ink-soft);transition:.2s;display:flex;align-items:center;justify-content:center;gap:6px}
+.rail button .n{width:20px;height:20px;border-radius:50%;background:var(--paper);border:1.5px solid var(--wire);
+  display:inline-flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0}
+.rail button.active{border-color:var(--teal);color:var(--teal-dark);background:var(--teal-soft)}
+.rail button.active .n{background:var(--teal);color:#fff;border-color:var(--teal)}
+.rail button.done .n{background:var(--green);color:#fff;border-color:var(--green)}
+.station{display:none;animation:fade .45s ease both}
+.station.on{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.navbtns{display:flex;justify-content:space-between;margin-top:20px;gap:10px}
+.btn{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:15px;border:none;border-radius:12px;padding:12px 24px;cursor:pointer;transition:.15s}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn-main{background:var(--teal);color:#fff}
+.btn-main:hover:not(:disabled){background:var(--teal-dark)}
+.btn-ghost{background:var(--paper);color:var(--ink-soft);border:1.5px solid var(--wire)}
+.btn-sm{padding:8px 16px;font-size:14px}
+.btn:focus-visible,.rail button:focus-visible,.opt:focus-visible,.hbtn:focus-visible,.seg button:focus-visible,.qa .ab button:focus-visible{outline:3px solid var(--indigo);outline-offset:2px}
+.hero{text-align:center;padding:34px 22px}
+.hero h2{font-size:32px;margin-bottom:6px}
+.pill3{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:18px 0 6px}
+.pill3 span{background:var(--indigo-soft);color:var(--indigo);font-family:"Reem Kufi",Tahoma,sans-serif;font-size:13px;padding:7px 14px;border-radius:999px}
+
+/* database tables */
+.tw{overflow-x:auto;border-radius:12px;border:1.5px solid var(--wire);background:var(--card)}
+.dbt{width:100%;border-collapse:collapse;font-size:14.5px}
+.dbt caption{caption-side:top;background:var(--bar);color:var(--bar-ink);font-family:"Reem Kufi",Tahoma,sans-serif;font-size:15px;padding:7px 10px;text-align:center}
+.dbt th,.dbt td{border:1px solid var(--wire);padding:6px 8px;text-align:center;transition:background .2s,color .2s}
+.dbt th{background:var(--paper);font-family:"Reem Kufi",Tahoma,sans-serif;font-weight:600;font-size:13.5px;white-space:nowrap}
+.dbt tr:first-child th{border-top:none}
+.hbtn{all:unset;cursor:pointer;display:block;padding:2px 4px;border-radius:6px;border-bottom:2px dashed var(--teal)}
+.dbt .dup{background:var(--red-soft)!important;color:var(--red);font-weight:700}
+.dbt .ok{background:var(--green-soft)!important;color:var(--green);font-weight:700}
+.dbt .rep2{background:var(--amber-soft)!important;color:var(--amber-dark);font-weight:700}
+.dbt .pk{color:var(--indigo)}
+.dbt .fkc{color:var(--plum)}
+.dbt .pickc{background:var(--indigo-soft)!important;color:var(--indigo)}
+.dbt td.newc{background:var(--plum-soft);color:var(--plum);font-weight:700}
+.legend{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:13.5px;color:var(--ink-soft);margin-top:10px}
+.legend b{font-family:"Reem Kufi",Tahoma,sans-serif}
+
+.out{margin-top:12px;background:var(--paper);border:1.5px solid var(--wire);border-radius:12px;padding:12px 14px;font-size:15px;min-height:52px}
+.out.good{background:var(--green-soft);border-color:var(--green)}
+.out.bad{background:var(--red-soft);border-color:var(--red)}
+.out.warn{background:var(--amber-soft);border-color:var(--amber)}
+.out b{font-family:"Reem Kufi",Tahoma,sans-serif}
+.tasks{list-style:none;padding:0;margin:12px 0 0;display:flex;flex-direction:column;gap:8px}
+.tasks li{display:flex;gap:10px;align-items:center;background:var(--paper);border:1.5px solid var(--wire);border-radius:12px;padding:9px 12px;font-size:15px;flex-wrap:wrap}
+.tasks li .st{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--wire);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px;background:var(--card)}
+.tasks li.done{border-color:var(--green);background:var(--green-soft)}
+.tasks li.done .st{background:var(--green);border-color:var(--green);color:#fff}
+.seg{display:inline-flex;gap:6px;margin-inline-start:auto;flex-wrap:wrap}
+.seg button{border:1.5px solid var(--wire);background:var(--card);border-radius:10px;padding:4px 14px;font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14px;cursor:pointer;color:var(--ink)}
+.seg button.right{background:var(--green);border-color:var(--green);color:#fff}
+.seg button.wrong{background:var(--red-soft);border-color:var(--red);color:var(--red)}
+.cmp{width:100%;border-collapse:collapse;font-size:15px;margin-top:10px}
+.cmp th,.cmp td{border:1px solid var(--wire);padding:8px 10px;text-align:right;vertical-align:top}
+.cmp th{background:var(--paper);font-family:"Reem Kufi",Tahoma,sans-serif;font-weight:600}
+.cmp td.f{color:var(--teal-dark)} .cmp td.r{color:var(--amber-dark)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px;align-items:start}
+@media (max-width:620px){.two{grid-template-columns:1fr}}
+.hide{display:none}
+.reveal{animation:fade .35s ease both}
+h3.sub3{font-size:18px;margin-top:22px}
+
+/* quiz */
+.qwrap{min-height:60px}
+.qmeta{display:flex;justify-content:space-between;align-items:center;font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14px;color:var(--ink-soft);margin-bottom:8px}
+.qtext{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:19px;margin:6px 0 16px;line-height:1.5}
+.qsrc{font-size:12px;color:var(--ink-soft);font-family:"Tajawal",Tahoma,sans-serif;font-weight:400}
+.opts{display:flex;flex-direction:column;gap:10px}
+.opt{text-align:right;background:var(--card);border:1.5px solid var(--wire);border-radius:12px;padding:13px 16px;
+  cursor:pointer;font-family:"Tajawal",Tahoma,sans-serif;font-size:15.5px;color:var(--ink);transition:.15s;display:flex;align-items:center;gap:10px}
+.opt:hover:not(.locked){border-color:var(--teal)}
+.opt .mk{width:24px;height:24px;border-radius:50%;border:1.5px solid var(--wire);flex-shrink:0;
+  display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-family:"Reem Kufi",Tahoma,sans-serif;color:var(--ink-soft)}
+.opt.correct{background:var(--green-soft);border-color:var(--green);color:var(--green)}
+.opt.correct .mk{background:var(--green);border-color:var(--green);color:#fff}
+.opt.wrong{background:var(--red-soft);border-color:var(--red);color:var(--red)}
+.opt.wrong .mk{background:var(--red);border-color:var(--red);color:#fff}
+.opt.locked{cursor:default}
+.explain{margin-top:14px;background:var(--indigo-soft);color:var(--indigo);border-radius:12px;padding:12px 16px;font-size:14px;display:none}
+.explain.show{display:block;animation:fade .3s ease both}
+.result{text-align:center;padding:20px 10px}
+.scorebig{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:52px;color:var(--teal);line-height:1}
+.progress-quiz{height:8px;background:var(--paper);border-radius:99px;overflow:hidden;margin:4px 0 14px;border:1px solid var(--wire)}
+.progress-quiz i{display:block;height:100%;background:var(--teal);width:0;transition:.3s}
+
+/* written questions */
+.hw .qh{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:18px;color:var(--indigo);background:var(--indigo-soft);border-radius:10px;padding:6px 12px;margin:20px 0 8px;display:inline-block}
+.q{margin:10px 0;font-size:16px}
+.line{display:block;border-bottom:1.5px dotted var(--wire);height:2em}
+@media print{.rail,.navbtns,.teacher a.wa{display:none}.station{display:block!important}body{background:#fff}}
+
+/* ERD */
+.erdbox{background:var(--paper);border:1.5px solid var(--wire);border-radius:14px;padding:8px;margin-top:12px}
+.erd{width:100%;height:auto;display:block;font-family:"Reem Kufi",Tahoma,sans-serif}
+.erd .ln{stroke:var(--ink-soft);stroke-width:1.6}
+.erd .ent rect{fill:var(--indigo-soft);stroke:var(--indigo);stroke-width:2}
+.erd .ent text{fill:var(--indigo);font-size:15px;font-weight:600}
+.erd .rel polygon{fill:var(--amber-soft);stroke:var(--amber);stroke-width:2}
+.erd .rel text{fill:var(--amber-dark);font-size:13px;font-weight:600}
+.erd .card{fill:var(--coral-dark);font-size:24px;font-weight:700}
+.erd .card.q{fill:var(--ink-soft)}
+.erd .off{opacity:0;pointer-events:none}
+.erd g{transition:opacity .4s}
+.erd .arr{fill:none;stroke-width:2.2}
+.erd .arr.t{stroke:var(--teal)} .erd .arr.a{stroke:var(--plum)}
+.erd .arrt{font-size:11.5px;font-weight:600}
+.erd .arrt.t{fill:var(--teal-dark)} .erd .arrt.a{fill:var(--plum)}
+.qa{background:var(--paper);border:1.5px solid var(--wire);border-radius:14px;padding:12px 14px;margin-top:10px}
+.qa .qq{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:16px;margin-bottom:8px}
+.qa .ab{display:flex;gap:8px;flex-wrap:wrap}
+.qa .ab button{border:1.5px solid var(--wire);background:var(--card);border-radius:10px;padding:8px 18px;font-family:"Reem Kufi",Tahoma,sans-serif;font-size:15px;cursor:pointer;color:var(--ink)}
+.qa .ab button.right{background:var(--green);border-color:var(--green);color:#fff}
+.qa .ab button.wrong{background:var(--red-soft);border-color:var(--red);color:var(--red)}
+.qa .fb{font-size:14.5px;margin-top:8px;color:var(--ink-soft)}
+.qa.done{border-color:var(--green);background:var(--green-soft)}
+.qa.locked{opacity:.45;pointer-events:none}
+.bigres{text-align:center;font-family:"Reem Kufi",Tahoma,sans-serif;font-size:30px;color:var(--coral-dark);margin:14px 0 4px}
+.note{font-size:13px;color:var(--ink-soft);margin-top:6px}
+.tag{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:12px;padding:2px 9px;border-radius:999px;margin-inline-start:4px;white-space:nowrap}
+.tag.h{background:var(--indigo-soft);color:var(--indigo)}
+.tag.r{background:var(--coral-soft);color:var(--coral-dark)}
+.segbtns{display:inline-flex;background:var(--card);border:1.5px solid var(--wire);border-radius:12px;overflow:hidden}
+.segbtns button{border:none;background:transparent;padding:9px 14px;font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14px;cursor:pointer;color:var(--ink-soft)}
+.segbtns button.on{background:var(--indigo);color:#fff}
+.segbtns button:focus-visible{outline:3px solid var(--indigo);outline-offset:-3px}
+.readline{text-align:center;font-family:"Reem Kufi",Tahoma,sans-serif;font-size:17px;margin-top:10px}
+.readline b{color:var(--coral-dark);font-size:22px}
+
+.steps{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.steps span{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:12.5px;padding:5px 12px;border-radius:999px;background:var(--paper);border:1.5px solid var(--wire);color:var(--ink-soft)}
+.steps span.on{background:var(--teal);border-color:var(--teal);color:#fff}
+.steps span.done{background:var(--green-soft);border-color:var(--green);color:var(--green)}
+.erd .xm line{stroke:var(--red);stroke-width:5;stroke-linecap:round}
+.erd .broken{opacity:.35}
+.erd .ent.jn rect{fill:var(--plum-soft);stroke:var(--plum);stroke-dasharray:6 4}
+.erd .ent.jn text{fill:var(--plum)}
+.rcards{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-top:12px}
+.rc{background:var(--card);border:1.5px solid var(--wire);border-radius:14px;padding:12px 14px;cursor:pointer;text-align:right;font-family:"Tajawal",Tahoma,sans-serif;font-size:14.5px;color:var(--ink);line-height:1.7}
+.rc .rt{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:17px;display:block;margin-bottom:4px}
+.rc .rb{display:none}
+.rc.on{border-color:var(--plum);background:var(--plum-soft)}
+.rc.on .rb{display:block}
+.rc:focus-visible,.fchip:focus-visible{outline:3px solid var(--indigo);outline-offset:2px}
+.fpick{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.fchip{border:1.5px solid var(--wire);background:var(--card);border-radius:999px;padding:7px 16px;font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14px;cursor:pointer;color:var(--ink)}
+.fchip small{color:var(--ink-soft);font-family:"Tajawal",Tahoma,sans-serif}
+.fchip.on{background:var(--plum);border-color:var(--plum);color:#fff}
+.fchip.on small{color:#f3e9ff}
+.fchip.bad{background:var(--red-soft);border-color:var(--red);color:var(--red)}
+.fchip.good{background:var(--green);border-color:var(--green);color:#fff}
+.three{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:10px;align-items:start}
+@media (max-width:760px){.three{grid-template-columns:1fr}}
+.dbt tr.newrow td{outline:2px solid var(--amber);outline-offset:-2px}
+.ilist{counter-reset:i;list-style:none;padding:0;margin:10px 0 0;display:flex;flex-direction:column;gap:8px}
+.ilist li{counter-increment:i;display:flex;gap:10px;align-items:center;background:var(--indigo-soft);border-radius:12px;padding:10px 14px;font-size:16px}
+.ilist li::before{content:counter(i,arabic-indic);width:28px;height:28px;border-radius:50%;background:var(--indigo);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-family:"Reem Kufi",Tahoma,sans-serif;flex-shrink:0}
+
+/* ===== SELECT lesson ===== */
+.sqlbox{direction:ltr;text-align:left;font-family:Consolas,"Courier New",monospace;background:var(--bar);color:#d7f5ee;border-radius:12px;padding:12px 16px;font-size:16px;margin-top:10px;overflow-x:auto;white-space:nowrap}
+.dbt th.hl-col,.dbt td.hl-col{background:var(--teal-soft)!important;color:var(--teal-dark)}
+.dbt tr.match td{background:var(--green-soft)!important;color:var(--green);font-weight:700}
+.dbt tr.match td.hl-col{background:#bfe6d0!important}
+.dbt tr.dim td{opacity:.45}
+.dbt td.yes{color:var(--green);font-weight:700} .dbt td.no{color:var(--red);font-weight:700}
+.dbt th.ev{background:var(--amber-soft);color:var(--amber-dark);font-size:12px;direction:ltr;white-space:nowrap}
+.dbt.res caption{background:var(--green)}
+.dbt th,.dbt td{direction:ltr}
+.dbt td.ar{direction:rtl}
+.tpl{display:flex;flex-wrap:wrap;gap:6px;direction:ltr;justify-content:flex-start;margin-top:12px;align-items:stretch}
+.tpl span{font-family:Consolas,"Courier New",monospace;font-size:17px;padding:8px 12px;border-radius:10px;display:flex;flex-direction:column;align-items:center;gap:2px;line-height:1.2}
+.tpl span small{font-family:"Tajawal",Tahoma,sans-serif;font-size:12px;direction:rtl}
+.tpl .fx{background:var(--bar);color:#fff}
+.tpl .fx small{color:var(--bar-sub)}
+.tpl .vr{background:var(--card);border:2px dashed;color:var(--ink)}
+.tpl .vr.f{border-color:var(--teal);color:var(--teal-dark)}
+.tpl .vr.t{border-color:var(--indigo);color:var(--indigo)}
+.tpl .vr.c{border-color:var(--amber);color:var(--amber-dark)}
+.code{direction:ltr;text-align:left;font-family:Consolas,"Courier New",monospace;background:var(--bar);border-radius:12px;padding:12px 14px;font-size:17px;margin-top:10px;display:flex;flex-wrap:wrap;gap:4px;align-items:center}
+.code button{all:unset;cursor:pointer;color:#d7f5ee;padding:2px 6px;border-radius:6px;border-bottom:2px dashed rgba(215,245,238,.35)}
+.code button.kw{color:#ffd479}
+.code button.on{background:#ffd479;color:var(--bar)}
+.code button:focus-visible{outline:2px solid #ffd479}
+.exq{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:17px;margin-top:16px}
+.ops{width:100%;border-collapse:collapse;margin-top:10px;font-size:15px}
+.ops th,.ops td{border:1px solid var(--wire);padding:6px 10px;text-align:center}
+.ops th{background:var(--paper);font-family:"Reem Kufi",Tahoma,sans-serif;font-weight:600}
+.ops td.o{font-family:Consolas,monospace;font-size:18px;font-weight:700;color:var(--plum);direction:ltr}
+.vt{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+@media (max-width:620px){.vt{grid-template-columns:1fr}}
+.vt div{border-radius:12px;padding:10px 12px;font-size:14.5px;border:1.5px solid}
+.vt b{display:block;font-family:"Reem Kufi",Tahoma,sans-serif;font-size:15px}
+.vt code{display:block;direction:ltr;text-align:left;font-family:Consolas,monospace;font-size:15px;margin-top:4px}
+.vt .n1{background:var(--indigo-soft);border-color:var(--indigo)} .vt .n2{background:var(--green-soft);border-color:var(--green)} .vt .n3{background:var(--amber-soft);border-color:var(--amber)}
+/* simulator */
+.ssim{background:var(--paper);border:1.5px solid var(--wire);border-radius:16px;padding:12px;margin-top:12px}
+.ssim .sh{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.ssim .sh b{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:15px}
+.ttabs{display:inline-flex;gap:4px}
+.ttabs button{border:1.5px solid var(--wire);background:var(--card);border-radius:9px;padding:4px 10px;font-family:Consolas,monospace;font-size:13px;cursor:pointer;color:var(--ink)}
+.ttabs button.on{background:var(--bar);color:#fff;border-color:var(--bar)}
+.ssim textarea{width:100%;min-height:74px;margin-top:10px;direction:ltr;text-align:left;font-family:Consolas,"Courier New",monospace;font-size:16px;padding:10px 12px;border-radius:12px;border:2px solid var(--wire);background:var(--card);color:var(--ink);resize:vertical}
+.ssim textarea:focus{outline:none;border-color:var(--indigo)}
+.ssim .sb{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+.ssim .msg{margin-top:8px;border-radius:10px;padding:9px 12px;font-size:14.5px;background:var(--card);border:1.5px solid var(--wire)}
+.ssim .msg.ok{background:var(--green-soft);border-color:var(--green);color:var(--green)}
+.ssim .msg.er{background:var(--red-soft);border-color:var(--red);color:var(--red)}
+.ssim .msg code{direction:ltr;unicode-bidi:isolate;font-family:Consolas,monospace;background:rgba(0,0,0,.06);padding:0 4px;border-radius:4px}
+.ssim .lbl{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:13px;color:var(--ink-soft);margin:10px 0 4px}
+.ssim .arrowdown{text-align:center;font-size:22px;color:var(--green);line-height:1;margin:6px 0}
+.tlist{list-style:none;padding:0;margin:10px 0 0;display:flex;flex-direction:column;gap:6px}
+.tlist li{display:flex;gap:8px;align-items:center;background:var(--card);border:1.5px solid var(--wire);border-radius:10px;padding:7px 10px;font-size:14.5px;cursor:pointer}
+.tlist li .st{width:24px;height:24px;border-radius:50%;border:1.5px solid var(--wire);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;font-size:12px}
+.tlist li.cur{border-color:var(--indigo);background:var(--indigo-soft)}
+.tlist li.done{border-color:var(--green);background:var(--green-soft)}
+.tlist li.done .st{background:var(--green);border-color:var(--green);color:#fff}
+.tlist li .hb{margin-inline-start:auto;font-size:12px;border:1px solid var(--wire);border-radius:8px;background:var(--paper);padding:2px 8px;cursor:pointer;color:var(--ink-soft);font-family:"Tajawal",Tahoma,sans-serif}
+/* truth table */
+.tt{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px}
+@media (max-width:620px){.tt{grid-template-columns:1fr}}
+.sw2{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;align-items:center;justify-content:center}
+.tog{border:2px solid var(--wire);background:var(--card);border-radius:14px;padding:10px 14px;cursor:pointer;font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14px;color:var(--ink);min-width:170px}
+.tog .tv{display:block;font-size:22px}
+.tog.y{border-color:var(--green);background:var(--green-soft);color:var(--green)}
+.tog.n{border-color:var(--red);background:var(--red-soft);color:var(--red)}
+.lamps{display:flex;gap:12px;justify-content:center;margin-top:12px;flex-wrap:wrap}
+.lamp{border-radius:16px;padding:12px 18px;text-align:center;font-family:"Reem Kufi",Tahoma,sans-serif;border:2px solid var(--wire);min-width:150px;background:var(--card)}
+.lamp .lk{font-family:Consolas,monospace;font-size:22px;font-weight:700;display:block}
+.lamp.y{border-color:var(--green);background:var(--green-soft);color:var(--green)}
+.lamp.n{border-color:var(--red);background:var(--red-soft);color:var(--red)}
+.truth{width:100%;border-collapse:collapse;font-size:15px}
+.truth caption{font-family:Consolas,monospace;font-weight:700;font-size:18px;padding:6px;background:var(--bar);color:#fff;border-radius:10px 10px 0 0}
+.truth th,.truth td{border:1px solid var(--wire);padding:6px;text-align:center}
+.truth th{background:var(--paper);font-family:"Reem Kufi",Tahoma,sans-serif;font-weight:600}
+.truth tr.lit td{background:var(--amber-soft)}
+.truth td.r{font-weight:700}
+.codeopt{direction:ltr;text-align:left!important;font-family:Consolas,"Courier New",monospace!important;font-size:14px!important;width:100%}
+.qa .ab.col{flex-direction:column}
+.blank{font:inherit;font-family:Consolas,"Courier New",monospace;border:2px dashed var(--indigo);background:var(--card);color:var(--ink);border-radius:8px;padding:2px 6px;margin:0 4px}
+.blank.ok{border-style:solid;border-color:var(--green);background:var(--green-soft)}
+.blank.bad{border-style:solid;border-color:var(--red);background:var(--red-soft)}
+.fills{list-style:none;padding:0;margin:10px 0 0;display:flex;flex-direction:column;gap:8px}
+.fills li{background:var(--paper);border:1.5px solid var(--wire);border-radius:12px;padding:9px 12px;font-size:15.5px;line-height:2}
+
+/* ===== lesson: parameter + ORDER BY ===== */
+.ttabs{flex-wrap:wrap;justify-content:flex-end}
+.povl{position:fixed;inset:0;background:rgba(10,20,35,.38);z-index:200;display:flex;align-items:center;justify-content:center;padding:16px}
+.pdlg{background:#f0f0f0;border:1px solid #6b7c93;box-shadow:0 10px 30px rgba(0,0,0,.35);width:320px;max-width:100%;font-family:Tahoma,"Segoe UI",sans-serif;font-size:13px;color:#1e2a3a;direction:rtl;animation:fade .25s ease both}
+.pdt{background:linear-gradient(#e9eef5,#cfd9e6);padding:5px 10px;font-weight:bold;display:flex;justify-content:space-between;border-bottom:1px solid #a9b7c9}
+.pdb{padding:14px}
+.pdb label{display:block;margin-bottom:6px;font-size:14px}
+.pdb input{width:100%;border:1px solid #7a8ba3;padding:5px 7px;font:inherit;font-size:14px;background:#fff;color:#000}
+.pbt{display:flex;gap:8px;margin-top:12px}
+.abtn{padding:4px 18px;border:1px solid #8a9bb4;border-radius:3px;background:linear-gradient(#fff,#e3e9f1);cursor:pointer;color:#1e2a3a;font-family:Tahoma,sans-serif;font-size:13px}
+.abtn:focus-visible{outline:2px solid #3d73c4}
+.dbt th.sorted{background:var(--amber-soft)!important;color:var(--amber-dark)}
+.tlist li.grp{background:transparent;border:none;cursor:default;font-family:"Reem Kufi",Tahoma,sans-serif;color:var(--indigo);padding:10px 2px 0;font-size:15px}
+.vals{display:inline-block;background:var(--card);border:1px solid var(--green);border-radius:8px;padding:0 8px;margin:2px 4px;color:var(--ink)}
+.ascdesc{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+@media (max-width:620px){.ascdesc{grid-template-columns:1fr}}
+.ascdesc div{border-radius:14px;padding:12px 14px;border:1.5px solid;font-size:14.5px;line-height:1.9}
+.ascdesc .a{background:var(--teal-soft);border-color:var(--teal)} .ascdesc .d{background:var(--coral-soft);border-color:var(--coral)}
+.ascdesc b.k2{display:block;font-family:Consolas,monospace;font-size:22px}
+.ascdesc .a b.k2{color:var(--teal-dark)} .ascdesc .d b.k2{color:var(--coral-dark)}
+.ordflow{display:flex;gap:6px;align-items:center;justify-content:center;flex-wrap:wrap;direction:ltr;margin-top:12px}
+.ordflow span{font-family:Consolas,monospace;font-size:17px;padding:8px 12px;border-radius:10px;display:flex;flex-direction:column;align-items:center;line-height:1.2}
+.ordflow span small{font-family:"Tajawal",Tahoma,sans-serif;font-size:12px;direction:rtl}
+.ordflow .ar{background:none;color:var(--ink-soft);font-size:20px;padding:0}
+.ordflow .s1{background:var(--bar);color:#fff} .ordflow .s1 small{color:var(--bar-sub)}
+.ordflow .s2{border:2px dashed var(--teal);color:var(--teal-dark);background:var(--card)}
+.ordflow .s3{border:2px dashed var(--coral);color:var(--coral-dark);background:var(--card)}
+.qbewrap{overflow-x:auto;margin-top:10px}
+table.qbe{border-collapse:collapse;font-family:Tahoma,"Segoe UI",sans-serif;font-size:13px;background:#fff;color:#1e2a3a;min-width:420px}
+table.qbe th{background:#e9eef5;font-weight:normal;text-align:right;padding:4px 10px;border:1px solid #c5d1e0;white-space:nowrap}
+table.qbe td{border:1px solid #d5dde8;padding:4px 12px;min-width:110px;text-align:center;unicode-bidi:plaintext}
+.maprow{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px;margin-top:10px}
+.maprow div{background:var(--indigo-soft);border-radius:10px;padding:6px 10px;font-size:14px}
+.maprow b{font-family:Consolas,monospace;color:var(--indigo)}
+.grid-q{border-top:1.5px dashed var(--wire);margin-top:18px;padding-top:6px}
+.dbt tr.bad td{background:var(--red-soft)!important;color:var(--red);text-decoration:line-through}
+.dbt tr.rep2 td{background:var(--amber-soft)!important;color:var(--amber-dark);font-weight:700}
+.chk2{display:inline-flex;gap:6px;align-items:center;font-size:15px;background:var(--paper);border:1.5px solid var(--wire);border-radius:10px;padding:6px 12px;cursor:pointer}
+.chk2 input{width:17px;height:17px;accent-color:var(--teal)}
+.dbt tr.orph td{background:var(--amber-soft)!important;color:var(--red);font-weight:700}
+.modes{display:flex;flex-direction:column;gap:6px;margin-top:6px;align-items:flex-start}
+.lbl5{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14px;color:var(--ink-soft);margin:12px 0 6px}
+.pchips{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.pchips span{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:12.5px;padding:5px 12px;border-radius:999px;background:var(--paper);border:1.5px solid var(--wire);color:var(--ink-soft)}
+.pchips span.done{background:var(--green-soft);border-color:var(--green);color:var(--green)}
+.pchips span.done::before{content:"✓ "}
+</style></head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div>
+      <h1 class="k">استعلام الحذف DELETE</h1>
+      <div class="sub">الصف الثاني عشر العلمي · الوحدة الأولى: قواعد البيانات · لغة SQL</div>
+    </div>
+    <span class="badge">درس تفاعلي + محاكي SQL</span>
+  </div>
+
+  <nav class="rail" id="rail" aria-label="محطات الدرس"></nav>
+
+  <!-- 0 INTRO -->
+  <section class="station on" id="s0">
+    <div class="card">
+      <span class="eyebrow">تمهيد 🗑️</span>
+      <h2 class="title k">متى نحذف بيانات؟</h2>
+      <p class="lead">مهندس ترك العمل في المكتب، أو طالب تخرّج، أو سلعة توقف بيعها، أو دواء انتهت صلاحيته… نحتاج إزالة <b>سجلاتهم</b> من الجداول. نستخدم لذلك <b>استعلام الحذف</b> <b dir="ltr">DELETE</b>.</p>
+      <div class="qa" id="q0">
+        <div class="qq">تذكّر من درس أقسام SQL: حذف <b>سجل</b> من جدول يتبع أي قسم؟</div>
+        <div class="ab"><button data-v="ddl">DDL</button><button data-v="dcl">DCL</button><button data-v="dml">DML</button></div>
+        <div class="fb"></div>
+      </div>
+      <div class="tw" style="border:none;margin-top:12px"><table class="cmp">
+        <tr><th>ماذا يحذف <span dir="ltr">DELETE</span>؟</th><th>✔ أو ✘</th></tr>
+        <tr><td>سجلات كاملة (صفوف) من الجدول</td><td class="f">✔ يحذفها</td></tr>
+        <tr><td>حقلاً واحداً (عموداً) من الجدول</td><td class="r">✘ لا يحذف حقولاً</td></tr>
+        <tr><td>الجدول نفسه</td><td class="r">✘ يبقى الجدول وحقوله، حتى لو حذفنا كل السجلات</td></tr>
+      </table></div>
+      <div class="navbtns" style="justify-content:center"><button class="btn btn-main" onclick="go(1)">التالي: الصيغة العامة ‹</button></div>
+    </div>
+  </section>
+
+  <!-- 1 SYNTAX -->
+  <section class="station" id="s1">
+    <div class="card">
+      <span class="eyebrow">المحطة ١ · الصيغة العامة</span>
+      <h2 class="title k">DELETE FROM … WHERE …</h2>
+      <div class="tpl">
+        <span class="fx">DELETE<small>احذف</small></span>
+        <span class="fx">FROM<small>من</small></span>
+        <span class="vr t">table<small>الجدول</small></span>
+        <span class="fx">WHERE<small>بشرط</small></span>
+        <span class="vr c">condition<small>شرط السجلات المحذوفة</small></span>
+        <span class="fx">;</span>
+      </div>
+      <div class="exq">مثال: احذف المهندس رقم 108 من جدول المهندسين.</div>
+      <div class="code" id="exD"></div>
+      <div class="out" id="oexD">👆 اضغط كل جزء من الجملة لتعرف معناه.</div>
+      <div class="tw" style="border:none;margin-top:12px"><table class="cmp">
+        <tr><th></th><th>التحديد SELECT</th><th>الحذف DELETE</th></tr>
+        <tr><td>بعد الكلمة الأولى</td><td class="f">أسماء الحقول أو *</td><td class="r">لا شيء، أو * (لا أسماء حقول)</td></tr>
+        <tr><td>FROM والجدول</td><td class="f">نعم</td><td class="r">نعم</td></tr>
+        <tr><td>WHERE والشرط</td><td class="f">نفس القواعد</td><td class="r">نفس القواعد</td></tr>
+        <tr><td>هل يتغيّر الجدول؟</td><td class="f">لا، يعرض فقط</td><td class="r">نعم، تُحذف السجلات نهائياً</td></tr>
+      </table></div>
+      <div class="dfn" style="background:var(--amber-soft);border-color:var(--amber)">
+        <div class="dfn-t" style="color:var(--amber-dark)">⚠️ قواعد مهمة</div>
+        <div class="dfn-b"><ul>
+          <li>الحذف يكون <b>لسجل كامل</b>، فلا نكتب أسماء حقول بعد <b dir="ltr">DELETE</b>. ويقبل أكسس أيضاً الصيغة <b dir="ltr">DELETE * FROM table</b>.</li>
+          <li>الشرط يُكتب بنفس قواعد التحديد: النص بين <b>" "</b>، والتاريخ بين <b>#</b>، و<b dir="ltr">AND / OR</b>، وقيمة من المستخدم بين <b dir="ltr">[ ]</b>.</li>
+          <li><b>بدون WHERE تُحذف كل السجلات!</b></li>
+          <li>يطلب أكسس <b>تأكيد</b> الحذف، وبعد «نعم» <b>لا يمكن التراجع</b>.</li>
+          <li>💡 نصيحة المحترفين: نفّذ أولاً <b dir="ltr">SELECT *</b> بالشرط نفسه لترى السجلات التي ستُحذف، ثم احذف.</li>
+        </ul></div>
+      </div>
+      <div class="navbtns">
+        <button class="btn btn-ghost" onclick="go(0)">›</button>
+        <button class="btn btn-main" onclick="go(2)">التالي: حذف بدون شرط ‹</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 NO WHERE -->
+  <section class="station" id="s2">
+    <div class="card">
+      <span class="eyebrow">المحطة ٢ · الحذف بدون شرط</span>
+      <h2 class="title k">ماذا يحدث إذا نسينا WHERE؟</h2>
+      <div class="qa" id="q2">
+        <div class="qq">توقّع قبل التنفيذ: بعد <b dir="ltr">DELETE * FROM School;</b> ماذا يبقى؟ <span class="qsrc">(من سؤال «ما وظيفة الجملة»)</span></div>
+        <div class="ab"><button data-v="a">لا شيء، يُحذف الجدول كله</button><button data-v="b">الجدول وحقوله بدون أي سجل</button><button data-v="c">يُحذف أول سجل فقط</button></div>
+        <div class="fb"></div>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+        <button class="btn btn-ghost btn-sm" onclick="S2.load('DELETE * FROM School;')">نفّذ: DELETE * FROM School;</button>
+        <button class="btn btn-ghost btn-sm" onclick="S2.load('DELETE FROM product;')">نفّذ: DELETE FROM product;</button>
+      </div>
+      <div id="sim2"></div>
+      <div class="dfn">
+        <div class="dfn-t">📌 نستنتج</div>
+        <div class="dfn-b">الحذف بدون شرط يحذف <b>جميع سجلات الجدول</b>، ويبقى الجدول <b>فارغاً</b> بحقوله. استخدمه فقط إذا أردت فعلاً تفريغ الجدول، وتأكد قبل الضغط على «نعم».</div>
+      </div>
+      <div class="navbtns">
+        <button class="btn btn-ghost" onclick="go(1)">›</button>
+        <button class="btn btn-main" onclick="go(3)">التالي: الحذف مع شرط ‹</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 WHERE -->
+  <section class="station" id="s3">
+    <div class="card">
+      <span class="eyebrow">المحطة ٣ · الحذف مع شرط أو أكثر</span>
+      <h2 class="title k">عاين أولاً… ثم احذف</h2>
+      <p class="lead">لكل مثال زرّان: <b>👀 معاينة</b> بجملة SELECT بالشرط نفسه، ثم <b>🗑️ حذف</b>. لاحظ أن المعاينة لا تغيّر الجدول، وأن السجلات المحذوفة هي نفسها التي ظهرت في المعاينة.</p>
+      <div class="tw" style="border:none"><table class="cmp" id="exW"><tr><th>المطلوب</th><th></th></tr></table></div>
+      <div id="sim3"></div>
+      <div class="navbtns">
+        <button class="btn btn-ghost" onclick="go(2)">›</button>
+        <button class="btn btn-main" onclick="go(4)">التالي: قيمة من المستخدم ‹</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 PARAM -->
+  <section class="station" id="s4">
+    <div class="card">
+      <span class="eyebrow">المحطة ٤ · قيمة يُدخلها المستخدم</span>
+      <h2 class="title k">يحذف المستخدم ما يريد بنفس الجملة</h2>
+      <p class="lead">بدل أن نكتب جملة جديدة لكل مهندس يترك العمل، نكتب الرسالة بين <b dir="ltr">[ ]</b> مكان القيمة، فيُدخل المستخدم الرقم عند كل تنفيذ.</p>
+      <div class="sqlbox">DELETE FROM engineer_tbl WHERE eng_num = [أدخل رقم المهندس المراد حذفه];</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+        <button class="btn btn-ghost btn-sm" onclick="S4.load('DELETE FROM engineer_tbl WHERE eng_num = [أدخل رقم المهندس المراد حذفه];')">🔢 رقم المهندس</button>
+        <button class="btn btn-ghost btn-sm" onclick="S4.load('DELETE FROM engineer_tbl WHERE city = [أدخل المدينة];')">🔤 المدينة</button>
+        <button class="btn btn-ghost btn-sm" onclick="S4.load('DELETE FROM engineer_tbl WHERE salary < [أدخل الراتب];')">↘️ الراتب أقل من…</button>
+      </div>
+      <div id="sim4"></div>
+      <div class="navbtns">
+        <button class="btn btn-ghost" onclick="go(3)">›</button>
+        <button class="btn btn-main" onclick="go(5)">التالي: السجلات المرتبطة ‹</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 CASCADE -->
+  <section class="station" id="s5">
+    <div class="card">
+      <span class="eyebrow">المحطة ٥ · الحذف والسجلات المرتبطة <span class="qsrc">(٢٠٢٠، ٢٠ د٢)</span></span>
+      <h2 class="title k">نحذف دار النشر… فماذا يحدث لكتبها؟</h2>
+      <p class="lead">جدولا دار النشر والكتاب بينهما علاقة <b>واحد لمتعدد</b>: <span dir="ltr">Pub_id</span> مفتاح أساسي في جدول دار النشر، ومفتاح أجنبي في جدول الكتاب. سنحذف دار النشر رقم 30 (ولها الكتاب 103) في <b>ثلاث حالات</b> لخيارات العلاقة، ثم نحذف من الجهة الأخرى.</p>
+      <div class="erdbox" style="max-width:420px;margin:10px auto 0"><svg class="erd" id="erd5" viewBox="0 0 360 110" role="img" aria-label="دار النشر تنشر الكتاب"></svg></div>
+      <div class="lbl5">١. اختر خيارات العلاقة (كما في شاشة تحرير العلاقات):</div>
+      <div class="modes" role="radiogroup" aria-label="خيارات العلاقة">
+        <label class="chk2"><input type="radio" name="rimode" value="none"> بدون فرض التكامل المرجعي</label>
+        <label class="chk2"><input type="radio" name="rimode" value="ri" checked> فرض التكامل المرجعي فقط</label>
+        <label class="chk2"><input type="radio" name="rimode" value="cas"> فرض التكامل المرجعي + تتالي حذف السجلات المرتبطة</label>
+      </div>
+      <div class="lbl5">٢. نفّذ إحدى الجملتين:</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn btn-main btn-sm" onclick="casRun()">🗑️ <bdi dir="ltr" style="font-family:Consolas,monospace">DELETE FROM Publisher_tbl WHERE Pub_id = 30;</bdi></button>
+        <button class="btn btn-ghost btn-sm" onclick="childRun()">🗑️ <bdi dir="ltr" style="font-family:Consolas,monospace">DELETE FROM Book_tbl WHERE book_id = 103;</bdi></button>
+        <button class="btn btn-ghost btn-sm" onclick="casReset()">↺ أعد البيانات</button>
+      </div>
+      <div class="pchips" id="pc5"><span data-k="none">١ حذف دار النشر بدون تكامل مرجعي</span><span data-k="ri">٢ مع التكامل المرجعي فقط</span><span data-k="cas">٣ مع تتالي الحذف</span><span data-k="child">٤ حذف كتاب من جدول المفتاح الأجنبي</span></div>
+      <div class="out" id="o5" aria-live="polite">اختر حالة ثم نفّذ. جرّب الحالات الأربع لتظهر الخلاصة.</div>
+      <div class="two"><div id="c5a"></div><div id="c5b"></div></div>
+      <div class="dfn hide" id="con5">
+        <div class="dfn-t">📌 نستنتج</div>
+        <div class="dfn-b"><ul>
+          <li><b>بدون فرض التكامل المرجعي</b>: تُحذف دار النشر <b>وحدها</b>، وتبقى كتبها تشير إلى دار نشر غير موجودة. هذا <b>خلل في البيانات</b>.</li>
+          <li>مع <b>فرض التكامل المرجعي</b> وحده: <b>يرفض</b> أكسس حذف دار نشر لها كتب، فيمنع الخلل السابق. (دار نشر ليس لها كتب تُحذف عادياً.)</li>
+          <li>مع <b>تتالي حذف السجلات المرتبطة</b>: تُحذف دار النشر <b>وكل كتبها</b> المرتبطة بها في جدول الكتاب.</li>
+          <li><b>الحذف من جدول المفتاح الأجنبي</b> (حذف كتاب) لا يؤثر على جدول المفتاح الأساسي في أي حالة؛ تبقى دار النشر.</li>
+        </ul></div>
+      </div>
+      <div class="qa locked" id="q5">
+        <div class="qq">ما الخاصية التي من خلالها يتم حذف كامل السجلات المرتبطة في الجداول الأخرى عند حذف سجل معين؟ <span class="qsrc">(٢٠ د٢)</span></div>
+        <div class="ab"><button data-v="a">العلاقات</button><button data-v="b">عرض البيانات</button><button data-v="c">الحقول المشتركة</button><button data-v="d">التكامل المرجعي</button></div>
+        <div class="fb"></div>
+      </div>
+      <div class="navbtns">
+        <button class="btn btn-ghost" onclick="go(4)">›</button>
+        <button class="btn btn-main" onclick="go(6)">التالي: أسئلة إثرائية ‹</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 ENRICHMENT -->
+  <section class="station" id="s6">
+    <div class="card">
+      <span class="eyebrow">المحطة ٦ · أسئلة إثرائية من الامتحانات</span>
+      <h2 class="title k">اكتب جملة الحذف ونفّذها</h2>
+      <p class="lead">جداول من أسئلة الثانوية العامة. عند اختيار سؤال تعود البيانات كما كانت، وينتقل المحاكي إلى جدوله.</p>
+      <div id="sim6"></div>
+      <div class="navbtns">
+        <button class="btn btn-ghost" onclick="go(5)">›</button>
+        <button class="btn btn-main" onclick="go(7)">التالي: اختر وأكمل ‹</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 CHOOSE + FILL -->
+  <section class="station" id="s7">
+    <div class="card">
+      <span class="eyebrow">المحطة ٧ · اختر وأكمل</span>
+      <h2 class="title k">اختر الإجابة الصحيحة</h2>
+      <div id="chHost"></div>
+      <h2 class="title k" style="margin-top:22px">أكمل الفراغ</h2>
+      <ul class="fills" id="fills"></ul>
+      <div style="text-align:center;margin-top:10px"><button class="btn btn-main btn-sm" onclick="checkFill()">تحقّق</button></div>
+      <div class="out" id="o7" aria-live="polite">اختر الكلمة المناسبة لكل فراغ ثم اضغط «تحقّق».</div>
+      <div class="navbtns">
+        <button class="btn btn-ghost" onclick="go(6)">›</button>
+        <button class="btn btn-main" onclick="go(8)">التالي: أسئلة كتابية ‹</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8 WRITTEN -->
+  <section class="station" id="s8">
+    <div class="card hw">
+      <span class="eyebrow">📝 أسئلة كتابية</span>
+      <h2 class="title k">أجب في دفترك</h2>
+      <div class="qh">السؤال الأول <span class="qsrc">(٢٠ د٢ وما يشبهه)</span></div>
+      <div class="q">١. اكتب جملة SQL المناسبة لحذف سجلات الموظفين الذين تزيد أعمارهم (<span dir="ltr">age</span>) عن 60 من جدول الموظفين <span dir="ltr">Emp_tbl</span>.<span class="line"></span></div>
+      <div class="q">٢. اكتب جملة SQL لحذف الموظف الذي يُدخل المستخدم رقمه (<span dir="ltr">emp_id</span>).<span class="line"></span></div>
+      <div class="q">٣. ما وظيفة الجملة: <b dir="ltr">DELETE * FROM School;</b>؟ وماذا يبقى بعد تنفيذها؟<span class="line"></span></div>
+      <div class="qh">السؤال الثاني <span class="qsrc">(٢٠٢٠)</span></div>
+      <div class="q">جدول دار النشر <span dir="ltr">Publisher_tbl (Pub_id, Pub_name, Pub_address)</span> وجدول الكتاب <span dir="ltr">Book_tbl (book_id, book_name, Pub_id)</span>.</div>
+      <div class="q">١. احذف دار النشر رقم 30 باستخدام أوامر لغة SQL، مع ذكر تأثير ذلك على جدول الكتاب.<span class="line"></span><span class="line"></span></div>
+      <div class="q">٢. علّل: يُفضَّل تنفيذ جملة SELECT بالشرط نفسه قبل تنفيذ جملة الحذف.<span class="line"></span></div>
+      <div class="navbtns">
+        <button class="btn btn-ghost" onclick="go(7)">›</button>
+        <button class="btn btn-main" onclick="go(9)">التقويم الذاتي ‹</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9 QUIZ -->
+  <section class="station" id="s9">
+    <div class="card">
+      <span class="eyebrow">المحطة الأخيرة · التقويم الذاتي</span>
+      <h2 class="title k">اختر الإجابة الصحيحة</h2>
+      <p class="note" style="margin-top:0">أسئلة من الملزمة وامتحانات الثانوية العامة السابقة.</p>
+      <div class="progress-quiz"><i id="qbar"></i></div>
+      <div class="qwrap" id="qwrap"></div>
+    </div>
+  </section>
+
+  <div class="teacher">
+    <div>
+      <div class="tt">إعداد الأستاذ</div>
+      <div class="tn">رامي فتحي فلفل</div>
+      <div class="tp">هاتف / واتساب: +972&nbsp;59&nbsp;788&nbsp;0216</div>
+    </div>
+    <a class="wa" href="https://wa.me/972597880216" target="_blank" rel="noopener">💬 تواصل عبر واتساب</a>
+  </div>
+</div>
+<script>
+var STATIONS=["التمهيد","الصيغة العامة","بدون شرط","مع شرط","قيمة من المستخدم","السجلات المرتبطة","أسئلة إثرائية","اختر وأكمل","أسئلة كتابية","التقويم"];
+var cur=0, visited={0:true}, rail=document.getElementById('rail');
+function toAr(n){return String(n).replace(/[0-9]/g,function(d){return "٠١٢٣٤٥٦٧٨٩"[d]})}
+function $(id){return document.getElementById(id)}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function codeHtml(s){return esc(s).replace(/(\[[^\]]*\]|"[^"]*")/g,'<bdi dir="ltr">$1</bdi>')}
+STATIONS.forEach(function(t,i){
+  var b=document.createElement('button');
+  b.innerHTML='<span class="n">'+toAr(i+1)+'</span>'+t;
+  b.onclick=function(){go(i)}; rail.appendChild(b);
+});
+function go(i){
+  $('s'+cur).classList.remove('on');
+  cur=i; visited[i]=true;
+  $('s'+i).classList.add('on');
+  updRail(); window.scrollTo({top:0,behavior:'smooth'});
+  if(i===9 && !quizStarted) startQuiz();
+}
+function updRail(){[].forEach.call(rail.children,function(b,i){
+  b.classList.toggle('active',i===cur); b.classList.toggle('done',!!visited[i] && i!==cur);});}
+updRail();
+
+/* ---------- SVG / ERD helpers ---------- */
+var NS='http://www.w3.org/2000/svg';
+function S(tag,a,p){var e=document.createElementNS(NS,tag);for(var k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e}
+function T_(p,x,y,s,cls){var t=S('text',{x:x,y:y,'text-anchor':'middle','dominant-baseline':'central'},p);if(cls)t.setAttribute('class',cls);t.textContent=s;return t}
+function erd(svg,spec){
+  var out={ents:{},rels:[],cards:{}};
+  var byId={}; spec.ents.forEach(function(e){byId[e.id]=e});
+  (spec.rels||[]).forEach(function(r){
+    var g=S('g',{'class':'rel'},svg), A=byId[r.a], B=byId[r.b];
+    S('line',{x1:A.x,y1:A.y,x2:B.x,y2:B.y,'class':'ln'},g);
+    var hw=r.hw||46, hh=r.hh||25;
+    S('polygon',{points:[r.x,r.y-hh,r.x+hw,r.y,r.x,r.y+hh,r.x-hw,r.y].join(' ')},g);
+    T_(g,r.x,r.y,r.verb);
+    (r.cards||[]).forEach(function(c){out.cards[c.id]=T_(g,c.x,c.y,c.t||'?','card'+(c.t?'':' q'))});
+    out.rels.push(g);
+  });
+  spec.ents.forEach(function(e){
+    var g=S('g',{'class':'ent'},svg), w=e.w||120;
+    S('rect',{x:e.x-w/2,y:e.y-21,width:w,height:42,rx:4},g);
+    T_(g,e.x,e.y,e.name);
+    out.ents[e.id]=g;
+  });
+  return out;
+}
+function vis(g,on){g.classList.toggle('off',!on)}
+function setCard(c,t){c.textContent=t;c.classList.remove('q')}
+/* arrow with label: from x1 to x2 at height y */
+function arrow(svg,o){
+  var g=S('g',{'class':'off'},svg);
+  var defs=S('defs',{},g), id='mk'+Math.random().toString(36).slice(2,8);
+  var m=S('marker',{id:id,markerWidth:8,markerHeight:8,refX:7,refY:4,orient:'auto',markerUnits:'userSpaceOnUse'},defs);
+  S('path',{d:'M0,0 L8,4 L0,8 z',style:'fill:var(--'+(o.c==='t'?'teal':'plum')+')'},m);
+  S('line',{x1:o.x1,y1:o.y,x2:o.x2,y2:o.y,'class':'arr '+o.c,'marker-end':'url(#'+id+')'},g);
+  T_(g,(o.x1+o.x2)/2,o.ly,o.label,'arrt '+o.c);
+  return g;
+}
+
+/* ---------- Q&A helper ---------- */
+function qa(id,right,onRight,msgR,msgW,nextId){
+  var box=$(id), fb=box.querySelector('.fb');
+  box.querySelectorAll('.ab button').forEach(function(b){
+    b.onclick=function(){
+      if(box.classList.contains('done')) return;
+      box.querySelectorAll('.ab button').forEach(function(x){x.classList.remove('right','wrong')});
+      if(b.dataset.v===right){
+        b.classList.add('right'); box.classList.add('done'); fb.innerHTML='✅ '+msgR; onRight();
+        if(nextId) $(nextId).classList.remove('locked');
+      }else{b.classList.add('wrong'); fb.innerHTML='🤔 '+(typeof msgW==='object'?(msgW[b.dataset.v]||''):msgW)}
+    };
+  });
+}
+
+/* ---------- tables helper ---------- */
+function mkTable(host,D,o){
+  o=o||{};
+  host.innerHTML='';
+  var w=document.createElement('div'); w.className='tw';
+  var t=document.createElement('table'); t.className='dbt';
+  var h='<caption>'+D.name+'</caption><thead><tr>';
+  D.cols.forEach(function(c,i){
+    var ic=(o.pk&&o.pk.indexOf(i)>-1?'🔑':'')+(o.fk&&o.fk.indexOf(i)>-1?'🔗':'');
+    var lab=(ic?ic+' ':'')+c;
+    h+='<th data-c="'+i+'">'+(o.onHead?'<button class="hbtn" type="button">'+lab+'</button>':lab)+'</th>';
+  });
+  h+='</tr></thead><tbody>';
+  D.rows.forEach(function(r,ri){h+='<tr data-r="'+ri+'">';r.forEach(function(v,ci){h+='<td data-c="'+ci+'">'+v+'</td>'});h+='</tr>'});
+  t.innerHTML=h+'</tbody>'; w.appendChild(t); host.appendChild(w);
+  if(o.pk) o.pk.forEach(function(c){t.querySelector('th[data-c="'+c+'"]').classList.add('pk')});
+  if(o.fk) o.fk.forEach(function(c){t.querySelector('th[data-c="'+c+'"]').classList.add('fkc')});
+  var api={t:t,
+    th:function(c){return t.querySelector('th[data-c="'+c+'"]')},
+    cells:function(c){return t.querySelectorAll('tbody td[data-c="'+c+'"]')},
+    clear:function(){t.querySelectorAll('th,td').forEach(function(e){['dup','ok','pickc','rep2','newc'].forEach(function(k){e.classList.remove(k)})})}};
+  if(o.onHead) t.querySelectorAll('th').forEach(function(th){th.querySelector('.hbtn').onclick=function(){o.onHead(+th.dataset.c)}});
+  return api;
+}
+function markRepeats(api,c){
+  var n={}, cells=api.cells(c);
+  cells.forEach(function(td){n[td.textContent]=(n[td.textContent]||0)+1});
+  cells.forEach(function(td){if(n[td.textContent]>1)td.classList.add('rep2')});
+}
+
+
+
+/* ======================= DATA (rows in entry order) ======================= */
+function D(d,m,y){return {d:d,m:m,y:y,t:Date.UTC(y,m-1,d)}}
+var DB={
+ engineer_tbl:{pk:0,cols:['eng_num','eng_name','major','salary','city','birth_date','dep_num'],types:['n','s','s','n','s','d','n'],rows:[
+   [104,'يوسف عمر','معماري',900,'رفح',D(10,10,1995),1],
+   [101,'أحمد سالم','معماري',650,'غزة',D(1,1,2000),1],
+   [107,'هبة يوسف','ديكور',500,'رفح',D(18,4,2002),3],
+   [102,'محمد ناصر','إنشاءات',480,'رفح',D(15,3,1998),2],
+   [108,'عمر سامي','بنية تحتية',380,'جباليا',D(30,6,1997),4],
+   [103,'سارة خليل','ديكور',520,'خانيونس',D(20,7,2001),3],
+   [106,'خالد محمود','إنشاءات',700,'غزة',D(25,12,1999),2],
+   [105,'ليلى حسن','بنية تحتية',450,'دير البلح',D(1,1,2000),4]]},
+ department_tbl:{pk:0,cols:['dep_num','dep_name','floor'],types:['n','s','n'],rows:[[3,'الديكور',2],[1,'المعماري',1],[4,'البنية التحتية',3],[2,'الإنشاءات',2]]},
+ project_tbl:{pk:0,cols:['proj_num','proj_name','total_cost','start_date','dep_num'],types:['n','s','n','d','n'],rows:[
+   [3,'مجمع تجاري',45000,D(1,3,2023),2],[1,'مدرسة الكرمل',30000,D(15,9,2022),1],[5,'مستشفى الشفاء',120000,D(10,1,2024),2],
+   [2,'برج فلسطين',20000,D(5,5,2021),1],[4,'جسر وادي غزة',25000,D(20,2,2023),4],[6,'مكتبة البلدية',18000,D(1,1,2023),3]]},
+ employee_tbl:{pk:0,cols:['emp_num','emp_name','emp_pay','proj_num'],types:['n','s','n','n'],rows:[
+   [205,'سامي',18,3],[201,'محمود',22,1],[204,'رامي',15,2],[202,'إياد',30,5],[206,'وليد',12,3],[203,'ناصر',20,1],[207,'فادي',25,5]]},
+ School:{pk:2,cols:['Student_number','Class_name','Class_number'],types:['n','s','n'],rows:[[22,'6A',100],[22,'6B',101],[24,'7A',102],[20,'8B',104],[25,'9A',103]]},
+ Publisher_tbl:{pk:0,cols:['Pub_id','Pub_name','Pub_address'],types:['n','s','s'],rows:[[10,'Mansour','Ramallah'],[20,'Alyazjoe','Gaza'],[30,'Alquds','Jerusalem']]},
+ Book_tbl:{pk:0,cols:['book_id','book_name','Pub_id'],types:['n','s','n'],rows:[[101,'Our Palestine',10],[102,'python',10],[103,'Education in Palestine',30],[105,'Networks',20],[104,'Data Base',20]]},
+ product:{pk:0,cols:['pro_no','pro_name','price'],types:['n','s','n'],rows:[[3,'سكر',22],[1,'أرز',18],[5,'شاي',12],[2,'طحين',25],[6,'حليب',28],[4,'زيت',35]]},
+ 'class':{pk:0,cols:['class_no','class_name','class_code'],types:['n','s','s'],rows:[[4,'العاشر','ثانوي'],[1,'الأول','أساسي'],[6,'الثاني عشر','ثانوي'],[3,'التاسع','أساسي'],[5,'الحادي عشر','ثانوي'],[2,'الثامن','أساسي']]}
+};
+DB.St_tbl={pk:0,cols:['No','St_name','St_class'],types:['n','s','s'],rows:[[102,'أحمد','12A'],[100,'محمود','12B'],[105,'سامي','11A'],[101,'رامي','12A'],[104,'خالد','11B'],[103,'يوسف','12B']]};
+DB.M_tbl={pk:0,cols:['M_ID','M_name','price','exp_date'],types:['n','s','n','d'],rows:[[18,'باراسيتامول',12,D(1,5,2025)],[12,'أموكسيسيلين',25,D(1,3,2027)],[25,'إيبوبروفين',15,D(1,8,2026)],[7,'فيتامين C',20,D(1,12,2025)],[31,'أوميبرازول',30,D(1,1,2028)]]};
+DB.Emp_tbl={pk:0,cols:['emp_id','emp_name','age','salary'],types:['n','s','n','n'],rows:[[3,'سعيد',62,1200],[1,'نادر',45,900],[5,'جمال',61,1100],[2,'منى',30,700],[4,'عادل',58,1000],[6,'سهى',65,1300]]};
+function fmt(v){return (v&&typeof v==='object')?(v.d+'/'+v.m+'/'+v.y):v}
+function srcData(t){var T=DB[t];return {name:t,cols:T.cols,rows:T.rows.map(function(r){return r.map(fmt)})}}
+function key(v){return (v&&typeof v==='object')?v.t:v}
+function cmpVal(a,b){a=key(a);b=key(b);if(typeof a==='string'&&typeof b==='string')return a.localeCompare(b,'ar',{sensitivity:'accent'});return a<b?-1:a>b?1:0}
+
+/* ======================= SQL ENGINE ======================= */
+function SqlErr(m){this.m=m}
+function tokenize(s){
+  var out=[], i=0, m;
+  while(i<s.length){
+    var c=s[i], rest=s.slice(i);
+    if(/\s/.test(c)){i++;continue}
+    if(c==='['){var e=s.indexOf(']',i+1);if(e<0)throw new SqlErr('نسيت إغلاق القوس المربع <code>]</code>.');var tx=s.slice(i+1,e).trim();if(!tx)throw new SqlErr('اكتب رسالة للمستخدم بين القوسين المربعين، مثل <code>[أدخل رقم المهندس]</code>.');out.push({t:'param',v:tx});i=e+1;continue}
+    if(c===']') throw new SqlErr('يوجد قوس مربع <code>]</code> بلا قوس فتح <code>[</code>.');
+    if(c==='،') throw new SqlErr('استخدم الفاصلة الإنجليزية <code>,</code> لا الفاصلة العربية <code>،</code>.');
+    if(c==='؛') throw new SqlErr('الفاصلة المنقوطة في نهاية الجملة إنجليزية <code>;</code>.');
+    if((m=rest.match(/^\d{1,2}\/\d{1,2}\/\d{4}/))) throw new SqlErr('التاريخ <code>'+m[0]+'</code> يوضع بين علامتي <code>#</code> هكذا: <code>#'+m[0]+'#</code>');
+    if(c==='#'){var j=s.indexOf('#',i+1);if(j<0)throw new SqlErr('نسيت علامة <code>#</code> الثانية لإغلاق التاريخ.');out.push({t:'date',v:s.slice(i+1,j)});i=j+1;continue}
+    if(c==='"'||c==="'"||c==='“'||c==='”'){var close=c==='“'?'”':c;var k=s.indexOf(close,i+1);if(k<0&&c==='”')k=s.indexOf('“',i+1);
+      if(k<0) throw new SqlErr('نسيت علامة التنصيص <code>"</code> الثانية لإغلاق النص.');out.push({t:'str',v:s.slice(i+1,k)});i=k+1;continue}
+    if((m=rest.match(/^\d+(\.\d+)?/))){out.push({t:'num',v:parseFloat(m[0])});i+=m[0].length;continue}
+    if((m=rest.match(/^(<=|>=|<>|!=|=<|=>|==|=|<|>)/))){
+      var op=m[0];
+      if(op==='==') throw new SqlErr('في SQL نكتب <code>=</code> مرة واحدة فقط، لا <code>==</code>.');
+      if(op==='=<'||op==='=>') throw new SqlErr('اكتب الأداة هكذا: <code>'+op[1]+'=</code> (العلامة = في النهاية).');
+      if(op==='!=') op='<>';
+      out.push({t:'op',v:op});i+=m[0].length;continue}
+    if((m=rest.match(/^[\p{L}_][\p{L}\p{N}_]*/u))){out.push({t:'id',v:m[0],u:m[0].toUpperCase()});i+=m[0].length;continue}
+    if(',;()*.'.indexOf(c)>-1){out.push({t:c});i++;continue}
+    throw new SqlErr('رمز غير مفهوم: <code>'+esc(c)+'</code>');
+  }
+  return out;
+}
+var KW=['SELECT','FROM','WHERE','AND','OR','NOT','ORDER','BY','ASC','DESC','AS','DELETE'];
+var AGG=['SUM','COUNT','MAX','MIN','AVG'];
+var AR_AGG={'مجموع':'SUM','جمع':'SUM','عدد':'COUNT','معدل':'AVG','متوسط':'AVG','اكبر':'MAX','أكبر':'MAX','اعلى':'MAX','أعلى':'MAX','اقل':'MIN','أقل':'MIN','ادنى':'MIN','أدنى':'MIN'};
+function parseDate(s){
+  var m=String(s).trim().replace(/^#|#$/g,'').match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+  if(!m) return null;
+  var a=+m[1], b=+m[2], y=+m[3], d, mo;
+  if(a>12){d=a;mo=b}else if(b>12){d=b;mo=a}else{mo=a;d=b}
+  return Date.UTC(y,mo-1,d);
+}
+function isAsk(s){return /^(أدخل|ادخل|إدخل|اكتب)/.test(String(s).trim())}
+function parse(sql){
+  var tk=tokenize(sql), p=0, params=[];
+  function peek(k){return tk[p+(k||0)]} function nx(){return tk[p++]}
+  function isK(t,k){return t&&t.t==='id'&&t.u===k}
+  if(!tk.length) throw new SqlErr('اكتب جملة SQL أولاً.');
+  if(isK(peek(),'DELETE')) return parseDelete();
+  if(isK(peek(),'UPDATE')||isK(peek(),'INSERT')) throw new SqlErr('في هذه الحصة نكتب جملة الحذف <code>DELETE</code>، وجملة <code>SELECT</code> للمعاينة.');
+  if(!isK(peek(),'SELECT')){
+    if(isK(peek(),'FROM')) throw new SqlErr('الجملة تبدأ بـ <code>SELECT</code> ثم الحقول، ثم <code>FROM</code> والجدول.');
+    throw new SqlErr('جملة استعلام التحديد تبدأ بالكلمة <code>SELECT</code>.');
+  }
+  nx();
+  var cols=[], items=[];
+  if(peek()&&peek().t==='*'){nx();cols='*'}
+  else{
+    while(true){
+      var t=nx();
+      if(!t||isK(t,'FROM')) throw new SqlErr('اكتب أسماء الحقول أو الدالة بعد <code>SELECT</code>.');
+      if(t.t==='id'&&AGG.indexOf(t.u)>-1){
+        var it={agg:t.u,alias:null};
+        if(!(peek()&&peek().t==='(')) throw new SqlErr('بعد اسم الدالة نكتب الحقل بين قوسين، مثل: <code>'+t.u+'(salary)</code>');
+        nx(); var a=nx();
+        if(!a||a.t===')') throw new SqlErr('اكتب اسم الحقل داخل قوسي الدالة <code>'+t.u+'( )</code>.');
+        if(a.t==='*'){if(t.u!=='COUNT')throw new SqlErr('النجمة <code>*</code> داخل القوسين تُستخدم مع <code>COUNT</code> فقط.');it.f='*'}
+        else if(a.t==='id'||a.t==='param'){if(peek()&&peek().t==='.'){nx();a=nx();if(!a)throw new SqlErr('بعد النقطة نكتب اسم الحقل.')}it.f=a.v}
+        else throw new SqlErr('داخل القوسين نكتب اسم حقل.');
+        if(!(peek()&&peek().t===')')) throw new SqlErr('نسيت إغلاق قوس الدالة <code>)</code>، أو كتبت أكثر من حقل داخله.');
+        nx();
+        if(isK(peek(),'AS')){
+          nx(); var al=nx();
+          if(!al||al.t===','||al.t===';'||isK(al,'FROM')) throw new SqlErr('بعد <code>AS</code> نكتب اسم عمود النتيجة بين علامتي تنصيص، مثل: <code>AS "مجموع الرواتب"</code>');
+          if(al.t==='str'||al.t==='param') it.alias=al.v.trim();
+          else if(al.t==='id'&&KW.indexOf(al.u)<0){it.alias=al.v;if(peek()&&peek().t==='id'&&!isK(peek(),'FROM')&&KW.indexOf(peek().u)<0)throw new SqlErr('اسم العمود المكوّن من أكثر من كلمة يوضع بين علامتي تنصيص: <code>AS "'+esc(al.v+' '+peek().v)+'"</code>')}
+          else throw new SqlErr('بعد <code>AS</code> نكتب اسم عمود النتيجة بين علامتي تنصيص.');
+          if(!it.alias) throw new SqlErr('اسم العمود بعد <code>AS</code> فارغ.');
+        }else if(peek()&&(peek().t==='str'||(peek().t==='id'&&KW.indexOf(peek().u)<0))) throw new SqlErr('نسيت كلمة <code>AS</code> قبل اسم العمود.');
+        items.push(it);
+      }else if(t.t==='id'&&peek()&&peek().t==='('){
+        var ar=AR_AGG[t.v.replace(/^ال/,'')];
+        throw new SqlErr(ar?'اسم الدالة يُكتب بالإنجليزية: <code>'+ar+'</code>':'لا توجد دالة اسمها <code>'+esc(t.v)+'</code>. دوال الإجماليات: <code>SUM, COUNT, MAX, MIN, AVG</code>'+(/^AVERAGE$/i.test(t.v)?'. والمعدل اسمه <code>AVG</code>.':''));
+      }else{
+        if(!((t.t==='id'&&KW.indexOf(t.u)<0)||t.t==='param')) throw new SqlErr('بعد <code>SELECT</code> نكتب أسماء حقول أو دالة، وجدنا: <code>'+esc(t.v||t.t)+'</code>');
+        if(peek()&&peek().t==='.'){nx();var t2=nx();if(!t2||(t2.t!=='id'&&t2.t!=='param'))throw new SqlErr('بعد النقطة نكتب اسم الحقل.');t=t2}
+        if(isK(peek(),'AS')) throw new SqlErr('في هذا الدرس نستخدم <code>AS</code> بعد الدوال الإجمالية.');
+        cols.push(t.v); items.push({f:t.v});
+      }
+      if(peek()&&peek().t===','){nx();continue}
+      if(peek()&&peek().t==='id'&&KW.indexOf(peek().u)<0) throw new SqlErr('افصل بين العناصر بفاصلة <code>,</code> قبل <code>'+esc(peek().v)+'</code>');
+      break;
+    }
+  }
+  if(isK(peek(),'ORDER')||isK(peek(),'WHERE')) throw new SqlErr('بعد الحقول نكتب <code>FROM</code> واسم الجدول أولاً؛ '+(isK(peek(),'ORDER')?'<code>ORDER BY</code> تأتي في آخر الجملة.':'ثم <code>WHERE</code> والشرط.'));
+  if(!isK(peek(),'FROM')) throw new SqlErr(peek()?'بعد الحقول نكتب <code>FROM</code> ثم اسم الجدول. وجدنا: <code>'+esc(peek().v||peek().t)+'</code>':'نسيت <code>FROM</code> واسم الجدول.');
+  nx();
+  var tt=nx();
+  if(!tt||tt.t!=='id'||KW.indexOf(tt.u)>-1) throw new SqlErr('بعد <code>FROM</code> نكتب اسم الجدول.');
+  var tname=null; for(var k in DB){if(k.toUpperCase()===tt.u)tname=k}
+  if(!tname) throw new SqlErr('لا يوجد جدول اسمه <code>'+esc(tt.v)+'</code>. الجداول المتاحة في الأزرار أعلى المحاكي.');
+  if(peek()&&peek().t===',') throw new SqlErr('في هذا الدرس نستعلم من جدول واحد فقط.');
+  var T=DB[tname];
+  function fi(name){for(var i=0;i<T.cols.length;i++)if(T.cols[i].toUpperCase()===String(name).toUpperCase())return i;return -1}
+  function badField(n){return new SqlErr('الحقل <code>'+esc(n)+'</code> غير موجود في الجدول <code>'+tname+'</code>. حقوله: <code>'+T.cols.join(', ')+'</code>')}
+  var ci=[], aggs=null;
+  var hasAgg=items.some(function(x){return x.agg}), hasPlain=items.some(function(x){return !x.agg});
+  if(hasAgg&&hasPlain) throw new SqlErr('لا نكتب حقلاً عادياً مع دالة إجمالية في الجملة نفسها؛ فالدالة تعطي <b>قيمة واحدة</b> لكل السجلات، والحقل له قيمة في كل سجل.');
+  if(hasAgg){
+    aggs=items.map(function(x){
+      var f=x.f==='*'?-1:fi(x.f);
+      if(x.f!=='*'&&f<0) throw badField(x.f);
+      if((x.agg==='SUM'||x.agg==='AVG')&&T.types[f]!=='n') throw new SqlErr('الدالة <code>'+x.agg+'</code> '+(x.agg==='SUM'?'تجمع':'تحسب معدل')+' أرقاماً، والحقل <code>'+T.cols[f]+'</code> '+(T.types[f]==='s'?'نصي':'تاريخ')+'. استخدم حقلاً رقمياً.');
+      return {agg:x.agg,f:f,alias:x.alias};
+    });
+  }
+  else if(cols==='*') ci=T.cols.map(function(c,i){return i});
+  else cols.forEach(function(c){var x=fi(c);if(x<0)throw isAsk(c)?new SqlErr('الرسالة <code>['+esc(c)+']</code> توضع في الشرط مكان القيمة، لا بعد SELECT.'):badField(c);ci.push(x)});
+  var where=null;
+  if(isK(peek(),'WHERE')){nx();where=expr()}
+  else if(peek()&&(peek().t==='id'||peek().t==='param')&&!isK(peek(),'ORDER')){
+    throw new SqlErr('الشرط يأتي بعد الكلمة <code>WHERE</code>. هل نسيتها قبل <code>'+esc(peek().v)+'</code>؟');
+  }
+  var order=null;
+  if(isK(peek(),'ORDER')){
+    nx();
+    if(!isK(peek(),'BY')) throw new SqlErr('نكتب <code>ORDER BY</code> كلمتين معاً، ثم اسم الحقل.');
+    nx(); order=[];
+    while(true){
+      var of=peek();
+      if(!of||of.t===';') throw new SqlErr('بعد <code>ORDER BY</code> نكتب اسم الحقل الذي نرتّب حسبه.');
+      if(isK(of,'ASC')||isK(of,'DESC')) throw new SqlErr('بعد <code>ORDER BY</code> يأتي <b>اسم الحقل أولاً</b> ثم نوع الترتيب، مثل: <code>ORDER BY salary '+of.u+'</code>');
+      if(of.t==='id'&&/[؀-ۿ]/.test(of.v)&&fi(of.v)<0) throw new SqlErr('بعد <code>ORDER BY</code> نكتب اسم الحقل بالإنجليزية كما في الجدول.');
+      nx(); var fx=(of.t==='id'||of.t==='param')?fi(of.v):-1; if(fx<0) throw badField(of.v||of.t);
+      var d='ASC', ex=false, nt=peek();
+      if(isK(nt,'ASC')||isK(nt,'DESC')){d=nx().u;ex=true}
+      else if(nt&&nt.t==='id'&&/^(ASCENDING|DESCENDING|UP|DOWN)$/.test(nt.u)) throw new SqlErr('نوع الترتيب يُكتب مختصراً: <code>ASC</code> للتصاعدي و<code>DESC</code> للتنازلي.');
+      else if(nt&&nt.t==='id'&&/[؀-ۿ]/.test(nt.v)) throw new SqlErr('نوع الترتيب يُكتب بالإنجليزية: <code>ASC</code> تصاعدي، <code>DESC</code> تنازلي.');
+      order.push({i:fx,d:d,ex:ex});
+      if(peek()&&peek().t===','){nx();continue}
+      break;
+    }
+    if(isK(peek(),'WHERE')) throw new SqlErr('الشرط <code>WHERE</code> يأتي <b>قبل</b> <code>ORDER BY</code>؛ فـ ORDER BY في آخر الجملة.');
+  }
+  if(peek()&&peek().t===';') nx();
+  if(peek()) throw new SqlErr('كلمة زائدة أو في غير مكانها: <code>'+esc(peek().v||peek().t)+'</code>');
+  return {table:tname,ci:ci,where:where,order:order,params:params,aggs:aggs};
+
+  function parseDelete(){
+    nx(); var star=false;
+    if(peek()&&peek().t==='*'){nx();star=true}
+    var t=peek();
+    if(!t) throw new SqlErr('بعد <code>DELETE</code> نكتب <code>FROM</code> ثم اسم الجدول.');
+    if(!isK(t,'FROM')){
+      if(t.t==='id'){
+        var isTbl=Object.keys(DB).some(function(k){return k.toUpperCase()===t.u});
+        if(isTbl) throw new SqlErr('نسيت <code>FROM</code> قبل اسم الجدول: <code>DELETE FROM '+esc(t.v)+'</code>');
+        throw new SqlErr('الحذف يكون <b>لسجلات كاملة</b>، فلا نكتب أسماء حقول أو شروطاً بعد <code>DELETE</code> مباشرة. الصيغة: <code>DELETE FROM table WHERE condition;</code>');
+      }
+      throw new SqlErr('بعد <code>DELETE</code> نكتب <code>FROM</code> ثم اسم الجدول.');
+    }
+    nx();
+    if(peek()&&peek().t==='*') throw new SqlErr('النجمة <code>*</code> لا تأتي بعد <code>FROM</code>. اكتب <code>DELETE FROM ...</code> أو <code>DELETE * FROM ...</code>');
+    var tt=nx();
+    if(!tt||tt.t!=='id'||KW.indexOf(tt.u)>-1) throw new SqlErr('بعد <code>FROM</code> نكتب اسم الجدول.');
+    tname=null; for(var k in DB){if(k.toUpperCase()===tt.u)tname=k}
+    if(!tname) throw new SqlErr('لا يوجد جدول اسمه <code>'+esc(tt.v)+'</code>. الجداول المتاحة في الأزرار أعلى المحاكي.');
+    T=DB[tname];
+    var where=null;
+    if(isK(peek(),'WHERE')){nx();where=expr()}
+    else if(peek()&&peek().t!==';') throw new SqlErr('الشرط يأتي بعد الكلمة <code>WHERE</code>'+(peek().t==='id'?'. هل نسيتها قبل <code>'+esc(peek().v)+'</code>؟':'.'));
+    if(peek()&&peek().t===';') nx();
+    if(peek()) throw new SqlErr('كلمة زائدة أو في غير مكانها: <code>'+esc(peek().v||peek().t)+'</code>');
+    return {kind:'delete',table:tname,where:where,params:params,star:star,ci:[]};
+  }
+  function expr(){var a=term();var items=[a];while(isK(peek(),'OR')){nx();items.push(term())}return items.length>1?{op:'OR',k:items}:a}
+  function term(){var a=factor();var items=[a];while(isK(peek(),'AND')){nx();items.push(factor())}return items.length>1?{op:'AND',k:items}:a}
+  function factor(){
+    var t=peek();
+    if(!t) throw new SqlErr('الشرط ناقص بعد <code>WHERE</code> أو <code>AND/OR</code>.');
+    if(isK(t,'ORDER')) throw new SqlErr('لا نربط <code>ORDER BY</code> بـ AND أو OR؛ تأتي بعد الشرط مباشرة.');
+    if(t.t==='('){
+      var a1=peek(1), a2=peek(2);
+      if(a1&&(a1.t==='id'||a1.t==='param')&&a2&&a2.t===')'){nx();nx();nx();t=a1;return cond(t)}
+      nx();var e=expr();if(!peek()||peek().t!==')')throw new SqlErr('نسيت إغلاق القوس <code>)</code>.');nx();return e;
+    }
+    if(isK(t,'NOT')){nx();return {op:'NOT',k:[factor()]}}
+    if(t.t==='param'&&fi(t.v)<0) throw new SqlErr('على يسار أداة المقارنة نكتب <b>اسم الحقل</b>، والرسالة <code>[ ]</code> توضع على اليمين مكان القيمة.');
+    if(!((t.t==='id'&&KW.indexOf(t.u)<0)||t.t==='param')) throw new SqlErr('الشرط يبدأ باسم الحقل، مثل: <code>salary &gt; 500</code>');
+    nx(); return cond(t);
+  }
+  function cond(t){
+    if(peek()&&peek().t==='.'){nx();t=nx();if(!t)throw new SqlErr('بعد النقطة نكتب اسم الحقل.')}
+    var f=fi(t.v); if(f<0) throw badField(t.v);
+    var o=nx();
+    if(!o||o.t!=='op'){
+      if(o&&(o.t==='num'||o.t==='str'||o.t==='param'))throw new SqlErr('نسيت أداة المقارنة بعد <code>'+esc(t.v)+'</code> (مثل <code>=</code> أو <code>&gt;</code>).');
+      throw new SqlErr('بعد اسم الحقل <code>'+esc(t.v)+'</code> نكتب أداة مقارنة: <code>= &lt;&gt; &gt; &lt; &gt;= &lt;=</code>');
+    }
+    var v=nx(), ty=T.types[f], val;
+    if(!v) throw new SqlErr('أين القيمة بعد <code>'+o.v+'</code>؟');
+    if(v.t==='param'){
+      if(fi(v.v)>-1) throw new SqlErr('النص داخل <code>['+esc(v.v)+']</code> هو اسم حقل، فلن يطلب البرنامج من المستخدم إدخال قيمة. اكتب رسالة، مثل <code>[أدخل ...]</code>.');
+      if(params.indexOf(v.v)<0) params.push(v.v);
+      return {f:f,o:o.v,param:v.v,txt:T.cols[f]+' '+o.v+' ['+v.v+']'};
+    }
+    if(v.t==='('){throw new SqlErr('رسالة المستخدم توضع بين قوسين <b>مربعين</b> <code>[ ]</code> لا قوسين عاديين <code>( )</code>.')}
+    if(v.t==='str'&&(isAsk(v.v)||/^\[.*\]$/.test(v.v.trim()))) throw new SqlErr('لكي يُدخل المستخدم القيمة نضع الرسالة بين قوسين مربعين <code>[ ]</code> <b>بدون</b> علامات تنصيص.');
+    if(v.t==='id'){
+      if(isAsk(v.v)) throw new SqlErr('لكي يُدخل المستخدم القيمة نضع الرسالة بين قوسين مربعين: <code>[أدخل ...]</code>');
+      if(ty==='s') throw new SqlErr('القيمة النصية توضع بين علامتي تنصيص: <code>'+esc(t.v)+' '+o.v+' "'+esc(v.v)+'"</code>');
+      throw new SqlErr('القيمة <code>'+esc(v.v)+'</code> غير مفهومة هنا.');
+    }
+    if(ty==='n'){if(v.t==='str')throw new SqlErr('الحقل <code>'+esc(t.v)+'</code> رقمي، فلا نضع قيمته بين علامتي تنصيص. اكتب: <code>'+esc(t.v)+' '+o.v+' '+esc(v.v)+'</code>');if(v.t==='date')throw new SqlErr('الحقل <code>'+esc(t.v)+'</code> رقمي وليس تاريخاً.');val=v.v}
+    else if(ty==='s'){if(v.t!=='str')throw new SqlErr('الحقل <code>'+esc(t.v)+'</code> نصي، فالقيمة توضع بين علامتي تنصيص <code>" "</code>.');val=v.v.trim()}
+    else{if(v.t==='str')throw new SqlErr('التاريخ يوضع بين علامتي <code>#</code> لا بين علامتي تنصيص: <code>#'+esc(v.v)+'#</code>');if(v.t!=='date')throw new SqlErr('التاريخ يوضع بين علامتي <code>#</code>، مثل <code>#1/1/2000#</code>');val=parseDate(v.v);if(val===null)throw new SqlErr('اكتب التاريخ بالشكل <code>#1/1/2000#</code>.')}
+    return {f:f,o:o.v,v:val,txt:T.cols[f]+' '+o.v+' '+(ty==='s'?'"'+val+'"':ty==='d'?'#'+v.v+'#':val)};
+  }
+}
+function cmpOp(a,o,b){
+  var c;
+  if(typeof a==='string'&&typeof b==='string') c=a.localeCompare(b,'ar',{sensitivity:'accent'}); else c=a<b?-1:a>b?1:0;
+  switch(o){case '=':return c===0;case '<>':return c!==0;case '>':return c>0;case '<':return c<0;case '>=':return c>=0;case '<=':return c<=0}
+}
+function evalW(w,row){
+  if(!w) return true;
+  if(w.op==='AND') return w.k.every(function(x){return evalW(x,row)});
+  if(w.op==='OR') return w.k.some(function(x){return evalW(x,row)});
+  if(w.op==='NOT') return !evalW(w.k[0],row);
+  return cmpOp(key(row[w.f]),w.o,w.v);
+}
+function conv(raw,ty,col){
+  raw=String(raw).trim();
+  if(ty==='n'){if(!/^-?\d+(\.\d+)?$/.test(raw))throw new SqlErr('الحقل <code>'+col+'</code> رقمي، وأدخلتَ «'+esc(raw)+'». أدخل رقماً فقط.');return parseFloat(raw)}
+  if(ty==='d'){var d=parseDate(raw);if(d===null)throw new SqlErr('الحقل <code>'+col+'</code> تاريخ. أدخله بالشكل 1/1/2000.');return d}
+  return raw;
+}
+function run(sql,vals,data){
+  var q=parse(sql), T0=DB[q.table], T={pk:T0.pk,cols:T0.cols,types:T0.types,rows:(data&&data[q.table])||T0.rows}, pv={};
+  q.params.forEach(function(p,i){pv[p]=vals?vals[i]:undefined});
+  (function res(w){
+    if(!w) return; if(w.k){w.k.forEach(res);return}
+    if(w.param!==undefined){
+      if(pv[w.param]===undefined) throw new SqlErr('لم تُدخل قيمة للرسالة ['+esc(w.param)+'].');
+      w.v=conv(pv[w.param],T.types[w.f],T.cols[w.f]);
+      w.txt=T.cols[w.f]+' '+w.o+' '+String(pv[w.param]).trim();
+    }
+  })(q.where);
+  var idx=[];
+  T.rows.forEach(function(r,i){if(evalW(q.where,r))idx.push(i)});
+  if(q.kind==='delete') return {q:q,vals:vals||[],del:true,idx:idx};
+  var keys=q.order||[{i:T.pk,d:'ASC'}];
+  idx.sort(function(a,b){
+    for(var k=0;k<keys.length;k++){var c=cmpVal(T.rows[a][keys[k].i],T.rows[b][keys[k].i]);if(c)return keys[k].d==='DESC'?-c:c}
+    return cmpVal(T.rows[a][T.pk],T.rows[b][T.pk]);
+  });
+  if(q.aggs){
+    var av=q.aggs.map(function(a){return aggCalc(a,T,idx)});
+    return {q:q,vals:vals||[],agg:true,idx:idx,raw:av,cols:q.aggs.map(function(a,k){return a.alias||('Expr100'+k)}),rows:[av.map(fmtAgg)]};
+  }
+  return {q:q,vals:vals||[],idx:idx,cols:q.ci.map(function(i){return T.cols[i]}),rows:idx.map(function(i){return q.ci.map(function(c){return fmt(T.rows[i][c])})})};
+}
+
+function aggCalc(a,T,idx){
+  if(a.agg==='COUNT') return idx.length;
+  if(!idx.length) return null;
+  var xs=idx.map(function(i){return T.rows[i][a.f]});
+  if(a.agg==='SUM') return xs.reduce(function(s,x){return s+x},0);
+  if(a.agg==='AVG') return xs.reduce(function(s,x){return s+x},0)/xs.length;
+  if(a.agg==='MAX') return xs.reduce(function(m,x){return cmpVal(x,m)>0?x:m});
+  return xs.reduce(function(m,x){return cmpVal(x,m)<0?x:m});
+}
+function fmtAgg(v){if(v===null||v===undefined)return '';if(typeof v==='object')return fmt(v);return Math.round(v*100)/100}
+function aggExplain(r){
+  var T=DB[r.q.table];
+  return r.q.aggs.map(function(a,k){
+    var nm='<b>'+a.agg+'('+(a.f<0?'*':T.cols[a.f])+')</b>', res=r.rows[0][k];
+    if(a.agg==='COUNT') return nm+' = <bdi dir="rtl">عدد السجلات</bdi> = <b>'+r.idx.length+'</b>';
+    if(!r.idx.length) return nm+' = <bdi dir="rtl">لا توجد سجلات تحقق الشرط</bdi>';
+    var xs=r.idx.map(function(i){return T.rows[i][a.f]});
+    var list=xs.length<=10?xs.map(fmt).join(a.agg==='SUM'||a.agg==='AVG'?' + ':' , '):'…';
+    if(a.agg==='SUM') return nm+' = '+list+' = <b>'+res+'</b>';
+    if(a.agg==='AVG'){var sm=xs.reduce(function(s,x){return s+x},0);return nm+' = ('+list+') ÷ '+xs.length+' = '+sm+' ÷ '+xs.length+' = <b>'+res+'</b>'}
+    return nm+' = '+(a.agg==='MAX'?'<bdi dir="rtl">أكبر قيمة</bdi>':'<bdi dir="rtl">أقل قيمة</bdi>')+' ( '+list+' ) = <b>'+res+'</b>';
+  }).join('<br>');
+}
+
+/* ======================= PARAMETER DIALOG ======================= */
+function askParams(list){
+  return new Promise(function(resolve){
+    var vals=[], i=0, prev=document.activeElement;
+    var ov=document.createElement('div'); ov.className='povl'; document.body.appendChild(ov);
+    function close(v){ov.remove();try{prev&&prev.focus({preventScroll:true})}catch(e){}resolve(v)}
+    function step(){
+      if(i>=list.length){close(vals);return}
+      ov.innerHTML='<div class="pdlg" role="dialog" aria-modal="true" aria-label="أدخل قيمة المعلمة"><div class="pdt">أدخل قيمة المعلمة<span>?</span></div><div class="pdb"><label for="pin">'+esc(list[i])+'</label><input id="pin" type="text" autocomplete="off"><div class="pbt"><button class="abtn ok" type="button">موافق</button><button class="abtn no" type="button">إلغاء</button></div></div></div>';
+      var inp=ov.querySelector('input'); setTimeout(function(){inp.focus()},30);
+      ov.querySelector('.ok').onclick=function(){vals.push(inp.value);i++;step()};
+      ov.querySelector('.no').onclick=function(){close(null)};
+      inp.onkeydown=function(e){if(e.key==='Enter'){e.preventDefault();ov.querySelector('.ok').click()}if(e.key==='Escape'){e.preventDefault();close(null)}};
+    }
+    step();
+  });
+}
+
+
+
+/* ======================= DELETE SIMULATOR ======================= */
+function confirmDel(n,extra){
+  return new Promise(function(resolve){
+    var prev=document.activeElement, ov=document.createElement('div'); ov.className='povl'; document.body.appendChild(ov);
+    ov.innerHTML='<div class="pdlg" role="alertdialog" aria-modal="true" aria-label="تأكيد الحذف"><div class="pdt">Microsoft Access<span>✕</span></div><div class="pdb"><div style="display:flex;gap:10px;align-items:flex-start"><span style="font-size:28px">⚠️</span><div>'+(extra||'')+'ستقوم بحذف <b>'+n+'</b> صف (صفوف) من الجدول المحدد.<br>بعد النقر فوق «نعم»، لا يمكنك استخدام الأمر «تراجع» لعكس التغييرات.<br>هل أنت متأكد من أنك تريد حذف السجلات المحددة؟</div></div><div class="pbt" style="justify-content:center"><button class="abtn ok" type="button">نعم</button><button class="abtn no" type="button">لا</button></div></div></div>';
+    function close(v){ov.remove();try{prev&&prev.focus({preventScroll:true})}catch(e){}resolve(v)}
+    var okb=ov.querySelector('.ok'); setTimeout(function(){okb.focus()},30);
+    okb.onclick=function(){close(true)}; ov.querySelector('.no').onclick=function(){close(false)};
+    ov.addEventListener('keydown',function(e){if(e.key==='Escape')close(false)});
+  });
+}
+function DelSim(id,o){
+  var root=$(id), tab=o.tables[0], ti=-1, busy=false, TL=[], data;
+  function resetData(){data={};o.tables.forEach(function(t){data[t]=DB[t].rows.map(function(r){return r.slice()})})}
+  resetData();
+  root.className='ssim';
+  root.innerHTML='<div class="sh"><b>🖥️ محاكي SQL</b><span class="ttabs">'+o.tables.map(function(t){return '<button type="button" data-t="'+t+'">'+t+'</button>'}).join('')+'</span></div>'+
+   '<div class="lbl srcL">📋 الجدول في قاعدة البيانات</div><div class="srcT"></div>'+
+   (o.tasks?'<div class="lbl">🎯 المطلوب (اختر سؤالاً)</div><ul class="tlist"></ul>':'')+
+   '<textarea spellcheck="false" placeholder="DELETE FROM ... WHERE ... ;" aria-label="اكتب جملة SQL"></textarea>'+
+   '<div class="sb"><button class="btn btn-main btn-sm run" type="button">▶ تنفيذ</button><button class="btn btn-ghost btn-sm clr" type="button">مسح</button><button class="btn btn-ghost btn-sm rst" type="button">↺ أعد البيانات</button></div>'+
+   '<div class="msg" aria-live="polite">اكتب الجملة ثم اضغط «تنفيذ».</div><div class="resA"></div><div class="resT"></div>';
+  var ta=root.querySelector('textarea'), msg=root.querySelector('.msg');
+  function src(t,rows,cap){return {name:cap||t,cols:DB[t].cols,rows:(rows||data[t]).map(function(r){return r.map(fmt)})}}
+  function clearRes(){root.querySelector('.resA').innerHTML='';root.querySelector('.resT').innerHTML=''}
+  function showSrc(t,hl,rows,cap,lbl){
+    tab=t; root.querySelectorAll('.ttabs button').forEach(function(b){b.classList.toggle('on',b.dataset.t===t)});
+    root.querySelector('.srcL').textContent=lbl||'📋 الجدول في قاعدة البيانات';
+    var api=mkTable(root.querySelector('.srcT'),src(t,rows,cap),{pk:[DB[t].pk]});
+    if(!(rows||data[t]).length){var e=document.createElement('div');e.className='note';e.textContent='الجدول فارغ: لا توجد سجلات.';root.querySelector('.srcT').appendChild(e)}
+    if(hl) hl(api); return api;
+  }
+  function fail(e){if(!(e instanceof SqlErr))throw e;msg.className='msg er';msg.innerHTML='❌ '+e.m;showSrc(tab)}
+  function exec(){
+    if(busy) return;
+    clearRes(); var sql=ta.value, q;
+    try{q=parse(sql)}catch(e){fail(e);return}
+    if(q.params.length){
+      busy=true; msg.className='msg'; msg.innerHTML='⌨️ أدخل القيمة في المربع الذي ظهر…';
+      askParams(q.params).then(function(v){busy=false;if(v===null){msg.className='msg';msg.innerHTML='أُلغي التنفيذ.';return}go2(v)});
+    }else go2([]);
+    function go2(vals){var r;try{r=run(sql,vals,data)}catch(e){fail(e);return}if(r.del)doDelete(r);else if(r.agg){msg.className='msg er';msg.innerHTML='❌ في هذه الحصة نستخدم SELECT للمعاينة فقط، بدون دوال إجمالية.'}else showSelect(r)}
+  }
+  function valsLine(r){return r.q.params.length?'<br>⌨️ القيم التي أدخلها المستخدم: '+r.q.params.map(function(p,i){return '<span class="vals">['+esc(p)+'] = <b>'+esc(r.vals[i])+'</b></span>'}).join(''):''}
+  function showSelect(r){
+    showSrc(r.q.table,function(api){
+      r.q.ci.forEach(function(c){api.th(c).classList.add('hl-col')});
+      [].forEach.call(api.t.tBodies[0].rows,function(tr,i){tr.classList.add(r.idx.indexOf(i)>-1?'match':'dim')});
+    });
+    root.querySelector('.resA').innerHTML='<div class="arrowdown">⬇</div>';
+    mkTable(root.querySelector('.resT'),{name:'نتيجة المعاينة ('+toAr(r.rows.length)+' سجل)',cols:r.cols,rows:r.rows},{}).t.classList.add('res');
+    msg.className='msg ok';
+    msg.innerHTML='👀 <b>معاينة:</b> '+toAr(r.rows.length)+' سجلات تحقق الشرط، والجدول <b>لم يتغيّر</b>. إن كانت هي المقصودة، اكتب جملة الحذف بالشرط نفسه.'+valsLine(r);
+    if(o.tasks&&ti>-1){
+      var eq=parse(TL[ti].a);
+      if(eq.kind==='delete') msg.innerHTML+='<br>👍 معاينة جيدة! المطلوب الآن جملة <code>DELETE</code> بالشرط نفسه.';
+    }
+  }
+  function doDelete(r){
+    var t=r.q.table, before=data[t].map(function(x){return x.slice()}), n=r.idx.length;
+    showSrc(t,function(api){[].forEach.call(api.t.tBodies[0].rows,function(tr,i){if(r.idx.indexOf(i)>-1)tr.classList.add('bad')})});
+    msg.className='msg'; msg.innerHTML='⚠️ السجلات المظللة بالأحمر ستُحذف ('+toAr(n)+'). أكّد الحذف في الرسالة.';
+    busy=true;
+    confirmDel(n).then(function(yes){
+      busy=false;
+      if(!yes){showSrc(t);msg.className='msg';msg.innerHTML='↩️ اخترت «لا»، فأُلغي الحذف ولم يتغيّر شيء.';return}
+      data[t]=data[t].filter(function(row,i){return r.idx.indexOf(i)<0});
+      showSrc(t,function(api){[].forEach.call(api.t.tBodies[0].rows,function(tr,i){if(r.idx.indexOf(i)>-1)tr.classList.add('bad')})},before,t+' (قبل الحذف)','📋 الجدول قبل التنفيذ: الأحمر هو ما حُذف');
+      root.querySelector('.resA').innerHTML='<div class="arrowdown" style="color:var(--red)">⬇</div>';
+      var api=mkTable(root.querySelector('.resT'),src(t,null,t+' بعد الحذف ('+toAr(data[t].length)+' سجل)'),{pk:[DB[t].pk]});
+      if(!data[t].length){var e=document.createElement('div');e.className='note';e.innerHTML='🫙 الجدول ما زال موجوداً بحقوله، لكنه <b>فارغ</b>.';root.querySelector('.resT').appendChild(e)}
+      var h=n?'🗑️ حُذف '+toAr(n)+' سجل كامل، وبقي '+toAr(data[t].length)+'. لاحظ: الجدول نفسه وحقوله باقية.':'ℹ️ لم يُحذف أي سجل؛ لا توجد سجلات تحقق الشرط.';
+      if(!r.q.where&&n) h+='<br>⚠️ الجملة <b>بلا شرط</b>، فحُذفت <b>كل</b> السجلات!';
+      msg.className='msg ok'; msg.innerHTML=h+valsLine(r);
+      if(o.tasks&&ti>-1) checkTask(r,before);
+    });
+  }
+  function wrong(m){msg.className='msg er';msg.innerHTML+='<br>🤔 '+m+'<br>اضغط «↺ أعد البيانات» وجرّب مرة أخرى.'}
+  function checkTask(r,before){
+    var T=TL[ti], eq=parse(T.a);
+    if(eq.params.length&&!r.q.params.length) return wrong('المطلوب أن <b>يُدخل المستخدم</b> القيمة عند التنفيذ: ضع رسالة بين <code>[ ]</code> مكان القيمة.');
+    if(!eq.params.length&&r.q.params.length) return wrong('السؤال حدّد القيمة، فاكتبها مباشرة في الشرط دون <code>[ ]</code>.');
+    if(eq.params.length!==r.q.params.length) return wrong('عدد القيم التي يُدخلها المستخدم غير المطلوب.');
+    if(eq.table!==r.q.table) return wrong('حذفت من جدول غير المطلوب.');
+    var snap={}; snap[r.q.table]=before;
+    var exp; try{exp=run(T.a,r.vals,snap)}catch(e){return wrong('راجع الشرط.')}
+    if(r.idx.slice().sort().join()!==exp.idx.slice().sort().join()) return wrong('السجلات المحذوفة غير المطلوبة؛ راجع الشرط.'+(T.h?' تلميح: '+T.h:''));
+    var li=root.querySelectorAll('.tlist li.tk')[ti];
+    li.classList.add('done');li.querySelector('.st').textContent='✓';
+    msg.innerHTML+='<br>🎉 <b>إجابة صحيحة!</b> قارن الجدول قبل الحذف وبعده.';
+    var nxt=TL.findIndex(function(t,k){return !root.querySelectorAll('.tlist li.tk')[k].classList.contains('done')});
+    if(nxt>-1){var nb=document.createElement('button');nb.type='button';nb.className='btn btn-main btn-sm';nb.style.marginInlineStart='8px';nb.textContent='السؤال التالي ‹';nb.onclick=function(){pick(nxt);ta.focus()};msg.appendChild(nb)}
+    else msg.innerHTML+=' <b>🏆 أنهيت كل الأسئلة!</b>';
+  }
+  function pick(k){
+    ti=k; root.querySelectorAll('.tlist li.tk').forEach(function(li,i){li.classList.toggle('cur',i===k)});
+    ta.value=''; clearRes(); resetData();
+    showSrc(parse(TL[k].a).table);
+    msg.className='msg'; msg.innerHTML='🎯 '+TL[k].q;
+  }
+  if(o.tasks){
+    var ul=root.querySelector('.tlist');
+    o.tasks.forEach(function(t){
+      if(t.g){var g=document.createElement('li');g.className='grp';g.innerHTML=t.g;ul.appendChild(g)}
+      var k=TL.length; TL.push(t);
+      var li=document.createElement('li'); li.className='tk';
+      li.innerHTML='<span class="st">'+toAr(k+1)+'</span><span>'+t.q+(t.src?' <span class="qsrc">'+t.src+'</span>':'')+'</span><button class="hb" type="button">الحل</button>';
+      li.onclick=function(e){
+        if(e.target.classList.contains('hb')){pick(k);ta.value=t.a;msg.className='msg';msg.innerHTML='👀 هذا هو الحل. نفّذه وافهمه، ثم جرّب السؤال التالي بنفسك.';e.stopPropagation();return}
+        pick(k);
+      };
+      ul.appendChild(li);
+    });
+  }
+  root.querySelectorAll('.ttabs button').forEach(function(b){b.onclick=function(){clearRes();showSrc(b.dataset.t)}});
+  root.querySelector('.run').onclick=exec;
+  root.querySelector('.clr').onclick=function(){ta.value='';clearRes();showSrc(tab);msg.className='msg';msg.innerHTML=ti>-1?'🎯 '+TL[ti].q:'اكتب الجملة ثم اضغط «تنفيذ».';ta.focus()};
+  root.querySelector('.rst').onclick=function(){resetData();clearRes();showSrc(tab);msg.className='msg';msg.innerHTML='↺ عادت البيانات كما كانت.'+(ti>-1?' 🎯 '+TL[ti].q:'')};
+  ta.addEventListener('keydown',function(e){if(e.key==='Enter'&&(e.ctrlKey||e.metaKey)){e.preventDefault();exec()}});
+  showSrc(tab);
+  return {load:function(s){ti=-1;root.querySelectorAll('.tlist li').forEach(function(li){li.classList.remove('cur')});resetData();ta.value=s;root.scrollIntoView({behavior:'smooth',block:'start'});exec()}};
+}
+
+/* ======================= STATIONS ======================= */
+function codeEx(host,out,parts){
+  parts.forEach(function(p){
+    var b=document.createElement('button'); b.type='button'; b.textContent=p[0]; if(p[2])b.className='kw';
+    b.onclick=function(){$(host).querySelectorAll('button').forEach(function(x){x.classList.remove('on')});b.classList.add('on');$(out).className='out';$(out).innerHTML='<b dir="ltr">'+esc(p[0])+'</b> : '+p[1]};
+    $(host).appendChild(b);
+  });
+}
+qa('q0','dml',function(){},'حذف <b>سجل</b> يقع على البيانات داخل الجدول ⟵ DML. أما حذف <b>الجدول نفسه</b> فهو DDL.',{ddl:'DDL لحذف الجدول نفسه أو تعديل تصميمه، لا السجلات.',dcl:'DCL للصلاحيات.'});
+codeEx('exD','oexD',[
+ ['DELETE','<b>احذف</b>: بداية جملة استعلام الحذف. لا نكتب بعدها أسماء حقول، لأن الحذف لسجلات كاملة.',1],
+ ['FROM','<b>من</b>، وبعدها اسم الجدول.',1],
+ ['engineer_tbl','الجدول الذي نحذف منه.'],
+ ['WHERE','<b>بشرط</b>: تحدد السجلات التي ستُحذف. إن لم نكتبها حُذفت كل السجلات!',1],
+ ['eng_num = 108','الشرط: السجل الذي رقم مهندسه 108 فقط.'],
+ [';','نهاية الجملة.']
+]);
+
+var S2=DelSim('sim2',{tables:['School','product']});
+qa('q2','b',function(){},'تُحذف كل السجلات ويبقى الجدول بحقوله فارغاً. نفّذ لتتأكد.',{a:'حذف الجدول نفسه يكون بأوامر DDL، لا بـ DELETE.',c:'لا يوجد شرط يحدد سجلاً، فالحذف يشمل الجميع.'});
+
+var S3=DelSim('sim3',{tables:['engineer_tbl','project_tbl','employee_tbl'],tasks:[
+ {g:'👷‍♂️ جدول المهندسين',q:'احذف المهندس رقم 105.',a:'DELETE FROM engineer_tbl WHERE eng_num = 105;'},
+ {q:'احذف مهندسي «بنية تحتية».',a:'DELETE FROM engineer_tbl WHERE major = "بنية تحتية";'},
+ {q:'احذف المهندسين الذين رواتبهم أقل من 450.',a:'DELETE FROM engineer_tbl WHERE salary < 450;'},
+ {q:'احذف المهندسين المولودين قبل 1/1/1998.',a:'DELETE FROM engineer_tbl WHERE birth_date < #1/1/1998#;',h:'«قبل» = أصغر من، والتاريخ بين # #.'},
+ {q:'احذف مهندسي رفح الذين رواتبهم أقل من 500.',a:'DELETE FROM engineer_tbl WHERE city = "رفح" AND salary < 500;'},
+ {g:'🏗️ المشاريع والعمال',q:'احذف المشاريع التي تكلفتها أقل من 20000 أو بدأت قبل 1/1/2022.',a:'DELETE FROM project_tbl WHERE total_cost < 20000 OR start_date < #1/1/2022#;'},
+ {q:'احذف العمال الذين يعملون في المشروع 3 أو المشروع 5.',a:'DELETE FROM employee_tbl WHERE proj_num = 3 OR proj_num = 5;'}
+]});
+[['المهندس رقم 108','engineer_tbl WHERE eng_num = 108'],
+ ['المهندسون الذين يسكنون في جباليا','engineer_tbl WHERE city = "جباليا"'],
+ ['المولودون قبل 1/1/1998','engineer_tbl WHERE birth_date < #1/1/1998#'],
+ ['مهندسو رفح ورواتبهم أقل من 500 (AND)','engineer_tbl WHERE city = "رفح" AND salary < 500'],
+ ['مهندسو «ديكور» أو من رواتبهم أكبر من 800 (OR)','engineer_tbl WHERE major = "ديكور" OR salary > 800']
+].forEach(function(x){
+  var tr=document.createElement('tr');
+  tr.innerHTML='<td>'+x[0]+'<div style="direction:ltr;text-align:left;font-family:Consolas,monospace;font-size:13px;color:var(--ink-soft)">… FROM '+codeHtml(x[1])+';</div></td><td style="white-space:nowrap"><button class="btn btn-ghost btn-sm" type="button">👀 معاينة</button> <button class="btn btn-ghost btn-sm" type="button" style="color:var(--red)">🗑️ حذف</button></td>';
+  var b=tr.querySelectorAll('button');
+  b[0].onclick=function(){S3.load('SELECT * FROM '+x[1]+';')};
+  b[1].onclick=function(){S3.load('DELETE FROM '+x[1]+';')};
+  $('exW').appendChild(tr);
+});
+
+var S4=DelSim('sim4',{tables:['engineer_tbl','product','employee_tbl'],tasks:[
+ {q:'احذف المهندس الذي يُدخل المستخدم رقمه.',a:'DELETE FROM engineer_tbl WHERE eng_num = [أدخل رقم المهندس];'},
+ {q:'احذف السلعة التي يُدخل المستخدم اسمها.',a:'DELETE FROM product WHERE pro_name = [أدخل اسم السلعة];',h:'لا تنصيص حول [ ].'},
+ {q:'احذف العمال الذين أجرتهم أقل من قيمة يُدخلها المستخدم.',a:'DELETE FROM employee_tbl WHERE emp_pay < [أدخل الأجرة];'},
+ {q:'احذف المهندسين الذين يسكنون في المدينة التي يُدخلها المستخدم <b>و</b>يعملون في القسم الذي يُدخل رقمه.',a:'DELETE FROM engineer_tbl WHERE city = [أدخل المدينة] AND dep_num = [أدخل رقم القسم];'}
+]});
+
+/* ---------- 5: cascade ---------- */
+erd($('erd5'),{ents:[{id:'p',name:'دار النشر',x:292,y:60,w:118},{id:'b',name:'الكتاب',x:68,y:60,w:108}],
+  rels:[{a:'p',b:'b',verb:'تنشر',x:180,y:60,cards:[{id:'b',x:132,y:38,t:'∞'},{id:'p',x:228,y:38,t:'1'}]}]});
+var cas={tried:{}};
+function casMode(){var r=document.querySelector('input[name=rimode]:checked');return r?r.value:'ri'}
+function casDraw(mk){
+  mk=mk||{};
+  var a=mkTable($('c5a'),{name:'Publisher_tbl',cols:DB.Publisher_tbl.cols,rows:cas.P},{pk:[0]});
+  var b=mkTable($('c5b'),{name:'Book_tbl',cols:DB.Book_tbl.cols,rows:cas.B},{pk:[0],fk:[2]});
+  [].forEach.call(a.t.tBodies[0].rows,function(tr,i){var c=(mk.P||{})[cas.P[i][0]];if(c)tr.classList.add(c)});
+  [].forEach.call(b.t.tBodies[0].rows,function(tr,i){var c=(mk.B||{})[cas.B[i][0]];if(c)tr.classList.add(c)});
+}
+function casMsg(cls,h){$('o5').className='out '+cls;$('o5').innerHTML=h}
+function casReset(){
+  cas.P=DB.Publisher_tbl.rows.map(function(r){return r.slice()});
+  cas.B=DB.Book_tbl.rows.map(function(r){return r.slice()});
+  casDraw(); casMsg('','↺ البيانات كما كانت. اختر حالة ثم نفّذ.');
+}
+function hasPub30(){return cas.P.some(function(r){return r[0]===30})}
+function casRun(){
+  if(!hasPub30()){casMsg('warn','دار النشر 30 محذوفة أصلاً. اضغط «↺ أعد البيانات».');return}
+  var m=casMode();
+  if(m==='ri'){
+    if(!cas.B.some(function(r){return r[2]===30})){
+      casDraw({P:{30:'bad'}});
+      confirmDel(1).then(function(y){if(!y){casDraw();casMsg('','↩️ أُلغي الحذف.');return}cas.P=cas.P.filter(function(r){return r[0]!==30});casDraw();casMsg('good','🗑️ حُذفت دار النشر 30 لأنه لم يبقَ لها كتب مرتبطة، فلا يمنع التكامل المرجعي حذفها. اضغط «↺ أعد البيانات» لترى الحالة الأصلية.')});
+      return;
+    }
+    cas.tried.ri=1; casDraw({P:{30:'rep2'},B:{103:'rep2'}});
+    casMsg('bad','⛔ رسالة أكسس: <b>لا يمكن حذف السجل أو تغييره لأن الجدول «Book_tbl» يتضمن سجلات مرتبطة.</b><br>الكتاب 103 تابع لدار النشر 30 (البرتقالي)، والتكامل المرجعي يمنع بقاء كتاب بلا دار نشر. <b>لم يُحذف شيء.</b>');
+    fin5(); return;
+  }
+  var orphan=cas.B.filter(function(r){return r[2]===30}).map(function(r){return r[0]});
+  var mk={P:{30:'bad'},B:{}}; if(m==='cas') orphan.forEach(function(id){mk.B[id]='bad'});
+  casDraw(mk);
+  confirmDel(1,m==='cas'?'العلاقات التي تحدد <b>تتالي الحذف</b> ستتسبب في حذف سجلات من هذا الجدول ومن الجداول المرتبطة.<br>':'').then(function(yes){
+    if(!yes){casDraw();casMsg('','↩️ أُلغي الحذف.');return}
+    cas.P=cas.P.filter(function(r){return r[0]!==30});
+    if(m==='cas'){
+      cas.B=cas.B.filter(function(r){return r[2]!==30}); cas.tried.cas=1; casDraw();
+      casMsg('good','🗑️ حُذفت دار النشر 30، و<b>حُذف معها تلقائياً</b> الكتاب 103 «Education in Palestine» من جدول الكتاب، لأنه مرتبط بها.');
+    }else{
+      cas.tried.none=1; var o={B:{}}; orphan.forEach(function(id){o.B[id]='orph'}); casDraw(o);
+      casMsg('warn','⚠️ حُذفت دار النشر 30 <b>وحدها</b>، وبقي الكتاب 103 في جدوله وقيمة مفتاحه الأجنبي <bdi dir="ltr">Pub_id = 30</bdi>، أي أنه مرتبط بدار نشر <b>لم تعد موجودة!</b><br>هذا خلل في البيانات: كتاب مرتبط بلا شيء. ولمنعه نفعّل <b>فرض التكامل المرجعي</b>.');
+    }
+    fin5();
+  });
+}
+function childRun(){
+  if(!cas.B.some(function(r){return r[0]===103})){casMsg('warn','الكتاب 103 محذوف أصلاً. اضغط «↺ أعد البيانات».');return}
+  var keepP=hasPub30()?{30:'match'}:{};
+  casDraw({B:{103:'bad'},P:keepP});
+  confirmDel(1).then(function(yes){
+    if(!yes){casDraw();casMsg('','↩️ أُلغي الحذف.');return}
+    cas.B=cas.B.filter(function(r){return r[0]!==103}); cas.tried.child=1; casDraw({P:keepP});
+    casMsg('good','🗑️ حُذف الكتاب 103 <b>وحده</b>'+(hasPub30()?'، وبقيت دار النشر 30 (بالأخضر) كما هي':'')+'. الحذف من جدول <b>المفتاح الأجنبي</b> لا يؤثر على جدول <b>المفتاح الأساسي</b> في أي من الحالات الثلاث؛ فلا خلل في أن تبقى دار نشر بلا كتب.');
+    fin5();
+  });
+}
+function fin5(){
+  document.querySelectorAll('#pc5 span').forEach(function(sp){sp.classList.toggle('done',!!cas.tried[sp.dataset.k])});
+  if(cas.tried.none&&cas.tried.ri&&cas.tried.cas&&cas.tried.child){$('con5').classList.remove('hide');$('con5').classList.add('reveal');$('q5').classList.remove('locked')}
+}
+casReset(); casMsg('','اختر حالة ثم نفّذ. جرّب الحالات الأربع لتظهر الخلاصة.');
+qa('q5','d',function(){},'التكامل المرجعي مع خيار «تتالي حذف السجلات المرتبطة».',{a:'العلاقة تربط الجداول، لكن الحذف المتتالي خيار من خيارات التكامل المرجعي.',b:'عرض البيانات لا يحذف شيئاً.',c:'الحقول المشتركة هي المفاتيح، وليست خاصية حذف.'});
+
+/* ---------- 6: enrichment ---------- */
+var S6=DelSim('sim6',{tables:['St_tbl','M_tbl','product','Emp_tbl','Book_tbl','School'],tasks:[
+ {g:'📝 أسئلة امتحانات',q:'احذف جميع بيانات الطالب الذي رقمه (No = 100) من جدول الطلاب St_tbl.',src:'(٢٠ د١)',a:'DELETE FROM St_tbl WHERE No = 100;'},
+ {q:'احذف الدواء الذي رقمه (M_ID = 18) من الجدول M_tbl.',src:'(١٩ د١)',a:'DELETE FROM M_tbl WHERE M_ID = 18;'},
+ {q:'حذف السلعة ذات الرقم pro_no = 5.',src:'(٢١ د٢)',a:'DELETE FROM product WHERE pro_no = 5;'},
+ {q:'احذف سجلات الموظفين الذين تزيد أعمارهم (age) عن 60 من جدول الموظفين Emp_tbl.',src:'(٢٠ د٢)',a:'DELETE FROM Emp_tbl WHERE age > 60;'},
+ {q:'نفّذ وظيفة الجملة: احذف جميع سجلات جدول School.',src:'(ما وظيفة)',a:'DELETE * FROM School;'},
+ {g:'💪 تدريبات إضافية',q:'احذف الأدوية التي انتهى تاريخها (exp_date) قبل 1/1/2026.',a:'DELETE FROM M_tbl WHERE exp_date < #1/1/2026#;'},
+ {q:'احذف طلاب الصف 12B من جدول St_tbl.',a:'DELETE FROM St_tbl WHERE St_class = "12B";'},
+ {q:'احذف الكتب التابعة لدار النشر 20.',a:'DELETE FROM Book_tbl WHERE Pub_id = 20;'},
+ {q:'احذف السلع التي سعرها أكبر من 30 أو أقل من 15.',a:'DELETE FROM product WHERE price > 30 OR price < 15;'},
+ {q:'احذف الموظف الذي يُدخل المستخدم رقمه من Emp_tbl.',a:'DELETE FROM Emp_tbl WHERE emp_id = [أدخل رقم الموظف];'}
+]});
+
+/* ---------- 7: choose ---------- */
+var CH=[
+ {q:'ما جملة SQL المستخدمة لحذف الدواء الذي رقمه (M_ID=18) من الجدول (M_tbl)؟ <span class="qsrc">(١٩ د١)</span>',o:[
+   ['DELETE FROM M_tbl WHERE M_ID=18',''],
+   ['DELETE M_ID=18 FROM M_tbl','الشرط يأتي بعد WHERE في آخر الجملة.'],
+   ['DELETE M_ID WHERE 18','نسيت FROM والجدول، والشرط ناقص.'],
+   ['DELETE M_tbl WHERE 18','نسيت FROM، والشرط يحتاج اسم الحقل.']],a:0},
+ {q:'ما جملة SQL المناسبة لحذف جميع بيانات الطالب الذي رقمه (NO يساوي 100) من جدول الطالب (St_tbl)؟ <span class="qsrc">(٢٠ د١)</span>',o:[
+   ['Delete from St_tbl Where No= 100;',''],
+   ['Delete from* St_tbl Where No= 100;','النجمة لا تأتي بعد from.'],
+   ['Delete from St_tbl No= 100;','نسيت WHERE قبل الشرط.'],
+   ['Delete from No Where St_tb= 100;','بعد from اسم الجدول، لا اسم الحقل.']],a:0},
+ {q:'ما وظيفة الجملة <b dir="ltr">Delete * FROM School;</b>؟',o:[
+   ['حذف جدول School من قاعدة البيانات.','الجدول يبقى، والحذف للسجلات.'],
+   ['حذف جميع سجلات جدول School.',''],
+   ['حذف أول سجل في جدول School.','لا يوجد شرط يحدد سجلاً واحداً.'],
+   ['عرض جميع سجلات جدول School.','العرض يكون بـ SELECT.']],a:1,ar:1},
+ {q:'حذف المهندس الذي يُدخل المستخدم رقمه:',o:[
+   ['DELETE eng_num FROM engineer_tbl WHERE eng_num = [أدخل الرقم];','لا نكتب أسماء حقول بعد DELETE.'],
+   ['DELETE FROM engineer_tbl WHERE eng_num = "[أدخل الرقم]";','لا نضع [ ] بين علامتي تنصيص.'],
+   ['DELETE FROM engineer_tbl WHERE eng_num = [أدخل الرقم];',''],
+   ['DELETE FROM engineer_tbl eng_num = [أدخل الرقم];','نسيت WHERE.']],a:2},
+ {q:'حذف مهندسي رفح الذين رواتبهم أقل من 500 (الشرطان معاً):',o:[
+   ['DELETE FROM engineer_tbl WHERE city = "رفح" OR salary < 500;','OR تحذف كل مهندسي رفح وكل من راتبه أقل من 500!'],
+   ['DELETE FROM engineer_tbl WHERE city = "رفح" AND salary < 500;',''],
+   ['DELETE FROM engineer_tbl WHERE city = رفح AND salary < 500;','النص بين علامتي تنصيص.'],
+   ['DELETE FROM engineer_tbl WHERE city = "رفح", salary < 500;','الشروط تُربط بـ AND لا بالفاصلة.']],a:1}
+];
+CH.forEach(function(c,i){
+  var box=document.createElement('div'); box.className='qa'+(i?' locked':''); box.id='ch'+i;
+  box.innerHTML='<div class="qq">'+toAr(i+1)+'. '+c.q+'</div><div class="ab col">'+c.o.map(function(x,k){return '<button class="'+(c.ar?'':'codeopt')+'" data-v="'+k+'" style="text-align:'+(c.ar?'right':'left')+'">'+(c.ar?esc(x[0]):codeHtml(x[0]))+'</button>'}).join('')+'</div><div class="fb"></div>';
+  $('chHost').appendChild(box);
+  var wrong={}; c.o.forEach(function(x,k){if(k!==c.a)wrong[k]=x[1]});
+  qa('ch'+i,String(c.a),function(){},'صحيحة.',wrong,i<CH.length-1?'ch'+(i+1):null);
+});
+
+var FL=[
+ ['تبدأ جملة استعلام الحذف بالكلمة',['SELECT','DELETE','DROP'],1,'.'],
+ ['بعد DELETE نكتب',['أسماء الحقول','FROM ثم اسم الجدول','WHERE'],1,'.'],
+ ['يحذف استعلام الحذف',['سجلات كاملة','حقولاً','الجدول نفسه'],0,'.'],
+ ['إذا لم نكتب WHERE في جملة الحذف',['لا يُحذف شيء','تُحذف كل السجلات','يُحذف الجدول'],1,'.'],
+ ['يُحدَّد السجل المراد حذفه بعد الكلمة',['FROM','WHERE','SET'],1,'.'],
+ ['بعد «نعم» في رسالة تأكيد الحذف',['يمكن التراجع','لا يمكن التراجع','يُحذف الجدول'],1,'.'],
+ ['لمعاينة السجلات قبل حذفها ننفّذ جملة',['SELECT','UPDATE','INSERT INTO'],0,' بالشرط نفسه.'],
+ ['لحذف السجلات المرتبطة تلقائياً نفعّل خيار',['تتالي حذف السجلات المرتبطة','فرز تصاعدي','إظهار'],0,' مع التكامل المرجعي.'],
+ ['استعلام الحذف من أوامر لغة',['DDL','DCL','DML'],2,'.']
+];
+FL.forEach(function(f,i){
+  var li=document.createElement('li');
+  li.innerHTML=toAr(i+1)+'. '+f[0]+' <select class="blank" data-i="'+i+'" aria-label="الفراغ '+toAr(i+1)+'"><option value="">……</option>'+f[1].map(function(o,k){return '<option value="'+k+'">'+esc(o)+'</option>'}).join('')+'</select>'+f[3];
+  $('fills').appendChild(li);
+});
+function checkFill(){
+  var ok=0, empty=0;
+  document.querySelectorAll('#fills .blank').forEach(function(s){
+    var f=FL[+s.dataset.i]; s.classList.remove('ok','bad');
+    if(s.value===''){empty++;return}
+    if(+s.value===f[2]){s.classList.add('ok');ok++}else s.classList.add('bad');
+  });
+  $('o7').className='out'+(ok===FL.length?' good':' warn');
+  $('o7').innerHTML=ok===FL.length?'✅ <b>ممتاز!</b> كل الفراغات صحيحة.':'أجبت '+toAr(ok)+' من '+toAr(FL.length)+' صحيحة'+(empty?'، وبقي '+toAr(empty)+' فارغ':'')+'. صحّح الفراغات الحمراء ثم تحقّق مجدداً.';
+}
+
+/* ---------- quiz ---------- */
+function L(s){return '<bdi dir="ltr">'+s+'</bdi>'}
+var QUIZ=[
+ {q:"ما جملة SQL المستخدمة لحذف الدواء الذي رقمه (M_ID=18) من الجدول (M_tbl)؟",src:"(١٩ د١)",o:[L("DELETE FROM M_tbl WHERE M_ID=18"),L("DELETE M_ID=18 FROM M_tbl"),L("DELETE M_ID WHERE 18"),L("DELETE M_tbl WHERE 18")],a:0,e:"DELETE FROM الجدول WHERE الشرط."},
+ {q:"ما جملة SQL المناسبة لحذف جميع بيانات الطالب الذي رقمه (NO يساوي 100) من جدول الطالب (St_tbl)؟",src:"(٢٠ د١)",o:[L("Delete from St_tbl Where No= 100;"),L("Delete from* St_tbl Where No= 100;"),L("Delete from St_tbl No= 100;"),L("Delete from No Where St_tb= 100;")],a:0,e:"WHERE قبل الشرط، والجدول بعد from."},
+ {q:"ما الخاصية التي من خلالها يتم حذف كامل السجلات المرتبطة في الجداول الأخرى عند حذف سجل معين؟",src:"(٢٠ د٢)",o:["العلاقات","عرض البيانات","الحقول المشتركة","التكامل المرجعي"],a:3,e:"مع خيار «تتالي حذف السجلات المرتبطة»."},
+ {q:"ناتج تنفيذ "+L("DELETE * FROM School;")+":",o:["حذف جدول School","حذف جميع سجلات جدول School ويبقى الجدول فارغاً","حذف حقول الجدول","لا يحدث شيء"],a:1,e:"لا يوجد شرط، فتُحذف كل السجلات."},
+ {q:"استعلام الحذف DELETE يحذف:",o:["سجلات كاملة","حقلاً من الجدول","الجدول نفسه","قاعدة البيانات"],a:0,e:"ولا يحذف الحقول أو الجدول."},
+ {q:"في جملة الحذف تأتي الكلمة WHERE:",o:["قبل FROM","بعد اسم الجدول","بعد DELETE مباشرة","لا تُستخدم مع الحذف"],a:1,e:"DELETE FROM الجدول WHERE الشرط."},
+ {q:"لحذف المهندس الذي يُدخل المستخدم رقمه نكتب الشرط:",o:[L("eng_num = [أدخل رقم المهندس]"),L("eng_num = \"أدخل رقم المهندس\""),L("[eng_num] = أدخل"),L("eng_num = (أدخل رقم المهندس)")],a:0,e:"الرسالة بين [ ] مكان القيمة."},
+ {q:"الجملة "+L('DELETE FROM engineer_tbl WHERE city = "رفح" OR salary < 500;')+" تحذف:",o:["مهندسي رفح الذين رواتبهم أقل من 500 فقط","كل مهندسي رفح، وكل من راتبه أقل من 500","لا شيء","مهندسي رفح فقط"],a:1,e:"OR يكفي فيها تحقق أحد الشرطين."},
+ {q:"حذف دار نشر لها كتب مرتبطة <b>بدون</b> تفعيل التكامل المرجعي:",o:["يرفض البرنامج الحذف","تُحذف دار النشر وكتبها","تُحذف دار النشر وحدها، وتبقى كتبها مرتبطة بدار نشر غير موجودة","يُحذف جدول الكتاب"],a:2,e:"ولمنع هذا الخلل نفعّل فرض التكامل المرجعي."},
+ {q:"حذف كتاب من جدول الكتاب (جدول المفتاح الأجنبي):",o:["تُحذف دار النشر المرتبطة به","يُحذف الكتاب وحده ولا تتأثر دار النشر","يرفض البرنامج الحذف دائماً","تُحذف كل كتب دار النشر"],a:1,e:"الحذف المتتالي يكون من جدول المفتاح الأساسي إلى المرتبط، لا العكس."},
+ {q:"حذف دار نشر لها كتب مرتبطة مع تفعيل التكامل المرجعي فقط (بدون تتالي الحذف):",o:["تُحذف دار النشر وكتبها","يرفض البرنامج الحذف","تُحذف الكتب فقط","يُحذف جدول الكتاب"],a:1,e:"حتى لا تبقى كتب مرتبطة بدار نشر غير موجودة."}
+];
+var quizStarted=false, qi=0, score=0, answered=false;
+function startQuiz(){quizStarted=true;qi=0;score=0;renderQ()}
+function renderQ(){
+  answered=false;
+  $('qbar').style.width=(qi/QUIZ.length*100)+'%';
+  if(qi>=QUIZ.length) return renderResult();
+  var Q=QUIZ[qi], marks=["أ","ب","ج","د"];
+  var h='<div class="qmeta"><span>السؤال '+toAr(qi+1)+' من '+toAr(QUIZ.length)+'</span><span id="qsc">النقاط: '+toAr(score)+'</span></div>';
+  h+='<div class="qtext">'+Q.q+(Q.src?' <span class="qsrc">'+Q.src+'</span>':'')+'</div><div class="opts">';
+  Q.o.forEach(function(op,k){h+='<button class="opt" onclick="answer('+k+')"><span class="mk">'+marks[k]+'</span><span>'+op+'</span></button>'});
+  h+='</div><div class="explain" id="explain"></div><div class="navbtns"><span></span><button class="btn btn-main" id="nextQ" onclick="nextQ()" disabled>التالي ‹</button></div>';
+  $('qwrap').innerHTML=h;
+}
+function answer(k){
+  if(answered) return; answered=true;
+  var Q=QUIZ[qi], opts=document.querySelectorAll('#qwrap .opt');
+  opts.forEach(function(o){o.classList.add('locked')});
+  opts[Q.a].classList.add('correct');
+  if(k===Q.a) score++; else opts[k].classList.add('wrong');
+  var ex=$('explain'); ex.innerHTML=(k===Q.a?'✅ إجابة صحيحة! ':'❌ ليست صحيحة. ')+Q.e; ex.classList.add('show');
+  $('nextQ').disabled=false; $('qsc').textContent='النقاط: '+toAr(score);
+}
+function nextQ(){qi++;renderQ()}
+function renderResult(){
+  $('qbar').style.width='100%';
+  var pct=Math.round(score/QUIZ.length*100);
+  var msg=pct>=80?"ممتاز! أتقنت الدرس.":pct>=50?"جيد، راجع المحطات التي أخطأت فيها.":"لا بأس، أعد المحطات ثم حاول مجدداً.";
+  $('qwrap').innerHTML='<div class="result"><div class="scorebig">'+toAr(score)+'/'+toAr(QUIZ.length)+'</div><p class="lead" style="margin:10px 0">'+msg+'</p><div class="navbtns" style="justify-content:center;gap:10px"><button class="btn btn-ghost" onclick="startQuiz()">أعد التقويم</button><button class="btn btn-main" onclick="go(0)">↺ من البداية</button></div></div>';
+}
+
+</script></body></html>

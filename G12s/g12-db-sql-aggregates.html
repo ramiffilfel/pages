@@ -1,0 +1,1588 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SQL Aggregate Functions · Grade 12 Science</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@400;500;600;700&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#152238; --ink-soft:#41506b; --paper:#F5F3EC; --card:#ffffff; --wire:#CDC6B6;
+  --teal:#0E9C8C; --teal-dark:#0a6e63; --teal-soft:#E1F3F0;
+  --amber:#E7973A; --amber-soft:#FBEDDB; --amber-dark:#a8620f;
+  --coral:#E4644E; --coral-soft:#FBE7E2; --coral-dark:#b8412c;
+  --indigo:#4C5FD5; --indigo-soft:#E7E9FB;
+  --plum:#8A4FC0; --plum-soft:#F1E8FA;
+  --green:#2E9E63; --green-soft:#E1F2E8; --red:#D8463F; --red-soft:#FAE3E2;
+  --bar:#152238; --bar-ink:#ffffff; --bar-sub:#b9c2d6;
+  --shadow:0 10px 30px rgba(21,34,56,.10);
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ink:#E9EDF4; --ink-soft:#A9B4C6; --paper:#11161E; --card:#1A212C; --wire:#34404F;
+    --teal:#2BB8A7; --teal-dark:#5FD6C6; --teal-soft:#123331;
+    --amber:#E9A24F; --amber-soft:#35291A; --amber-dark:#F0BC72;
+    --coral:#EE7D69; --coral-soft:#3A221F; --coral-dark:#F39B8B;
+    --indigo:#8D9BF0; --indigo-soft:#1F2442;
+    --plum:#B88BE6; --plum-soft:#2C2240;
+    --green:#5CC98E; --green-soft:#16301F; --red:#F0766F; --red-soft:#3A1E1D;
+    --bar:#243044; --bar-ink:#ffffff; --bar-sub:#b9c2d6;
+    --shadow:0 10px 30px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+    --ink:#E9EDF4; --ink-soft:#A9B4C6; --paper:#11161E; --card:#1A212C; --wire:#34404F;
+    --teal:#2BB8A7; --teal-dark:#5FD6C6; --teal-soft:#123331;
+    --amber:#E9A24F; --amber-soft:#35291A; --amber-dark:#F0BC72;
+    --coral:#EE7D69; --coral-soft:#3A221F; --coral-dark:#F39B8B;
+    --indigo:#8D9BF0; --indigo-soft:#1F2442;
+    --plum:#B88BE6; --plum-soft:#2C2240;
+    --green:#5CC98E; --green-soft:#16301F; --red:#F0766F; --red-soft:#3A1E1D;
+    --bar:#243044; --bar-ink:#ffffff; --bar-sub:#b9c2d6;
+    --shadow:0 10px 30px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background-color:var(--paper);color:var(--ink);
+  font-family:"Tajawal",Tahoma,"Segoe UI",sans-serif;line-height:1.75;
+  background-image:radial-gradient(var(--wire) .8px,transparent .8px);background-size:26px 26px}
+.wrap{max-width:920px;margin:0 auto;padding:20px 18px 60px}
+h1,h2,h3{font-family:"Reem Kufi",Tahoma,sans-serif;font-weight:600;line-height:1.35;margin:0}
+.k{font-family:"Reem Kufi",Tahoma,sans-serif}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;
+  background:var(--bar);color:var(--bar-ink);border-radius:16px;padding:14px 20px;box-shadow:var(--shadow);margin-bottom:18px}
+.topbar h1{font-size:21px}
+.topbar .sub{font-size:13px;color:var(--bar-sub)}
+.badge{background:var(--teal);color:#fff;font-size:12px;padding:5px 12px;border-radius:999px;font-family:"Reem Kufi",Tahoma,sans-serif;white-space:nowrap}
+.card{background:var(--card);border-radius:18px;padding:26px;box-shadow:var(--shadow);border:1px solid var(--wire)}
+.eyebrow{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:13px;color:var(--teal-dark);background:var(--teal-soft);
+  display:inline-block;padding:4px 12px;border-radius:999px;margin-bottom:12px}
+h2.title{font-size:26px;margin-bottom:8px}
+.lead{color:var(--ink-soft);font-size:16px;margin:0 0 8px}
+.hint{font-size:14px;color:var(--amber-dark);background:var(--amber-soft);border-radius:10px;
+  padding:9px 14px;display:block;margin-top:6px}
+.dfn{background:var(--teal-soft);border:1.5px solid var(--teal);border-radius:14px;padding:16px 18px;margin:14px 0}
+.dfn .dfn-t{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14px;color:var(--teal-dark);margin-bottom:4px}
+.dfn .dfn-b{font-size:17px;line-height:1.7}
+.dfn .dfn-b b{color:var(--teal-dark)}
+.dfn ul{margin:4px 0 0;padding-inline-start:20px}
+.dfn li{margin:4px 0}
+.example{display:flex;gap:14px;align-items:flex-start;background:var(--coral-soft);
+  border:1.5px dashed var(--coral);border-radius:14px;padding:14px 16px;margin:14px 0}
+.example .ex-ic{font-size:30px;flex-shrink:0}
+.example .ex-h{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14px;color:var(--coral-dark);margin-bottom:3px}
+.example .ex-b{font-size:14.5px;line-height:1.65}
+.example .ex-b b{color:var(--coral-dark)}
+.teacher{background:var(--bar);color:var(--bar-ink);border-radius:16px;padding:18px 22px;margin-top:22px;
+  display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;box-shadow:var(--shadow)}
+.teacher .tt{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:12px;color:var(--bar-sub)}
+.teacher .tn{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:19px;margin-top:2px}
+.teacher .tp{direction:ltr;font-size:14px;color:var(--bar-sub);margin-top:4px;text-align:right}
+.teacher a.wa{display:inline-flex;align-items:center;gap:8px;background:#25D366;color:#04331a;
+  font-family:"Reem Kufi",Tahoma,sans-serif;font-size:15px;text-decoration:none;padding:10px 18px;border-radius:12px}
+.teacher a.wa:hover{filter:brightness(1.06)}
+.teacher a.wa:focus-visible{outline:3px solid #fff;outline-offset:2px}
+@media (max-width:560px){
+  .wrap{padding:14px 12px 50px}
+  .topbar h1{font-size:17px} h2.title{font-size:22px}
+  .card{padding:18px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.rail{display:flex;gap:6px;margin:0 0 20px;flex-wrap:wrap}
+.rail button{flex:1 1 0;min-width:84px;background:var(--card);border:1.5px solid var(--wire);
+  border-radius:12px;padding:9px 6px;cursor:pointer;font-family:"Reem Kufi",Tahoma,sans-serif;font-size:12px;
+  color:var(--ink-soft);transition:.2s;display:flex;align-items:center;justify-content:center;gap:6px}
+.rail button .n{width:20px;height:20px;border-radius:50%;background:var(--paper);border:1.5px solid var(--wire);
+  display:inline-flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0}
+.rail button.active{border-color:var(--teal);color:var(--teal-dark);background:var(--teal-soft)}
+.rail button.active .n{background:var(--teal);color:#fff;border-color:var(--teal)}
+.rail button.done .n{background:var(--green);color:#fff;border-color:var(--green)}
+.station{display:none;animation:fade .45s ease both}
+.station.on{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.navbtns{display:flex;justify-content:space-between;margin-top:20px;gap:10px}
+.btn{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:15px;border:none;border-radius:12px;padding:12px 24px;cursor:pointer;transition:.15s}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn-main{background:var(--teal);color:#fff}
+.btn-main:hover:not(:disabled){background:var(--teal-dark)}
+.btn-ghost{background:var(--paper);color:var(--ink-soft);border:1.5px solid var(--wire)}
+.btn-sm{padding:8px 16px;font-size:14px}
+.btn:focus-visible,.rail button:focus-visible,.opt:focus-visible,.hbtn:focus-visible,.seg button:focus-visible,.qa .ab button:focus-visible{outline:3px solid var(--indigo);outline-offset:2px}
+.hero{text-align:center;padding:34px 22px}
+.hero h2{font-size:32px;margin-bottom:6px}
+.pill3{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:18px 0 6px}
+.pill3 span{background:var(--indigo-soft);color:var(--indigo);font-family:"Reem Kufi",Tahoma,sans-serif;font-size:13px;padding:7px 14px;border-radius:999px}
+
+/* database tables */
+.tw{overflow-x:auto;border-radius:12px;border:1.5px solid var(--wire);background:var(--card)}
+.dbt{width:100%;border-collapse:collapse;font-size:14.5px}
+.dbt caption{caption-side:top;background:var(--bar);color:var(--bar-ink);font-family:"Reem Kufi",Tahoma,sans-serif;font-size:15px;padding:7px 10px;text-align:center}
+.dbt th,.dbt td{border:1px solid var(--wire);padding:6px 8px;text-align:center;transition:background .2s,color .2s}
+.dbt th{background:var(--paper);font-family:"Reem Kufi",Tahoma,sans-serif;font-weight:600;font-size:13.5px;white-space:nowrap}
+.dbt tr:first-child th{border-top:none}
+.hbtn{all:unset;cursor:pointer;display:block;padding:2px 4px;border-radius:6px;border-bottom:2px dashed var(--teal)}
+.dbt .dup{background:var(--red-soft)!important;color:var(--red);font-weight:700}
+.dbt .ok{background:var(--green-soft)!important;color:var(--green);font-weight:700}
+.dbt .rep2{background:var(--amber-soft)!important;color:var(--amber-dark);font-weight:700}
+.dbt .pk{color:var(--indigo)}
+.dbt .fkc{color:var(--plum)}
+.dbt .pickc{background:var(--indigo-soft)!important;color:var(--indigo)}
+.dbt td.newc{background:var(--plum-soft);color:var(--plum);font-weight:700}
+.legend{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:13.5px;color:var(--ink-soft);margin-top:10px}
+.legend b{font-family:"Reem Kufi",Tahoma,sans-serif}
+
+.out{margin-top:12px;background:var(--paper);border:1.5px solid var(--wire);border-radius:12px;padding:12px 14px;font-size:15px;min-height:52px}
+.out.good{background:var(--green-soft);border-color:var(--green)}
+.out.bad{background:var(--red-soft);border-color:var(--red)}
+.out.warn{background:var(--amber-soft);border-color:var(--amber)}
+.out b{font-family:"Reem Kufi",Tahoma,sans-serif}
+.tasks{list-style:none;padding:0;margin:12px 0 0;display:flex;flex-direction:column;gap:8px}
+.tasks li{display:flex;gap:10px;align-items:center;background:var(--paper);border:1.5px solid var(--wire);border-radius:12px;padding:9px 12px;font-size:15px;flex-wrap:wrap}
+.tasks li .st{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--wire);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px;background:var(--card)}
+.tasks li.done{border-color:var(--green);background:var(--green-soft)}
+.tasks li.done .st{background:var(--green);border-color:var(--green);color:#fff}
+.seg{display:inline-flex;gap:6px;margin-inline-start:auto;flex-wrap:wrap}
+.seg button{border:1.5px solid var(--wire);background:var(--card);border-radius:10px;padding:4px 14px;font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14px;cursor:pointer;color:var(--ink)}
+.seg button.right{background:var(--green);border-color:var(--green);color:#fff}
+.seg button.wrong{background:var(--red-soft);border-color:var(--red);color:var(--red)}
+.cmp{width:100%;border-collapse:collapse;font-size:15px;margin-top:10px}
+.cmp th,.cmp td{border:1px solid var(--wire);padding:8px 10px;text-align:right;vertical-align:top}
+.cmp th{background:var(--paper);font-family:"Reem Kufi",Tahoma,sans-serif;font-weight:600}
+.cmp td.f{color:var(--teal-dark)} .cmp td.r{color:var(--amber-dark)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px;align-items:start}
+@media (max-width:620px){.two{grid-template-columns:1fr}}
+.hide{display:none}
+.reveal{animation:fade .35s ease both}
+h3.sub3{font-size:18px;margin-top:22px}
+
+/* quiz */
+.qwrap{min-height:60px}
+.qmeta{display:flex;justify-content:space-between;align-items:center;font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14px;color:var(--ink-soft);margin-bottom:8px}
+.qtext{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:19px;margin:6px 0 16px;line-height:1.5}
+.qsrc{font-size:12px;color:var(--ink-soft);font-family:"Tajawal",Tahoma,sans-serif;font-weight:400}
+.opts{display:flex;flex-direction:column;gap:10px}
+.opt{text-align:right;background:var(--card);border:1.5px solid var(--wire);border-radius:12px;padding:13px 16px;
+  cursor:pointer;font-family:"Tajawal",Tahoma,sans-serif;font-size:15.5px;color:var(--ink);transition:.15s;display:flex;align-items:center;gap:10px}
+.opt:hover:not(.locked){border-color:var(--teal)}
+.opt .mk{width:24px;height:24px;border-radius:50%;border:1.5px solid var(--wire);flex-shrink:0;
+  display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-family:"Reem Kufi",Tahoma,sans-serif;color:var(--ink-soft)}
+.opt.correct{background:var(--green-soft);border-color:var(--green);color:var(--green)}
+.opt.correct .mk{background:var(--green);border-color:var(--green);color:#fff}
+.opt.wrong{background:var(--red-soft);border-color:var(--red);color:var(--red)}
+.opt.wrong .mk{background:var(--red);border-color:var(--red);color:#fff}
+.opt.locked{cursor:default}
+.explain{margin-top:14px;background:var(--indigo-soft);color:var(--indigo);border-radius:12px;padding:12px 16px;font-size:14px;display:none}
+.explain.show{display:block;animation:fade .3s ease both}
+.result{text-align:center;padding:20px 10px}
+.scorebig{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:52px;color:var(--teal);line-height:1}
+.progress-quiz{height:8px;background:var(--paper);border-radius:99px;overflow:hidden;margin:4px 0 14px;border:1px solid var(--wire)}
+.progress-quiz i{display:block;height:100%;background:var(--teal);width:0;transition:.3s}
+
+/* written questions */
+.hw .qh{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:18px;color:var(--indigo);background:var(--indigo-soft);border-radius:10px;padding:6px 12px;margin:20px 0 8px;display:inline-block}
+.q{margin:10px 0;font-size:16px}
+.line{display:block;border-bottom:1.5px dotted var(--wire);height:2em}
+@media print{.rail,.navbtns,.teacher a.wa{display:none}.station{display:block!important}body{background:#fff}}
+
+/* ERD */
+.erdbox{background:var(--paper);border:1.5px solid var(--wire);border-radius:14px;padding:8px;margin-top:12px}
+.erd{width:100%;height:auto;display:block;font-family:"Reem Kufi",Tahoma,sans-serif}
+.erd .ln{stroke:var(--ink-soft);stroke-width:1.6}
+.erd .ent rect{fill:var(--indigo-soft);stroke:var(--indigo);stroke-width:2}
+.erd .ent text{fill:var(--indigo);font-size:15px;font-weight:600}
+.erd .rel polygon{fill:var(--amber-soft);stroke:var(--amber);stroke-width:2}
+.erd .rel text{fill:var(--amber-dark);font-size:13px;font-weight:600}
+.erd .card{fill:var(--coral-dark);font-size:24px;font-weight:700}
+.erd .card.q{fill:var(--ink-soft)}
+.erd .off{opacity:0;pointer-events:none}
+.erd g{transition:opacity .4s}
+.erd .arr{fill:none;stroke-width:2.2}
+.erd .arr.t{stroke:var(--teal)} .erd .arr.a{stroke:var(--plum)}
+.erd .arrt{font-size:11.5px;font-weight:600}
+.erd .arrt.t{fill:var(--teal-dark)} .erd .arrt.a{fill:var(--plum)}
+.qa{background:var(--paper);border:1.5px solid var(--wire);border-radius:14px;padding:12px 14px;margin-top:10px}
+.qa .qq{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:16px;margin-bottom:8px}
+.qa .ab{display:flex;gap:8px;flex-wrap:wrap}
+.qa .ab button{border:1.5px solid var(--wire);background:var(--card);border-radius:10px;padding:8px 18px;font-family:"Reem Kufi",Tahoma,sans-serif;font-size:15px;cursor:pointer;color:var(--ink)}
+.qa .ab button.right{background:var(--green);border-color:var(--green);color:#fff}
+.qa .ab button.wrong{background:var(--red-soft);border-color:var(--red);color:var(--red)}
+.qa .fb{font-size:14.5px;margin-top:8px;color:var(--ink-soft)}
+.qa.done{border-color:var(--green);background:var(--green-soft)}
+.qa.locked{opacity:.45;pointer-events:none}
+.bigres{text-align:center;font-family:"Reem Kufi",Tahoma,sans-serif;font-size:30px;color:var(--coral-dark);margin:14px 0 4px}
+.note{font-size:13px;color:var(--ink-soft);margin-top:6px}
+.tag{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:12px;padding:2px 9px;border-radius:999px;margin-inline-start:4px;white-space:nowrap}
+.tag.h{background:var(--indigo-soft);color:var(--indigo)}
+.tag.r{background:var(--coral-soft);color:var(--coral-dark)}
+.segbtns{display:inline-flex;background:var(--card);border:1.5px solid var(--wire);border-radius:12px;overflow:hidden}
+.segbtns button{border:none;background:transparent;padding:9px 14px;font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14px;cursor:pointer;color:var(--ink-soft)}
+.segbtns button.on{background:var(--indigo);color:#fff}
+.segbtns button:focus-visible{outline:3px solid var(--indigo);outline-offset:-3px}
+.readline{text-align:center;font-family:"Reem Kufi",Tahoma,sans-serif;font-size:17px;margin-top:10px}
+.readline b{color:var(--coral-dark);font-size:22px}
+
+.steps{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.steps span{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:12.5px;padding:5px 12px;border-radius:999px;background:var(--paper);border:1.5px solid var(--wire);color:var(--ink-soft)}
+.steps span.on{background:var(--teal);border-color:var(--teal);color:#fff}
+.steps span.done{background:var(--green-soft);border-color:var(--green);color:var(--green)}
+.erd .xm line{stroke:var(--red);stroke-width:5;stroke-linecap:round}
+.erd .broken{opacity:.35}
+.erd .ent.jn rect{fill:var(--plum-soft);stroke:var(--plum);stroke-dasharray:6 4}
+.erd .ent.jn text{fill:var(--plum)}
+.rcards{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-top:12px}
+.rc{background:var(--card);border:1.5px solid var(--wire);border-radius:14px;padding:12px 14px;cursor:pointer;text-align:right;font-family:"Tajawal",Tahoma,sans-serif;font-size:14.5px;color:var(--ink);line-height:1.7}
+.rc .rt{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:17px;display:block;margin-bottom:4px}
+.rc .rb{display:none}
+.rc.on{border-color:var(--plum);background:var(--plum-soft)}
+.rc.on .rb{display:block}
+.rc:focus-visible,.fchip:focus-visible{outline:3px solid var(--indigo);outline-offset:2px}
+.fpick{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.fchip{border:1.5px solid var(--wire);background:var(--card);border-radius:999px;padding:7px 16px;font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14px;cursor:pointer;color:var(--ink)}
+.fchip small{color:var(--ink-soft);font-family:"Tajawal",Tahoma,sans-serif}
+.fchip.on{background:var(--plum);border-color:var(--plum);color:#fff}
+.fchip.on small{color:#f3e9ff}
+.fchip.bad{background:var(--red-soft);border-color:var(--red);color:var(--red)}
+.fchip.good{background:var(--green);border-color:var(--green);color:#fff}
+.three{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:10px;align-items:start}
+@media (max-width:760px){.three{grid-template-columns:1fr}}
+.dbt tr.newrow td{outline:2px solid var(--amber);outline-offset:-2px}
+.ilist{counter-reset:i;list-style:none;padding:0;margin:10px 0 0;display:flex;flex-direction:column;gap:8px}
+.ilist li{counter-increment:i;display:flex;gap:10px;align-items:center;background:var(--indigo-soft);border-radius:12px;padding:10px 14px;font-size:16px}
+.ilist li::before{content:counter(i,arabic-indic);width:28px;height:28px;border-radius:50%;background:var(--indigo);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-family:"Reem Kufi",Tahoma,sans-serif;flex-shrink:0}
+
+/* ===== SELECT lesson ===== */
+.sqlbox{direction:ltr;text-align:left;font-family:Consolas,"Courier New",monospace;background:var(--bar);color:#d7f5ee;border-radius:12px;padding:12px 16px;font-size:16px;margin-top:10px;overflow-x:auto;white-space:nowrap}
+.dbt th.hl-col,.dbt td.hl-col{background:var(--teal-soft)!important;color:var(--teal-dark)}
+.dbt tr.match td{background:var(--green-soft)!important;color:var(--green);font-weight:700}
+.dbt tr.match td.hl-col{background:#bfe6d0!important}
+.dbt tr.dim td{opacity:.45}
+.dbt td.yes{color:var(--green);font-weight:700} .dbt td.no{color:var(--red);font-weight:700}
+.dbt th.ev{background:var(--amber-soft);color:var(--amber-dark);font-size:12px;direction:ltr;white-space:nowrap}
+.dbt.res caption{background:var(--green)}
+.dbt th,.dbt td{direction:ltr}
+.dbt td.ar{direction:rtl}
+.tpl{display:flex;flex-wrap:wrap;gap:6px;direction:ltr;justify-content:flex-start;margin-top:12px;align-items:stretch}
+.tpl span{font-family:Consolas,"Courier New",monospace;font-size:17px;padding:8px 12px;border-radius:10px;display:flex;flex-direction:column;align-items:center;gap:2px;line-height:1.2}
+.tpl span small{font-family:"Tajawal",Tahoma,sans-serif;font-size:12px;direction:rtl}
+.tpl .fx{background:var(--bar);color:#fff}
+.tpl .fx small{color:var(--bar-sub)}
+.tpl .vr{background:var(--card);border:2px dashed;color:var(--ink)}
+.tpl .vr.f{border-color:var(--teal);color:var(--teal-dark)}
+.tpl .vr.t{border-color:var(--indigo);color:var(--indigo)}
+.tpl .vr.c{border-color:var(--amber);color:var(--amber-dark)}
+.code{direction:ltr;text-align:left;font-family:Consolas,"Courier New",monospace;background:var(--bar);border-radius:12px;padding:12px 14px;font-size:17px;margin-top:10px;display:flex;flex-wrap:wrap;gap:4px;align-items:center}
+.code button{all:unset;cursor:pointer;color:#d7f5ee;padding:2px 6px;border-radius:6px;border-bottom:2px dashed rgba(215,245,238,.35)}
+.code button.kw{color:#ffd479}
+.code button.on{background:#ffd479;color:var(--bar)}
+.code button:focus-visible{outline:2px solid #ffd479}
+.exq{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:17px;margin-top:16px}
+.ops{width:100%;border-collapse:collapse;margin-top:10px;font-size:15px}
+.ops th,.ops td{border:1px solid var(--wire);padding:6px 10px;text-align:center}
+.ops th{background:var(--paper);font-family:"Reem Kufi",Tahoma,sans-serif;font-weight:600}
+.ops td.o{font-family:Consolas,monospace;font-size:18px;font-weight:700;color:var(--plum);direction:ltr}
+.vt{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+@media (max-width:620px){.vt{grid-template-columns:1fr}}
+.vt div{border-radius:12px;padding:10px 12px;font-size:14.5px;border:1.5px solid}
+.vt b{display:block;font-family:"Reem Kufi",Tahoma,sans-serif;font-size:15px}
+.vt code{display:block;direction:ltr;text-align:left;font-family:Consolas,monospace;font-size:15px;margin-top:4px}
+.vt .n1{background:var(--indigo-soft);border-color:var(--indigo)} .vt .n2{background:var(--green-soft);border-color:var(--green)} .vt .n3{background:var(--amber-soft);border-color:var(--amber)}
+/* simulator */
+.ssim{background:var(--paper);border:1.5px solid var(--wire);border-radius:16px;padding:12px;margin-top:12px}
+.ssim .sh{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.ssim .sh b{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:15px}
+.ttabs{display:inline-flex;gap:4px}
+.ttabs button{border:1.5px solid var(--wire);background:var(--card);border-radius:9px;padding:4px 10px;font-family:Consolas,monospace;font-size:13px;cursor:pointer;color:var(--ink)}
+.ttabs button.on{background:var(--bar);color:#fff;border-color:var(--bar)}
+.ssim textarea{width:100%;min-height:74px;margin-top:10px;direction:ltr;text-align:left;font-family:Consolas,"Courier New",monospace;font-size:16px;padding:10px 12px;border-radius:12px;border:2px solid var(--wire);background:var(--card);color:var(--ink);resize:vertical}
+.ssim textarea:focus{outline:none;border-color:var(--indigo)}
+.ssim .sb{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+.ssim .msg{margin-top:8px;border-radius:10px;padding:9px 12px;font-size:14.5px;background:var(--card);border:1.5px solid var(--wire)}
+.ssim .msg.ok{background:var(--green-soft);border-color:var(--green);color:var(--green)}
+.ssim .msg.er{background:var(--red-soft);border-color:var(--red);color:var(--red)}
+.ssim .msg code{direction:ltr;unicode-bidi:isolate;font-family:Consolas,monospace;background:rgba(0,0,0,.06);padding:0 4px;border-radius:4px}
+.ssim .lbl{font-family:"Reem Kufi",Tahoma,sans-serif;font-size:13px;color:var(--ink-soft);margin:10px 0 4px}
+.ssim .arrowdown{text-align:center;font-size:22px;color:var(--green);line-height:1;margin:6px 0}
+.tlist{list-style:none;padding:0;margin:10px 0 0;display:flex;flex-direction:column;gap:6px}
+.tlist li{display:flex;gap:8px;align-items:center;background:var(--card);border:1.5px solid var(--wire);border-radius:10px;padding:7px 10px;font-size:14.5px;cursor:pointer}
+.tlist li .st{width:24px;height:24px;border-radius:50%;border:1.5px solid var(--wire);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;font-size:12px}
+.tlist li.cur{border-color:var(--indigo);background:var(--indigo-soft)}
+.tlist li.done{border-color:var(--green);background:var(--green-soft)}
+.tlist li.done .st{background:var(--green);border-color:var(--green);color:#fff}
+.tlist li .hb{margin-inline-start:auto;font-size:12px;border:1px solid var(--wire);border-radius:8px;background:var(--paper);padding:2px 8px;cursor:pointer;color:var(--ink-soft);font-family:"Tajawal",Tahoma,sans-serif}
+/* truth table */
+.tt{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px}
+@media (max-width:620px){.tt{grid-template-columns:1fr}}
+.sw2{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;align-items:center;justify-content:center}
+.tog{border:2px solid var(--wire);background:var(--card);border-radius:14px;padding:10px 14px;cursor:pointer;font-family:"Reem Kufi",Tahoma,sans-serif;font-size:14px;color:var(--ink);min-width:170px}
+.tog .tv{display:block;font-size:22px}
+.tog.y{border-color:var(--green);background:var(--green-soft);color:var(--green)}
+.tog.n{border-color:var(--red);background:var(--red-soft);color:var(--red)}
+.lamps{display:flex;gap:12px;justify-content:center;margin-top:12px;flex-wrap:wrap}
+.lamp{border-radius:16px;padding:12px 18px;text-align:center;font-family:"Reem Kufi",Tahoma,sans-serif;border:2px solid var(--wire);min-width:150px;background:var(--card)}
+.lamp .lk{font-family:Consolas,monospace;font-size:22px;font-weight:700;display:block}
+.lamp.y{border-color:var(--green);background:var(--green-soft);color:var(--green)}
+.lamp.n{border-color:var(--red);background:var(--red-soft);color:var(--red)}
+.truth{width:100%;border-collapse:collapse;font-size:15px}
+.truth caption{font-family:Consolas,monospace;font-weight:700;font-size:18px;padding:6px;background:var(--bar);color:#fff;border-radius:10px 10px 0 0}
+.truth th,.truth td{border:1px solid var(--wire);padding:6px;text-align:center}
+.truth th{background:var(--paper);font-family:"Reem Kufi",Tahoma,sans-serif;font-weight:600}
+.truth tr.lit td{background:var(--amber-soft)}
+.truth td.r{font-weight:700}
+.codeopt{direction:ltr;text-align:left!important;font-family:Consolas,"Courier New",monospace!important;font-size:14px!important;width:100%}
+.qa .ab.col{flex-direction:column}
+.blank{font:inherit;font-family:Consolas,"Courier New",monospace;border:2px dashed var(--indigo);background:var(--card);color:var(--ink);border-radius:8px;padding:2px 6px;margin:0 4px}
+.blank.ok{border-style:solid;border-color:var(--green);background:var(--green-soft)}
+.blank.bad{border-style:solid;border-color:var(--red);background:var(--red-soft)}
+.fills{list-style:none;padding:0;margin:10px 0 0;display:flex;flex-direction:column;gap:8px}
+.fills li{background:var(--paper);border:1.5px solid var(--wire);border-radius:12px;padding:9px 12px;font-size:15.5px;line-height:2}
+
+/* ===== lesson: parameter + ORDER BY ===== */
+.ttabs{flex-wrap:wrap;justify-content:flex-end}
+.povl{position:fixed;inset:0;background:rgba(10,20,35,.38);z-index:200;display:flex;align-items:center;justify-content:center;padding:16px}
+.pdlg{background:#f0f0f0;border:1px solid #6b7c93;box-shadow:0 10px 30px rgba(0,0,0,.35);width:320px;max-width:100%;font-family:Tahoma,"Segoe UI",sans-serif;font-size:13px;color:#1e2a3a;direction:rtl;animation:fade .25s ease both}
+.pdt{background:linear-gradient(#e9eef5,#cfd9e6);padding:5px 10px;font-weight:bold;display:flex;justify-content:space-between;border-bottom:1px solid #a9b7c9}
+.pdb{padding:14px}
+.pdb label{display:block;margin-bottom:6px;font-size:14px}
+.pdb input{width:100%;border:1px solid #7a8ba3;padding:5px 7px;font:inherit;font-size:14px;background:#fff;color:#000}
+.pbt{display:flex;gap:8px;margin-top:12px}
+.abtn{padding:4px 18px;border:1px solid #8a9bb4;border-radius:3px;background:linear-gradient(#fff,#e3e9f1);cursor:pointer;color:#1e2a3a;font-family:Tahoma,sans-serif;font-size:13px}
+.abtn:focus-visible{outline:2px solid #3d73c4}
+.dbt th.sorted{background:var(--amber-soft)!important;color:var(--amber-dark)}
+.tlist li.grp{background:transparent;border:none;cursor:default;font-family:"Reem Kufi",Tahoma,sans-serif;color:var(--indigo);padding:10px 2px 0;font-size:15px}
+.vals{display:inline-block;background:var(--card);border:1px solid var(--green);border-radius:8px;padding:0 8px;margin:2px 4px;color:var(--ink)}
+.ascdesc{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+@media (max-width:620px){.ascdesc{grid-template-columns:1fr}}
+.ascdesc div{border-radius:14px;padding:12px 14px;border:1.5px solid;font-size:14.5px;line-height:1.9}
+.ascdesc .a{background:var(--teal-soft);border-color:var(--teal)} .ascdesc .d{background:var(--coral-soft);border-color:var(--coral)}
+.ascdesc b.k2{display:block;font-family:Consolas,monospace;font-size:22px}
+.ascdesc .a b.k2{color:var(--teal-dark)} .ascdesc .d b.k2{color:var(--coral-dark)}
+.ordflow{display:flex;gap:6px;align-items:center;justify-content:center;flex-wrap:wrap;direction:ltr;margin-top:12px}
+.ordflow span{font-family:Consolas,monospace;font-size:17px;padding:8px 12px;border-radius:10px;display:flex;flex-direction:column;align-items:center;line-height:1.2}
+.ordflow span small{font-family:"Tajawal",Tahoma,sans-serif;font-size:12px;direction:rtl}
+.ordflow .ar{background:none;color:var(--ink-soft);font-size:20px;padding:0}
+.ordflow .s1{background:var(--bar);color:#fff} .ordflow .s1 small{color:var(--bar-sub)}
+.ordflow .s2{border:2px dashed var(--teal);color:var(--teal-dark);background:var(--card)}
+.ordflow .s3{border:2px dashed var(--coral);color:var(--coral-dark);background:var(--card)}
+.qbewrap{overflow-x:auto;margin-top:10px}
+table.qbe{border-collapse:collapse;font-family:Tahoma,"Segoe UI",sans-serif;font-size:13px;background:#fff;color:#1e2a3a;min-width:420px}
+table.qbe th{background:#e9eef5;font-weight:normal;text-align:right;padding:4px 10px;border:1px solid #c5d1e0;white-space:nowrap}
+table.qbe td{border:1px solid #d5dde8;padding:4px 12px;min-width:110px;text-align:center;unicode-bidi:plaintext}
+.maprow{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px;margin-top:10px}
+.maprow div{background:var(--indigo-soft);border-radius:10px;padding:6px 10px;font-size:14px}
+.maprow b{font-family:Consolas,monospace;color:var(--indigo)}
+.grid-q{border-top:1.5px dashed var(--wire);margin-top:18px;padding-top:6px}
+
+/* ===== aggregates lesson ===== */
+.fcards{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:12px}
+@media (max-width:700px){.fcards{grid-template-columns:repeat(2,1fr)}}
+.fcard{border:2px solid var(--wire);background:var(--card);border-radius:14px;padding:10px 6px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--ink);font-family:"Reem Kufi",Tahoma,sans-serif}
+.fcard .fk{font-family:Consolas,monospace;font-size:22px;font-weight:700;color:var(--plum)}
+.fcard .fa{font-size:15px}
+.fcard .fi2{font-size:24px}
+.fcard.on{border-color:var(--plum);background:var(--plum-soft)}
+.fcard:focus-visible{outline:3px solid var(--indigo);outline-offset:2px}
+.calc{margin-top:10px;background:var(--bar);color:#fff;border-radius:12px;padding:12px 14px;font-size:17px;direction:ltr;text-align:left;font-family:Consolas,monospace;min-height:48px;overflow-x:auto}
+.calc b{color:#ffd479}
+.dbt tr td.agg,.dbt tr.match td.agg{background:var(--plum-soft)!important;color:var(--plum);font-weight:700}
+.dbt tr td.win,.dbt tr.match td.win{background:#ffd479!important;color:#152238;font-weight:700}
+.dbt td.cnt{position:relative}
+.cntb{display:inline-block;background:var(--plum);color:#fff;border-radius:999px;font-size:11px;padding:0 6px;margin-inline-start:6px}
+.think{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+@media (max-width:620px){.think{grid-template-columns:1fr}}
+.dbt.res td{font-size:16px}
+.hintbtns{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+/* expression builder sim */
+.ebw{overflow-x:auto;border-radius:8px}
+.eb-app{position:relative;min-width:640px;direction:rtl;background:#fff;border:1px solid #8a9bb4;border-radius:6px;overflow:hidden;font-family:Tahoma,"Segoe UI",Arial,sans-serif;font-size:12.5px;color:#1e2a3a;line-height:1.5;user-select:none;-webkit-user-select:none;box-shadow:0 6px 20px rgba(21,34,56,.15)}
+.eb-app button{font-family:inherit}
+.eb-title{background:linear-gradient(#b8474a,#952c30);color:#fff;text-align:center;padding:3px 8px;font-size:12px}
+.eb-tabs{display:flex;gap:2px;background:#dfe7f1;padding:3px 6px 0;border-bottom:1px solid #b6c4d6}
+.eb-tabs span{padding:3px 12px;font-size:12px}
+.eb-tabs span.ctx{background:#f5f8fc;border:1px solid #e4b660;border-bottom:none;border-radius:4px 4px 0 0;color:#7a3c00}
+.eb-rib{background:linear-gradient(#f5f8fc,#e1e9f3);border-bottom:1px solid #b6c4d6;display:flex;gap:4px;padding:4px 8px}
+.eb-rib .rb{display:flex;flex-direction:column;align-items:center;background:transparent;border:1px solid transparent;border-radius:3px;padding:2px 6px;cursor:pointer;font-size:11px;color:#1e2a3a;min-width:52px}
+.eb-rib .rb .ri{font-size:20px;line-height:1.15}
+.eb-rib .rb:hover{background:#fdeeb6;border-color:#e3c060}
+.eb-top{height:118px;background:#e9eef5;position:relative;border-bottom:4px solid #c5d1e0}
+.eb-tbox{position:absolute;right:30px;top:10px;width:130px;border:1px solid #6b7c93;background:#fff;font-size:12px}
+.eb-tbox .h{background:linear-gradient(#dfe7f1,#c7d4e4);text-align:center;font-weight:bold;padding:2px;direction:ltr}
+.eb-tbox div.f{padding:0 6px;direction:ltr;text-align:left}
+.eb-grid{border-collapse:collapse;width:100%;font-size:12px}
+.eb-grid th{background:#e9eef5;font-weight:normal;text-align:right;padding:3px 8px;border:1px solid #c5d1e0;width:70px;white-space:nowrap}
+.eb-grid td{border:1px solid #d5dde8;padding:3px 8px;height:24px;min-width:150px;direction:ltr;text-align:left;unicode-bidi:plaintext}
+.eb-cm{position:absolute;z-index:20;background:#fff;border:1px solid #8a9bb4;box-shadow:2px 4px 10px rgba(0,0,0,.25);padding:2px 0;min-width:150px}
+.eb-cm button{display:block;width:100%;text-align:right;border:none;background:none;padding:4px 16px;cursor:pointer;font-size:12px;color:#1e2a3a}
+.eb-dlg{position:absolute;z-index:25;top:28px;left:20px;right:20px;background:#f0f0f0;border:1px solid #6b7c93;box-shadow:0 8px 24px rgba(0,0,0,.3)}
+.eb-dlg .dt{background:linear-gradient(#e9eef5,#cfd9e6);padding:4px 8px;font-weight:bold;display:flex;justify-content:space-between;border-bottom:1px solid #a9b7c9}
+.eb-dlg .db{padding:8px 10px}
+.eb-exprrow{display:flex;gap:8px}
+.eb-expr{flex:1;height:54px;border:1px solid #7a8ba3;background:#fff;font-family:Consolas,"Courier New",monospace;font-size:14px;padding:4px 6px;direction:ltr;text-align:left;color:#000;resize:none}
+.eb-btns{display:flex;flex-direction:column;gap:4px;width:84px}
+.abtn2{padding:3px 10px;border:1px solid #8a9bb4;border-radius:3px;background:linear-gradient(#fff,#e3e9f1);cursor:pointer;color:#1e2a3a;font-size:12px}
+.eb-panes{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:8px}
+.eb-pane .ph{font-size:11.5px;margin-bottom:2px}
+.eb-list{background:#fff;border:1px solid #9aabbf;height:130px;overflow:hidden}
+.eb-list button{display:block;width:100%;text-align:right;border:none;background:none;padding:1px 6px;cursor:pointer;font-size:12px;color:#1e2a3a}
+.eb-list button.en{direction:ltr;text-align:left}
+.eb-list button.sel{background:#3d73c4;color:#fff}
+.eb-list button.ind{padding-inline-start:18px}
+.eb-app .glow{outline:3px solid #f2b705!important;outline-offset:1px;animation:glw 1.1s infinite}
+@keyframes glw{50%{outline-color:#ff7a00}}
+.eb-ds{border-collapse:collapse;margin:14px auto;font-size:13px}
+.eb-ds th{background:#e9eef5;border:1px solid #c5d1e0;padding:3px 14px;font-weight:normal}
+.eb-ds td{border:1px solid #d5dde8;padding:3px 14px;text-align:center}
+.simhint{background:var(--indigo-soft);color:var(--indigo);border-radius:10px;padding:9px 14px;font-size:15px;margin:8px 0;min-height:46px}
+.simhint b{font-family:"Reem Kufi",Tahoma,sans-serif}
+.simhint.err{background:var(--red-soft);color:var(--red)}
+.simhint.fin{background:var(--green-soft);color:var(--green)}
+.simbar{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+</style></head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div>
+      <h1 class="k">استعلام الإجماليات: الدوال الخمس</h1>
+      <div class="sub">الصف الثاني عشر العلمي · الوحدة الأولى: قواعد البيانات · لغة SQL</div>
+    </div>
+    <span class="badge">درس تفاعلي + محاكي SQL</span>
+  </div>
+
+  <nav class="rail" id="rail" aria-label="محطات الدرس"></nav>
+
+  <!-- 0 THINK -->
+  <section class="station on" id="s0">
+    <div class="card">
+      <span class="eyebrow">تمهيد 🤔</span>
+      <h2 class="title k">معلومة غير موجودة في الجدول!</h2>
+      <p class="lead">مدير المكتب الهندسي ينظر إلى جدول المهندسين ويسأل: <b>كم مهندساً عندنا؟ وكم ندفع رواتب كل شهر؟</b> ابحث في الجدول: هل يوجد حقل فيه هذه المعلومة؟</p>
+      <div id="t0"></div>
+      <div class="example">
+        <div class="ex-ic">💭</div>
+        <div><div class="ex-h">فكّر قبل أن تضغط</div>
+        <div class="ex-b">لو أردنا معلومة <b>غير مخزنة</b> في الجداول، ماذا يمكن أن تكون؟ اذكر أمثلة في دفترك أو ناقشها مع زميلك.</div></div>
+      </div>
+      <div style="text-align:center"><button class="btn btn-main btn-sm" id="thinkBtn" onclick="showThink()">أظهر الأمثلة</button></div>
+      <div id="think" class="hide">
+        <div class="think">
+          <div class="dfn" style="margin:0"><div class="dfn-t">🔢 العدد</div><div class="dfn-b">كم مهندساً في المكتب؟</div></div>
+          <div class="dfn" style="margin:0"><div class="dfn-t">➕ المجموع</div><div class="dfn-b">مجموع رواتب المهندسين.</div></div>
+          <div class="dfn" style="margin:0"><div class="dfn-t">⚖️ المعدل</div><div class="dfn-b">معدل (متوسط) الرواتب.</div></div>
+          <div class="dfn" style="margin:0"><div class="dfn-t">⬆️⬇️ الأعلى والأدنى</div><div class="dfn-b">أعلى راتب وأقل راتب.</div></div>
+        </div>
+        <h3 class="k sub3">صنّف: مخزنة في حقل، أم تُحسب من البيانات؟</h3>
+        <ul class="tasks" id="m0"></ul>
+        <div class="out" id="o0" aria-live="polite">اختر لكل معلومة تصنيفها.</div>
+      </div>
+      <div class="navbtns" style="justify-content:center"><button class="btn btn-main" onclick="go(1)">التالي: الدوال الخمس ‹</button></div>
+    </div>
+  </section>
+
+  <!-- 1 FIVE FUNCTIONS -->
+  <section class="station" id="s1">
+    <div class="card">
+      <span class="eyebrow">المحطة ١ · دوال الإجماليات</span>
+      <h2 class="title k">خمس دوال تحسب لنا</h2>
+      <div class="dfn">
+        <div class="dfn-t">📌 استعلام الإجماليات</div>
+        <div class="dfn-b">استعلام تحديد يستخدم <b>دوال</b> تُجري عمليات حسابية على قيم <b>حقل</b> في سجلات الجدول، فيُرجع <b>قيمة واحدة</b> محسوبة غير مخزنة في الجدول.</div>
+      </div>
+      <p class="lead">اضغط كل دالة وراقب كيف تحسب على حقل الراتب <span dir="ltr">salary</span>:</p>
+      <div class="fcards" id="fcards"></div>
+      <div class="two" style="margin-top:10px"><div id="t1"></div><div><div class="calc" id="calc1">اختر دالة…</div><div class="out" id="o1" style="margin-top:8px">…</div></div></div>
+      <h3 class="k sub3">أهمية استخدام الدوال الإجمالية</h3>
+      <div class="why">
+        <div><b>💡 معلومات جديدة</b>نحصل على معلومات <b>غير مخزنة</b> في الجداول، نحسبها من البيانات المخزنة.</div>
+        <div><b>💾 لا حجم إضافي</b>لا نحتاج حقلاً جديداً لتخزين المجموع أو العدد، فلا يزيد حجم قاعدة البيانات.</div>
+        <div><b>🔄 نتيجة محدّثة دائماً</b>إذا تغيّر راتب مهندس، يتغيّر المجموع والمعدل تلقائياً عند تنفيذ الاستعلام.</div>
+        <div><b>⚡ سرعة ودقة</b>بدل الحساب اليدوي لآلاف السجلات، وما فيه من أخطاء.</div>
+        <div><b>📊 دعم القرار</b>ملخصات سريعة تساعد الإدارة، وتُستخدم في التقارير.</div>
+      </div>
+      <h3 class="k sub3">أي دالة تجيب عن السؤال؟</h3>
+      <ul class="tasks" id="m1"></ul>
+      <div class="out" id="om1" aria-live="polite">اختر الدالة المناسبة لكل سؤال.</div>
+      <div class="navbtns">
+        <button class="btn btn-ghost" onclick="go(0)">›</button>
+        <button class="btn btn-main" onclick="go(2)">التالي: الصيغة العامة و AS ‹</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 SYNTAX + AS -->
+  <section class="station" id="s2">
+    <div class="card">
+      <span class="eyebrow">المحطة ٢ · الصيغة العامة</span>
+      <h2 class="title k">الدالة… والقوسان… و AS</h2>
+      <div class="tpl">
+        <span class="fx">SELECT<small>اعرض</small></span>
+        <span class="vr f" style="border-color:var(--plum);color:var(--plum)">FUNCTION<small>اسم الدالة</small></span>
+        <span class="vr f">(field)<small>الحقل بين قوسين</small></span>
+        <span class="fx">AS<small>باسم</small></span>
+        <span class="vr c">"column name"<small>اسم عمود النتيجة</small></span>
+        <span class="fx">FROM<small>من</small></span>
+        <span class="vr t">table<small>الجدول</small></span>
+        <span class="fx">WHERE<small>اختياري</small></span>
+        <span class="vr c">condition<small>الشرط</small></span>
+        <span class="fx">;</span>
+      </div>
+      <div class="exq">مثال: اعرض <b>مجموع رواتب</b> المهندسين في عمود اسمه «مجموع الرواتب».</div>
+      <div class="code" id="exA"></div>
+      <div class="out" id="oexA">👆 اضغط كل جزء من الجملة لتعرف معناه.</div>
+      <h3 class="k sub3">لماذا AS؟ جرّب الجملة بدونها ثم معها</h3>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px">
+        <button class="btn btn-ghost btn-sm" onclick="S2.load('SELECT SUM(salary) FROM engineer_tbl;')">❌ بدون AS</button>
+        <button class="btn btn-ghost btn-sm" onclick="S2.load('SELECT SUM(salary) AS &quot;مجموع الرواتب&quot; FROM engineer_tbl;')">✅ مع AS</button>
+      </div>
+      <div id="sim2"></div>
+      <div class="dfn" style="background:var(--amber-soft);border-color:var(--amber)">
+        <div class="dfn-t" style="color:var(--amber-dark)">⚠️ قواعد كتابة الدالة</div>
+        <div class="dfn-b"><ul>
+          <li>نكتب <b>اسم الدالة</b> بالإنجليزية، ثم <b>الحقل بين قوسين عاديين</b> ( ) مباشرة بعده.</li>
+          <li><b dir="ltr">AS</b> تعني «باسم»: تعطي عمود النتيجة <b>اسماً واضحاً</b>. ونضع الاسم بين علامتي تنصيص " "، خاصة إذا كان أكثر من كلمة. وبدونها يظهر اسم مثل <b dir="ltr">Expr1000</b>.</li>
+          <li><b dir="ltr">SUM</b> و<b dir="ltr">AVG</b> تعملان على الحقول <b>الرقمية</b> فقط. أما <b dir="ltr">MAX</b> و<b dir="ltr">MIN</b> و<b dir="ltr">COUNT</b> فتعمل على الأرقام والنصوص والتواريخ.</li>
+          <li>النتيجة <b>سجل واحد</b>، لذلك لا نكتب حقلاً عادياً مع الدالة في الجملة نفسها.</li>
+          <li>يمكن وضع شرط <b dir="ltr">WHERE</b> لنحسب على بعض السجلات فقط، ويمكن كتابة أكثر من دالة يفصل بينها <b>,</b></li>
+        </ul></div>
+      </div>
+      <div class="navbtns">
+        <button class="btn btn-ghost" onclick="go(1)">›</button>
+        <button class="btn btn-main" onclick="go(3)">التالي: مثال على كل دالة ‹</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 EXAMPLES -->
+  <section class="station" id="s3">
+    <div class="card">
+      <span class="eyebrow">المحطة ٣ · مثال على كل دالة</span>
+      <h2 class="title k">أمثلة الملزمة على جدول المشاريع</h2>
+      <div class="tw" style="border:none"><table class="cmp" id="exTbl">
+        <tr><th>الدالة</th><th>الجملة</th><th></th></tr>
+      </table></div>
+      <h3 class="k sub3">ومع شرط، أو أكثر من دالة</h3>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px">
+        <button class="btn btn-ghost btn-sm" onclick="S3.load('SELECT COUNT(eng_num) AS &quot;مهندسو رفح&quot; FROM engineer_tbl WHERE city = &quot;رفح&quot;;')">عدد مهندسي رفح</button>
+        <button class="btn btn-ghost btn-sm" onclick="S3.load('SELECT AVG(salary) AS &quot;معدل رواتب الديكور&quot; FROM engineer_tbl WHERE major = &quot;ديكور&quot;;')">معدل رواتب «ديكور»</button>
+        <button class="btn btn-ghost btn-sm" onclick="S3.load('SELECT MAX(salary) AS &quot;أعلى راتب&quot;, MIN(salary) AS &quot;أقل راتب&quot; FROM engineer_tbl;')">أعلى وأقل راتب معاً</button>
+        <button class="btn btn-ghost btn-sm" onclick="S3.load('SELECT SUM(total_cost) AS &quot;مجموع تكاليف القسم&quot; FROM project_tbl WHERE dep_num = [أدخل رقم القسم];')">مع قيمة من المستخدم</button>
+        <button class="btn btn-ghost btn-sm" onclick="S3.load('SELECT eng_name, SUM(salary) AS &quot;المجموع&quot; FROM engineer_tbl;')">❌ حقل عادي مع دالة؟</button>
+        <button class="btn btn-ghost btn-sm" onclick="S3.load('SELECT SUM(city) AS &quot;مجموع المدن&quot; FROM engineer_tbl;')">❌ جمع حقل نصي؟</button>
+      </div>
+      <div id="sim3"></div>
+      <div class="navbtns">
+        <button class="btn btn-ghost" onclick="go(2)">›</button>
+        <button class="btn btn-main" onclick="go(4)">التالي: تدريبات ‹</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 PRACTICE -->
+  <section class="station" id="s4">
+    <div class="card">
+      <span class="eyebrow">المحطة ٤ · تدريبات</span>
+      <h2 class="title k">اكتب الجملة ونفّذها</h2>
+      <p class="lead">لا تنسَ <b dir="ltr">AS</b> واسماً واضحاً لكل عمود. اختر سؤالاً، فينتقل المحاكي إلى جدوله.</p>
+      <div id="sim4"></div>
+      <div class="navbtns">
+        <button class="btn btn-ghost" onclick="go(3)">›</button>
+        <button class="btn btn-main" onclick="go(5)">التالي: سؤال التميّز ‹</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 EXCELLENCE -->
+  <section class="station" id="s5">
+    <div class="card">
+      <span class="eyebrow">المحطة ٥ · سؤال التميّز 🏆</span>
+      <h2 class="title k">تاريخ ميلاد أصغر مهندس عمراً</h2>
+      <p class="lead">اكتب جملة SQL لعرض <b>تاريخ ميلاد أصغر مهندس عمراً</b> في عمود اسمه «تاريخ ميلاد الأصغر». فكّر جيداً قبل أن تستعين بالتلميحات!</p>
+      <div class="hintbtns">
+        <button class="btn btn-ghost btn-sm" onclick="hint5(0)">💡 تلميح ١</button>
+        <button class="btn btn-ghost btn-sm" onclick="hint5(1)">💡 تلميح ٢</button>
+      </div>
+      <div class="out hide" id="h50">💡 الأصغر عمراً وُلد <b>متأخراً</b>: هل تاريخ ميلاده أقدم أم أحدث من الآخرين؟</div>
+      <div class="out hide" id="h51">💡 التاريخ الأحدث هو التاريخ <b>الأكبر</b>. فأي دالة تعطينا أكبر قيمة؟</div>
+      <div id="sim5"></div>
+      <div id="ex5" class="hide">
+        <div class="dfn">
+          <div class="dfn-t">🏆 الفكرة</div>
+          <div class="dfn-b">الأصغر عمراً تاريخ ميلاده <b>الأحدث</b>، والأحدث هو <b>الأكبر</b> ⟵ <b dir="ltr">MAX(birth_date)</b>. ولأكبر مهندس سناً نستخدم <b dir="ltr">MIN(birth_date)</b>. الدالتان MAX وMIN تعملان على التواريخ كما تعملان على الأرقام.</div>
+        </div>
+        <div class="hint">💡 ولو أردنا <b>اسم</b> أصغر مهندس؟ الدالة تعطي قيمة واحدة فقط. نستطيع ترتيب المهندسين: <b dir="ltr">ORDER BY birth_date DESC</b> من الحصة السابقة، فيظهر الأصغر أولاً.</div>
+      </div>
+      <div class="navbtns">
+        <button class="btn btn-ghost" onclick="go(4)">›</button>
+        <button class="btn btn-main" onclick="go(6)">التالي: منشئ التعبير ‹</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 EXPRESSION BUILDER -->
+  <section class="station" id="s6">
+    <div class="card">
+      <span class="eyebrow">المحطة ٦ · منشئ التعبير في أكسس</span>
+      <h2 class="title k">نكتب الدالة بدون حفظ صيغتها</h2>
+      <div class="dfn">
+        <div class="dfn-t">📌 منشئ التعبير</div>
+        <div class="dfn-b">أداة في أكسس تساعدنا في كتابة <b>الصيغ والتعابير الرياضية والدوال</b> باختيارها من قوائم، بدل كتابتها حفظاً. نستخدمها في الإجماليات لكتابة دالة مثل <b dir="ltr">Sum</b> في شبكة تصميم الاستعلام.</div>
+      </div>
+      <p class="lead">نفتحها بالنقر <b>بزر الفأرة الأيمن</b> على خانة «الحقل» في شبكة التصميم ثم <b>إنشاء…</b>، أو من زر <b>منشئ</b> في علامة التبويب «تصميم». جرّب: احسب مجموع تكاليف المشاريع.</p>
+      <div class="simbar">
+        <button class="btn btn-main btn-sm" id="ebTry">✋ جرّب بنفسك</button>
+        <button class="btn btn-ghost btn-sm" id="ebWatch">▶ شاهد</button>
+        <button class="btn btn-ghost btn-sm" id="ebReset">↺ من جديد</button>
+      </div>
+      <div class="simhint" id="ebHint" aria-live="polite"></div>
+      <div class="ebw"><div class="eb-app" id="ebApp"></div></div>
+      <div id="ebDone" class="hide">
+        <p class="lead" style="margin-top:12px">ما كتبناه في منشئ التعبير يقابل جملة SQL الآتية (من عرض SQL في أكسس)، وهي نفس صيغة الملزمة:</p>
+        <div class="sqlbox">SELECT Sum([total_cost]) AS [مجموع التكاليف] FROM project_tbl;</div>
+        <div class="sqlbox">SELECT SUM(total_cost) AS "مجموع التكاليف" FROM project_tbl;</div>
+        <div class="hint">💡 في الشبكة نكتب <b>اسم العمود ثم نقطتين</b> قبل الدالة (<span dir="ltr">مجموع التكاليف: Sum([total_cost])</span>)، فيحوّلها أكسس إلى <b dir="ltr">AS</b>. ويوجد أيضاً زر <b>Σ إجماليات</b> في علامة التبويب «تصميم»، يضيف إلى الشبكة صف «إجمالي» نختار منه الدالة.</div>
+      </div>
+      <div class="navbtns">
+        <button class="btn btn-ghost" onclick="go(5)">›</button>
+        <button class="btn btn-main" onclick="go(7)">التالي: اختر وأكمل ‹</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 CHOOSE + FILL -->
+  <section class="station" id="s7">
+    <div class="card">
+      <span class="eyebrow">المحطة ٧ · اختر وأكمل</span>
+      <h2 class="title k">اختر الجملة الصحيحة</h2>
+      <div id="chHost"></div>
+      <h2 class="title k" style="margin-top:22px">أكمل الفراغ</h2>
+      <ul class="fills" id="fills"></ul>
+      <div style="text-align:center;margin-top:10px"><button class="btn btn-main btn-sm" onclick="checkFill()">تحقّق</button></div>
+      <div class="out" id="o7" aria-live="polite">اختر الكلمة المناسبة لكل فراغ ثم اضغط «تحقّق».</div>
+      <div class="navbtns">
+        <button class="btn btn-ghost" onclick="go(6)">›</button>
+        <button class="btn btn-main" onclick="go(8)">التالي: أسئلة كتابية ‹</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8 WRITTEN -->
+  <section class="station" id="s8">
+    <div class="card hw">
+      <span class="eyebrow">📝 أسئلة كتابية</span>
+      <h2 class="title k">أجب في دفترك</h2>
+      <div class="qh">السؤال الأول</div>
+      <div class="q">جدول الموظفين <b dir="ltr">Emp_tbl</b> وحقوله <b dir="ltr">(emp_id, emp_name, salary, age)</b>. اكتب جمل SQL الآتية مع <b dir="ltr">AS</b>:</div>
+      <div class="q">١. عدد الموظفين.<span class="line"></span></div>
+      <div class="q">٢. معدل رواتب الموظفين الذين أعمارهم أكبر من 40.<span class="line"></span></div>
+      <div class="q">٣. أعلى راتب وأقل راتب في جملة واحدة.<span class="line"></span></div>
+      <div class="q">٤. عمر أصغر موظف.<span class="line"></span></div>
+      <div class="qh">السؤال الثاني: علّل</div>
+      <div class="q">١. نستخدم <b dir="ltr">AS</b> في جمل الإجماليات.<span class="line"></span></div>
+      <div class="q">٢. نستخدم <b dir="ltr">MAX</b> لا <b dir="ltr">MIN</b> لإيجاد تاريخ ميلاد أصغر مهندس.<span class="line"></span></div>
+      <div class="q">٣. لا نخزّن مجموع الرواتب في حقل داخل الجدول، بل نحسبه باستعلام.<span class="line"></span></div>
+      <div class="navbtns">
+        <button class="btn btn-ghost" onclick="go(7)">›</button>
+        <button class="btn btn-main" onclick="go(9)">التقويم الذاتي ‹</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9 QUIZ -->
+  <section class="station" id="s9">
+    <div class="card">
+      <span class="eyebrow">المحطة الأخيرة · التقويم الذاتي</span>
+      <h2 class="title k">اختر الإجابة الصحيحة</h2>
+      <p class="note" style="margin-top:0">أسئلة من الملزمة وامتحانات الثانوية العامة السابقة.</p>
+      <div class="progress-quiz"><i id="qbar"></i></div>
+      <div class="qwrap" id="qwrap"></div>
+    </div>
+  </section>
+
+  <div class="teacher">
+    <div>
+      <div class="tt">إعداد الأستاذ</div>
+      <div class="tn">رامي فتحي فلفل</div>
+      <div class="tp">هاتف / واتساب: +972&nbsp;59&nbsp;788&nbsp;0216</div>
+    </div>
+    <a class="wa" href="https://wa.me/972597880216" target="_blank" rel="noopener">💬 تواصل عبر واتساب</a>
+  </div>
+</div>
+<script>
+var STATIONS=["التمهيد","الدوال الخمس","الصيغة و AS","أمثلة","تدريبات","سؤال التميّز","منشئ التعبير","اختر وأكمل","أسئلة كتابية","التقويم"];
+var cur=0, visited={0:true}, rail=document.getElementById('rail');
+function toAr(n){return String(n).replace(/[0-9]/g,function(d){return "٠١٢٣٤٥٦٧٨٩"[d]})}
+function $(id){return document.getElementById(id)}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function codeHtml(s){return esc(s).replace(/(\[[^\]]*\]|"[^"]*")/g,'<bdi dir="ltr">$1</bdi>')}
+STATIONS.forEach(function(t,i){
+  var b=document.createElement('button');
+  b.innerHTML='<span class="n">'+toAr(i+1)+'</span>'+t;
+  b.onclick=function(){go(i)}; rail.appendChild(b);
+});
+function go(i){
+  $('s'+cur).classList.remove('on');
+  cur=i; visited[i]=true;
+  $('s'+i).classList.add('on');
+  updRail(); window.scrollTo({top:0,behavior:'smooth'});
+  if(i===9 && !quizStarted) startQuiz();
+}
+function updRail(){[].forEach.call(rail.children,function(b,i){
+  b.classList.toggle('active',i===cur); b.classList.toggle('done',!!visited[i] && i!==cur);});}
+updRail();
+
+/* ---------- SVG / ERD helpers ---------- */
+var NS='http://www.w3.org/2000/svg';
+function S(tag,a,p){var e=document.createElementNS(NS,tag);for(var k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e}
+function T_(p,x,y,s,cls){var t=S('text',{x:x,y:y,'text-anchor':'middle','dominant-baseline':'central'},p);if(cls)t.setAttribute('class',cls);t.textContent=s;return t}
+function erd(svg,spec){
+  var out={ents:{},rels:[],cards:{}};
+  var byId={}; spec.ents.forEach(function(e){byId[e.id]=e});
+  (spec.rels||[]).forEach(function(r){
+    var g=S('g',{'class':'rel'},svg), A=byId[r.a], B=byId[r.b];
+    S('line',{x1:A.x,y1:A.y,x2:B.x,y2:B.y,'class':'ln'},g);
+    var hw=r.hw||46, hh=r.hh||25;
+    S('polygon',{points:[r.x,r.y-hh,r.x+hw,r.y,r.x,r.y+hh,r.x-hw,r.y].join(' ')},g);
+    T_(g,r.x,r.y,r.verb);
+    (r.cards||[]).forEach(function(c){out.cards[c.id]=T_(g,c.x,c.y,c.t||'?','card'+(c.t?'':' q'))});
+    out.rels.push(g);
+  });
+  spec.ents.forEach(function(e){
+    var g=S('g',{'class':'ent'},svg), w=e.w||120;
+    S('rect',{x:e.x-w/2,y:e.y-21,width:w,height:42,rx:4},g);
+    T_(g,e.x,e.y,e.name);
+    out.ents[e.id]=g;
+  });
+  return out;
+}
+function vis(g,on){g.classList.toggle('off',!on)}
+function setCard(c,t){c.textContent=t;c.classList.remove('q')}
+/* arrow with label: from x1 to x2 at height y */
+function arrow(svg,o){
+  var g=S('g',{'class':'off'},svg);
+  var defs=S('defs',{},g), id='mk'+Math.random().toString(36).slice(2,8);
+  var m=S('marker',{id:id,markerWidth:8,markerHeight:8,refX:7,refY:4,orient:'auto',markerUnits:'userSpaceOnUse'},defs);
+  S('path',{d:'M0,0 L8,4 L0,8 z',style:'fill:var(--'+(o.c==='t'?'teal':'plum')+')'},m);
+  S('line',{x1:o.x1,y1:o.y,x2:o.x2,y2:o.y,'class':'arr '+o.c,'marker-end':'url(#'+id+')'},g);
+  T_(g,(o.x1+o.x2)/2,o.ly,o.label,'arrt '+o.c);
+  return g;
+}
+
+/* ---------- Q&A helper ---------- */
+function qa(id,right,onRight,msgR,msgW,nextId){
+  var box=$(id), fb=box.querySelector('.fb');
+  box.querySelectorAll('.ab button').forEach(function(b){
+    b.onclick=function(){
+      if(box.classList.contains('done')) return;
+      box.querySelectorAll('.ab button').forEach(function(x){x.classList.remove('right','wrong')});
+      if(b.dataset.v===right){
+        b.classList.add('right'); box.classList.add('done'); fb.innerHTML='✅ '+msgR; onRight();
+        if(nextId) $(nextId).classList.remove('locked');
+      }else{b.classList.add('wrong'); fb.innerHTML='🤔 '+(typeof msgW==='object'?(msgW[b.dataset.v]||''):msgW)}
+    };
+  });
+}
+
+/* ---------- tables helper ---------- */
+function mkTable(host,D,o){
+  o=o||{};
+  host.innerHTML='';
+  var w=document.createElement('div'); w.className='tw';
+  var t=document.createElement('table'); t.className='dbt';
+  var h='<caption>'+D.name+'</caption><thead><tr>';
+  D.cols.forEach(function(c,i){
+    var ic=(o.pk&&o.pk.indexOf(i)>-1?'🔑':'')+(o.fk&&o.fk.indexOf(i)>-1?'🔗':'');
+    var lab=(ic?ic+' ':'')+c;
+    h+='<th data-c="'+i+'">'+(o.onHead?'<button class="hbtn" type="button">'+lab+'</button>':lab)+'</th>';
+  });
+  h+='</tr></thead><tbody>';
+  D.rows.forEach(function(r,ri){h+='<tr data-r="'+ri+'">';r.forEach(function(v,ci){h+='<td data-c="'+ci+'">'+v+'</td>'});h+='</tr>'});
+  t.innerHTML=h+'</tbody>'; w.appendChild(t); host.appendChild(w);
+  if(o.pk) o.pk.forEach(function(c){t.querySelector('th[data-c="'+c+'"]').classList.add('pk')});
+  if(o.fk) o.fk.forEach(function(c){t.querySelector('th[data-c="'+c+'"]').classList.add('fkc')});
+  var api={t:t,
+    th:function(c){return t.querySelector('th[data-c="'+c+'"]')},
+    cells:function(c){return t.querySelectorAll('tbody td[data-c="'+c+'"]')},
+    clear:function(){t.querySelectorAll('th,td').forEach(function(e){['dup','ok','pickc','rep2','newc'].forEach(function(k){e.classList.remove(k)})})}};
+  if(o.onHead) t.querySelectorAll('th').forEach(function(th){th.querySelector('.hbtn').onclick=function(){o.onHead(+th.dataset.c)}});
+  return api;
+}
+function markRepeats(api,c){
+  var n={}, cells=api.cells(c);
+  cells.forEach(function(td){n[td.textContent]=(n[td.textContent]||0)+1});
+  cells.forEach(function(td){if(n[td.textContent]>1)td.classList.add('rep2')});
+}
+
+
+
+/* ======================= DATA (rows in entry order) ======================= */
+function D(d,m,y){return {d:d,m:m,y:y,t:Date.UTC(y,m-1,d)}}
+var DB={
+ engineer_tbl:{pk:0,cols:['eng_num','eng_name','major','salary','city','birth_date','dep_num'],types:['n','s','s','n','s','d','n'],rows:[
+   [104,'يوسف عمر','معماري',900,'رفح',D(10,10,1995),1],
+   [101,'أحمد سالم','معماري',650,'غزة',D(1,1,2000),1],
+   [107,'هبة يوسف','ديكور',500,'رفح',D(18,4,2002),3],
+   [102,'محمد ناصر','إنشاءات',480,'رفح',D(15,3,1998),2],
+   [108,'عمر سامي','بنية تحتية',380,'جباليا',D(30,6,1997),4],
+   [103,'سارة خليل','ديكور',520,'خانيونس',D(20,7,2001),3],
+   [106,'خالد محمود','إنشاءات',700,'غزة',D(25,12,1999),2],
+   [105,'ليلى حسن','بنية تحتية',450,'دير البلح',D(1,1,2000),4]]},
+ department_tbl:{pk:0,cols:['dep_num','dep_name','floor'],types:['n','s','n'],rows:[[3,'الديكور',2],[1,'المعماري',1],[4,'البنية التحتية',3],[2,'الإنشاءات',2]]},
+ project_tbl:{pk:0,cols:['proj_num','proj_name','total_cost','start_date','dep_num'],types:['n','s','n','d','n'],rows:[
+   [3,'مجمع تجاري',45000,D(1,3,2023),2],[1,'مدرسة الكرمل',30000,D(15,9,2022),1],[5,'مستشفى الشفاء',120000,D(10,1,2024),2],
+   [2,'برج فلسطين',20000,D(5,5,2021),1],[4,'جسر وادي غزة',25000,D(20,2,2023),4],[6,'مكتبة البلدية',18000,D(1,1,2023),3]]},
+ employee_tbl:{pk:0,cols:['emp_num','emp_name','emp_pay','proj_num'],types:['n','s','n','n'],rows:[
+   [205,'سامي',18,3],[201,'محمود',22,1],[204,'رامي',15,2],[202,'إياد',30,5],[206,'وليد',12,3],[203,'ناصر',20,1],[207,'فادي',25,5]]},
+ School:{pk:2,cols:['Student_number','Class_name','Class_number'],types:['n','s','n'],rows:[[22,'6A',100],[22,'6B',101],[24,'7A',102],[20,'8B',104],[25,'9A',103]]},
+ Publisher_tbl:{pk:0,cols:['Pub_id','Pub_name','Pub_address'],types:['n','s','s'],rows:[[10,'Mansour','Ramallah'],[20,'Alyazjoe','Gaza'],[30,'Alquds','Jerusalem']]},
+ Book_tbl:{pk:0,cols:['book_id','book_name','Pub_id'],types:['n','s','n'],rows:[[101,'Our Palestine',10],[102,'python',10],[103,'Education in Palestine',30],[105,'Networks',20],[104,'Data Base',20]]},
+ product:{pk:0,cols:['pro_no','pro_name','price'],types:['n','s','n'],rows:[[3,'سكر',22],[1,'أرز',18],[5,'شاي',12],[2,'طحين',25],[6,'حليب',28],[4,'زيت',35]]},
+ 'class':{pk:0,cols:['class_no','class_name','class_code'],types:['n','s','s'],rows:[[4,'العاشر','ثانوي'],[1,'الأول','أساسي'],[6,'الثاني عشر','ثانوي'],[3,'التاسع','أساسي'],[5,'الحادي عشر','ثانوي'],[2,'الثامن','أساسي']]}
+};
+function fmt(v){return (v&&typeof v==='object')?(v.d+'/'+v.m+'/'+v.y):v}
+function srcData(t){var T=DB[t];return {name:t,cols:T.cols,rows:T.rows.map(function(r){return r.map(fmt)})}}
+function key(v){return (v&&typeof v==='object')?v.t:v}
+function cmpVal(a,b){a=key(a);b=key(b);if(typeof a==='string'&&typeof b==='string')return a.localeCompare(b,'ar',{sensitivity:'accent'});return a<b?-1:a>b?1:0}
+
+/* ======================= SQL ENGINE ======================= */
+function SqlErr(m){this.m=m}
+function tokenize(s){
+  var out=[], i=0, m;
+  while(i<s.length){
+    var c=s[i], rest=s.slice(i);
+    if(/\s/.test(c)){i++;continue}
+    if(c==='['){var e=s.indexOf(']',i+1);if(e<0)throw new SqlErr('نسيت إغلاق القوس المربع <code>]</code>.');var tx=s.slice(i+1,e).trim();if(!tx)throw new SqlErr('اكتب رسالة للمستخدم بين القوسين المربعين، مثل <code>[أدخل رقم المهندس]</code>.');out.push({t:'param',v:tx});i=e+1;continue}
+    if(c===']') throw new SqlErr('يوجد قوس مربع <code>]</code> بلا قوس فتح <code>[</code>.');
+    if(c==='،') throw new SqlErr('استخدم الفاصلة الإنجليزية <code>,</code> لا الفاصلة العربية <code>،</code>.');
+    if(c==='؛') throw new SqlErr('الفاصلة المنقوطة في نهاية الجملة إنجليزية <code>;</code>.');
+    if((m=rest.match(/^\d{1,2}\/\d{1,2}\/\d{4}/))) throw new SqlErr('التاريخ <code>'+m[0]+'</code> يوضع بين علامتي <code>#</code> هكذا: <code>#'+m[0]+'#</code>');
+    if(c==='#'){var j=s.indexOf('#',i+1);if(j<0)throw new SqlErr('نسيت علامة <code>#</code> الثانية لإغلاق التاريخ.');out.push({t:'date',v:s.slice(i+1,j)});i=j+1;continue}
+    if(c==='"'||c==="'"||c==='“'||c==='”'){var close=c==='“'?'”':c;var k=s.indexOf(close,i+1);if(k<0&&c==='”')k=s.indexOf('“',i+1);
+      if(k<0) throw new SqlErr('نسيت علامة التنصيص <code>"</code> الثانية لإغلاق النص.');out.push({t:'str',v:s.slice(i+1,k)});i=k+1;continue}
+    if((m=rest.match(/^\d+(\.\d+)?/))){out.push({t:'num',v:parseFloat(m[0])});i+=m[0].length;continue}
+    if((m=rest.match(/^(<=|>=|<>|!=|=<|=>|==|=|<|>)/))){
+      var op=m[0];
+      if(op==='==') throw new SqlErr('في SQL نكتب <code>=</code> مرة واحدة فقط، لا <code>==</code>.');
+      if(op==='=<'||op==='=>') throw new SqlErr('اكتب الأداة هكذا: <code>'+op[1]+'=</code> (العلامة = في النهاية).');
+      if(op==='!=') op='<>';
+      out.push({t:'op',v:op});i+=m[0].length;continue}
+    if((m=rest.match(/^[\p{L}_][\p{L}\p{N}_]*/u))){out.push({t:'id',v:m[0],u:m[0].toUpperCase()});i+=m[0].length;continue}
+    if(',;()*.'.indexOf(c)>-1){out.push({t:c});i++;continue}
+    throw new SqlErr('رمز غير مفهوم: <code>'+esc(c)+'</code>');
+  }
+  return out;
+}
+var KW=['SELECT','FROM','WHERE','AND','OR','NOT','ORDER','BY','ASC','DESC','AS'];
+var AGG=['SUM','COUNT','MAX','MIN','AVG'];
+var AR_AGG={'مجموع':'SUM','جمع':'SUM','عدد':'COUNT','معدل':'AVG','متوسط':'AVG','اكبر':'MAX','أكبر':'MAX','اعلى':'MAX','أعلى':'MAX','اقل':'MIN','أقل':'MIN','ادنى':'MIN','أدنى':'MIN'};
+function parseDate(s){
+  var m=String(s).trim().replace(/^#|#$/g,'').match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+  if(!m) return null;
+  var a=+m[1], b=+m[2], y=+m[3], d, mo;
+  if(a>12){d=a;mo=b}else if(b>12){d=b;mo=a}else{mo=a;d=b}
+  return Date.UTC(y,mo-1,d);
+}
+function isAsk(s){return /^(أدخل|ادخل|إدخل|اكتب)/.test(String(s).trim())}
+function parse(sql){
+  var tk=tokenize(sql), p=0, params=[];
+  function peek(k){return tk[p+(k||0)]} function nx(){return tk[p++]}
+  function isK(t,k){return t&&t.t==='id'&&t.u===k}
+  if(!tk.length) throw new SqlErr('اكتب جملة SQL أولاً.');
+  if(!isK(peek(),'SELECT')){
+    if(isK(peek(),'FROM')) throw new SqlErr('الجملة تبدأ بـ <code>SELECT</code> ثم الحقول، ثم <code>FROM</code> والجدول.');
+    throw new SqlErr('جملة استعلام التحديد تبدأ بالكلمة <code>SELECT</code>.');
+  }
+  nx();
+  var cols=[], items=[];
+  if(peek()&&peek().t==='*'){nx();cols='*'}
+  else{
+    while(true){
+      var t=nx();
+      if(!t||isK(t,'FROM')) throw new SqlErr('اكتب أسماء الحقول أو الدالة بعد <code>SELECT</code>.');
+      if(t.t==='id'&&AGG.indexOf(t.u)>-1){
+        var it={agg:t.u,alias:null};
+        if(!(peek()&&peek().t==='(')) throw new SqlErr('بعد اسم الدالة نكتب الحقل بين قوسين، مثل: <code>'+t.u+'(salary)</code>');
+        nx(); var a=nx();
+        if(!a||a.t===')') throw new SqlErr('اكتب اسم الحقل داخل قوسي الدالة <code>'+t.u+'( )</code>.');
+        if(a.t==='*'){if(t.u!=='COUNT')throw new SqlErr('النجمة <code>*</code> داخل القوسين تُستخدم مع <code>COUNT</code> فقط.');it.f='*'}
+        else if(a.t==='id'||a.t==='param'){if(peek()&&peek().t==='.'){nx();a=nx();if(!a)throw new SqlErr('بعد النقطة نكتب اسم الحقل.')}it.f=a.v}
+        else throw new SqlErr('داخل القوسين نكتب اسم حقل.');
+        if(!(peek()&&peek().t===')')) throw new SqlErr('نسيت إغلاق قوس الدالة <code>)</code>، أو كتبت أكثر من حقل داخله.');
+        nx();
+        if(isK(peek(),'AS')){
+          nx(); var al=nx();
+          if(!al||al.t===','||al.t===';'||isK(al,'FROM')) throw new SqlErr('بعد <code>AS</code> نكتب اسم عمود النتيجة بين علامتي تنصيص، مثل: <code>AS "مجموع الرواتب"</code>');
+          if(al.t==='str'||al.t==='param') it.alias=al.v.trim();
+          else if(al.t==='id'&&KW.indexOf(al.u)<0){it.alias=al.v;if(peek()&&peek().t==='id'&&!isK(peek(),'FROM')&&KW.indexOf(peek().u)<0)throw new SqlErr('اسم العمود المكوّن من أكثر من كلمة يوضع بين علامتي تنصيص: <code>AS "'+esc(al.v+' '+peek().v)+'"</code>')}
+          else throw new SqlErr('بعد <code>AS</code> نكتب اسم عمود النتيجة بين علامتي تنصيص.');
+          if(!it.alias) throw new SqlErr('اسم العمود بعد <code>AS</code> فارغ.');
+        }else if(peek()&&(peek().t==='str'||(peek().t==='id'&&KW.indexOf(peek().u)<0))) throw new SqlErr('نسيت كلمة <code>AS</code> قبل اسم العمود.');
+        items.push(it);
+      }else if(t.t==='id'&&peek()&&peek().t==='('){
+        var ar=AR_AGG[t.v.replace(/^ال/,'')];
+        throw new SqlErr(ar?'اسم الدالة يُكتب بالإنجليزية: <code>'+ar+'</code>':'لا توجد دالة اسمها <code>'+esc(t.v)+'</code>. دوال الإجماليات: <code>SUM, COUNT, MAX, MIN, AVG</code>'+(/^AVERAGE$/i.test(t.v)?'. والمعدل اسمه <code>AVG</code>.':''));
+      }else{
+        if(!((t.t==='id'&&KW.indexOf(t.u)<0)||t.t==='param')) throw new SqlErr('بعد <code>SELECT</code> نكتب أسماء حقول أو دالة، وجدنا: <code>'+esc(t.v||t.t)+'</code>');
+        if(peek()&&peek().t==='.'){nx();var t2=nx();if(!t2||(t2.t!=='id'&&t2.t!=='param'))throw new SqlErr('بعد النقطة نكتب اسم الحقل.');t=t2}
+        if(isK(peek(),'AS')) throw new SqlErr('في هذا الدرس نستخدم <code>AS</code> بعد الدوال الإجمالية.');
+        cols.push(t.v); items.push({f:t.v});
+      }
+      if(peek()&&peek().t===','){nx();continue}
+      if(peek()&&peek().t==='id'&&KW.indexOf(peek().u)<0) throw new SqlErr('افصل بين العناصر بفاصلة <code>,</code> قبل <code>'+esc(peek().v)+'</code>');
+      break;
+    }
+  }
+  if(isK(peek(),'ORDER')||isK(peek(),'WHERE')) throw new SqlErr('بعد الحقول نكتب <code>FROM</code> واسم الجدول أولاً؛ '+(isK(peek(),'ORDER')?'<code>ORDER BY</code> تأتي في آخر الجملة.':'ثم <code>WHERE</code> والشرط.'));
+  if(!isK(peek(),'FROM')) throw new SqlErr(peek()?'بعد الحقول نكتب <code>FROM</code> ثم اسم الجدول. وجدنا: <code>'+esc(peek().v||peek().t)+'</code>':'نسيت <code>FROM</code> واسم الجدول.');
+  nx();
+  var tt=nx();
+  if(!tt||tt.t!=='id'||KW.indexOf(tt.u)>-1) throw new SqlErr('بعد <code>FROM</code> نكتب اسم الجدول.');
+  var tname=null; for(var k in DB){if(k.toUpperCase()===tt.u)tname=k}
+  if(!tname) throw new SqlErr('لا يوجد جدول اسمه <code>'+esc(tt.v)+'</code>. الجداول المتاحة في الأزرار أعلى المحاكي.');
+  if(peek()&&peek().t===',') throw new SqlErr('في هذا الدرس نستعلم من جدول واحد فقط.');
+  var T=DB[tname];
+  function fi(name){for(var i=0;i<T.cols.length;i++)if(T.cols[i].toUpperCase()===String(name).toUpperCase())return i;return -1}
+  function badField(n){return new SqlErr('الحقل <code>'+esc(n)+'</code> غير موجود في الجدول <code>'+tname+'</code>. حقوله: <code>'+T.cols.join(', ')+'</code>')}
+  var ci=[], aggs=null;
+  var hasAgg=items.some(function(x){return x.agg}), hasPlain=items.some(function(x){return !x.agg});
+  if(hasAgg&&hasPlain) throw new SqlErr('لا نكتب حقلاً عادياً مع دالة إجمالية في الجملة نفسها؛ فالدالة تعطي <b>قيمة واحدة</b> لكل السجلات، والحقل له قيمة في كل سجل.');
+  if(hasAgg){
+    aggs=items.map(function(x){
+      var f=x.f==='*'?-1:fi(x.f);
+      if(x.f!=='*'&&f<0) throw badField(x.f);
+      if((x.agg==='SUM'||x.agg==='AVG')&&T.types[f]!=='n') throw new SqlErr('الدالة <code>'+x.agg+'</code> '+(x.agg==='SUM'?'تجمع':'تحسب معدل')+' أرقاماً، والحقل <code>'+T.cols[f]+'</code> '+(T.types[f]==='s'?'نصي':'تاريخ')+'. استخدم حقلاً رقمياً.');
+      return {agg:x.agg,f:f,alias:x.alias};
+    });
+  }
+  else if(cols==='*') ci=T.cols.map(function(c,i){return i});
+  else cols.forEach(function(c){var x=fi(c);if(x<0)throw isAsk(c)?new SqlErr('الرسالة <code>['+esc(c)+']</code> توضع في الشرط مكان القيمة، لا بعد SELECT.'):badField(c);ci.push(x)});
+  var where=null;
+  if(isK(peek(),'WHERE')){nx();where=expr()}
+  else if(peek()&&(peek().t==='id'||peek().t==='param')&&!isK(peek(),'ORDER')){
+    throw new SqlErr('الشرط يأتي بعد الكلمة <code>WHERE</code>. هل نسيتها قبل <code>'+esc(peek().v)+'</code>؟');
+  }
+  var order=null;
+  if(isK(peek(),'ORDER')){
+    nx();
+    if(!isK(peek(),'BY')) throw new SqlErr('نكتب <code>ORDER BY</code> كلمتين معاً، ثم اسم الحقل.');
+    nx(); order=[];
+    while(true){
+      var of=peek();
+      if(!of||of.t===';') throw new SqlErr('بعد <code>ORDER BY</code> نكتب اسم الحقل الذي نرتّب حسبه.');
+      if(isK(of,'ASC')||isK(of,'DESC')) throw new SqlErr('بعد <code>ORDER BY</code> يأتي <b>اسم الحقل أولاً</b> ثم نوع الترتيب، مثل: <code>ORDER BY salary '+of.u+'</code>');
+      if(of.t==='id'&&/[؀-ۿ]/.test(of.v)&&fi(of.v)<0) throw new SqlErr('بعد <code>ORDER BY</code> نكتب اسم الحقل بالإنجليزية كما في الجدول.');
+      nx(); var fx=(of.t==='id'||of.t==='param')?fi(of.v):-1; if(fx<0) throw badField(of.v||of.t);
+      var d='ASC', ex=false, nt=peek();
+      if(isK(nt,'ASC')||isK(nt,'DESC')){d=nx().u;ex=true}
+      else if(nt&&nt.t==='id'&&/^(ASCENDING|DESCENDING|UP|DOWN)$/.test(nt.u)) throw new SqlErr('نوع الترتيب يُكتب مختصراً: <code>ASC</code> للتصاعدي و<code>DESC</code> للتنازلي.');
+      else if(nt&&nt.t==='id'&&/[؀-ۿ]/.test(nt.v)) throw new SqlErr('نوع الترتيب يُكتب بالإنجليزية: <code>ASC</code> تصاعدي، <code>DESC</code> تنازلي.');
+      order.push({i:fx,d:d,ex:ex});
+      if(peek()&&peek().t===','){nx();continue}
+      break;
+    }
+    if(isK(peek(),'WHERE')) throw new SqlErr('الشرط <code>WHERE</code> يأتي <b>قبل</b> <code>ORDER BY</code>؛ فـ ORDER BY في آخر الجملة.');
+  }
+  if(peek()&&peek().t===';') nx();
+  if(peek()) throw new SqlErr('كلمة زائدة أو في غير مكانها: <code>'+esc(peek().v||peek().t)+'</code>');
+  return {table:tname,ci:ci,where:where,order:order,params:params,aggs:aggs};
+
+  function expr(){var a=term();var items=[a];while(isK(peek(),'OR')){nx();items.push(term())}return items.length>1?{op:'OR',k:items}:a}
+  function term(){var a=factor();var items=[a];while(isK(peek(),'AND')){nx();items.push(factor())}return items.length>1?{op:'AND',k:items}:a}
+  function factor(){
+    var t=peek();
+    if(!t) throw new SqlErr('الشرط ناقص بعد <code>WHERE</code> أو <code>AND/OR</code>.');
+    if(isK(t,'ORDER')) throw new SqlErr('لا نربط <code>ORDER BY</code> بـ AND أو OR؛ تأتي بعد الشرط مباشرة.');
+    if(t.t==='('){
+      var a1=peek(1), a2=peek(2);
+      if(a1&&(a1.t==='id'||a1.t==='param')&&a2&&a2.t===')'){nx();nx();nx();t=a1;return cond(t)}
+      nx();var e=expr();if(!peek()||peek().t!==')')throw new SqlErr('نسيت إغلاق القوس <code>)</code>.');nx();return e;
+    }
+    if(isK(t,'NOT')){nx();return {op:'NOT',k:[factor()]}}
+    if(t.t==='param'&&fi(t.v)<0) throw new SqlErr('على يسار أداة المقارنة نكتب <b>اسم الحقل</b>، والرسالة <code>[ ]</code> توضع على اليمين مكان القيمة.');
+    if(!((t.t==='id'&&KW.indexOf(t.u)<0)||t.t==='param')) throw new SqlErr('الشرط يبدأ باسم الحقل، مثل: <code>salary &gt; 500</code>');
+    nx(); return cond(t);
+  }
+  function cond(t){
+    if(peek()&&peek().t==='.'){nx();t=nx();if(!t)throw new SqlErr('بعد النقطة نكتب اسم الحقل.')}
+    var f=fi(t.v); if(f<0) throw badField(t.v);
+    var o=nx();
+    if(!o||o.t!=='op'){
+      if(o&&(o.t==='num'||o.t==='str'||o.t==='param'))throw new SqlErr('نسيت أداة المقارنة بعد <code>'+esc(t.v)+'</code> (مثل <code>=</code> أو <code>&gt;</code>).');
+      throw new SqlErr('بعد اسم الحقل <code>'+esc(t.v)+'</code> نكتب أداة مقارنة: <code>= &lt;&gt; &gt; &lt; &gt;= &lt;=</code>');
+    }
+    var v=nx(), ty=T.types[f], val;
+    if(!v) throw new SqlErr('أين القيمة بعد <code>'+o.v+'</code>؟');
+    if(v.t==='param'){
+      if(fi(v.v)>-1) throw new SqlErr('النص داخل <code>['+esc(v.v)+']</code> هو اسم حقل، فلن يطلب البرنامج من المستخدم إدخال قيمة. اكتب رسالة، مثل <code>[أدخل ...]</code>.');
+      if(params.indexOf(v.v)<0) params.push(v.v);
+      return {f:f,o:o.v,param:v.v,txt:T.cols[f]+' '+o.v+' ['+v.v+']'};
+    }
+    if(v.t==='('){throw new SqlErr('رسالة المستخدم توضع بين قوسين <b>مربعين</b> <code>[ ]</code> لا قوسين عاديين <code>( )</code>.')}
+    if(v.t==='str'&&(isAsk(v.v)||/^\[.*\]$/.test(v.v.trim()))) throw new SqlErr('لكي يُدخل المستخدم القيمة نضع الرسالة بين قوسين مربعين <code>[ ]</code> <b>بدون</b> علامات تنصيص.');
+    if(v.t==='id'){
+      if(isAsk(v.v)) throw new SqlErr('لكي يُدخل المستخدم القيمة نضع الرسالة بين قوسين مربعين: <code>[أدخل ...]</code>');
+      if(ty==='s') throw new SqlErr('القيمة النصية توضع بين علامتي تنصيص: <code>'+esc(t.v)+' '+o.v+' "'+esc(v.v)+'"</code>');
+      throw new SqlErr('القيمة <code>'+esc(v.v)+'</code> غير مفهومة هنا.');
+    }
+    if(ty==='n'){if(v.t==='str')throw new SqlErr('الحقل <code>'+esc(t.v)+'</code> رقمي، فلا نضع قيمته بين علامتي تنصيص. اكتب: <code>'+esc(t.v)+' '+o.v+' '+esc(v.v)+'</code>');if(v.t==='date')throw new SqlErr('الحقل <code>'+esc(t.v)+'</code> رقمي وليس تاريخاً.');val=v.v}
+    else if(ty==='s'){if(v.t!=='str')throw new SqlErr('الحقل <code>'+esc(t.v)+'</code> نصي، فالقيمة توضع بين علامتي تنصيص <code>" "</code>.');val=v.v.trim()}
+    else{if(v.t==='str')throw new SqlErr('التاريخ يوضع بين علامتي <code>#</code> لا بين علامتي تنصيص: <code>#'+esc(v.v)+'#</code>');if(v.t!=='date')throw new SqlErr('التاريخ يوضع بين علامتي <code>#</code>، مثل <code>#1/1/2000#</code>');val=parseDate(v.v);if(val===null)throw new SqlErr('اكتب التاريخ بالشكل <code>#1/1/2000#</code>.')}
+    return {f:f,o:o.v,v:val,txt:T.cols[f]+' '+o.v+' '+(ty==='s'?'"'+val+'"':ty==='d'?'#'+v.v+'#':val)};
+  }
+}
+function cmpOp(a,o,b){
+  var c;
+  if(typeof a==='string'&&typeof b==='string') c=a.localeCompare(b,'ar',{sensitivity:'accent'}); else c=a<b?-1:a>b?1:0;
+  switch(o){case '=':return c===0;case '<>':return c!==0;case '>':return c>0;case '<':return c<0;case '>=':return c>=0;case '<=':return c<=0}
+}
+function evalW(w,row){
+  if(!w) return true;
+  if(w.op==='AND') return w.k.every(function(x){return evalW(x,row)});
+  if(w.op==='OR') return w.k.some(function(x){return evalW(x,row)});
+  if(w.op==='NOT') return !evalW(w.k[0],row);
+  return cmpOp(key(row[w.f]),w.o,w.v);
+}
+function conv(raw,ty,col){
+  raw=String(raw).trim();
+  if(ty==='n'){if(!/^-?\d+(\.\d+)?$/.test(raw))throw new SqlErr('الحقل <code>'+col+'</code> رقمي، وأدخلتَ «'+esc(raw)+'». أدخل رقماً فقط.');return parseFloat(raw)}
+  if(ty==='d'){var d=parseDate(raw);if(d===null)throw new SqlErr('الحقل <code>'+col+'</code> تاريخ. أدخله بالشكل 1/1/2000.');return d}
+  return raw;
+}
+function run(sql,vals){
+  var q=parse(sql), T=DB[q.table], pv={};
+  q.params.forEach(function(p,i){pv[p]=vals?vals[i]:undefined});
+  (function res(w){
+    if(!w) return; if(w.k){w.k.forEach(res);return}
+    if(w.param!==undefined){
+      if(pv[w.param]===undefined) throw new SqlErr('لم تُدخل قيمة للرسالة ['+esc(w.param)+'].');
+      w.v=conv(pv[w.param],T.types[w.f],T.cols[w.f]);
+      w.txt=T.cols[w.f]+' '+w.o+' '+String(pv[w.param]).trim();
+    }
+  })(q.where);
+  var idx=[];
+  T.rows.forEach(function(r,i){if(evalW(q.where,r))idx.push(i)});
+  var keys=q.order||[{i:T.pk,d:'ASC'}];
+  idx.sort(function(a,b){
+    for(var k=0;k<keys.length;k++){var c=cmpVal(T.rows[a][keys[k].i],T.rows[b][keys[k].i]);if(c)return keys[k].d==='DESC'?-c:c}
+    return cmpVal(T.rows[a][T.pk],T.rows[b][T.pk]);
+  });
+  if(q.aggs){
+    var av=q.aggs.map(function(a){return aggCalc(a,T,idx)});
+    return {q:q,vals:vals||[],agg:true,idx:idx,raw:av,cols:q.aggs.map(function(a,k){return a.alias||('Expr100'+k)}),rows:[av.map(fmtAgg)]};
+  }
+  return {q:q,vals:vals||[],idx:idx,cols:q.ci.map(function(i){return T.cols[i]}),rows:idx.map(function(i){return q.ci.map(function(c){return fmt(T.rows[i][c])})})};
+}
+
+function aggCalc(a,T,idx){
+  if(a.agg==='COUNT') return idx.length;
+  if(!idx.length) return null;
+  var xs=idx.map(function(i){return T.rows[i][a.f]});
+  if(a.agg==='SUM') return xs.reduce(function(s,x){return s+x},0);
+  if(a.agg==='AVG') return xs.reduce(function(s,x){return s+x},0)/xs.length;
+  if(a.agg==='MAX') return xs.reduce(function(m,x){return cmpVal(x,m)>0?x:m});
+  return xs.reduce(function(m,x){return cmpVal(x,m)<0?x:m});
+}
+function fmtAgg(v){if(v===null||v===undefined)return '';if(typeof v==='object')return fmt(v);return Math.round(v*100)/100}
+function aggExplain(r){
+  var T=DB[r.q.table];
+  return r.q.aggs.map(function(a,k){
+    var nm='<b>'+a.agg+'('+(a.f<0?'*':T.cols[a.f])+')</b>', res=r.rows[0][k];
+    if(a.agg==='COUNT') return nm+' = <bdi dir="rtl">عدد السجلات</bdi> = <b>'+r.idx.length+'</b>';
+    if(!r.idx.length) return nm+' = <bdi dir="rtl">لا توجد سجلات تحقق الشرط</bdi>';
+    var xs=r.idx.map(function(i){return T.rows[i][a.f]});
+    var list=xs.length<=10?xs.map(fmt).join(a.agg==='SUM'||a.agg==='AVG'?' + ':' , '):'…';
+    if(a.agg==='SUM') return nm+' = '+list+' = <b>'+res+'</b>';
+    if(a.agg==='AVG'){var sm=xs.reduce(function(s,x){return s+x},0);return nm+' = ('+list+') ÷ '+xs.length+' = '+sm+' ÷ '+xs.length+' = <b>'+res+'</b>'}
+    return nm+' = '+(a.agg==='MAX'?'<bdi dir="rtl">أكبر قيمة</bdi>':'<bdi dir="rtl">أقل قيمة</bdi>')+' ( '+list+' ) = <b>'+res+'</b>';
+  }).join('<br>');
+}
+
+/* ======================= PARAMETER DIALOG ======================= */
+function askParams(list){
+  return new Promise(function(resolve){
+    var vals=[], i=0, prev=document.activeElement;
+    var ov=document.createElement('div'); ov.className='povl'; document.body.appendChild(ov);
+    function close(v){ov.remove();try{prev&&prev.focus({preventScroll:true})}catch(e){}resolve(v)}
+    function step(){
+      if(i>=list.length){close(vals);return}
+      ov.innerHTML='<div class="pdlg" role="dialog" aria-modal="true" aria-label="أدخل قيمة المعلمة"><div class="pdt">أدخل قيمة المعلمة<span>?</span></div><div class="pdb"><label for="pin">'+esc(list[i])+'</label><input id="pin" type="text" autocomplete="off"><div class="pbt"><button class="abtn ok" type="button">موافق</button><button class="abtn no" type="button">إلغاء</button></div></div></div>';
+      var inp=ov.querySelector('input'); setTimeout(function(){inp.focus()},30);
+      ov.querySelector('.ok').onclick=function(){vals.push(inp.value);i++;step()};
+      ov.querySelector('.no').onclick=function(){close(null)};
+      inp.onkeydown=function(e){if(e.key==='Enter'){e.preventDefault();ov.querySelector('.ok').click()}if(e.key==='Escape'){e.preventDefault();close(null)}};
+    }
+    step();
+  });
+}
+
+/* ======================= SIMULATOR UI ======================= */
+var DIRAR={ASC:'تصاعدياً',DESC:'تنازلياً'};
+function SqlSim(id,o){
+  var root=$(id), tab=o.tables[0], ti=-1, busy=false;
+  root.className='ssim';
+  root.innerHTML='<div class="sh"><b>🖥️ محاكي SQL</b><span class="ttabs">'+o.tables.map(function(t){return '<button type="button" data-t="'+t+'">'+t+'</button>'}).join('')+'</span></div>'+
+   '<div class="lbl">📋 الجدول الأصلي في قاعدة البيانات (السجلات بترتيب إدخالها)</div><div class="srcT"></div>'+
+   (o.tasks?'<div class="lbl">🎯 المطلوب (اختر سؤالاً)</div><ul class="tlist"></ul>':'')+
+   '<textarea spellcheck="false" placeholder="SELECT ... FROM ... ;" aria-label="اكتب جملة SQL"></textarea>'+
+   '<div class="sb"><button class="btn btn-main btn-sm run" type="button">▶ تنفيذ</button><button class="btn btn-ghost btn-sm clr" type="button">مسح</button></div>'+
+   '<div class="msg" aria-live="polite">اكتب الجملة ثم اضغط «تنفيذ».</div><div class="resA"></div><div class="resT"></div>';
+  var ta=root.querySelector('textarea'), msg=root.querySelector('.msg'), TL=[];
+  function clearRes(){root.querySelector('.resA').innerHTML='';root.querySelector('.resT').innerHTML=''}
+  function showSrc(r){
+    var t=r?r.q.table:tab; tab=t;
+    root.querySelectorAll('.ttabs button').forEach(function(b){b.classList.toggle('on',b.dataset.t===t)});
+    var d=srcData(t), ev=null;
+    if(r&&o.explain&&r.q.where&&(r.q.where.op==='AND'||r.q.where.op==='OR')&&r.q.where.k.every(function(x){return x.f!==undefined})){
+      ev=r.q.where;
+      d={name:t,cols:d.cols.concat(ev.k.map(function(x,i){return 'ش'+toAr(i+1)})).concat([ev.op]),rows:d.rows.map(function(row,ri){
+        var R=DB[t].rows[ri];return row.concat(ev.k.map(function(x){return evalW(x,R)?'✔':'✘'})).concat([evalW(ev,R)?'✔':'✘'])})};
+    }
+    var api=mkTable(root.querySelector('.srcT'),d,{pk:[DB[t].pk]});
+    if(r&&r.agg){
+      [].forEach.call(api.t.tBodies[0].rows,function(tr,i){tr.classList.add(r.idx.indexOf(i)>-1?'match':'dim')});
+      r.q.aggs.forEach(function(a,k){
+        if(a.f<0) return;
+        api.th(a.f).classList.add('hl-col');
+        api.cells(a.f).forEach(function(td,i){if(r.idx.indexOf(i)>-1){td.classList.add('agg');
+          if((a.agg==='MAX'||a.agg==='MIN')&&r.raw[k]!==null&&cmpVal(DB[t].rows[i][a.f],r.raw[k])===0)td.classList.add('win')}});
+      });
+    }
+    else if(r){
+      r.q.ci.forEach(function(c){api.th(c).classList.add('hl-col');api.cells(c).forEach(function(td){td.classList.add('hl-col')})});
+      [].forEach.call(api.t.tBodies[0].rows,function(tr,i){tr.classList.add(r.idx.indexOf(i)>-1?'match':'dim')});
+    }
+    if(ev){
+      var base=DB[t].cols.length;
+      ev.k.concat([0]).forEach(function(x,k){var c=base+k;api.th(c).classList.add('ev');api.cells(c).forEach(function(td){td.classList.add(td.textContent==='✔'?'yes':'no')})});
+      var leg=document.createElement('div');leg.className='note';
+      leg.innerHTML=ev.k.map(function(x,i){return '<span style="display:inline-block;margin-inline-end:16px"><b>ش'+toAr(i+1)+'</b>: <bdi dir="ltr" style="font-family:Consolas,monospace">'+esc(x.txt)+'</bdi></span>'}).join('');
+      root.querySelector('.srcT').appendChild(leg);
+    }
+  }
+  function fail(e){if(!(e instanceof SqlErr))throw e;msg.className='msg er';msg.innerHTML='❌ '+e.m;showSrc(null)}
+  function exec(){
+    if(busy) return;
+    clearRes(); var sql=ta.value, q;
+    try{q=parse(sql)}catch(e){fail(e);return}
+    if(q.params.length){
+      busy=true; msg.className='msg'; msg.innerHTML='⌨️ أدخل القيمة في المربع الذي ظهر…';
+      askParams(q.params).then(function(vals){busy=false;if(vals===null){msg.className='msg';msg.innerHTML='أُلغي التنفيذ. اضغط «تنفيذ» مرة أخرى.';return}go2(vals)});
+    }else go2([]);
+    function go2(vals){var r;try{r=run(sql,vals)}catch(e){fail(e);return}show(r)}
+  }
+  function show(r){
+    if(r.agg) return showAgg(r);
+    showSrc(r);
+    var T=DB[r.q.table];
+    root.querySelector('.resA').innerHTML='<div class="arrowdown">⬇</div>';
+    var api=mkTable(root.querySelector('.resT'),{name:'نتيجة الاستعلام ('+toAr(r.rows.length)+' سجل)',cols:r.cols,rows:r.rows},{});
+    api.t.classList.add('res');
+    var ord=r.q.order;
+    if(ord){var rc=r.q.ci.indexOf(ord[0].i);if(rc>-1){var th=api.th(rc);th.classList.add('sorted');th.textContent=th.textContent+(ord[0].d==='DESC'?' ↓':' ↑')}}
+    else{var pc=r.q.ci.indexOf(T.pk);if(pc>-1){var th2=api.th(pc);th2.classList.add('sorted');th2.textContent=th2.textContent+' ↑'}}
+    if(!r.rows.length){var e2=document.createElement('div');e2.className='note';e2.textContent='لا توجد سجلات تحقق الشرط.';root.querySelector('.resT').appendChild(e2)}
+    var h='✅ نُفّذت الجملة: '+toAr(r.cols.length)+' حقول و'+toAr(r.rows.length)+' سجلات.';
+    if(r.q.params.length) h+='<br>⌨️ القيم التي أدخلها المستخدم: '+r.q.params.map(function(p,i){return '<span class="vals">['+esc(p)+'] = <b>'+esc(r.vals[i])+'</b></span>'}).join('');
+    if(ord) h+='<br>↕️ مرتبة <b>'+DIRAR[ord[0].d]+'</b> حسب <code>'+T.cols[ord[0].i]+'</code>'+(ord[0].ex?'.':' (لم نكتب نوع الترتيب، فكان <b>تصاعدياً</b> تلقائياً).')+(r.q.ci.indexOf(ord[0].i)<0?' لاحظ: حقل الترتيب غير معروض في النتيجة.':'');
+    else h+='<br>↕️ لا توجد <code>ORDER BY</code>، فرُتّبت النتيجة حسب المفتاح الأساسي <code>'+T.cols[T.pk]+'</code> <b>تصاعدياً</b>.';
+    if(!r.rows.length&&r.vals.some(function(v){return /["'#]/.test(v)})) h+='<br>💡 لا تكتب علامات التنصيص أو # في مربع الإدخال.';
+    msg.className='msg ok'; msg.innerHTML=h;
+    if(o.tasks&&ti>-1) checkTask(r);
+  }
+  function showAgg(r){
+    showSrc(r);
+    root.querySelector('.resA').innerHTML='<div class="arrowdown">⬇</div>';
+    var api=mkTable(root.querySelector('.resT'),{name:'نتيجة الاستعلام (سجل واحد)',cols:r.cols,rows:r.rows},{});
+    api.t.classList.add('res');
+    var c=document.createElement('div');c.className='calc';c.innerHTML=aggExplain(r);root.querySelector('.resT').appendChild(c);
+    var h='✅ نُفّذت الجملة: حُسبت '+(r.cols.length>1?toAr(r.cols.length)+' قيم':'القيمة')+' من '+toAr(r.idx.length)+' سجلات'+(r.q.where?' تحقق الشرط':'')+'، والنتيجة <b>سجل واحد</b>.';
+    if(r.q.params.length) h+='<br>⌨️ القيم التي أدخلها المستخدم: '+r.q.params.map(function(p,i){return '<span class="vals">['+esc(p)+'] = <b>'+esc(r.vals[i])+'</b></span>'}).join('');
+    if(r.q.aggs.some(function(a){return !a.alias})) h+='<br>⚠️ لم نكتب <code>AS</code>، فظهر عنوان العمود <code>Expr100…</code> بلا معنى. أضف <code>AS "اسم واضح"</code>.';
+    msg.className='msg ok'; msg.innerHTML=h;
+    if(o.tasks&&ti>-1) checkTask(r);
+  }
+  function wrong(m){msg.className='msg er';msg.innerHTML+='<br>🤔 '+m}
+  function checkTask(r){
+    var T=TL[ti], eq=parse(T.a);
+    if(eq.params.length&&!r.q.params.length) return wrong('المطلوب أن <b>يُدخل المستخدم</b> القيمة عند التنفيذ: ضع رسالة بين <code>[ ]</code> مكان القيمة.');
+    if(!eq.params.length&&r.q.params.length) return wrong('السؤال حدّد القيمة، فاكتبها مباشرة في الشرط دون <code>[ ]</code>.');
+    if(eq.params.length!==r.q.params.length) return wrong('عدد القيم التي يُدخلها المستخدم غير المطلوب.');
+    var exp; try{exp=run(T.a,r.vals)}catch(e){return wrong('راجع الشرط.')}
+    if(exp.agg||r.agg){
+      if(!exp.agg) return wrong('المطلوب عرض سجلات، لا دالة إجمالية.');
+      if(!r.agg) return wrong('المطلوب قيمة محسوبة: استخدم الدالة الإجمالية المناسبة.'+(T.h?' تلميح: '+T.h:''));
+      if(r.rows[0].length!==exp.rows[0].length) return wrong('عدد القيم المحسوبة غير المطلوب.');
+      if(r.rows[0].map(String).sort().join('|')!==exp.rows[0].map(String).sort().join('|')) return wrong('القيمة المحسوبة غير المطلوبة؛ راجع <b>الدالة</b> و<b>الحقل</b> و<b>الشرط</b>.'+(T.h?' تلميح: '+T.h:''));
+      if(r.q.aggs.some(function(a){return !a.alias})) return wrong('القيمة صحيحة 👍 لكن ينقصها <code>AS</code> واسم واضح لعمود النتيجة.');
+      return ok();
+    }
+    var ca=r.cols.map(function(c){return c.toLowerCase()}).sort().join(), cb=exp.cols.map(function(c){return c.toLowerCase()}).sort().join();
+    if(ca!==cb) return wrong('الجملة صحيحة لغوياً، لكن <b>الحقول</b> المعروضة غير المطلوبة.'+(T.h?' تلميح: '+T.h:''));
+    if(r.idx.slice().sort().join()!==exp.idx.slice().sort().join()) return wrong('الجملة صحيحة لغوياً، لكن <b>السجلات</b> غير المطلوبة؛ راجع الشرط.'+(T.h?' تلميح: '+T.h:''));
+    if(eq.order&&r.idx.join()!==exp.idx.join()) return wrong('السجلات صحيحة، لكن <b>ترتيبها</b> غير المطلوب؛ راجع <code>ORDER BY</code> ونوع الترتيب.'+(T.h?' تلميح: '+T.h:''));
+    ok();
+  }
+  function ok(){
+    var li=root.querySelectorAll('.tlist li.tk')[ti];
+    if(o.onSolve) o.onSolve(ti);
+    li.classList.add('done');li.querySelector('.st').textContent='✓';
+    msg.innerHTML+='<br>🎉 <b>إجابة صحيحة!</b> تأمّل جدول النتيجة بالأسفل وقارنه بالجدول الأصلي.';
+    var nxt=TL.findIndex(function(t,k){return !root.querySelectorAll('.tlist li.tk')[k].classList.contains('done')});
+    if(nxt>-1){var nb=document.createElement('button');nb.type='button';nb.className='btn btn-main btn-sm';nb.style.marginInlineStart='8px';nb.textContent='السؤال التالي ‹';nb.onclick=function(){pick(nxt);ta.focus()};msg.appendChild(nb)}
+    else msg.innerHTML+=' <b>🏆 أنهيت كل الأسئلة!</b>';
+  }
+  function pick(k){
+    ti=k; root.querySelectorAll('.tlist li.tk').forEach(function(li,i){li.classList.toggle('cur',i===k)});
+    ta.value=''; clearRes();
+    tab=parse(TL[k].a).table; showSrc(null);
+    msg.className='msg'; msg.innerHTML='🎯 '+TL[k].q;
+  }
+  if(o.tasks){
+    var ul=root.querySelector('.tlist');
+    o.tasks.forEach(function(t){
+      if(t.g){var g=document.createElement('li');g.className='grp';g.innerHTML=t.g;ul.appendChild(g)}
+      var k=TL.length; TL.push(t);
+      var li=document.createElement('li'); li.className='tk';
+      li.innerHTML='<span class="st">'+toAr(k+1)+'</span><span>'+t.q+(t.src?' <span class="qsrc">'+t.src+'</span>':'')+'</span><button class="hb" type="button">الحل</button>';
+      li.onclick=function(e){
+        if(e.target.classList.contains('hb')){pick(k);ta.value=t.a;msg.className='msg';msg.innerHTML='👀 هذا هو الحل. نفّذه وافهمه، ثم جرّب السؤال التالي بنفسك.';e.stopPropagation();return}
+        pick(k);
+      };
+      ul.appendChild(li);
+    });
+  }
+  root.querySelectorAll('.ttabs button').forEach(function(b){b.onclick=function(){tab=b.dataset.t;clearRes();showSrc(null)}});
+  root.querySelector('.run').onclick=exec;
+  root.querySelector('.clr').onclick=function(){ta.value='';clearRes();showSrc(null);msg.className='msg';msg.innerHTML=ti>-1?'🎯 '+TL[ti].q:'اكتب الجملة ثم اضغط «تنفيذ».';ta.focus()};
+  ta.addEventListener('keydown',function(e){if(e.key==='Enter'&&(e.ctrlKey||e.metaKey)){e.preventDefault();exec()}});
+  showSrc(null);
+  return {load:function(s){ti=-1;root.querySelectorAll('.tlist li').forEach(function(li){li.classList.remove('cur')});ta.value=s;root.scrollIntoView({behavior:'smooth',block:'start'});exec()},el:root};
+}
+
+
+
+function matchList(ul,out,items,opts,doneMsg){
+  var n=0;
+  items.forEach(function(it,i){
+    var li=document.createElement('li');
+    li.innerHTML='<span class="st">'+toAr(i+1)+'</span><span>'+it.t+'</span><span class="seg">'+opts.map(function(o){return '<button data-v="'+o+'">'+o+'</button>'}).join('')+'</span>';
+    li.querySelectorAll('button').forEach(function(b){b.onclick=function(){
+      if(li.classList.contains('done')) return;
+      li.querySelectorAll('button').forEach(function(x){x.classList.remove('wrong')});
+      if(b.dataset.v===it.a){b.classList.add('right');li.classList.add('done');li.querySelector('.st').textContent='✓';n++;
+        $(out).className='out good';$(out).innerHTML='✅ '+(it.e||'صحيح.')+(n===items.length?' <b>'+doneMsg+'</b>':'');}
+      else{b.classList.add('wrong');$(out).className='out bad';$(out).innerHTML='🤔 '+(it.w||'حاول مرة أخرى.')}
+    }});
+    $(ul).appendChild(li);
+  });
+}
+function codeEx(host,out,parts){
+  parts.forEach(function(p){
+    var b=document.createElement('button'); b.type='button'; b.textContent=p[0]; if(p[2])b.className='kw';
+    b.onclick=function(){$(host).querySelectorAll('button').forEach(function(x){x.classList.remove('on')});b.classList.add('on');$(out).className='out';$(out).innerHTML='<b dir="ltr">'+esc(p[0])+'</b> : '+p[1]};
+    $(host).appendChild(b);
+  });
+}
+
+/* ---------- 0 ---------- */
+mkTable($('t0'),srcData('engineer_tbl'),{pk:[0],fk:[6]});
+function showThink(){$('think').classList.remove('hide');$('think').classList.add('reveal');$('thinkBtn').disabled=true}
+matchList('m0','o0',[
+ {t:'راتب المهندس يوسف عمر',a:'مخزنة في حقل',e:'موجودة في حقل salary.'},
+ {t:'عدد المهندسين في المكتب',a:'تُحسب',e:'لا يوجد حقل للعدد؛ نعدّ السجلات.',w:'ابحث في الحقول: هل يوجد حقل اسمه «عدد المهندسين»؟'},
+ {t:'مدينة المهندسة سارة خليل',a:'مخزنة في حقل',e:'موجودة في حقل city.'},
+ {t:'مجموع رواتب المهندسين',a:'تُحسب',e:'نجمع قيم حقل salary.'},
+ {t:'معدل الرواتب',a:'تُحسب',e:'المجموع ÷ العدد.'},
+ {t:'أعلى راتب في المكتب',a:'تُحسب',e:'القيمة 900 مخزنة، لكن معرفة أنها «الأعلى» تحتاج مقارنة كل الرواتب.',w:'من يخبرنا أن هذا الراتب هو الأعلى؟ نحتاج مقارنة كل القيم.'}
+],['مخزنة في حقل','تُحسب'],'المعلومات المحسوبة نحصل عليها بدوال الإجماليات!');
+
+/* ---------- 1: five functions demo ---------- */
+var FN=[
+ {k:'SUM',a:'المجموع',i:'➕',d:'تجمع قيم الحقل (للأرقام فقط).'},
+ {k:'COUNT',a:'العدد',i:'🔢',d:'تعدّ السجلات.'},
+ {k:'MAX',a:'أعلى قيمة',i:'⬆️',d:'تعطي أكبر قيمة في الحقل.'},
+ {k:'MIN',a:'أقل قيمة',i:'⬇️',d:'تعطي أصغر قيمة في الحقل.'},
+ {k:'AVG',a:'المعدل',i:'⚖️',d:'المجموع ÷ العدد (للأرقام فقط).'}
+];
+var T1=DB.engineer_tbl, S1R=T1.rows.map(function(r){return [r[1],r[3]]});
+var t1=mkTable($('t1'),{name:'engineer_tbl',cols:['eng_name','salary'],rows:S1R},{});
+FN.forEach(function(f){
+  var b=document.createElement('button');b.type='button';b.className='fcard';
+  b.innerHTML='<span class="fi2">'+f.i+'</span><span class="fk">'+f.k+'</span><span class="fa">'+f.a+'</span>';
+  b.onclick=function(){
+    document.querySelectorAll('#fcards .fcard').forEach(function(x){x.classList.remove('on')});b.classList.add('on');
+    t1=mkTable($('t1'),{name:'engineer_tbl',cols:['eng_name','salary'],rows:S1R},{});
+    t1.th(1).classList.add('hl-col');
+    var cells=[].slice.call(t1.cells(1)), xs=S1R.map(function(r){return r[1]}), sum=xs.reduce(function(s,x){return s+x},0), html;
+    if(f.k==='COUNT'){
+      t1.cells(0).forEach(function(td,i){td.innerHTML+=' <span class="cntb">'+toAr(i+1)+'</span>'});
+      html='<b>COUNT</b>(eng_num) = <b>'+xs.length+'</b>';
+    }else{
+      cells.forEach(function(td){td.classList.add('agg')});
+      if(f.k==='SUM') html='<b>SUM</b>(salary) = '+xs.join(' + ')+' = <b>'+sum+'</b>';
+      if(f.k==='AVG') html='<b>AVG</b>(salary) = '+sum+' ÷ '+xs.length+' = <b>'+(sum/xs.length)+'</b>';
+      if(f.k==='MAX'||f.k==='MIN'){var v=f.k==='MAX'?Math.max.apply(null,xs):Math.min.apply(null,xs);cells.forEach(function(td){if(+td.textContent===v)td.classList.add('win')});html='<b>'+f.k+'</b>(salary) = <b>'+v+'</b>'}
+    }
+    $('calc1').innerHTML=html;
+    $('o1').className='out'; $('o1').innerHTML='<b dir="ltr">'+f.k+'</b> · '+f.a+': '+f.d+' والنتيجة <b>قيمة واحدة</b>.';
+  };
+  $('fcards').appendChild(b);
+});
+matchList('m1','om1',[
+ {t:'كم مشروعاً نفّذ المكتب؟',a:'COUNT'},
+ {t:'كم مجموع تكاليف المشاريع؟',a:'SUM'},
+ {t:'ما أغلى مشروع (أعلى تكلفة)؟',a:'MAX'},
+ {t:'ما أقل أجرة عامل؟',a:'MIN'},
+ {t:'ما معدل علامات الطالب في المواد؟',a:'AVG'}
+],['SUM','COUNT','MAX','MIN','AVG'],'أحسنت!');
+
+/* ---------- 2: syntax ---------- */
+codeEx('exA','oexA',[
+ ['SELECT','اعرض…',1],
+ ['SUM','<b>اسم الدالة</b>: المجموع. ويُكتب بالإنجليزية.'],
+ ['(salary)','<b>الحقل</b> الذي نحسب عليه، ويوضع بين <b>قوسين عاديين</b> مباشرة بعد اسم الدالة.'],
+ ['AS','تعني <b>«باسم»</b>: نعطي عمود النتيجة اسماً، لأنه عمود جديد غير موجود في الجدول.',1],
+ ['"مجموع الرواتب"','<b>اسم عمود النتيجة</b>، بين علامتي تنصيص لأنه نص من كلمتين.'],
+ ['FROM','من…',1],['engineer_tbl','جدول المهندسين.'],[';','نهاية الجملة.']
+]);
+var S2=SqlSim('sim2',{tables:['engineer_tbl']});
+
+/* ---------- 3: booklet examples ---------- */
+var S3=SqlSim('sim3',{tables:['project_tbl','engineer_tbl']});
+[['SUM','المجموع','SELECT SUM(total_cost) AS "مجموع تكلفة المشاريع" FROM project_tbl;'],
+ ['COUNT','العدد','SELECT COUNT(proj_num) AS "عدد المشاريع" FROM project_tbl;'],
+ ['MAX','أعلى قيمة','SELECT MAX(total_cost) AS "أكبر تكلفة لمشروع" FROM project_tbl;'],
+ ['MIN','أقل قيمة','SELECT MIN(total_cost) AS "أقل تكلفة لمشروع" FROM project_tbl;'],
+ ['AVG','المعدل','SELECT AVG(total_cost) AS "معدل تكلفة المشاريع" FROM project_tbl;']
+].forEach(function(x){
+  var tr=document.createElement('tr');
+  tr.innerHTML='<td><b dir="ltr">'+x[0]+'</b><br>'+x[1]+'</td><td style="direction:ltr;text-align:left;font-family:Consolas,monospace;font-size:13.5px">'+codeHtml(x[2])+'</td><td><button class="btn btn-ghost btn-sm" type="button">▶ نفّذ</button></td>';
+  tr.querySelector('button').onclick=function(){S3.load(x[2])};
+  $('exTbl').appendChild(tr);
+});
+
+/* ---------- 4: practice ---------- */
+var S4=SqlSim('sim4',{tables:['engineer_tbl','project_tbl','employee_tbl','product','School'],tasks:[
+ {g:'👷‍♂️ جدول المهندسين',q:'اعرض عدد المهندسين في المكتب.',a:'SELECT COUNT(eng_num) AS "عدد المهندسين" FROM engineer_tbl;'},
+ {q:'اعرض مجموع رواتب المهندسين الذين يسكنون في رفح.',a:'SELECT SUM(salary) AS "مجموع رواتب رفح" FROM engineer_tbl WHERE city = "رفح";'},
+ {q:'اعرض معدل رواتب مهندسي «إنشاءات».',a:'SELECT AVG(salary) AS "معدل رواتب الإنشاءات" FROM engineer_tbl WHERE major = "إنشاءات";'},
+ {q:'اعرض أعلى راتب بين مهندسي «معماري».',a:'SELECT MAX(salary) AS "أعلى راتب" FROM engineer_tbl WHERE major = "معماري";'},
+ {g:'🏗️ جدول المشاريع',q:'اعرض عدد المشاريع التي تزيد تكلفتها عن 25000.',a:'SELECT COUNT(proj_num) AS "عدد المشاريع الكبيرة" FROM project_tbl WHERE total_cost > 25000;'},
+ {q:'اعرض مجموع تكاليف مشاريع القسم الذي يُدخل المستخدم رقمه.',a:'SELECT SUM(total_cost) AS "مجموع التكاليف" FROM project_tbl WHERE dep_num = [أدخل رقم القسم];'},
+ {g:'🔧 جدول العمال',q:'اعرض معدل أجرة العمال.',a:'SELECT AVG(emp_pay) AS "معدل الأجرة" FROM employee_tbl;'},
+ {q:'اعرض أقل أجرة وأعلى أجرة في جملة واحدة.',a:'SELECT MIN(emp_pay) AS "أقل أجرة", MAX(emp_pay) AS "أعلى أجرة" FROM employee_tbl;'},
+ {g:'🛒 كيان السلعة product',q:'اعرض عدد السلع التي سعرها أقل من 20.',a:'SELECT COUNT(pro_no) AS "عدد السلع الرخيصة" FROM product WHERE price < 20;'},
+ {q:'اعرض معدل أسعار السلع.',a:'SELECT AVG(price) AS "معدل الأسعار" FROM product;'},
+ {g:'🏫 جدول School',q:'اعرض مجموع عدد الطلاب في كل الصفوف.',a:'SELECT SUM(Student_number) AS "مجموع الطلاب" FROM School;'},
+ {q:'اعرض أكبر عدد طلاب في صف.',a:'SELECT MAX(Student_number) AS "أكبر عدد" FROM School;'}
+]});
+
+/* ---------- 5: excellence ---------- */
+function hint5(i){$('h5'+i).classList.remove('hide');$('h5'+i).classList.add('reveal')}
+var S5=SqlSim('sim5',{tables:['engineer_tbl'],onSolve:function(k){if(k===0){$('ex5').classList.remove('hide');$('ex5').classList.add('reveal')}},tasks:[
+ {q:'🏆 اعرض تاريخ ميلاد أصغر مهندس عمراً.',a:'SELECT MAX(birth_date) AS "تاريخ ميلاد الأصغر" FROM engineer_tbl;',h:'الأصغر عمراً تاريخ ميلاده الأحدث (الأكبر).'},
+ {q:'اعرض تاريخ ميلاد أكبر مهندس سناً.',a:'SELECT MIN(birth_date) AS "تاريخ ميلاد الأكبر" FROM engineer_tbl;'},
+ {q:'اعرض تاريخ ميلاد أصغر مهندس يسكن في رفح.',a:'SELECT MAX(birth_date) AS "أصغر مهندسي رفح" FROM engineer_tbl WHERE city = "رفح";'}
+]});
+
+/* ---------- 6: expression builder sim ---------- */
+(function(){
+  var app=$('ebApp'), hint=$('ebHint'), i=0, mode='try', tok=0, lastPt='mouse';
+  var expr='';
+  function sleep(ms){return new Promise(function(r){setTimeout(r,ms)})}
+  function render(){
+    app.innerHTML='<div class="eb-title">Query1 : استعلام تحديد - Access</div>'+
+     '<div class="eb-tabs"><span>ملف</span><span>الصفحة الرئيسية</span><span>إنشاء</span><span class="ctx">أدوات الاستعلام: تصميم</span></div>'+
+     '<div class="eb-rib"><button class="rb" data-k="run"><span class="ri">❗</span>تشغيل</button><button class="rb"><span class="ri">📊</span>عرض</button><button class="rb"><span class="ri">Σ</span>إجماليات</button><button class="rb" data-k="builder"><span class="ri">🪄</span>منشئ</button></div>'+
+     '<div class="eb-body"><div class="eb-top"><div class="eb-tbox"><div class="h">project_tbl</div><div class="f">*</div><div class="f">🔑 proj_num</div><div class="f">proj_name</div><div class="f">total_cost</div><div class="f">start_date</div><div class="f">dep_num</div></div></div>'+
+     '<table class="eb-grid"><tr><th>الحقل:</th><td data-k="cell"></td><td></td><td></td></tr><tr><th>الجدول:</th><td></td><td></td><td></td></tr><tr><th>فرز:</th><td></td><td></td><td></td></tr><tr><th>إظهار:</th><td data-k="show"></td><td>☐</td><td>☐</td></tr><tr><th>المعايير:</th><td></td><td></td><td></td></tr><tr><th>أو:</th><td></td><td></td><td></td></tr></table></div>';
+  }
+  function dlg(){
+    var d=document.createElement('div'); d.className='eb-dlg'; d.id='ebDlg';
+    d.innerHTML='<div class="dt">منشئ التعبير<span>✕</span></div><div class="db"><div style="margin-bottom:4px">أدخل تعبيراً لتعريف <u>الحقل المحسوب</u> في الاستعلام:</div>'+
+     '<div class="eb-exprrow"><textarea class="eb-expr" id="ebExpr" spellcheck="false" aria-label="التعبير"></textarea><div class="eb-btns"><button class="abtn2" data-k="ok">موافق</button><button class="abtn2">إلغاء</button><button class="abtn2">تعليمات</button><button class="abtn2">&lt;&lt; أقل</button></div></div>'+
+     '<div class="eb-panes"><div class="eb-pane"><div class="ph">عناصر التعبير</div><div class="eb-list" id="ebEl"><button>⊕ Query1</button><button data-k="fns">⊕ الدالات</button><button class="en" data-k="tbl">project_tbl</button><button>⊕ الثوابت</button><button>⊕ عوامل التشغيل</button></div></div>'+
+     '<div class="eb-pane"><div class="ph">فئات التعبير</div><div class="eb-list" id="ebCat"></div></div>'+
+     '<div class="eb-pane"><div class="ph">قيم التعبير</div><div class="eb-list" id="ebVal"></div></div></div></div>';
+    app.appendChild(d);
+  }
+  function q(s){return app.querySelector(s)}
+  function setExpr(v){expr=v;var t=q('#ebExpr');if(t)t.value=v}
+  var RE=/^\s*مجموع التكاليف\s*:\s*Sum\s*\(\s*\[total_cost\]\s*\)\s*$/i;
+  var steps=[
+   {k:'rclick',t:'[data-k=cell]',h:'انقر <b>بزر الفأرة الأيمن</b> على أول خانة في صف «الحقل».',
+    d:function(){var m=document.createElement('div');m.className='eb-cm';m.style.cssText='top:236px;right:120px';m.innerHTML='<button>∑ إجماليات</button><button data-k="build">🪄 إنشاء...</button><button>تكبير/تصغير...</button><button>خصائص...</button>';app.appendChild(m)}},
+   {k:'click',t:'[data-k=build]',h:'اختر <b>إنشاء...</b> لفتح منشئ التعبير.',d:function(){q('.eb-cm').remove();dlg()}},
+   {k:'click',t:'[data-k=fns]',h:'في «عناصر التعبير» اضغط <b>الدالات</b>.',
+    d:function(){var b=q('[data-k=fns]');b.textContent='⊖ الدالات';var n=document.createElement('button');n.className='ind';n.dataset.k='builtin';n.textContent='الدالات المضمّنة';b.after(n)}},
+   {k:'click',t:'[data-k=builtin]',h:'اضغط <b>الدالات المضمّنة</b>.',
+    d:function(){q('[data-k=builtin]').classList.add('sel');q('#ebCat').innerHTML='<button>&lt;الكل&gt;</button><button>التاريخ/الوقت</button><button data-k="sqlagg">تجميع SQL</button><button>تحويل</button><button>رياضيات</button><button>نص</button>'}},
+   {k:'click',t:'[data-k=sqlagg]',h:'في «فئات التعبير» اختر <b>تجميع SQL</b>: هنا دوال الإجماليات.',
+    d:function(){q('[data-k=sqlagg]').classList.add('sel');q('#ebVal').innerHTML=['Avg','Count','Max','Min','StDev','Sum','Var'].map(function(f){return '<button class="en"'+(f==='Sum'?' data-k="sum"':'')+'>'+f+'</button>'}).join('')}},
+   {k:'dbl',t:'[data-k=sum]',h:'انقر <b>نقراً مزدوجاً</b> على <b dir="ltr">Sum</b> لإضافتها إلى التعبير.',
+    d:function(){q('[data-k=sum]').classList.add('sel');setExpr('Sum( «expr» )')}},
+   {k:'click',t:'[data-k=tbl]',h:'الآن نختار الحقل: اضغط الجدول <b dir="ltr">project_tbl</b> في «عناصر التعبير».',
+    d:function(){app.querySelectorAll('#ebEl button').forEach(function(b){b.classList.remove('sel')});q('[data-k=tbl]').classList.add('sel');q('#ebCat').innerHTML='<button>&lt;القائمة&gt;</button>'+['proj_num','proj_name','total_cost','start_date','dep_num'].map(function(f){return '<button class="en"'+(f==='total_cost'?' data-k="tc"':'')+'>'+f+'</button>'}).join('');q('#ebVal').innerHTML='<button>&lt;القيمة&gt;</button>'}},
+   {k:'dbl',t:'[data-k=tc]',h:'انقر نقراً مزدوجاً على الحقل <b dir="ltr">total_cost</b>، فيحلّ مكان «expr».',
+    d:function(){q('[data-k=tc]').classList.add('sel');setExpr('Sum([total_cost])')}},
+   {k:'type',t:'#ebExpr',h:'نسمّي عمود النتيجة: اكتب في <b>بداية</b> التعبير <b>مجموع التكاليف:</b> (الاسم ثم نقطتين)، ليصبح التعبير: <bdi dir="ltr" style="font-family:Consolas,monospace;white-space:nowrap">مجموع التكاليف: Sum([total_cost])</bdi> (يمكنك مسح المربع وكتابة التعبير كاملاً).',
+    full:'مجموع التكاليف: Sum([total_cost])'},
+   {k:'click',t:'#ebDlg [data-k=ok]',h:'اضغط <b>موافق</b>.',
+    d:function(){q('#ebDlg').remove();q('[data-k=cell]').textContent=expr.trim();q('[data-k=show]').textContent='☑'}},
+   {k:'click',t:'[data-k=run]',h:'اضغط <b>تشغيل ❗</b> لتنفيذ الاستعلام.',
+    d:function(){var sum=DB.project_tbl.rows.reduce(function(s,r){return s+r[2]},0);q('.eb-body').innerHTML='<table class="eb-ds"><tr><th>مجموع التكاليف</th></tr><tr><td>'+sum+'</td></tr></table>'}}
+  ];
+  function tgt(){return q(steps[i].t)}
+  function show(){
+    app.querySelectorAll('.glow').forEach(function(x){x.classList.remove('glow')});
+    if(i>=steps.length){hint.className='simhint fin';hint.innerHTML='✅ <b>تم!</b> ظهرت النتيجة في عمود اسمه «مجموع التكاليف»: مجموع تكاليف المشاريع الست.';$('ebDone').classList.remove('hide');return}
+    var t=tgt(); if(t) t.classList.add('glow');
+    if(steps[i].k==='type'&&t&&mode==='try'){try{t.focus({preventScroll:true})}catch(e){}}
+    hint.className='simhint';hint.innerHTML='<b>الخطوة '+toAr(i+1)+' من '+toAr(steps.length)+':</b> '+steps[i].h;
+  }
+  function next(){var s=steps[i];if(s.d)s.d();i++;show()}
+  function err(){hint.className='simhint err';hint.innerHTML='🤔 ليس هنا، ابحث عن العنصر المتوهج.<br><span style="font-size:14px">'+steps[i].h+'</span>'}
+  function build(){tok++;render();expr='';i=0;show()}
+  app.addEventListener('pointerdown',function(e){lastPt=e.pointerType||'mouse'});
+  app.addEventListener('click',function(e){
+    if(mode!=='try'||i>=steps.length)return;
+    var s=steps[i],t=tgt(); if(!t)return;
+    var hit=t.contains(e.target);
+    if(s.k==='click'&&hit){next();return}
+    if(s.k==='dbl'&&hit){if(e.detail>=2||lastPt==='touch')next();return}
+    if(s.k==='rclick'&&hit&&lastPt==='touch'){next();return}
+    if(s.k==='type'&&hit)return;
+    if(e.target.closest('button,td,textarea'))err();
+  });
+  app.addEventListener('contextmenu',function(e){e.preventDefault();if(mode!=='try'||i>=steps.length)return;var s=steps[i],t=tgt();if(s.k==='rclick'&&t&&t.contains(e.target))next();else err()});
+  app.addEventListener('input',function(e){
+    if(mode!=='try'||i>=steps.length)return;var s=steps[i];
+    if(e.target.id==='ebExpr'){expr=e.target.value;if(s.k==='type'&&RE.test(expr))next()}
+  });
+  async function watch(){
+    mode='watch';build();var my=tok;await sleep(700);
+    while(i<steps.length&&my===tok){
+      var s=steps[i];await sleep(1000);if(my!==tok)return;
+      if(s.k==='type'){var ta=q('#ebExpr'),pre='مجموع التكاليف: ';for(var k=1;k<=pre.length;k++){ta.value=pre.slice(0,k)+'Sum([total_cost])';await sleep(70);if(my!==tok)return}expr=ta.value}
+      next();
+    }
+  }
+  function setBtns(m){$('ebTry').className='btn '+(m==='try'?'btn-main':'btn-ghost')+' btn-sm';$('ebWatch').className='btn '+(m==='watch'?'btn-main':'btn-ghost')+' btn-sm'}
+  $('ebTry').onclick=function(){setBtns('try');mode='try';build()};
+  $('ebWatch').onclick=function(){setBtns('watch');watch()};
+  $('ebReset').onclick=function(){setBtns('try');mode='try';build()};
+  build();
+})();
+
+/* ---------- 7: choose ---------- */
+var CH=[
+ {q:'عرض مجموع رواتب المهندسين في عمود اسمه «مجموع الرواتب»:',o:[
+   ['SELECT SUM salary AS "مجموع الرواتب" FROM engineer_tbl;','الحقل يوضع بين قوسين بعد اسم الدالة.'],
+   ['SELECT SUM(salary) "مجموع الرواتب" FROM engineer_tbl;','نسيت AS قبل اسم العمود.'],
+   ['SELECT SUM(salary) AS "مجموع الرواتب" FROM engineer_tbl;',''],
+   ['SELECT SUM(salary) FROM engineer_tbl AS "مجموع الرواتب";','AS واسم العمود بعد الدالة مباشرة، قبل FROM.']],a:2},
+ {q:'جملة SQL لحساب معدل علامات (std_mark) الطالب (std_id = 1012) ليظهر تحت اسم "student average" في جدول Students: <span class="qsrc">(٢٠٢٠)</span>',o:[
+   ['SELECT sum(std_mark) AS "student average" FROM Students WHERE std_id=1012;','sum تعطي المجموع.'],
+   ['SELECT avg(std_mark) AS "student average" FROM Students WHERE std_id=1012;',''],
+   ['SELECT count(std_mark) AS "student average" FROM Students WHERE std_id=1012;','count تعطي العدد.'],
+   ['SELECT average(std_mark) AS "student average" FROM Students WHERE std_id=1012;','اسم الدالة AVG وليس average.']],a:1},
+ {q:'عرض عدد المهندسين:',o:[
+   ['SELECT SUM(eng_num) AS "العدد" FROM engineer_tbl;','SUM تجمع أرقام المهندسين ولا تعدّهم!'],
+   ['SELECT COUNT(eng_num) AS "العدد" FROM engineer_tbl;',''],
+   ['SELECT MAX(eng_num) AS "العدد" FROM engineer_tbl;','MAX تعطي أكبر رقم مهندس.'],
+   ['SELECT AVG(eng_num) AS "العدد" FROM engineer_tbl;','AVG تعطي المعدل.']],a:1},
+ {q:'معدل رواتب مهندسي رفح:',o:[
+   ['SELECT AVG(salary) AS "المعدل" WHERE city = "رفح" FROM engineer_tbl;','FROM قبل WHERE.'],
+   ['SELECT AVG(city) AS "المعدل" FROM engineer_tbl WHERE city = "رفح";','لا نحسب معدل حقل نصي.'],
+   ['SELECT AVG(salary) AS "المعدل" FROM engineer_tbl;','نسيت الشرط: هذا معدل كل المهندسين.'],
+   ['SELECT AVG(salary) AS "المعدل" FROM engineer_tbl WHERE city = "رفح";','']],a:3},
+ {q:'تاريخ ميلاد أصغر مهندس عمراً:',o:[
+   ['SELECT MIN(birth_date) AS "الأصغر" FROM engineer_tbl;','MIN تعطي أقدم تاريخ، أي الأكبر سناً.'],
+   ['SELECT MAX(birth_date) AS "الأصغر" FROM engineer_tbl;',''],
+   ['SELECT SUM(birth_date) AS "الأصغر" FROM engineer_tbl;','لا نجمع التواريخ.'],
+   ['SELECT COUNT(birth_date) AS "الأصغر" FROM engineer_tbl;','COUNT تعدّ السجلات.']],a:1}
+];
+CH.forEach(function(c,i){
+  var box=document.createElement('div'); box.className='qa'+(i?' locked':''); box.id='ch'+i;
+  box.innerHTML='<div class="qq">'+toAr(i+1)+'. '+c.q+'</div><div class="ab col">'+c.o.map(function(x,k){return '<button class="codeopt" data-v="'+k+'">'+codeHtml(x[0])+'</button>'}).join('')+'</div><div class="fb"></div>';
+  $('chHost').appendChild(box);
+  var wrong={}; c.o.forEach(function(x,k){if(k!==c.a)wrong[k]=x[1]});
+  qa('ch'+i,String(c.a),function(){},'صحيحة.',wrong,i<CH.length-1?'ch'+(i+1):null);
+});
+
+/* ---------- fill ---------- */
+var FL=[
+ ['الدالة التي تحسب عدد السجلات',['SUM','COUNT','AVG'],1,'.'],
+ ['الدالة التي تحسب المعدل',['MAX','SUM','AVG'],2,'.'],
+ ['الدالة التي تعطي أقل قيمة',['MIN','MAX','COUNT'],0,'.'],
+ ['يوضع الحقل بعد اسم الدالة بين',['[ ]','( )','# #'],1,'.'],
+ ['نستخدم الكلمة',['AS','FROM','WHERE'],0,' لتسمية عمود النتيجة.'],
+ ['إذا لم نكتب AS يظهر عنوان العمود',['فارغاً','Expr1000','اسم الحقل'],1,'.'],
+ ['نتيجة استعلام الإجماليات تكون',['سجلاً واحداً','عدة سجلات','جدولاً جديداً'],0,'.'],
+ ['الدالتان SUM و AVG تعملان على الحقول',['النصية','الرقمية','جميع الأنواع'],1,' فقط.'],
+ ['لإيجاد تاريخ ميلاد أكبر مهندس سناً نستخدم الدالة',['MAX','MIN','AVG'],1,'.'],
+ ['الأداة في أكسس التي تساعد في كتابة الصيغ والدوال هي',['منشئ التعبير','معالج الاستعلامات','النموذج'],0,'.']
+];
+FL.forEach(function(f,i){
+  var li=document.createElement('li');
+  li.innerHTML=toAr(i+1)+'. '+f[0]+' <select class="blank" data-i="'+i+'" aria-label="الفراغ '+toAr(i+1)+'"><option value="">……</option>'+f[1].map(function(o,k){return '<option value="'+k+'">'+esc(o)+'</option>'}).join('')+'</select>'+f[3];
+  $('fills').appendChild(li);
+});
+function checkFill(){
+  var ok=0, empty=0;
+  document.querySelectorAll('#fills .blank').forEach(function(s){
+    var f=FL[+s.dataset.i]; s.classList.remove('ok','bad');
+    if(s.value===''){empty++;return}
+    if(+s.value===f[2]){s.classList.add('ok');ok++}else s.classList.add('bad');
+  });
+  $('o7').className='out'+(ok===FL.length?' good':' warn');
+  $('o7').innerHTML=ok===FL.length?'✅ <b>ممتاز!</b> كل الفراغات صحيحة.':'أجبت '+toAr(ok)+' من '+toAr(FL.length)+' صحيحة'+(empty?'، وبقي '+toAr(empty)+' فارغ':'')+'. صحّح الفراغات الحمراء ثم تحقّق مجدداً.';
+}
+
+/* ---------- quiz ---------- */
+function L(s){return '<bdi dir="ltr">'+s+'</bdi>'}
+var QUIZ=[
+ {q:"استخدام الدالة Count في برنامج Microsoft Access لإيجاد:",src:"(٢١ د٢)",o:["عدد السجلات","ترقيم السجلات","فرز السجلات","معيار السجلات"],a:0,e:"COUNT تعدّ السجلات."},
+ {q:"ماذا نستخدم لإجراء عمليات حسابية أو تجميع بيانات من عدة جداول مرتبطة مع إمكانية الإضافة والتعديل عليها؟",src:"(١٩ د١)",o:["ماكرو","تقارير","استعلامات","نماذج"],a:2,e:"الاستعلامات تُجري العمليات الحسابية، ومنها الإجماليات."},
+ {q:"الدالة التي تُرجع أكبر قيمة في حقل:",o:["SUM","MAX","AVG","COUNT"],a:1,e:"MAX = أعلى قيمة."},
+ {q:"وظيفة الكلمة AS في جملة "+L('SELECT SUM(salary) AS "المجموع"')+":",o:["تحديد الشرط","تسمية عمود النتيجة","ترتيب النتيجة","تحديد الجدول"],a:1,e:"AS تعني «باسم»."},
+ {q:"ناتج الجملة "+L('SELECT SUM(Proj_cost) AS "مجموع تكلفة المشاريع" FROM Project_tbl;')+":",src:"(الملزمة)",o:["عدد المشاريع","مجموع تكاليف جميع المشاريع في عمود اسمه «مجموع تكلفة المشاريع»","أعلى تكلفة لمشروع","حذف تكاليف المشاريع"],a:1,e:"SUM = المجموع."},
+ {q:"أي الحقول يصلح استخدامه مع الدالة AVG؟",o:["eng_name","city","salary","birth_date"],a:2,e:"AVG للحقول الرقمية فقط."},
+ {q:"لعرض تاريخ ميلاد أكبر المهندسين سناً نستخدم:",o:[L("MAX(birth_date)"),L("MIN(birth_date)"),L("AVG(birth_date)"),L("COUNT(birth_date)")],a:1,e:"الأكبر سناً تاريخ ميلاده الأقدم، أي الأصغر قيمة."},
+ {q:"إذا كان مجموع الرواتب 4580 وعدد المهندسين 8، فإن "+L("AVG(salary)")+" يساوي:",o:["4580","8","572.5","4588"],a:2,e:"المعدل = المجموع ÷ العدد = 4580 ÷ 8."},
+ {q:"الجملة "+L('SELECT eng_name, SUM(salary) AS "المجموع" FROM engineer_tbl;')+":",o:["صحيحة وتعرض كل الأسماء","خاطئة: لا نكتب حقلاً عادياً مع دالة إجمالية","تعرض اسم أعلى راتب","تعرض مجموع الأسماء"],a:1,e:"الدالة قيمة واحدة والحقل له قيمة في كل سجل."},
+ {q:"منشئ التعبير في برنامج أكسس يُستخدم في:",o:["إنشاء الجداول","كتابة الصيغ والتعابير والدوال في الاستعلام","طباعة التقارير","حذف السجلات"],a:1,e:"نختار منه الدالة والحقل بدل كتابتهما حفظاً."}
+];
+var quizStarted=false, qi=0, score=0, answered=false;
+function startQuiz(){quizStarted=true;qi=0;score=0;renderQ()}
+function renderQ(){
+  answered=false;
+  $('qbar').style.width=(qi/QUIZ.length*100)+'%';
+  if(qi>=QUIZ.length) return renderResult();
+  var Q=QUIZ[qi], marks=["أ","ب","ج","د"];
+  var h='<div class="qmeta"><span>السؤال '+toAr(qi+1)+' من '+toAr(QUIZ.length)+'</span><span id="qsc">النقاط: '+toAr(score)+'</span></div>';
+  h+='<div class="qtext">'+Q.q+(Q.src?' <span class="qsrc">'+Q.src+'</span>':'')+'</div><div class="opts">';
+  Q.o.forEach(function(op,k){h+='<button class="opt" onclick="answer('+k+')"><span class="mk">'+marks[k]+'</span><span>'+op+'</span></button>'});
+  h+='</div><div class="explain" id="explain"></div><div class="navbtns"><span></span><button class="btn btn-main" id="nextQ" onclick="nextQ()" disabled>التالي ‹</button></div>';
+  $('qwrap').innerHTML=h;
+}
+function answer(k){
+  if(answered) return; answered=true;
+  var Q=QUIZ[qi], opts=document.querySelectorAll('#qwrap .opt');
+  opts.forEach(function(o){o.classList.add('locked')});
+  opts[Q.a].classList.add('correct');
+  if(k===Q.a) score++; else opts[k].classList.add('wrong');
+  var ex=$('explain'); ex.innerHTML=(k===Q.a?'✅ إجابة صحيحة! ':'❌ ليست صحيحة. ')+Q.e; ex.classList.add('show');
+  $('nextQ').disabled=false; $('qsc').textContent='النقاط: '+toAr(score);
+}
+function nextQ(){qi++;renderQ()}
+function renderResult(){
+  $('qbar').style.width='100%';
+  var pct=Math.round(score/QUIZ.length*100);
+  var msg=pct>=80?"ممتاز! أتقنت الدرس.":pct>=50?"جيد، راجع المحطات التي أخطأت فيها.":"لا بأس، أعد المحطات ثم حاول مجدداً.";
+  $('qwrap').innerHTML='<div class="result"><div class="scorebig">'+toAr(score)+'/'+toAr(QUIZ.length)+'</div><p class="lead" style="margin:10px 0">'+msg+'</p><div class="navbtns" style="justify-content:center;gap:10px"><button class="btn btn-ghost" onclick="startQuiz()">أعد التقويم</button><button class="btn btn-main" onclick="go(0)">↺ من البداية</button></div></div>';
+}
+
+</script></body></html>
